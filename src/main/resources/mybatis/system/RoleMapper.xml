@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.RoleDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.system.domain.RoleDO">
+		select id,
+			appid,
+			name,
+			intro,
+			status,
+			operator,
+			update_date
+		from sys_role
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.system.domain.RoleDO">
+		select id,
+			appid,
+			name,
+			intro,
+			status,
+			operator,
+			update_date
+		from sys_role
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="appid != null and appid != ''"> and appid = #{appid} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="intro != null and intro != ''"> and intro = #{intro} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by name
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from sys_role
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="appid != null and appid != ''"> and appid = #{appid} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="intro != null and intro != ''"> and intro = #{intro} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.RoleDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_role
+		(
+			appid,
+			name,
+			intro,
+			status,
+			operator,
+			update_date
+		)
+		values
+		(
+			#{appid},
+			#{name},
+			#{intro},
+			#{status},
+			#{operator},
+			now()
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.RoleDO">
+		update sys_role
+		<set>
+			<if test="appid != null">appid = #{appid}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="intro != null">intro = #{intro}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			<if test="updateDate != null">update_date = now()</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from sys_role where id = #{value}
+	</delete>
+</mapper>

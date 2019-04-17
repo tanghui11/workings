@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.RegionRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.RegionDO">
+		select
+            id,
+            parentid,
+            code,
+            type,
+            parent_name,
+            name,
+            pinyin,
+            linkman,
+            address,
+            post_code,
+            phone,
+            mphone,
+            fax,
+            photo_flag,
+            exam_transfer,
+            room_size,
+            exam_msg,
+            seq,
+            operator,
+            update_date,
+            enabled_flag,
+            email
+		from reg_region
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.RegionDO">
+		select
+	        id,
+	        parentid,
+	        code,
+	        type,
+	        parent_name,
+	        name,
+	        pinyin,
+	        linkman,
+	        address,
+	        post_code,
+	        phone,
+	        mphone,
+	        fax,
+	        photo_flag,
+	        exam_transfer,
+	        room_size,
+	        exam_msg,
+	        seq,
+	        operator,
+	        update_date,
+	        enabled_flag,
+	        email
+		 from reg_region
+        <where>
+          and enabled_flag=1
+
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="parentid != null and parentid != ''"> and parentid = #{parentid} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="parentName != null and parentName != ''"> and parent_name = #{parentName} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="linkman != null and linkman != ''"> and linkman = #{linkman} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="mphone != null and mphone != ''"> and mphone = #{mphone} </if>
+		  <if test="fax != null and fax != ''"> and fax = #{fax} </if>
+		  <if test="photoFlag != null and photoFlag != ''"> and photo_flag = #{photoFlag} </if>
+		  <if test="examTransfer != null and examTransfer != ''"> and exam_transfer = #{examTransfer} </if>
+		  <if test="roomSize != null and roomSize != ''"> and room_size = #{roomSize} </if>
+		  <if test="examMsg != null and examMsg != ''"> and exam_msg = #{examMsg} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_region
+		 <where>
+             and enabled_flag=1
+
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="parentid != null and parentid != ''"> and parentid = #{parentid} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="parentName != null and parentName != ''"> and parent_name = #{parentName} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="linkman != null and linkman != ''"> and linkman = #{linkman} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="mphone != null and mphone != ''"> and mphone = #{mphone} </if>
+		  <if test="fax != null and fax != ''"> and fax = #{fax} </if>
+		  <if test="photoFlag != null and photoFlag != ''"> and photo_flag = #{photoFlag} </if>
+		  <if test="examTransfer != null and examTransfer != ''"> and exam_transfer = #{examTransfer} </if>
+		  <if test="roomSize != null and roomSize != ''"> and room_size = #{roomSize} </if>
+		  <if test="examMsg != null and examMsg != ''"> and exam_msg = #{examMsg} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.RegionDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_region
+		(
+			parentid, 
+			code, 
+			type,
+			parent_name,
+			name,
+
+			pinyin, 
+			linkman, 
+			address, 
+			post_code, 
+			phone, 
+			mphone, 
+			fax, 
+			photo_flag, 
+			exam_transfer, 
+			room_size, 
+			exam_msg, 
+			seq, 
+			operator, 
+			update_date, 
+			email
+		)
+		values
+		(
+			#{parentid}, 
+			#{code}, 
+			#{type}, 
+			#{parentName}, 
+			#{name}, 
+			#{pinyin}, 
+			#{linkman}, 
+			#{address}, 
+			#{postCode}, 
+			#{phone}, 
+			#{mphone}, 
+			#{fax}, 
+			#{photoFlag}, 
+			#{examTransfer}, 
+			#{roomSize}, 
+			#{examMsg}, 
+			#{seq}, 
+			#{operator}, 
+			now(), 
+			#{email}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.RegionDO">
+		update reg_region 
+		<set>
+			<if test="parentid != null">parentid = #{parentid}, </if>
+			<if test="code != null">code = #{code}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="parentName != null">parent_name = #{parentName}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="pinyin != null">pinyin = #{pinyin}, </if>
+			<if test="linkman != null">linkman = #{linkman}, </if>
+			<if test="address != null">address = #{address}, </if>
+			<if test="postCode != null">post_code = #{postCode}, </if>
+			<if test="phone != null">phone = #{phone}, </if>
+			<if test="mphone != null">mphone = #{mphone}, </if>
+			<if test="fax != null">fax = #{fax}, </if>
+			<if test="photoFlag != null">photo_flag = #{photoFlag}, </if>
+			<if test="examTransfer != null">exam_transfer = #{examTransfer}, </if>
+			<if test="roomSize != null">room_size = #{roomSize}, </if>
+			<if test="examMsg != null">exam_msg = #{examMsg}, </if>
+			<if test="seq != null">seq = #{seq}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="email != null">email = #{email}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_region set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_region set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+
+	<select id="listT" resultType="com.hxy.nzxy.stexam.domain.RegionDO">
+		select id,code from reg_region
+		<where>
+			and enabled_flag = 1 and type = 'a' and code in
+			<foreach item="userKnowledgeBaseList" collection="list" open="(" separator="," close=")">
+				#{userKnowledgeBaseList.code}
+			</foreach>
+		</where>
+	</select>
+</mapper>

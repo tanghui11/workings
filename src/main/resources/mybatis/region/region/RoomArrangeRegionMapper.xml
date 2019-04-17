@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.RoomArrangeRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeDO">
+		select
+            id,
+            regionid,
+            exam_timeid,
+            exam_roomid,
+            exam_courseid,
+            type,
+            exam_type,
+            seat_start,
+            seat_end,
+            secret_code,
+            first_studentid,
+            status,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from reg_room_arrange
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeDO">
+		select
+	        id,
+	        regionid,
+	        exam_timeid,
+	        exam_roomid,
+	        exam_courseid,
+	        type,
+	        exam_type,
+	        seat_start,
+	        seat_end,
+	        secret_code,
+	        first_studentid,
+	        status,
+	        operator,
+	        update_date,
+	        db_flag,
+	        enabled_flag
+		 from reg_room_arrange
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="examTimeid != null and examTimeid != ''"> and exam_timeid = #{examTimeid} </if>
+		  <if test="examRoomid != null and examRoomid != ''"> and exam_roomid = #{examRoomid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="examType != null and examType != ''"> and exam_type = #{examType} </if>
+		  <if test="seatStart != null and seatStart != ''"> and seat_start = #{seatStart} </if>
+		  <if test="seatEnd != null and seatEnd != ''"> and seat_end = #{seatEnd} </if>
+		  <if test="secretCode != null and secretCode != ''"> and secret_code = #{secretCode} </if>
+		  <if test="firstStudentid != null and firstStudentid != ''"> and first_studentid = #{firstStudentid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_room_arrange
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="examTimeid != null and examTimeid != ''"> and exam_timeid = #{examTimeid} </if>
+		  <if test="examRoomid != null and examRoomid != ''"> and exam_roomid = #{examRoomid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="examType != null and examType != ''"> and exam_type = #{examType} </if>
+		  <if test="seatStart != null and seatStart != ''"> and seat_start = #{seatStart} </if>
+		  <if test="seatEnd != null and seatEnd != ''"> and seat_end = #{seatEnd} </if>
+		  <if test="secretCode != null and secretCode != ''"> and secret_code = #{secretCode} </if>
+		  <if test="firstStudentid != null and firstStudentid != ''"> and first_studentid = #{firstStudentid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.RoomArrangeDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_room_arrange
+		(
+			regionid, 
+			exam_timeid, 
+			exam_roomid, 
+			exam_courseid, 
+			courseid,
+			type,
+			exam_type, 
+			seat_start, 
+			seat_end, 
+			secret_code, 
+			first_studentid, 
+			status, 
+			operator, 
+			update_date, 
+			db_flag
+		)
+		values
+		(
+			#{regionid}, 
+			#{examTimeid}, 
+			#{examRoomid}, 
+			#{examCourseid}, 
+			#{courseid},
+			#{type},
+			#{examType}, 
+			#{seatStart}, 
+			#{seatEnd}, 
+			#{secretCode}, 
+			#{firstStudentid}, 
+			#{status}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.RoomArrangeDO">
+		update reg_room_arrange 
+		<set>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="examTimeid != null">exam_timeid = #{examTimeid}, </if>
+			<if test="examRoomid != null">exam_roomid = #{examRoomid}, </if>
+			<if test="examCourseid != null">exam_courseid = #{examCourseid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="examType != null">exam_type = #{examType}, </if>
+			<if test="seatStart != null">seat_start = #{seatStart}, </if>
+			<if test="seatEnd != null">seat_end = #{seatEnd}, </if>
+			<if test="secretCode != null">secret_code = #{secretCode}, </if>
+			<if test="firstStudentid != null">first_studentid = #{firstStudentid}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}</if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_room_arrange set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_room_arrange set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<!--按照开考任务编号查找所有的开考课程-->
+	<select id="ExamArrange_GetExamCoursesByExamTaskid" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+      select b.exam_date,
+	          b.segment,
+	          a.courseid
+        from exam_course a,
+	           exam_time b
+       where a.exam_timeid = b.id
+         and b.exam_taskid = #{exam_taskid}
+         and a.enabled_flag =1
+         and b.enabled_flag =1
+       order by a.courseid
+    </select>
+
+	<!--按照考区编号和开考课程编号获取报考课程信息-->
+	<select id="ExamArrange_GetStudentCourses" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+      select courseid,count
+      from
+      (
+        select b.courseid,
+	             COUNT(*) count
+          from stu_student_course a,
+               exa_exam_course b,
+	             exa_exam_time c,
+	             stu_student d,
+               pla_course e,
+               reg_region g
+          where a.exam_courseid = b.id
+            and b.exam_timeid = c.id
+            and a.studentid = d.id
+            and b.courseid = e.id
+            and e.type ='a'
+            and a.arrange_status = 'a'
+            and d.type in ('a','b')
+            and a.child_regionid = g.id
+            and g.exam_transfer = get_region_code(#{regionid})
+            and c.id = #{exam_timeid}
+             and a.enabled_flag =1
+            and b.enabled_flag =1
+            and c.enabled_flag =1
+            and d.enabled_flag =1
+            and e.enabled_flag =1
+            and g.enabled_flag =1
+          group by b.courseid
+     ) a
+     where count > 0
+    </select>
+
+	<!--按照考区编号及考试任务编号查找考点信息-->
+	<select id="ExamArrange_GetExamRoomsByRegionid_ExamTaskid" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+      select a.id ,a.code ,a.name ,a.room_no ,a.num
+      from
+      (
+        select a.id,d.seq,c.code,c.name,a.room_no,(a.seat_num - get_exam_room_seat_remain_num(a.id,${exam_timeid})) num
+          from reg_exam_room a,
+	             reg_exam_site_submit b,
+	             reg_exam_site c,
+	             reg_region d
+          where a.exam_site_submitid = b.id
+            and b.exam_siteid = c.id
+            and c.regionid = d.id
+            and get_region_code(#{regionid}) = get_region_code_exam_transfer(d.id)
+            and b.exam_taskid = #{exam_taskid}
+		  and (c.id = #{exam_siteid} or #{exam_siteid} = '')
+		     and a.enabled_flag =1
+            and b.enabled_flag =1
+            and c.enabled_flag =1
+            and d.enabled_flag =1
+            and ('T' = 'T' or a.id not in (select exam_roomid
+                                                          from reg_room_arrange
+                                                         where exam_timeid = #{exam_timeid}  and enabled_flag =1))
+     ) a
+     where a.num > 0
+     order by a.seq,a.code,a.room_no
+    </select>
+
+	<!--查找上下午都有考试的考生报考课程信息-->
+    <select id="ExamArrange_GetStudentExamCourses1" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+      select exam_courseid,num,courseid
+      from
+      (
+	      select b.id exam_courseid,COUNT(*) num,c.id as courseid
+	        from stu_student_course a,
+		           exa_exam_course b,
+               pla_course c,
+               sys_field_dict d,
+               reg_region e,
+               (select a.studentid
+                 from stu_student_course a,
+                      exa_exam_course b,
+                      exa_exam_time c,
+                      stu_student d,
+                      reg_region e
+                 where a.exam_courseid = b.id
+                   and b.exam_timeid = c.id
+                   and c.exam_taskid = #{exam_taskid}
+                   and a.studentid = d.id
+                   and a.child_regionid = e.id
+                   and e.exam_transfer = get_region_code(#{regionid})
+                    and a.enabled_flag =1
+                    and b.enabled_flag =1
+                    and c.enabled_flag =1
+                    and d.enabled_flag =1
+                    and e.enabled_flag =1
+                   and c.exam_date in(select exam_date
+				                                from exa_exam_time
+				                               where id = #{exam_timeid}
+				                                  and enabled_flag =1)
+                 group by c.exam_date,a.studentid
+                having COUNT(*) > 1) f
+	       where a.exam_courseid = b.id
+           and b.courseid = c.id
+           and d.table_name = 'pla_course'
+           and d.field_name = 'type'
+           and c.type = d.field_value
+           and d.remark ='x'
+           and a.arrange_status = 'a'
+           and a.child_regionid = e.id
+           and e.exam_transfer = get_region_code(#{regionid})
+	         and b.exam_timeid = #{exam_timeid}
+	         and a.studentid = f.studentid
+	        and a.enabled_flag =1
+            and b.enabled_flag =1
+            and c.enabled_flag =1
+            and e.enabled_flag =1
+	      group by b.id,c.id
+      ) a
+      where a.num <![CDATA[>=]]> #{min_student}
+      order by num desc
+    </select>
+
+	<!--查找所有可用的考场信息(上下午都有考试的考生)-->
+    <select id="ExamArrange_GetExamRooms1" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+      select a.id,a.seat_num,a.num
+      from
+      (
+        select e.seq,a.id,c.code,a.room_no,a.seat_num,a.seat_num - get_exam_room_seat_remain_num(a.id,${exam_timeid}) num
+          from reg_exam_room a,
+	             reg_exam_site_submit b,
+	             reg_exam_site c,
+	             reg_region e
+          where a.exam_site_submitid = b.id
+            and b.exam_siteid = c.id
+            and c.regionid = e.id
+            and a.room_no <![CDATA[<=]]> (b.num - floor(b.num * #{reserve}))
+            and (e.parentid = #{regionid} or e.id = #{regionid})
+            and get_region_code(#{regionid}) = get_region_code_exam_transfer(e.id)
+            and b.exam_taskid = #{exam_taskid}
+            and (c.id = #{exam_siteid}or #{exam_siteid} = '')
+            and a.enabled_flag =1
+            and b.enabled_flag =1
+            and c.enabled_flag =1
+            and e.enabled_flag =1
+            and ( a.id not in (select exam_roomid
+				  from reg_room_arrange
+				  where regionid = #{regionid}
+				  and exam_timeid = #{exam_timeid}
+				    and enabled_flag =1
+				  ))
+
+       ) a
+       where a.num > 0
+       order by a.seq,a.code,a.room_no
+    </select>
+
+	<!--查找上下午都有考试的考生报考课程信息-->
+    <select id="ExamArrange_GetStudentCourses1" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+      select a.id
+        from stu_student_course a,
+             exa_exam_course b,
+             exa_exam_time c,
+             stu_student d,
+             pla_course e,
+             sys_field_dict f,
+             reg_region g
+      where a.exam_courseid = b.id
+        and b.exam_timeid = c.id
+        and a.studentid = d.id
+        and a.arrange_status = 'a'
+        and b.courseid = e.id
+        and f.table_name = 'pla_course'
+        and f.field_name = 'type'
+        and e.type = f.field_value
+        and f.remark = 'x'
+        and (d.type = #{type} or (#{type} = 'x' and d.type in ('a','b')))
+        <!--and (a.regionid = #regionid# or a.child_regionid = #regionid#)
+        and dbo.get_region_code(#regionid#) = dbo.get_region_code_exam_transfer(a.child_regionid)-->
+        and a.child_regionid = g.id
+        and g.exam_transfer = get_region_code(#{regionid})
+        and c.id = #{exam_timeid}
+        and a.exam_courseid = #{exam_courseid}
+        and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+        and g.enabled_flag =1
+      order by d.id
+	</select>
+
+	<!--已安排课程(已安排课程补上剩余人数)-->
+	<select id="ExamArrange_GetStudentExamCourses2" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+       select distinct a.exam_courseid,a.type,a.exam_type,a.courseid
+         from reg_room_arrange a,
+              reg_exam_room b,
+              reg_exam_site_submit c,
+              reg_exam_site d,
+              pla_course e
+       where a.exam_roomid = b.id
+         and b.exam_site_submitid = c.id
+         and c.exam_siteid = d.id
+         and a.regionid = #{regionid}
+         and a.exam_timeid = #{exam_timeid}
+         and a.type = 'x'
+         and a.exam_type  = 'x'
+         and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+       group by d.code,b.room_no,a.exam_courseid,a.type,a.exam_type,a.courseid
+    </select>
+	<!--已安排课程还未安排考场的考生(已安排课程补上剩余人数)-->
+	<select id="ExamArrange_GetStudentCourses2" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+		select a.id
+		from stu_student_course a,
+		exa_exam_course b,
+		exa_exam_time c,
+		pla_course d,
+		stu_student e,
+		sys_field_dict f,
+		reg_region g
+		where a.exam_courseid = b.id
+		and b.exam_timeid = c.id
+		and b.courseid = d.id
+		and a.arrange_status = 'a'
+		and a.studentid = e.id
+		and f.table_name = 'pla_course'
+		and f.field_name = 'type'
+		and d.type = f.field_value
+		and f.remark = 'x'
+		and (e.type = #{type}or (#{type}= 'x' and e.type in ('a','b')))
+		<!--and (a.regionid = #regionid# or a.child_regionid = #regionid#)
+        and dbo.get_region_code(#regionid#) = dbo.get_region_code_exam_transfer(a.child_regionid)-->
+		and a.child_regionid = g.id
+		and g.exam_transfer = get_region_code(#{regionid})
+		and c.id = #{exam_timeid}
+		and a.exam_courseid = #{exam_courseid}
+        and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+        and g.enabled_flag =1
+		order by a.id
+	</select>
+	<!--查找所有可用的考场信息(已安排课程补上剩余人数)-->
+	<select id="ExamArrange_GetExamRooms2" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+      select room_arrangeid,id,seat_num,num
+      from
+      (
+        select a.room_arrangeid,a.id,a.code,a.room_no,a.seat_num,a.num,'00' seq
+          from
+          (
+            select a.id room_arrangeid,
+                   b.id,d.code,
+                   b.room_no,
+                   b.seat_num,
+                   b.seat_num - get_exam_room_seat_remain_num(b.id,${exam_timeid}) num
+             from reg_room_arrange a,
+	                reg_exam_room b,
+	                reg_exam_site_submit c,
+	                reg_exam_site d
+            where a.exam_roomid = b.id
+              and b.exam_site_submitid = c.id
+              and c.exam_siteid = d.id
+              and a.exam_courseid = #{exam_courseid}
+              and a.regionid = #{regionid}
+              and a.exam_timeid = #{exam_timeid}
+              and (d.id = #{exam_siteid} or #{exam_siteid} = '')
+              and a.type =  'x'
+              and a.exam_type =  'x'
+              and a.enabled_flag =1
+                and b.enabled_flag =1
+                and c.enabled_flag =1
+                and d.enabled_flag =1
+          ) a
+          where a.num <![CDATA[>]]> 0
+      union
+        select '' room_arrangeid,
+               a.id,
+               c.code,
+               a.room_no,
+               a.seat_num,
+               a.seat_num num,
+               d.seq
+         from reg_exam_room a,
+              reg_exam_site_submit b,
+              reg_exam_site c,
+              reg_region d
+        where a.exam_site_submitid = b.id
+          and b.exam_siteid = c.id
+          and c.regionid = d.id
+          and a.room_no <![CDATA[<=]]> (b.num - floor(b.num * #{reserve}))
+          and b.exam_taskid = #{exam_taskid}
+          and (d.parentid = #{regionid} or d.id = #{regionid})
+          and get_region_code(#{regionid}) = get_region_code_exam_transfer(d.id)
+          and a.enabled_flag =1
+            and b.enabled_flag =1
+            and c.enabled_flag =1
+            and d.enabled_flag =1
+          and a.id not in(select exam_roomid
+			                      from reg_room_arrange
+			                     where regionid = #{regionid}
+			                       and exam_timeid = #{exam_timeid}
+			                        and enabled_flag =1)
+        ) a
+        order by a.room_arrangeid desc,a.seq,a.code,id,a.room_no
+    </select>
+    <!--安排剩余课程-->
+    <select id="ExamArrange_GetStudentExamCourses3" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+        select exam_courseid,num,courseid
+        from
+        (
+        select a.exam_courseid,COUNT(*) num,e.id as courseid
+        from stu_student_course a,
+        exa_exam_course b,
+        exa_exam_time c,
+        stu_student d,
+        pla_course e,
+        sys_field_dict f,
+        reg_region g
+        where a.exam_courseid = b.id
+        and b.exam_timeid = c.id
+        and b.courseid = e.id
+        and a.studentid = d.id
+        and a.arrange_status = 'a'
+        and f.table_name = 'pla_course'
+        and f.field_name = 'type'
+        and e.type = f.field_value
+        and f.remark = 'x'
+        and (d.type = #{type} or (#{type} = 'x' and d.type in ('a','b')))
+        <!--and (a.regionid = #regionid# or a.child_regionid = #regionid#)
+        and dbo.get_region_code(#regionid#) = dbo.get_region_code_exam_transfer(a.child_regionid)-->
+        and a.child_regionid = g.id
+        and g.exam_transfer = get_region_code(#{regionid})
+        and c.id = #{exam_timeid}
+        and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+        and g.enabled_flag =1
+        group by c.exam_date,a.exam_courseid,e.id
+        ) a
+        where a.num <![CDATA[>=]]> #{min_student}
+        order by num desc
+    </select>
+    <!--查找没有安排的考生报考课程信息(安排剩余课程)-->
+    <select id="ExamArrange_GetStudentCourses3" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+        select a.id
+        from stu_student_course a,
+        exa_exam_course b,
+        exa_exam_time c,
+        stu_student d,
+        pla_course e,
+        sys_field_dict f,
+        reg_region g
+        where a.exam_courseid = b.id
+        and b.exam_timeid = c.id
+        and b.courseid = e.id
+        and a.studentid = d.id
+        and a.arrange_status = 'a'
+        and f.table_name = 'pla_course'
+        and f.field_name = 'type'
+        and e.type = f.field_value
+        and f.remark = 'x'
+        and (d.type = #{type} or (#{type} = 'x' and d.type in ('a','b')))
+        <!--and (a.regionid = #regionid# or a.child_regionid = #regionid#)
+        and dbo.get_region_code(#regionid#) = dbo.get_region_code_exam_transfer(a.child_regionid)-->
+        and a.child_regionid = g.id
+        and g.exam_transfer = get_region_code(#{regionid})
+        and c.id = #{exam_timeid}
+        and a.exam_courseid = #{exam_courseid}
+        and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+        and g.enabled_flag =1
+        order by a.id
+    </select>
+    <!--查找所有可用的考场信息(安排剩余课程)-->
+    <select id="ExamArrange_GetExamRooms3" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+      select room_arrangeid,id,seat_num,num
+      from
+      (
+        select 0 flag,a.room_arrangeid,a.id,a.code,a.room_no,a.seat_num,a.num,'00' seq
+        from
+        (
+            select 'x' room_arrangeid,b.id,d.code,b.room_no,b.seat_num,
+                   b.seat_num - get_exam_room_seat_remain_num(b.id,${exam_timeid}) num
+            from reg_room_arrange a,
+	              reg_exam_room b,
+	              reg_exam_site_submit c,
+	              reg_exam_site d
+            where a.exam_roomid = b.id
+              and b.exam_site_submitid = c.id
+              and c.exam_siteid = d.id
+              and a.regionid = #{regionid}
+              and a.exam_timeid = #{exam_timeid}
+              and (d.id = #{exam_siteid} or #{exam_siteid} = '')
+              and a.enabled_flag =1
+              and b.enabled_flag =1
+              and c.enabled_flag =1
+              and d.enabled_flag =1
+              group by b.id,d.code,b.room_no,b.seat_num
+        ) a
+        where a.num <![CDATA[>]]> 0
+      union
+        select 1 flag,'' room_arrangeid,a.id,c.code,a.room_no,a.seat_num,a.seat_num num,d.seq
+         from reg_exam_room a,
+              reg_exam_site_submit b,
+              reg_exam_site c,
+              reg_region d
+        where a.exam_site_submitid = b.id
+          and b.exam_siteid = c.id
+          and c.regionid = d.id
+          and a.room_no <![CDATA[<=]]> (b.num - floor(b.num * #{reserve}))
+          and b.exam_taskid = #{exam_taskid}
+          and (c.id = #{exam_siteid} or #{exam_siteid} = '')
+          and (d.parentid = #{regionid} or d.id = #{regionid})
+          and get_region_code(#{regionid}) = get_region_code_exam_transfer(d.id)
+          and a.enabled_flag =1
+          and b.enabled_flag =1
+          and c.enabled_flag =1
+          and d.enabled_flag =1
+          and a.id not in(select exam_roomid
+			                      from reg_room_arrange
+			                     where regionid = #{regionid}
+			                       and exam_timeid = #{exam_timeid}
+			                        and enabled_flag =1)
+      ) a
+      order by flag,num desc,a.seq,a.code,a.room_no
+    </select>
+    <!--单独编排一门课程-->
+    <select id="ExamArrange_GetStudentExamCourses4" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+        select exam_courseid,num,courseid
+        from
+        (
+        select a.exam_courseid,COUNT(*) num,e.id as courseid
+        from stu_student_course a,
+        exa_exam_course b,
+        exa_exam_time c,
+        stu_student d,
+        pla_course e,
+        sys_field_dict f,
+        reg_region g
+        where a.exam_courseid = b.id
+        and b.exam_timeid = c.id
+        and b.courseid = e.id
+        and a.studentid = d.id
+        and a.arrange_status = 'a'
+        and f.table_name = 'pla_course'
+        and f.field_name = 'type'
+        and e.type = f.field_value
+        and f.remark = 'x'
+        and (d.type = #{type} or (#{type} = 'x' and d.type in ('a','b')))
+        <!--and (a.regionid = #regionid# or a.child_regionid = #regionid#)
+        and dbo.get_region_code(#regionid#) = dbo.get_region_code_exam_transfer(a.child_regionid)-->
+        and a.child_regionid = g.id
+        and g.exam_transfer = get_region_code(#{regionid})
+        and c.id = #{exam_timeid}
+        and b.courseid = #{courseid}
+        and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+        and g.enabled_flag =1
+        group by c.exam_date,a.exam_courseid,e.id
+        ) a
+        order by num desc
+    </select>
+    <!--安排一门课程到一个考点-->
+    <select id="ExamArrange_GetStudentCourses4" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+        select a.id
+        from stu_student_course a,
+        exa_exam_course b,
+        exa_exam_time c,
+        stu_student d,
+        pla_course e,
+        sys_field_dict f,
+        reg_region g
+        where a.exam_courseid = b.id
+        and b.exam_timeid = c.id
+        and b.courseid = e.id
+        and a.studentid = d.id
+        and a.arrange_status = 'a'
+        and f.table_name = 'pla_course'
+        and f.field_name = 'type'
+        and e.type = f.field_value
+        and f.remark = 'x'
+        and (d.type = #{type} or (#{type} = 'x' and d.type in ('a','b')))
+        <!--and (a.regionid = #regionid# or a.child_regionid = #regionid#)
+        and dbo.get_region_code(#regionid#) = dbo.get_region_code_exam_transfer(a.child_regionid)-->
+        and a.child_regionid = g.id
+        and g.exam_transfer = get_region_code(#{regionid})
+        and c.id = #{exam_timeid}
+        and b.id = #{exam_courseid}
+        and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+        and g.enabled_flag =1
+        order by d.classify,a.id
+    </select>
+    <select id="ExamArrange_GetExamRooms4" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+      select room_arrangeid,id,seat_num,num
+      from
+      (
+        select 0 flag,a.room_arrangeid,a.id,a.code,a.room_no,a.seat_num,a.num,'00' seq
+        from
+        (
+            select 'x' room_arrangeid,b.id,d.code,b.room_no,b.seat_num,
+                   b.seat_num - get_exam_room_seat_remain_num(b.id,${exam_timeid}) num
+            from reg_room_arrange a,
+	               reg_exam_room b,
+	               reg_exam_site_submit c,
+	               reg_exam_site d
+            where a.exam_roomid = b.id
+              and b.exam_site_submitid = c.id
+              and c.exam_siteid = d.id
+              and a.regionid = #{regionid}
+              and a.exam_timeid = #{exam_timeid}
+              and a.enabled_flag =1
+              and b.enabled_flag =1
+              and c.enabled_flag =1
+              and d.enabled_flag =1
+            group by b.id,d.code,b.room_no,b.seat_num
+        ) a
+        where a.num <![CDATA[>]]> 0
+      union
+        select 1 flag,'' room_arrangeid,a.id,c.code,a.room_no,a.seat_num,a.seat_num num,d.seq
+         from reg_exam_room a,
+              reg_exam_site_submit b,
+              reg_exam_site c,
+              reg_region d
+        where a.exam_site_submitid = b.id
+          and b.exam_siteid = c.id
+          and c.regionid = d.id
+          and a.room_no <![CDATA[<=]]> (b.num - floor(b.num * #{reserve}))
+          and b.exam_taskid = #{exam_taskid}
+          and (c.id = #{exam_siteid} or #{exam_siteid} = '')
+          and (d.parentid = #{regionid} or d.id = #{regionid})
+          and get_region_code(#{regionid}) = get_region_code_exam_transfer(d.id)
+          and a.enabled_flag =1
+          and b.enabled_flag =1
+          and c.enabled_flag =1
+          and d.enabled_flag =1
+          and a.id not in(select exam_roomid
+			                      from reg_room_arrange
+			                     where regionid = #{regionid}
+			                       and exam_timeid = #{exam_timeid}
+			                       and enabled_flag =1)
+      ) a
+      order by flag,num desc,a.seq,a.code,a.room_no
+    </select>
+    <!--编排一门课程到一个考场-->
+    <select id="ExamArrange_GetStudentExamCourses5" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+        select exam_courseid,num,courseid
+        from
+        (
+        select a.exam_courseid,COUNT(*) num,e.id as courseid
+        from stu_student_course a,
+        exa_exam_course b,
+        exa_exam_time c,
+        stu_student d,
+        pla_course e,
+        sys_field_dict f,
+        reg_region g
+        where a.exam_courseid = b.id
+        and b.exam_timeid = c.id
+        and b.courseid = e.id
+        and a.studentid = d.id
+        and a.arrange_status = 'a'
+        and f.table_name = 'pla_course'
+        and f.field_name = 'type'
+        and e.type = f.field_value
+        and f.remark = 'x'
+        and (d.type = #{type}or (#{type} = 'x' and d.type in ('a','b')))
+        <!--and (a.regionid = #regionid# or a.child_regionid = #regionid#)
+        and dbo.get_region_code(#regionid#) = dbo.get_region_code_exam_transfer(a.child_regionid)-->
+        and a.child_regionid = g.id
+        and g.exam_transfer = get_region_code(#{regionid})
+        and c.id = #{exam_timeid}
+        and b.courseid = #{courseid}
+        and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+        and g.enabled_flag =1
+        group by c.exam_date,a.exam_courseid,e.id
+        ) a
+        order by num desc
+    </select>
+    <!--安排一门课到一个考场-->
+    <select id="ExamArrange_GetStudentCourses5" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+        select a.id
+        from stu_student_course a,
+        exa_exam_course b,
+        exa_exam_time c,
+        stu_student d,
+        pla_course e,
+        sys_field_dict f,
+        reg_region g
+        where a.exam_courseid = b.id
+        and b.exam_timeid = c.id
+        and b.courseid = e.id
+        and a.studentid = d.id
+        and a.arrange_status = 'a'
+        and f.table_name = 'pla_course'
+        and f.field_name = 'type'
+        and e.type = f.field_value
+        and f.remark = 'x'
+        and (d.type = #{type} or (#{type} = 'x' and d.type in ('a','b')))
+        <!--and (a.regionid = #regionid# or a.child_regionid = #regionid#)
+        and dbo.get_region_code(#regionid#) = dbo.get_region_code_exam_transfer(a.child_regionid)-->
+        and a.child_regionid = g.id
+        and g.exam_transfer = get_region_code(#{regionid})
+        and c.id = #{exam_timeid}
+        and b.id = #{exam_courseid}
+        and a.enabled_flag =1
+        and b.enabled_flag =1
+        and c.enabled_flag =1
+        and d.enabled_flag =1
+        and e.enabled_flag =1
+        and g.enabled_flag =1
+        order by d.classify,a.id
+    </select>
+    <!--查找所有可用的考场信息(安排剩余课程)-->
+    <select id="ExamArrange_GetExamRooms5" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+      select room_arrangeid,id,seat_num,num
+      from
+      (
+        select 0 flag,a.room_arrangeid,a.id,a.code,a.room_no,a.seat_num,a.num,'00' seq
+        from
+        (
+            select 'x' room_arrangeid,b.id,d.code,b.room_no,b.seat_num,
+                   b.seat_num - get_exam_room_seat_remain_num(b.id,${exam_timeid}) num
+            from reg_room_arrange a,
+	               reg_exam_room b,
+	               reg_exam_site_submit c,
+	               reg_exam_site d
+            where a.exam_roomid = b.id
+              and b.exam_site_submitid = c.id
+              and c.exam_siteid = d.id
+              and a.regionid = #{regionid}
+              and a.exam_timeid = #{exam_timeid}
+              and b.id = #{exam_roomid}
+              and a.enabled_flag =1
+          and b.enabled_flag =1
+          and c.enabled_flag =1
+          and d.enabled_flag =1
+            group by b.id,d.code,b.room_no,b.seat_num
+        ) a
+        where a.num <![CDATA[>]]> 0
+      union
+        select 1 flag,'' room_arrangeid,a.id,c.code,a.room_no,a.seat_num,a.seat_num num,d.seq
+         from reg_exam_room a,
+              reg_exam_site_submit b,
+              reg_exam_site c,
+              reg_region d
+        where a.exam_site_submitid = b.id
+          and b.exam_siteid = c.id
+          and c.regionid = d.id
+          and a.room_no <![CDATA[<=]]> (b.num - floor(b.num * #{reserve}))
+          and b.exam_taskid = #{exam_taskid}
+          and a.id = #{exam_roomid}
+          and (c.id = #{exam_siteid} or #{exam_siteid} = '')
+          and (d.parentid = #{regionid} or d.id = #{regionid})
+          and get_region_code(#{regionid}) = get_region_code_exam_transfer(d.id)
+          and a.enabled_flag =1
+          and b.enabled_flag =1
+          and c.enabled_flag =1
+          and d.enabled_flag =1
+          and a.id not in(select exam_roomid
+			                     from reg_room_arrange
+			                     where regionid = #{regionid}
+			                     and exam_timeid = #{exam_timeid}
+			                     and enabled_flag =1)
+      ) a
+      order by flag,num desc,a.seq,a.code,a.room_no
+    </select>
+    <!--查看一个考场中已安排课程数量-->
+    <select id="ExamArrange_GetExamRoomsCourseCount" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+      select ifnull(COUNT(*),0) num
+        from reg_room_arrange
+        where regionid = #{regionid}
+          and exam_timeid = #{exam_timeid}
+          and exam_roomid = #{exam_roomid}
+          and enabled_flag =1
+    </select>
+    <update id="removeRoomArrange">
+      update stu_student_course
+	       set arrange_status = 'a'
+	     where id in(select student_courseid
+					  from reg_seat_arrange a,
+						   reg_room_arrange b
+					   where a.room_arrangeid = b.id
+					   and b.regionid = #{regionid}
+					   and b.exam_timeid = #{exam_timeid}
+                      and  a.enabled_flag =1 and b.enabled_flag =1
+        );
+		<!--删除座次表-->
+        update reg_seat_arrange set enabled_flag =0
+		 where room_arrangeid in(select id
+							      from reg_room_arrange
+							       where enabled_flag =1
+                                   and regionid = #{regionid}
+							       and exam_timeid=#{exam_timeid} );
+	    <!--删除考场编排信息-->
+        update reg_room_arrange set enabled_flag =0
+        where regionid = #{regionid}
+        and exam_timeid = #{exam_timeid} ;
+
+
+	</update>
+
+    <update id="updateRoomArrangeConfirm">
+        update reg_room_arrange
+		   set status = 'b'
+		 where regionid = #{regionid}
+	       and exam_timeid in(select id
+							    from exa_exam_time
+							   where exam_taskid = #{exam_taskid})
+    </update>
+    <select id="ExamArrange_GetExamCoursesByExamSiteid" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+      select b.room_no,e.courseid,SUM(a.seat_end - a.seat_start + 1) count
+        from reg_room_arrange a,
+	           reg_exam_room b,
+	           reg_exam_site_submit c,
+	           reg_exam_site d,
+	           exa_exam_course e
+        where a.exam_roomid = b.id
+          and b.exam_site_submitid = c.id
+          and c.exam_siteid = d.id
+          and a.exam_courseid = e.id
+          and c.exam_siteid = #{exam_siteid}
+          and a.exam_timeid = #{exam_timeid}
+          and a.enabled_flag=1
+        and b.enabled_flag=1
+        and c.enabled_flag=1
+        and d.enabled_flag=1
+        and e.enabled_flag=1
+        group by b.room_no,e.courseid
+        order by b.room_no,e.courseid
+    </select>
+    <!--按照考点查找尾考场-->
+<select id="ExamArrange_GetExamCoursesByExamSiteid_Adjust" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+    select a.id ,b.room_no ,e.courseid ,b.seat_num ,SUM(a.seat_end - a.seat_start + 1) as count
+    from reg_room_arrange a,
+    reg_exam_room b,
+    reg_exam_site_submit c,
+    reg_exam_site d,
+    exa_exam_course e
+    where a.exam_roomid = b.id
+    and b.exam_site_submitid = c.id
+    and c.exam_siteid = d.id
+    and a.exam_courseid = e.id
+    and (b.seat_num - (a.seat_end - a.seat_start + 1)) > 0
+    and c.exam_siteid = #{exam_siteid}
+    and a.exam_timeid = #{exam_timeid}
+    and a.enabled_flag=1
+    and b.enabled_flag=1
+    and c.enabled_flag=1
+    and d.enabled_flag=1
+    and e.enabled_flag=1
+    group by a.id,b.room_no,e.courseid,b.seat_num
+    order by b.room_no,e.courseid
+</select>
+    <select id="ExamArrange_GetExamCoursesByExamSiteid_Room_Adjust" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+      select a.id,d.code,d.name, b.room_no,e.courseid,b.seat_num,SUM(a.seat_end - a.seat_start + 1) count
+        from reg_room_arrange a,
+	           reg_exam_room b,
+	           reg_exam_site_submit c,
+	           reg_exam_site d,
+	           exa_exam_course e,
+             reg_region f
+        where a.exam_roomid = b.id
+          and b.exam_site_submitid = c.id
+          and c.exam_siteid = d.id
+          and d.regionid = f.id
+          and a.exam_courseid = e.id
+          and (b.seat_num - (a.seat_end - a.seat_start + 1)) > 0
+          and a.exam_timeid = #{exam_timeid}
+          and get_region_code(#{regionid}) = get_region_code_exam_transfer(f.id)
+          and (#{flag} = 'T' or get_exam_room_seat_remain_num(b.id,#{exam_timeid}) <![CDATA[<>]]> b.seat_num)
+          and a.enabled_flag=1
+        and b.enabled_flag=1
+        and c.enabled_flag=1
+        and d.enabled_flag=1
+        and e.enabled_flag=1
+        and f.enabled_flag=1
+        group by a.id,d.code,d.name,b.room_no,e.courseid,b.seat_num
+        order by d.code,b.room_no,e.courseid
+    </select>
+
+    <!--查找县区考办-->
+    <select id="ExamArrange_GetChildRegionsByRegionid" resultType="com.hxy.nzxy.stexam.domain.RegionDO">
+      select id,parentid,name
+      from
+      (
+         select 'R'+id id,code,'R'+parentid parentid,name+'['+code+']' name
+           from reg_region
+          where exam_transfer in (select code from reg_region where id = #{regionid})
+        union
+         select a.id,a.code,'R'+a.regionid parentid,a.name+'['+a.code+']' name
+          from reg_exam_site a,
+			         reg_exam_site_submit b,
+			         reg_exam_room c,
+			         reg_room_arrange d,
+               reg_region e
+         where a.id = b.exam_siteid
+           and a.regionid = e.id
+           and b.id = c.exam_site_submitid
+           and c.id = d.exam_roomid
+           and b.exam_taskid = #{exam_taskid}
+           and e.exam_transfer in (select code from reg_region where id = #{regionid})
+           and a.enabled_flag=1
+            and b.enabled_flag=1
+            and c.enabled_flag=1
+            and d.enabled_flag=1
+           and a.regionid in(select id
+				                       from reg_region
+			                        where parentid = #{regionid}
+                                 or id = #{regionid}
+                                 and enabled_flag=1
+        )
+      ) a
+      order by code
+    </select>
+    <!--验证转出考场-->
+    <select id="saveRoomArrangeShift1" resultType="java.util.HashMap">
+  select  a.exam_roomid as exam_room_outid,
+		   (a.seat_end - a.seat_start + 1) as out_num,
+		  a.exam_timeid,
+		   a.regionid as regionid_outid,
+		   b.room_no as room_no_out,
+		  b.exam_site_submitid
+	  from reg_room_arrange a,
+		   reg_exam_room b
+	 where a.exam_roomid = b.id
+	   and a.id =#{room_arrange_out}
+	   and a.enabled_flag=1
+        and b.enabled_flag=1
+    </select>
+    <!--验证转出考场是否确认-->
+    <select id="saveRoomArrangeShift2" resultType="java.util.HashMap">
+  select 2
+	            from reg_room_arrange
+	           where regionid = #{@regionid_inid}
+	             and exam_timeid = #{exam_timeid}
+	             and status = 'b'
+	             and enabled_flag=1
+    </select>
+    <!--验证转入考场-->
+    <select id="saveRoomArrangeShift3" resultType="java.util.HashMap">
+  select a.exam_roomid as exam_room_inid,
+		   b.seat_num,
+		   a.regionid as regionid_inid
+	  from reg_room_arrange a,
+		   reg_exam_room b
+	 where a.exam_roomid = b.id
+	   and a.id = #{room_arrange_in}
+	   and a.enabled_flag=1
+        and b.enabled_flag=1
+    </select>
+    <!--验证转入考场是否已确认-->
+    <select id="saveRoomArrangeShift4" resultType="java.util.HashMap">
+  select 2
+	            from reg_room_arrange
+	           where regionid = #{regionid_outid}
+	             and exam_timeid = #{exam_timeid}
+	             and status = 'b'
+	             and enabled_flag=1
+    </select>
+    <!--转入考场剩余座位数-->
+    <select id="saveRoomArrangeShift5" resultType="java.util.HashMap">
+    select sum(a.seat_end - seat_start + 1) as in_num
+     from reg_room_arrange a,
+          reg_exam_room b
+     where a.exam_roomid = b.id
+      and a.exam_roomid = #{exam_room_inid}
+      and a.exam_timeid = #{exam_timeid}
+      and a.enabled_flag=1
+      and b.enabled_flag=1
+
+    </select>
+<!--更新考场编排信息：将转出考场的考场编号更新为转入考场的考场编号-->
+    <update id="saveRoomArrangeShift6" parameterType="java.util.HashMap">
+   update reg_room_arrange set exam_roomid = #{exam_room_inid} where id = #{room_arrange_out}
+    </update>
+<!--转出考场重新编排座次-->
+    <select id="saveRoomArrangeShift7" resultType="java.util.HashMap">
+     set @seat_total_count = 0;
+       select id as room_arrange_outid,exam_courseid
+           from reg_room_arrange
+           where exam_roomid = #{exam_room_outid}
+           and exam_timeid =#{exam_timeid}
+           and enabled_flag=1
+           order by exam_courseid
+    </select>
+    <!--开始座位号-->
+    <select id="saveRoomArrangeShift8" resultType="java.util.HashMap">
+       set @seat_start = @seat_total_count + 1;
+       select id as seat_arrange_outid
+        from reg_seat_arrange
+        where room_arrangeid = #{room_arrange_outid}
+        and exam_courseid = #{exam_courseid}
+        and enabled_flag=1
+    </select>
+    <!--更新座次号-->
+    <update id="saveRoomArrangeShift9" parameterType="java.util.HashMap">
+  set @seat_total_count = @seat_total_count + 1;
+        update reg_seat_arrange
+				   set seq = @seat_total_count
+				where id = #{seat_arrange_outid}
+    </update>
+    <!--更新考场安排表中的座位开始号和结束号-->
+    <update id="saveRoomArrangeShift10" parameterType="java.util.HashMap">
+  set @seat_end = @seat_total_count;
+       update reg_room_arrange
+			   set seat_start = @seat_start,
+			       seat_end = @seat_end
+			 where id = #{room_arrange_outid}
+    </update>
+    <!--转入考场重新编排座次-->
+    <select id="saveRoomArrangeShift11" resultType="java.util.HashMap">
+  set @seat_total_count = 0;
+     select id as room_arrange_inid,exam_courseid
+               from reg_room_arrange
+              where exam_roomid = #{exam_room_inid}
+                and exam_timeid = #{exam_timeid}
+                and enabled_flag=1
+              order by exam_courseid
+    </select>
+    <!--开始座位号-->
+    <select id="saveRoomArrangeShift12" resultType="java.util.HashMap">
+       set @seat_start = @seat_total_count + 1;
+       select id as seat_arrange_inid
+        from reg_seat_arrange
+        where room_arrangeid = #{room_arrange_inid}
+        and exam_courseid = #{exam_courseid}
+        and enabled_flag=1
+    </select>
+    <!--更新座次号-->
+    <update id="saveRoomArrangeShift13" parameterType="java.util.HashMap">
+  set @seat_total_count = @seat_total_count + 1;
+        update reg_seat_arrange
+				   set seq = @seat_total_count
+				where id = #{seat_arrange_inid}
+    </update>
+    <!--更新考场安排表中的座位开始号和结束号-->
+    <update id="saveRoomArrangeShift14" parameterType="java.util.HashMap">
+  set @seat_end = @seat_total_count;
+       update reg_room_arrange
+			   set seat_start = @seat_start,
+			       seat_end = @seat_end
+			 where id = #{room_arrange_inid}
+    </update>
+    <!--如果转出考场已经没有其他课程，该考场号以后考场自动缩位-->
+    <select id="saveRoomArrangeShift15" resultType="java.util.HashMap">
+        select 2
+						from reg_room_arrange
+					   where exam_timeid = #{exam_timeid}
+					     and exam_roomid = #{exam_room_outid}
+					     and enabled_flag=1
+    </select>
+    <!--如果转出考场已经没有其他课程，该考场号以后考场自动缩位-->
+    <update id="saveRoomArrangeShift16" parameterType="java.util.HashMap">
+  update reg_room_arrange
+			   set exam_roomid = b.id
+			 from reg_exam_room a,
+			      reg_exam_room b
+			where reg_room_arrange.exam_roomid = a.id
+			  and reg_room_arrange.regionid = #{regionid_outid}
+			  and room_arrange.exam_timeid = #{exam_timeid}
+			  and a.room_no > #{room_no_out}
+			  and a.room_no - 1 = b.room_no
+			  and a.exam_site_submitid = b.exam_site_submitid
+			  and a.exam_site_submitid = #{exam_site_submitid}
+			  and a.regionid = b.regionid
+			  and a.regionid = #{regionid_outid}
+    </update>
+
+    <!--查找本次开考考点编号-->
+    <select id="ExamArrange_GetExamSites" resultType="java.util.HashMap">
+        select a.id,
+        concat(convert(code,char),' ', a.name) name
+        from reg_exam_site a,
+        reg_exam_site_submit b
+        where a.id = b.exam_siteid
+        and a.enabled_flag=1
+        and b.enabled_flag=1
+        and b.exam_taskid = #{exam_taskid}
+        and get_region_code(#{regionid}) = get_region_code_exam_transfer(a.regionid)
+        and (1=1<if test="name != null and name != ''">or a.name like concat('%',#{name },'%')</if>
+        <if test="pinyin != null and pinyin != ''">  or a.pinyin like concat('%',#{pinyin },'%') </if>
+           )
+        order by a.code
+    </select>
+
+    <select id="zbubao">
+        select a.id,a.regionid ,c.`name`,a.courseid,b.room_no,a.seat_start,a.seat_end, d.exam_date,d.segment from reg_room_arrange a,reg_exam_room b,reg_exam_site c,exa_exam_time d  where  a.exam_roomid=b.id and c.id=b.exam_siteid and a.exam_timeid=d.id
+ and a.regionid=8 and a.exam_courseid=95
+    </select>
+</mapper>

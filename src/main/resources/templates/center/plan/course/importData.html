@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" style="overflow: hidden;">
+                    <form shiro:hasPermission="plan:course:add"   class="columns form-horizontal pull-left" id="form_table" action="#" th:action="@{/plan/course/savBathData}" enctype="multipart/form-data" method="post">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle;margin-right:10px;">
+                                <button class="btn btn-success fileinput-button" type="button">上传</button>
+                                <input type="file" name="filename" id="jobData" onchange="loadFile(this.files[0])" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
+                            </div>
+                            <span id="filename" style="vertical-align: middle" style="margin-right:10px;">未上传文件</span>
+                            <input type="button" style="margin-left:10px;"
+                                   onclick="closes()" class="btn pull-right btn-primary" value="开始导入"/>
+                            <a th:href="@{/template/课程管理模板.xls}"> <button class="btn" type="button">模板下载</button></a>
+                        </div>
+                        <script>
+                            function loadFile(file){
+                                $("#filename").html(file.name);
+                            }
+
+                            function closes(){
+
+                                $("#form_table").submit();
+
+
+
+                            }
+                        </script>
+
+
+                    </form>
+                    <input id="msg" type="hidden" class="form-control" th:value="${msg}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script>
+    $(function(){
+        if($("#msg").val()!=""){
+
+            alert($("#msg").val())
+        }
+
+
+    })
+</script>
+</body>
+</html>

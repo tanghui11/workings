@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.student.dao.StudentFileStudentDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentDO">
+		select
+            id,
+            type,
+            name,
+            ename,
+            pinyin,
+            gender,
+            home_type,
+            politics,
+            nation,
+            profession,
+            birthday,
+            native_place,
+            certificate_type,
+            certificate_no,
+            phone,
+            mphone,
+            address,
+            post_code,
+            email,
+            regionid,
+            child_regionid,
+            schoolid,
+            collegeid,
+            teach_siteid,
+            groupid,
+            old_studentid,
+            classify,
+            status,
+            audit_status,
+            confirm_status,
+            back_operator,
+            back_date,
+            confirm_operator,
+            confirm_date,
+            operator,
+            update_date,
+            db_flag,
+            create_date,
+            enabled_flag,
+            pic,
+            idcard_pic
+		from v_stu_student
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentDO">
+	  select
+		b.id,
+		a.id as student_specialityid,
+		b.certificate_no,
+		b.name,
+		b.gender,
+		b.mphone,
+		b.nation,
+		b.native_place,
+		b.schoolid,
+		b.collegeid,
+		b.teach_siteid,
+		a.status,
+		b.audit_status,
+		b.confirm_status,
+		b.create_date,
+		a.speciality_recordid,
+		a.school_speciality_regid,
+		c.specialityid ,
+		c.direction,
+		d.reg_year,
+		d.reg_season,
+		count(e.id) as regCount
+		from v_stu_student_speciality a
+		left join v_stu_student  b on a.studentid=b.id and b.enabled_flag=1
+		left join  pla_speciality_record  c on c.id= a.speciality_recordid and c.enabled_flag=1
+ 		left join sch_school_speciality_reg  d on d.id=a.school_speciality_regid and d.enabled_flag=1
+		left join v_stu_student_reg  e on e.student_specialityid =a.id and e.enabled_flag=1
+		<where>
+			<if test='pic == "noPhoto"'>and b.pic = "" </if>
+		  <if test="id != null and id != ''"> and b.id = #{id} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''">and c.id = #{specialityRecordid} </if>
+			<if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''">and a.school_speciality_regid = #{schoolSpecialityRegid} </if>
+		  <if test="type != null and type != ''"> and b.type = #{type} </if>
+		  <if test="name != null and name != ''"> and b.name = #{name} </if>
+		  <if test="ename != null and ename != ''"> and b.ename = #{ename} </if>
+		  <if test="pinyin != null and pinyin != ''"> and b.pinyin = #{pinyin} </if>
+		  <if test="gender != null and gender != ''"> and b.gender = #{gender} </if>
+		  <if test="homeType != null and homeType != ''"> and b.home_type = #{homeType} </if>
+		  <if test="politics != null and politics != ''"> and b.politics = #{politics} </if>
+		  <if test="nation != null and nation != ''"> and b.nation = #{nation} </if>
+		  <if test="profession != null and profession != ''"> and b.profession = #{profession} </if>
+		  <if test="birthday != null and birthday != ''"> and b.birthday = #{birthday} </if>
+		  <if test="nativePlace != null and nativePlace != ''"> and b.native_place = #{nativePlace} </if>
+		  <if test="certificateType != null and certificateType != ''"> and b.certificate_type = #{certificateType} </if>
+		  <if test="certificateNo != null and certificateNo != ''"> and b.certificate_no = #{certificateNo} </if>
+		  <if test="phone != null and phone != ''"> and b.phone = #{phone} </if>
+		  <if test="mphone != null and mphone != ''"> and b.mphone = #{mphone} </if>
+		  <if test="address != null and address != ''"> and b.address = #{address} </if>
+		  <if test="postCode != null and postCode != ''"> and b.post_code = #{postCode} </if>
+		  <if test="email != null and email != ''"> and b.email = #{email} </if>
+		  <if test="regionid != null and regionid != ''"> and b.regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and b.child_regionid = #{childRegionid} </if>
+		  <if test="schoolid != null and schoolid != ''"> and b.schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and b.collegeid = #{collegeid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and b.teach_siteid = #{teachSiteid} </if>
+		  <if test="groupid != null and groupid != ''"> and b.groupid = #{groupid} </if>
+		  <if test="oldStudentid != null and oldStudentid != ''"> and b.old_studentid = #{oldStudentid} </if>
+		   and b.classify = "b"
+		  <if test="status != null and status != ''"> and a.status = #{status} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and b.audit_status = #{auditStatus} </if>
+		  <if test="confirmStatus != null and confirmStatus != ''"> and b.confirm_status = #{confirmStatus} </if>
+		  <if test="backOperator != null and backOperator != ''"> and b.back_operator = #{backOperator} </if>
+		  <if test="backDate != null and backDate != ''"> and b.back_date = #{backDate} </if>
+		  <if test="confirmOperator != null and confirmOperator != ''"> and b.confirm_operator = #{confirmOperator} </if>
+		  <if test="confirmDate != null and confirmDate != ''"> and b.confirm_date = #{confirmDate} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and b.db_flag = #{dbFlag} </if>
+		</where>
+		group by b.id,
+		a.id ,
+		b.certificate_no,
+		b.name,
+		b.gender,
+		b.mphone,
+		b.nation,
+		b.native_place,
+		b.schoolid,
+		b.collegeid,
+		b.teach_siteid,
+		a.status,
+		b.audit_status,
+		b.confirm_status,
+		b.create_date,
+		a.speciality_recordid,
+		a.school_speciality_regid,
+		c.specialityid,
+		d.reg_year,
+		d.reg_season
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by b.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select
+		count(a.id)
+		from v_stu_student_speciality a
+		left join v_stu_student   b on a.studentid=b.id and b.enabled_flag=1
+		left join pla_speciality_record  c on c.id= a.speciality_recordid and c.enabled_flag=1
+		left join  sch_school_speciality_reg d on d.id=a.school_speciality_regid and d.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+			<if test='pic == "noPhoto"'> and b.pic = "" </if>
+			<if test="id != null and id != ''"> and b.id = #{id} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''">and c.id = #{specialityRecordid} </if>
+			<if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''">and a.school_speciality_regid = #{schoolSpecialityRegid} </if>
+			<if test="type != null and type != ''"> and b.type = #{type} </if>
+			<if test="name != null and name != ''"> and b.name = #{name} </if>
+			<if test="ename != null and ename != ''"> and b.ename = #{ename} </if>
+			<if test="pinyin != null and pinyin != ''"> and b.pinyin = #{pinyin} </if>
+			<if test="gender != null and gender != ''"> and b.gender = #{gender} </if>
+			<if test="homeType != null and homeType != ''"> and b.home_type = #{homeType} </if>
+			<if test="politics != null and politics != ''"> and b.politics = #{politics} </if>
+			<if test="nation != null and nation != ''"> and b.nation = #{nation} </if>
+			<if test="profession != null and profession != ''"> and b.profession = #{profession} </if>
+			<if test="birthday != null and birthday != ''"> and b.birthday = #{birthday} </if>
+			<if test="nativePlace != null and nativePlace != ''"> and b.native_place = #{nativePlace} </if>
+			<if test="certificateType != null and certificateType != ''"> and b.certificate_type = #{certificateType} </if>
+			<if test="certificateNo != null and certificateNo != ''"> and b.certificate_no = #{certificateNo} </if>
+			<if test="phone != null and phone != ''"> and b.phone = #{phone} </if>
+			<if test="mphone != null and mphone != ''"> and b.mphone = #{mphone} </if>
+			<if test="address != null and address != ''"> and b.address = #{address} </if>
+			<if test="postCode != null and postCode != ''"> and b.post_code = #{postCode} </if>
+			<if test="email != null and email != ''"> and b.email = #{email} </if>
+			<if test="regionid != null and regionid != ''"> and b.regionid = #{regionid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and b.child_regionid = #{childRegionid} </if>
+			<if test="schoolid != null and schoolid != ''"> and b.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and b.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and b.teach_siteid = #{teachSiteid} </if>
+			<if test="groupid != null and groupid != ''"> and b.groupid = #{groupid} </if>
+			<if test="oldStudentid != null and oldStudentid != ''"> and b.old_studentid = #{oldStudentid} </if>
+			and b.classify = "b"
+			<if test="status != null and status != ''"> and b.status = #{status} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and b.audit_status = #{auditStatus} </if>
+			<if test="confirmStatus != null and confirmStatus != ''"> and b.confirm_status = #{confirmStatus} </if>
+			<if test="backOperator != null and backOperator != ''"> and b.back_operator = #{backOperator} </if>
+			<if test="backDate != null and backDate != ''"> and b.back_date = #{backDate} </if>
+			<if test="confirmOperator != null and confirmOperator != ''"> and b.confirm_operator = #{confirmOperator} </if>
+			<if test="confirmDate != null and confirmDate != ''"> and b.confirm_date = #{confirmDate} </if>
+			<if test="dbFlag != null and dbFlag != ''"> and b.db_flag = #{dbFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentDO">
+		insert into stu_student
+		(
+			id, 
+			type, 
+			name, 
+			ename, 
+			pinyin, 
+			gender, 
+			home_type, 
+			politics, 
+			nation, 
+			profession, 
+			birthday, 
+			native_place, 
+			certificate_type, 
+			certificate_no, 
+			phone, 
+			mphone, 
+			address, 
+			post_code, 
+			email, 
+			regionid, 
+			child_regionid, 
+			schoolid, 
+			collegeid, 
+			teach_siteid, 
+			groupid, 
+			old_studentid, 
+			classify, 
+			status, 
+			audit_status, 
+			confirm_status, 
+			back_operator, 
+			back_date, 
+			confirm_operator, 
+			confirm_date, 
+			operator, 
+			update_date,
+			db_flag,
+			create_date,
+			pic,
+			 idcard_pic,
+			 kjh
+		)
+		values
+		(
+			#{id}, 
+			#{type}, 
+			#{name}, 
+			#{ename}, 
+			#{pinyin}, 
+			#{gender}, 
+			#{homeType}, 
+			#{politics}, 
+			#{nation}, 
+			#{profession}, 
+			#{birthday}, 
+			#{nativePlace}, 
+			#{certificateType}, 
+			#{certificateNo}, 
+			#{phone}, 
+			#{mphone}, 
+			#{address}, 
+			#{postCode}, 
+			#{email}, 
+			#{regionid}, 
+			#{childRegionid}, 
+			#{schoolid}, 
+			#{collegeid}, 
+			#{teachSiteid}, 
+			#{groupid}, 
+			#{oldStudentid}, 
+			#{classify}, 
+			#{status}, 
+			#{auditStatus}, 
+			#{confirmStatus}, 
+			#{backOperator}, 
+			#{backDate}, 
+			#{confirmOperator}, 
+			#{confirmDate}, 
+			#{operator}, 
+			now(),
+			#{dbFlag},
+			now(),
+			#{pic},
+			#{idcardPic},
+			#{kjh}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentDO">
+		update stu_student
+		<set>
+			<if test="type != null">type = #{type}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="ename != null">ename = #{ename}, </if>
+			<if test="pinyin != null">pinyin = #{pinyin}, </if>
+			<if test="gender != null">gender = #{gender}, </if>
+			<if test="homeType != null">home_type = #{homeType}, </if>
+			<if test="politics != null">politics = #{politics}, </if>
+			<if test="nation != null">nation = #{nation}, </if>
+			<if test="profession != null">profession = #{profession}, </if>
+			<if test="birthday != null">birthday = #{birthday}, </if>
+			<if test="nativePlace != null">native_place = #{nativePlace}, </if>
+			<if test="certificateType != null">certificate_type = #{certificateType}, </if>
+			<if test="certificateNo != null">certificate_no = #{certificateNo}, </if>
+			<if test="phone != null">phone = #{phone}, </if>
+			<if test="mphone != null">mphone = #{mphone}, </if>
+			<if test="address != null">address = #{address}, </if>
+			<if test="postCode != null">post_code = #{postCode}, </if>
+			<if test="email != null">email = #{email}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="collegeid != null">collegeid = #{collegeid}, </if>
+			<if test="teachSiteid != null">teach_siteid = #{teachSiteid}, </if>
+			<if test="groupid != null">groupid = #{groupid}, </if>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+			<if test="classify != null">classify = #{classify}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="confirmStatus != null">confirm_status = #{confirmStatus}, </if>
+			<if test="backOperator != null">back_operator = #{backOperator}, </if>
+			<if test="backDate != null">back_date = #{backDate}, </if>
+			<if test="confirmOperator != null">confirm_operator = #{confirmOperator}, </if>
+			<if test="confirmDate != null">confirm_date = #{confirmDate}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(),			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+			<if test="pic != null">pic = #{pic}, </if>
+			<if test="idcardPic != idcardPic">idcardPic = #{idcard_pic}, </if>
+			<if test="kjh != kjh">kjh = #{kjh}, </if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_speciality set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_speciality set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<update id="updateTx">
+		update stu_student set status ='c'  where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<update id="updateTx1">
+
+		update stu_student_speciality set status ='c'  where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="listQu" resultType="com.hxy.nzxy.stexam.domain.StudentDO">
+		select
+		a.id,
+		a.name
+		from stu_student a
+		inner join stu_student_speciality b
+		on  a.id = b.studentid
+		<where>
+			and a.enabled_flag=1
+			<if test="schoolid != null and schoolid != ''"> and b.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and b.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and b.teach_siteid = #{teachSiteid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and b.speciality_recordid = #{specialityRecordid} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="countQu" resultType="int">
+		select
+		count(a.id)
+		from stu_student a
+		inner join stu_student_speciality b
+		on  a.id = b.studentid
+		<where>
+			and a.enabled_flag=1
+			<if test="schoolid != null and schoolid != ''"> and b.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and b.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and b.teach_siteid = #{teachSiteid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and b.speciality_recordid = #{specialityRecordid} </if>
+		</where>
+	</select>
+</mapper>

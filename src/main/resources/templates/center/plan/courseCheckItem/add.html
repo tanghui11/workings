@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="courseCheckid" name="courseCheckid" class="form-control" type="hidden">
+							<input id="courseCheckName" name="courseCheckName" class="form-control" type="hidden" readonly="readonly">
+							<table class="table table-bordered table-style">
+								<tr>
+									<td style="width:120px">
+										<label><span style="color:red">*</span>课程名称：</label>
+									</td>
+									<td>
+										<input id="courseid" name="courseid" class="form-control" type="hidden">
+										<input id="coursess" name="coursess" class="form-control" type="text" onclick="courseName()" readonly style="background:#fff">
+									</td>
+								</tr>
+							</table>
+							<div class="form-group" style="text-align:center">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/courseCheckItem/add.js" th:src="@{/js/appjs/center/plan/courseCheckItem/add.js}">
+	</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.student.dao.StudentInfoEditDao">
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.region.student.domain.StudentInfoEditDO">
+		select
+	        id as studentid,
+	      	name,
+			certificate_no,
+			phone,
+			mphone,
+			address,
+			post_code,
+			email,
+			groupid,
+			regionid
+		 from stu_student
+        where
+          enabled_flag=1
+		and id = #{studentid}
+	</select>
+	 
+	<update id="save" parameterType="com.hxy.nzxy.stexam.region.student.domain.StudentInfoEditDO">
+		update stu_student
+		<set>
+			phone = #{phone},
+			mphone = #{mphone},
+			address = #{address},
+			post_code = #{postCode},
+			email = #{email},
+			groupid = #{groupid},
+			operator = #{operator},
+			update_date = now()
+		</set>
+		where id = #{studentid}
+	</update>
+</mapper>

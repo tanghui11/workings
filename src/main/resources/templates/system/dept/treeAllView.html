@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <input type="hidden" name="knowledgeid" id="knowledgeid" th:value="${knowledgeid}">
+            <div class="ibox-content">
+                <div id="deptTree"></div>
+            </div>
+            <div class="form-group hidden">
+                <div class="col-sm-12 col-sm-offset-12">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        getTreeData()
+    });
+    function getTreeData() {
+        $.ajax({
+            type: "GET",
+            url: contextPath+"/system/dept/treeAll",
+            success: function (tree) {
+                loadTree(tree);
+            }
+        });
+    }
+    function loadTree(tree) {
+        $('#deptTree').jstree({
+            'core': {
+                'data': tree
+            },
+            "plugins": ["search"]
+        });
+        $('#deptTree').jstree().open_all();
+    }
+    $('#deptTree').on("changed.jstree", function (e, data) {
+        console.log(data)
+        var tree = $('#deptTree').jstree();
+        if (data.node.parent != "#") {
+            var parents = data.node.parents;
+            var text = data.node.text;
+            for(var i = 0; i < parents.length; i++) {
+                if(parents[i] != "#" && parents[i] != "-1") {
+                    text = tree.get_text(tree.get_node(parents[i])) + '-' + text;
+                }
+            }
+            parent.loadDeptTree(data.node.id, text);
+            var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+            parent.layer.close(index);
+        }
+    });
+</script>
+</body>
+
+</html>

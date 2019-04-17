@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.ExamSiteRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ExamSiteDO">
+		select
+            id,
+            regionid,
+            code,
+            name,
+            pinyin,
+            num,
+            linkman,
+            phone,
+            fax,
+            address,
+            post_code,
+            remark,
+            school,
+            school_code,
+            teach_code,
+            leader,
+            standard,
+            status,
+            operator,
+            update_date,
+            enabled_flag
+		from reg_exam_site
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ExamSiteDO">
+		select
+		id,
+		regionid,
+		code,
+		name,
+		pinyin,
+		num,
+		linkman,
+		phone,
+		fax,
+		address,
+		post_code,
+		remark,
+		school,
+		school_code,
+		teach_code,
+		leader,
+		standard,
+		status,
+		operator,
+		update_date,
+		enabled_flag
+		from reg_exam_site
+        <where>
+         and enabled_flag=1
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+			<if test="code != null and code != ''"> and code = #{code} </if>
+            <if test="name != null and name != ''"> and name = #{name} </if>
+            <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+            <if test="num != null and num != ''"> and num = #{num} </if>
+            <if test="linkman != null and linkman != ''"> and linkman = #{linkman} </if>
+            <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+            <if test="fax != null and fax != ''"> and fax = #{fax} </if>
+            <if test="address != null and address != ''"> and address = #{address} </if>
+            <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+            <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+            <if test="school != null and school != ''"> and school = #{school} </if>
+            <if test="schoolCode != null and schoolCode != ''"> and school_code = #{schoolCode} </if>
+            <if test="teachCode != null and teachCode != ''"> and teach_code = #{teachCode} </if>
+            <if test="leader != null and leader != ''"> and leader = #{leader} </if>
+            <if test="standard != null and standard != ''"> and standard = #{standard} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_exam_site
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="num != null and num != ''"> and num = #{num} </if>
+		  <if test="linkman != null and linkman != ''"> and linkman = #{linkman} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="fax != null and fax != ''"> and fax = #{fax} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="school != null and school != ''"> and school = #{school} </if>
+		  <if test="schoolCode != null and schoolCode != ''"> and school_code = #{schoolCode} </if>
+		  <if test="teachCode != null and teachCode != ''"> and teach_code = #{teachCode} </if>
+		  <if test="leader != null and leader != ''"> and leader = #{leader} </if>
+		  <if test="standard != null and standard != ''"> and standard = #{standard} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ExamSiteDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_exam_site
+		(
+			regionid, 
+			code, 
+			name, 
+			pinyin, 
+			num, 
+			linkman, 
+			phone, 
+			fax, 
+			address, 
+			post_code, 
+			remark, 
+			school, 
+			school_code, 
+			teach_code, 
+			leader, 
+			standard, 
+			status, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{regionid}, 
+			#{code}, 
+			#{name}, 
+			#{pinyin}, 
+			#{num}, 
+			#{linkman}, 
+			#{phone}, 
+			#{fax}, 
+			#{address}, 
+			#{postCode}, 
+			#{remark}, 
+			#{school}, 
+			#{schoolCode}, 
+			#{teachCode}, 
+			#{leader}, 
+			#{standard}, 
+			#{status}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ExamSiteDO">
+		update reg_exam_site 
+		<set>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="code != null">code = #{code}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="pinyin != null">pinyin = #{pinyin}, </if>
+			<if test="num != null">num = #{num}, </if>
+			<if test="linkman != null">linkman = #{linkman}, </if>
+			<if test="phone != null">phone = #{phone}, </if>
+			<if test="fax != null">fax = #{fax}, </if>
+			<if test="address != null">address = #{address}, </if>
+			<if test="postCode != null">post_code = #{postCode}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="school != null">school = #{school}, </if>
+			<if test="schoolCode != null">school_code = #{schoolCode}, </if>
+			<if test="teachCode != null">teach_code = #{teachCode}, </if>
+			<if test="leader != null">leader = #{leader}, </if>
+			<if test="standard != null">standard = #{standard}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_exam_site set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_exam_site set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.ExamRoomRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+		select
+            id,
+            regionid,
+            exam_taskid,
+            exam_site_submitid,
+            room_no,
+            seat_num,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from reg_exam_room
+		where id = #{value}
+	</select>
+	<select id="getSite" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+		SELECt
+		  a.id,b.regionid,a.exam_taskid,a.exam_siteid ,a.id as exam_site_submitid,a.num as room_no,a.status
+		FROM
+		   reg_exam_site_submit a
+		LEFT JOIN reg_exam_site b ON b.id = a.exam_siteid
+		AND b.enabled_flag = 1
+		WHERE
+		   a.enabled_flag = 1
+		and  b.regionid= #{regionid}
+ 		and a.exam_taskid=#{examTaskid}
+ 		and a.status=#{status}
+	</select>
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+		select
+	        id,
+	        regionid,
+	        exam_taskid,
+	        exam_site_submitid,
+	        room_no,
+	        seat_num,
+	        operator,
+	        update_date,
+	        db_flag,
+	        enabled_flag
+		 from reg_exam_room
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="examTaskid != null and examTaskid != ''"> and exam_taskid = #{examTaskid} </if>
+		  <if test="examSiteSubmitid != null and examSiteSubmitid != ''"> and exam_site_submitid = #{examSiteSubmitid} </if>
+		  <if test="roomNo != null and roomNo != ''"> and room_no = #{roomNo} </if>
+		  <if test="seatNum != null and seatNum != ''"> and seat_num = #{seatNum} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_exam_room
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="examTaskid != null and examTaskid != ''"> and exam_taskid = #{examTaskid} </if>
+		  <if test="examSiteSubmitid != null and examSiteSubmitid != ''"> and exam_site_submitid = #{examSiteSubmitid} </if>
+		  <if test="roomNo != null and roomNo != ''"> and room_no = #{roomNo} </if>
+		  <if test="seatNum != null and seatNum != ''"> and seat_num = #{seatNum} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ExamRoomDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_exam_room
+		(
+			regionid, 
+			exam_taskid, 
+			exam_site_submitid,
+			exam_siteid,
+			room_no, 
+			seat_num, 
+			operator, 
+			update_date, 
+			db_flag
+		)
+		values
+		(
+			#{regionid}, 
+			#{examTaskid}, 
+			#{examSiteSubmitid},
+			#{examSiteid},
+			#{roomNo}, 
+			#{seatNum}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}
+		)
+	</insert>
+	<insert id="batchSave" parameterType="java.util.List">
+		insert into reg_exam_room
+		(
+		regionid,
+		exam_taskid,
+		exam_site_submitid,
+		exam_siteid,
+		room_no,
+		seat_num,
+		operator,
+		update_date,
+		db_flag
+		)
+		values
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+			(
+			#{bean.regionid},
+			#{bean.examTaskid},
+			#{bean.examSiteSubmitid},
+			#{bean.examSiteid},
+			#{bean.roomNo},
+			#{bean.seatNum},
+			#{bean.operator},
+			now(),
+			#{bean.dbFlag}
+			)
+		</foreach>
+
+	</insert>
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+		update reg_exam_room 
+		<set>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="examTaskid != null">exam_taskid = #{examTaskid}, </if>
+			<if test="examSiteSubmitid != null">exam_site_submitid = #{examSiteSubmitid}, </if>
+			<if test="roomNo != null">room_no = #{roomNo}, </if>
+			<if test="seatNum != null">seat_num = #{seatNum}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}</if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_exam_room set enabled_flag =0  where exam_site_submitid = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_exam_room set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

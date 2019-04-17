@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.school.dao.SchoolExamCourseSchoolDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.SchoolExamCourseDO">
+		select
+            id,
+            school_speciality_regid,
+            speciality_courseid,
+            exam_courseid,
+            operator,
+            update_date,
+            enabled_flag
+		from sch_school_exam_course
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.SchoolExamCourseDO">
+		select
+	        id,
+	        school_speciality_regid,
+	        speciality_courseid,
+	        exam_courseid,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from sch_school_exam_course
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''"> and school_speciality_regid = #{schoolSpecialityRegid} </if>
+		  <if test="specialityCourseid != null and specialityCourseid != ''"> and speciality_courseid = #{specialityCourseid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sch_school_exam_course
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''"> and school_speciality_regid = #{schoolSpecialityRegid} </if>
+		  <if test="specialityCourseid != null and specialityCourseid != ''"> and speciality_courseid = #{specialityCourseid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.SchoolExamCourseDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sch_school_exam_course
+		(
+			school_speciality_regid, 
+			speciality_courseid, 
+			exam_courseid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{schoolSpecialityRegid}, 
+			#{specialityCourseid}, 
+			#{examCourseid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.SchoolExamCourseDO">
+		update sch_school_exam_course 
+		<set>
+			<if test="schoolSpecialityRegid != null">school_speciality_regid = #{schoolSpecialityRegid}, </if>
+			<if test="specialityCourseid != null">speciality_courseid = #{specialityCourseid}, </if>
+			<if test="examCourseid != null">exam_courseid = #{examCourseid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update sch_school_exam_course set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  sch_school_exam_course set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

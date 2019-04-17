@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentRegDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentRegDO">
+		select
+            id,
+            student_specialityid,
+            reg_begin_date,
+            reg_end_date,
+            status,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag,
+            key
+		from stu_student_reg
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentRegDO">
+		select
+	        a.id,
+		    c.studentid,
+		    b.certificate_no,
+		    b.name,
+		    b.gender,
+		    b.home_type,
+		    b.politics,
+		    b.nation,
+		    b.birthday,
+	        a.student_specialityid,
+		    c.specialityid,
+	        a.reg_begin_date,
+	        a.reg_end_date,
+	        a.status,
+	        a.operator,
+	        a.update_date
+		 from stu_student_reg a left join stu_student_speciality c on a.student_specialityid=c.id left join  stu_student  b on c.studentid =b.id
+        <where>
+         and a.enabled_flag=1  and b.classify='b' and b.enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentSpecialityid != null and studentSpecialityid != ''"> and a.student_specialityid = #{studentSpecialityid} </if>
+		  <if test="regBeginDate != null and regBeginDate != ''"> and a.reg_begin_date = #{regBeginDate} </if>
+		  <if test="regEndDate != null and regEndDate != ''"> and a.reg_end_date = #{regEndDate} </if>
+			<if test="schoolid != null and schoolid != ''"> and b.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and b.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and b.teach_siteid = #{teachSiteid} </if>
+			<if test="certificateNo != null and certificateNo != ''"> and b.certificate_no = #{certificateNo} </if>
+			<if test="name != null and name != ''"> and b.name like concat('%',#{name},'%') </if>
+			<if test="studentid != null and studentid != ''"> and c.studentid = #{studentid} </if>
+			<if test="regYear != null and regYear != ''"> and c.reg_year = #{regYear} </if>
+			<if test="studentid != null and studentid != ''"> and c.studentid = #{studentid} </if>
+
+		  <if test="status != null and status != ''"> and a.status = #{status} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_reg a left join stu_student_speciality c on a.student_specialityid=c.id left join  stu_student  b on c.studentid =b.id
+		 <where>
+             and a.enabled_flag=1   and b.classify='b' and b.enabled_flag=1
+		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+		  <if test="studentSpecialityid != null and studentSpecialityid != ''"> and a.student_specialityid = #{studentSpecialityid} </if>
+		  <if test="regBeginDate != null and regBeginDate != ''"> and a.reg_begin_date = #{regBeginDate} </if>
+		  <if test="regEndDate != null and regEndDate != ''"> and a.reg_end_date = #{regEndDate} </if>
+		  <if test="status != null and status != ''"> and a.status = #{status} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+	  	  <if test="schoolid != null and schoolid != ''"> and b.schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and b.collegeid = #{collegeid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and b.teach_siteid = #{teachSiteid} </if>
+		  <if test="certificateNo != null and certificateNo != ''"> and b.certificate_no = #{certificateNo} </if>
+		  <if test="name != null and name != ''"> and b.name like concat('%',#{name},'%') </if>
+		  <if test="studentid != null and studentid != ''"> and c.studentid = #{studentid} </if>
+		  <if test="regYear != null and regYear != ''"> and c.reg_year = #{regYear} </if>
+		  <if test="studentid != null and studentid != ''"> and c.studentid = #{studentid} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentRegDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_reg
+		(
+			student_specialityid, 
+			reg_begin_date, 
+			reg_end_date, 
+			status, 
+			operator, 
+			update_date, 
+			db_flag, 
+			key, 
+		)
+		values
+		(
+			#{studentSpecialityid}, 
+			#{regBeginDate}, 
+			#{regEndDate}, 
+			#{status}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}, 
+			#{key}, 
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentRegDO">
+		update stu_student_reg 
+		<set>
+			<if test="studentSpecialityid != null">student_specialityid = #{studentSpecialityid}, </if>
+			<if test="regBeginDate != null">reg_begin_date = #{regBeginDate}, </if>
+			<if test="regEndDate != null">reg_end_date = #{regEndDate}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+			<if test="key != null">key = #{key}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_reg set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_reg set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<update id="updateAudit">
+		update stu_student_reg set status = #{auditStatus}  where id = #{id}
+	</update>
+
+	<update id="batchUpdateAudit">
+		update  stu_student_reg set status = #{auditStatus} where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+</mapper>

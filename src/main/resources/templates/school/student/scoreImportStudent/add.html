@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td class="W180">
+                                            <label>准考证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="code" name="code" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>姓名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="name" name="name" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>总分：</label>
+                                        </td>
+                                        <td>
+                                            <input id="totalscore" name="totalscore" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>主观总分：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zgscore" name="zgscore" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>客观总分：</label>
+                                        </td>
+                                        <td>
+                                            <input id="omrscore" name="omrscore" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>缺考：</label>
+                                        </td>
+                                        <td>
+                                            <input id="qk" name="qk" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>违纪：</label>
+                                        </td>
+                                        <td>
+                                            <input id="wj" name="wj" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/school/student/scoreImportStudent/add.js" th:src="@{/js/appjs/school/student/scoreImportStudent/add.js}" >
+</script>
+</body>
+</html>

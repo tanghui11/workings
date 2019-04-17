@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<input id="studentid" type="hidden">
+						<h3 class="bg-info" style="padding:10px;margin:10 0;">报考统计 共 <span id="num"></span> <span id="ming">科次</span></h3>
+						<div class="columns pull-left">
+							考试任务
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<select id="examTaskid" type="text" class="form-control" style="width:125px"></select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<select id="count" type="text" class="form-control">
+								<option value="b">科次</option>
+								<option value="a">人数</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							考生类别
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<select id="studentType" type="text" class="form-control">
+								<option value="a">社会型考试</option>
+								<option value="b">应用型考试</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							报考类别
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<select id="type" type="text" class="form-control">
+								<option value="">请选择</option>
+								<option value="a">网报</option>
+								<option value="b">学院</option>
+								<option value="c">考区</option>
+								<option value="d">中心</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<select id="regOrType" type="text" class="form-control">
+								<option value="a">按类型</option>
+								<option value="b">按地区</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-primary" onclick="chakan()">查看明细</button>
+						</div>
+						 <div class="columns pull-left">
+							<button shiro:hasPermission="region:region/studentOutSpeciality:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="region:region/studentOutSpeciality:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+
+
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:studentOut:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:studentOut:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:studentOut:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/region/studentInfoQuery/studentInfoQuery.js" th:src="@{/js/appjs/center/region/studentInfoQuery/studentInfoQuery.js}"></script>
+</body>
+</html>

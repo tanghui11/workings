@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${scoreHis.id}"  type="hidden">
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">准考证编号：</label>
+								<div class="col-sm-8">
+									<input id="studentid" name="studentid" th:value="${scoreHis.studentid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">专业开设编号：</label>
+								<div class="col-sm-8">
+									<input id="specialityRecordid" name="specialityRecordid" th:value="${scoreHis.specialityRecordid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">课程编号：</label>
+								<div class="col-sm-8">
+									<input id="courseid" name="courseid" th:value="${scoreHis.courseid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">课程类别：</label>
+								<div class="col-sm-8">
+									<input id="type" name="type" th:value="${scoreHis.type}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">对象编号：</label>
+								<div class="col-sm-8">
+									<input id="objid" name="objid" th:value="${scoreHis.objid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">客观题成绩：</label>
+								<div class="col-sm-8">
+									<input id="kgGrade" name="kgGrade" th:value="${scoreHis.kgGrade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">主观题成绩：</label>
+								<div class="col-sm-8">
+									<input id="zgGrade" name="zgGrade" th:value="${scoreHis.zgGrade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">原始成绩：</label>
+								<div class="col-sm-8">
+									<input id="oldGrade" name="oldGrade" th:value="${scoreHis.oldGrade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">统考成绩：</label>
+								<div class="col-sm-8">
+									<input id="examGrade" name="examGrade" th:value="${scoreHis.examGrade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">平时成绩：</label>
+								<div class="col-sm-8">
+									<input id="schoolGrade" name="schoolGrade" th:value="${scoreHis.schoolGrade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">成绩：</label>
+								<div class="col-sm-8">
+									<input id="grade" name="grade" th:value="${scoreHis.grade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">缺考：</label>
+								<div class="col-sm-8">
+									<input id="examFlag" name="examFlag" th:value="${scoreHis.examFlag}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">违纪：</label>
+								<div class="col-sm-8">
+									<input id="status" name="status" th:value="${scoreHis.status}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">使用状态：</label>
+								<div class="col-sm-8">
+									<input id="useStatus" name="useStatus" th:value="${scoreHis.useStatus}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">顶替标志：</label>
+								<div class="col-sm-8">
+									<input id="flag" name="flag" th:value="${scoreHis.flag}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">源课程：</label>
+								<div class="col-sm-8">
+									<input id="sourceCourseid" name="sourceCourseid" th:value="${scoreHis.sourceCourseid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">年度码：</label>
+								<div class="col-sm-8">
+									<input id="etDm" name="etDm" th:value="${scoreHis.etDm}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">旧准考证：</label>
+								<div class="col-sm-8">
+									<input id="oldStudentid" name="oldStudentid" th:value="${scoreHis.oldStudentid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">考试日期：</label>
+								<div class="col-sm-8">
+									<input id="examDate" name="examDate" th:value="${scoreHis.examDate}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">旧课程代码：</label>
+								<div class="col-sm-8">
+									<input id="oldCourseid" name="oldCourseid" th:value="${scoreHis.oldCourseid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">平时成绩编号：</label>
+								<div class="col-sm-8">
+									<input id="schoolScoreid" name="schoolScoreid" th:value="${scoreHis.schoolScoreid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">数据标记：</label>
+								<div class="col-sm-8">
+									<input id="dbFlag" name="dbFlag" th:value="${scoreHis.dbFlag}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/scoreHis/edit.js" th:src="@{/js/appjs/center/student/scoreHis/edit.js}">
+	</script>
+</body>
+</html>

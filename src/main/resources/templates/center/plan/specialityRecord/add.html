@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="specialityid" name="specialityid" class="form-control" type="hidden">
+							<input id="schoolid" name="schoolid" class="form-control" type="hidden">
+							<input id="collegeid" name="collegeid" class="form-control" type="hidden">
+							<input id="gradCourseid" name="gradCourseid" class="form-control" type="hidden">
+							<tr>
+								<td>
+									<label><i class="xinghao">*</i> 专业名称：</label>
+								</td>
+								<td>
+									<input id="subjectName" name="subjectName" class="form-control" type="text" onclick="majorName()" autocomplete="off" readonly>
+								</td>
+								<td>
+									<label><i class="xinghao">*</i> 类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control" onchange="types(this.value)">
+										<option th:each="item:${pla_speciality_record_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							<tr>
+							<tr class="zhukao">
+								<td>
+									<label>主考院校：</label>
+								</td>
+								<td>
+									<select id="schoolName" name="schoolName" class="form-control" onchange="secondCollege()">
+										<option value="">-请选择-</option>
+									</select>
+								</td>
+								<td>
+									<label>主考学院：</label>
+								</td>
+								<td>
+									<select id="collegeName" name="collegeName" class="form-control" onchange ="colleges(this.value)">
+										<option value="">-请选择-</option>
+									</select>
+								</td>
+							<tr>
+							<tr>
+								<td>
+									<label>专业方向：</label>
+								</td>
+								<td>
+									<input id="direction" name="direction" class="form-control" type="text">
+								</td>
+								<td>
+									<label>毕业论文：</label>
+								</td>
+								<td>
+									<input id="gradCourse" name="gradCourse" class="form-control" type="text" onclick="courseName()" autocomplete="off">
+								</td>
+							<tr>
+							<tr>
+								
+								<td>
+									<label><i class="xinghao">*</i> 状态：</label>
+								</td>
+								<td>
+									<select id="status" name="status" class="form-control">
+										<option th:each="item:${pla_speciality_record_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+								<td>
+									<label><i class="xinghao">*</i> 办证状态：</label>
+								</td>
+								<td>
+									<select id="gradStatus" name="gradStatus" class="form-control">
+										<option th:each="item:${pla_speciality_record_grad_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							<tr>
+							<tr>
+								<td>
+									<label>新专业：</label>
+								</td>
+								<td colspan="3">
+									<input id="newSpecialityRecordid" name="newSpecialityRecordid" type="hidden">
+									<input id="newSpecialityRecordidA" name="newSpecialityRecordidA" class="form-control" type="text" readonly onclick="xzy()">
+								</td>
+							<tr>
+							<tr>
+								
+								<td>
+									<label>备注：</label>
+								</td>
+								<td colspan="3">
+									<textarea id="remark" name="remark" class="form-control" type="text" style="resize:none"></textarea>
+								</td>
+							<tr>
+						</table>
+						<div class="" style="text-align:center;">
+								<button type="submit" class="btn btn-primary" id="submission">提交</button>
+								<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/specialityRecord/add.js" th:src="@{/js/appjs/center/plan/specialityRecord/add.js}">
+	</script>
+</body>
+</html>

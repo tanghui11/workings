@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<input id="courseid" name="courseid" type="hidden">
+				<div class="ibox-body">
+
+					<!--<div class="fixed-table-toolbar">-->
+						<!--<input id="searchName" type="text"-->
+							   <!--placeholder="" style="font-size: 14px;border: 1px solid #ccc;border-radius: 1px;padding-left:15px;width:180px">-->
+						<!--<div class="columns pull-left" style="margin-left:10px">-->
+							<!--<button class="btn btn-success" onclick="reLoad()">查询</button>-->
+						<!--</div>-->
+						<!---->
+					<!--</div>-->
+				<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/examCourse/coursePlace.js" th:src="@{/js/appjs/center/exam/examCourse/coursePlace.js}"></script>
+</body>
+</html>

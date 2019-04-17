@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.region.dao.StudentFoulDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentFoulDO">
+		select
+            student_courseid,
+            foul_punishid,
+            remark,
+            status,
+            operator,
+            update_date,
+            enabled_flag
+		from reg_student_foul
+		where student_courseid = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentFoulDO">
+		select
+	        student_courseid,
+	        foul_punishid,
+	        remark,
+	        status,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from reg_student_foul
+        <where>
+         and enabled_flag=1
+		  <if test="studentCourseid != null and studentCourseid != ''"> and student_courseid = #{studentCourseid} </if>
+		  <if test="foulPunishid != null and foulPunishid != ''"> and foul_punishid = #{foulPunishid} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by student_courseid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_student_foul
+		 <where>
+             and enabled_flag=1
+		  <if test="studentCourseid != null and studentCourseid != ''"> and student_courseid = #{studentCourseid} </if>
+		  <if test="foulPunishid != null and foulPunishid != ''"> and foul_punishid = #{foulPunishid} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentFoulDO">
+		insert into reg_student_foul
+		(
+			student_courseid, 
+			foul_punishid, 
+			remark, 
+			status, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{studentCourseid}, 
+			#{foulPunishid}, 
+			#{remark}, 
+			#{status}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentFoulDO">
+		update reg_student_foul
+		<set>
+			<if test="foulPunishid != null">foul_punishid = #{foulPunishid}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where student_courseid = #{studentCourseid}
+	</update>
+	<update id="remove">
+		delete from reg_student_foul  where student_courseid = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_student_foul set enabled_flag =0 where student_courseid in
+		<foreach item="studentCourseid" collection="array" open="(" separator="," close=")">
+			#{studentCourseid}
+		</foreach>
+	</update>
+
+
+	<select id="listStudent" resultType="com.hxy.nzxy.stexam.domain.StudentWGDO">
+		select a.id,a.studentid,c.name,c.certificate_no,d.courseid,e.exam_date,e.segment,g.room_no,g.exam_siteid,b.seq,h.name as examSiteName,j.code as foulCode,j.name as foulName,j.formula,j.remark as foulRemark,
+		k.code,k.name as regionName
+		from  stu_student_course a
+		left join reg_seat_arrange b on b.student_courseid=a.id and b.enabled_flag=1
+		LEFT JOIN stu_student c on c.id=a.studentid and c.enabled_flag=1
+		left join  exa_exam_course d on d.id=a.exam_courseid and d.enabled_flag=1 and d.auditStatus='b'
+		LEFT JOIN exa_exam_time e on e.id=d.exam_timeid and e.enabled_flag=1
+		left join reg_room_arrange f on f.id =b.room_arrangeid and f.enabled_flag=1
+		left join reg_exam_room g on g.id=f.exam_roomid and g.enabled_flag=1
+		left join reg_exam_site h on h.id= g.exam_siteid and h.enabled_flag=1
+		LEFT JOIN reg_student_foul i on i.student_courseid=a.id and i.enabled_flag=1
+		LEFT JOIN exa_foul_punish j on j.id=i.foul_punishid and i.enabled_flag=1
+		LEFT JOIN reg_region k on k.id=c.child_regionid and k.enabled_flag=1
+		where a.enabled_flag=1
+		and a.studentid=#{studentid}
+		and d.exam_taskid=#{examTaskid}
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by b.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="countStudent" resultType="int">
+		select count(*)
+		from  stu_student_course a
+		left join reg_seat_arrange b on b.student_courseid=a.id and b.enabled_flag=1
+		LEFT JOIN stu_student c on c.id=a.studentid and c.enabled_flag=1
+		left join  exa_exam_course d on d.id=a.exam_courseid and d.enabled_flag=1 and d.auditStatus='b'
+		LEFT JOIN exa_exam_time e on e.id=d.exam_timeid and e.enabled_flag=1
+		left join reg_room_arrange f on f.id =b.room_arrangeid and f.enabled_flag=1
+		left join reg_exam_room g on g.id=f.exam_roomid and g.enabled_flag=1
+		left join reg_exam_site h on h.id= g.exam_siteid and h.enabled_flag=1
+		LEFT JOIN reg_student_foul i on i.student_courseid=a.id and i.enabled_flag=1
+		LEFT JOIN exa_foul_punish j on j.id=i.foul_punishid and i.enabled_flag=1
+		LEFT JOIN reg_region k on k.id=c.child_regionid and k.enabled_flag=1
+		where a.enabled_flag=1
+		and a.studentid=#{studentid}
+		and d.exam_taskid=#{examTaskid}
+	</select>
+
+</mapper>

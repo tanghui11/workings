@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.exam.dao.PaperSchoolDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.PaperSchoolDO">
+		select
+            id,
+            courseid,
+            schoolid,
+            operator,
+            update_date,
+            enabled_flag
+		from exa_paper_school
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.PaperSchoolDO">
+		select b.id, a.id as courseid,a.name as courseName,b.schoolid from pla_course a
+		LEFT JOIN exa_paper_school b on a.id =b.courseid and b.enabled_flag=1
+		 where a.id in (
+		select distinct courseid
+		from pla_speciality_course) and a.enabled_flag=1
+        <choose>
+			<otherwise>
+                order by a.id asc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_course
+		 <where>
+			 and classify='a'
+             and enabled_flag=1
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.PaperSchoolDO" useGeneratedKeys="true" keyProperty="id">
+		insert into exa_paper_school
+		(
+			courseid, 
+			schoolid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{courseid}, 
+			#{schoolid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.PaperSchoolDO">
+		update exa_paper_school 
+		<set>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update exa_paper_school set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  exa_paper_school set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+
+	<select id="listPlan" resultType="com.hxy.nzxy.stexam.domain.PaperSchoolDO">
+		SELECT
+		c.*, d.shortCount,
+		e.longCount
+		FROM
+		(
+		SELECT
+		a.exam_courseid,
+		COUNT(a.exam_courseid) AS allCount,
+		b.courseid,
+		b.exam_taskid,
+		c.schoolid
+		FROM
+		stu_student_course a
+		LEFT JOIN exa_exam_course b ON b.id = a.exam_courseid AND b.enabled_flag = 1  and b.auditStatus='b'
+		left join exa_paper_school c on c.courseid=b.courseid AND b.enabled_flag = 1
+		WHERE
+		b.exam_taskid = #{examTaskid}
+		GROUP BY
+		a.exam_courseid,
+		b.courseid,
+		b.exam_taskid,
+		c.schoolid
+		) c
+		LEFT JOIN (
+		SELECT
+		a.exam_courseid,
+		COUNT(exam_courseid) AS shortCount,
+		b.courseid,
+		b.exam_taskid
+		FROM
+		stu_student_course a
+		LEFT JOIN exa_exam_course b ON b.id = a.exam_courseid and b.auditStatus='b'
+		AND b.enabled_flag = 1
+		WHERE
+		b.exam_taskid = #{examTaskid}
+		GROUP BY
+		a.exam_courseid,
+		b.courseid,
+		b.exam_taskid
+		) d ON d.exam_courseid = c.exam_courseid
+		LEFT JOIN (
+		SELECT
+		a.exam_courseid,
+		COUNT(exam_courseid) AS longCount,
+		b.courseid,
+		b.exam_taskid
+		FROM
+		stu_student_course a
+		LEFT JOIN exa_exam_course b ON b.id = a.exam_courseid
+		AND b.enabled_flag = 1 and b.auditStatus='b'
+		WHERE
+
+		b.exam_taskid = #{examTaskid}
+		GROUP BY
+		a.exam_courseid,
+		b.courseid,
+		b.exam_taskid
+		) e ON c.exam_courseid = e.exam_courseid
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="countPlan" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		(
+		SELECT
+		a.exam_courseid,
+		COUNT(a.exam_courseid) AS allCount,
+		b.courseid,
+		b.exam_taskid
+		FROM
+		stu_student_course a
+		LEFT JOIN exa_exam_course b ON b.id = a.exam_courseid and b.auditStatus='b'
+		AND b.enabled_flag = 1
+		WHERE
+		b.exam_taskid = #{examTaskid}
+		GROUP BY
+		a.exam_courseid,
+		b.courseid,
+		b.exam_taskid
+		) c
+	</select>
+</mapper>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="change_type" name="change_type" th:value="${scoreChangeLogRegion.change_type}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>用户类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="userType" name="userType" th:value="${scoreChangeLogRegion.userType}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="id" name="id" th:value="${scoreChangeLogRegion.id}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>准考证编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="studentid" name="studentid" th:value="${scoreChangeLogRegion.studentid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业开设编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="specialityRecordid" name="specialityRecordid" th:value="${scoreChangeLogRegion.specialityRecordid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>课程编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="courseid" name="courseid" th:value="${scoreChangeLogRegion.courseid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>课程类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="type" name="type" th:value="${scoreChangeLogRegion.type}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>对象编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="objid" name="objid" th:value="${scoreChangeLogRegion.objid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>客观题：</label>
+                                        </td>
+                                        <td>
+                                            <input id="kgGrade" name="kgGrade" th:value="${scoreChangeLogRegion.kgGrade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>主观题：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zgGrade" name="zgGrade" th:value="${scoreChangeLogRegion.zgGrade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>原始：</label>
+                                        </td>
+                                        <td>
+                                            <input id="oldGrade" name="oldGrade" th:value="${scoreChangeLogRegion.oldGrade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>：</label>
+                                        </td>
+                                        <td>
+                                            <input id="grade" name="grade" th:value="${scoreChangeLogRegion.grade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>缺考：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examFlag" name="examFlag" th:value="${scoreChangeLogRegion.examFlag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>违纪：</label>
+                                        </td>
+                                        <td>
+                                            <input id="status" name="status" th:value="${scoreChangeLogRegion.status}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>使用状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="useStatus" name="useStatus" th:value="${scoreChangeLogRegion.useStatus}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>顶替标志：</label>
+                                        </td>
+                                        <td>
+                                            <input id="flag" name="flag" th:value="${scoreChangeLogRegion.flag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>源课程：</label>
+                                        </td>
+                                        <td>
+                                            <input id="sourceCourseid" name="sourceCourseid" th:value="${scoreChangeLogRegion.sourceCourseid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/student/scoreChangeLogRegion/edit.js" th:src="@{/js/appjs/region/student/scoreChangeLogRegion/edit.js}">
+</script>
+</body>
+</html>

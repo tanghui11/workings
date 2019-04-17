@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<!--进度条显示-->
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<form method="post" th:action="@{/plan/courseClassify/searchOutExcel}"  id="form">
+						<div class="columns pull-left">
+							<div class=" pull-left" style="margin-right:10px;">
+								<input id="searchName" type="text" class="form-control" name="courseid"
+									placeholder="课程代码查询">
+							</div>
+							<div class=" pull-left" style="margin-right:10px;">
+								<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+							</div>
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;">
+							<button shiro:hasPermission="plan:courseClassify:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+						</div>
+						 <div class="columns pull-left" style="margin-right:5px;">
+							<button shiro:hasPermission="plan:courseClassify:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						 <div class="columns pull-left" style="margin-right:5px;">
+							 <button shiro:hasPermission="plan:courseClassify:add" type="button" class="btn  btn-primary" onclick="importData()">课程分类导入</button>
+								<button  type="button" class="btn  btn-primary" onclick="onZipAll()">
+									课程分类导出
+								</button>
+						</div>
+
+								<script>
+								function loadFile(file){
+									$("#filename").html(file.name);
+								}
+								function closes(){
+                                    $("#form_table").submit();
+                                }
+								</script>
+								<!--input class="form-input pull-left " type="file" name="filename"></input>
+								<button type="submit" class="btn pull-left">开始导入</button-->
+
+						</form>
+						
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:courseClassify:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:courseClassify:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:courseClassify:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+		</form>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/printDiploma/printDiploma.js" th:src="@{/js/appjs/center/student/printDiploma/printDiploma.js}"></script>
+</body>
+</html>

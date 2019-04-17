@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+                        <div class="list-group-item label"> > </div>
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="id" name="id" th:value="${report.id}"  type="hidden">
+							<table class="table table-bordered table-style">
+							<tr>
+								<td  class="W180">
+									<label>：</label>
+								</td>
+								<td>
+									<input id="appid" name="appid" th:value="${report.appid}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>编码：</label>
+								</td>
+								<td>
+									<input id="code" name="code" th:value="${report.code}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>名称：</label>
+								</td>
+								<td>
+									<input id="name" name="name" th:value="${report.name}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>代码：</label>
+								</td>
+								<td>
+									<input id="param" name="param" th:value="${report.param}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>：</label>
+								</td>
+								<td>
+									<input id="paramFlag" name="paramFlag" th:value="${report.paramFlag}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>模块编号：</label>
+								</td>
+								<td>
+									<input id="modelid" name="modelid" th:value="${report.modelid}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>报表路径：</label>
+								</td>
+								<td>
+									<input id="path" name="path" th:value="${report.path}" class="form-control" type="text">
+								</td>
+							</tr>
+
+                            </table>
+                            <div style="text-align:center;">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                                <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                            </div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/sys/report/edit.js" th:src="@{/js/appjs/center/sys/report/edit.js}">
+	</script>
+</body>
+</html>

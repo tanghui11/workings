@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.WorkerDao">
+
+    <select id="get" resultType="com.hxy.nzxy.stexam.system.domain.WorkerDO">
+        select w.id,
+            w.name,
+            w.pinyin,
+            w.gender,
+            w.certificate_no,
+            w.birthday,
+            w.work_date,
+            w.first_education,
+            w.last_education,
+            w.phone,
+            w.mphone,
+            w.address,
+            w.post_code,
+            w.email,
+            w.weixin,
+            w.qq,
+            w.status,
+            w.operator,
+            w.update_date,
+            d.id deptid,
+            d.name dept_name,
+            dw.id dept_workerid,
+            dw.status stop_status,
+            o.id orgid,
+            o.name orgName
+       from sys_worker w,
+            sys_dept_worker dw,
+            sys_dept d,
+            sys_org o
+      where w.id = dw.workerid
+        and dw.deptid = d.id
+        and o.id = d.orgid
+		and w.id = #{value}
+	</select>
+
+    <select id="getByMphone" resultType="com.hxy.nzxy.stexam.system.domain.WorkerDO">
+        select w.id,
+            w.name,
+            w.pinyin,
+            w.gender,
+            w.certificate_no,
+            w.birthday,
+            w.work_date,
+            w.first_education,
+            w.last_education,
+            w.phone,
+            w.mphone,
+            w.address,
+            w.post_code,
+            w.email,
+            w.weixin,
+            w.qq,
+            w.status,
+            w.operator,
+            w.update_date,
+            d.id deptid,
+            d.name dept_name,
+            dw.id dept_workerid,
+            dw.status stop_status,
+            o.id orgid,
+            o.name orgName
+            from sys_worker w,
+            sys_dept_worker dw,
+            sys_dept d,
+            sys_org o
+        where w.id = dw.workerid
+          and dw.deptid = d.id
+          and o.id = d.orgid
+          and w.mphone = #{value}
+    </select>
+
+    <select id="list" resultType="com.hxy.nzxy.stexam.system.domain.WorkerDO">
+        select w.id,
+            w.name,
+            w.pinyin,
+            w.gender,
+            w.certificate_no,
+            w.birthday,
+            w.work_date,
+            w.first_education,
+            w.last_education,
+            w.phone,
+            w.mphone,
+            w.address,
+            w.post_code,
+            w.email,
+            w.weixin,
+            w.qq,
+            w.status,
+            w.operator,
+            w.update_date,
+            d.id deptid,
+            d.name dept_name,
+            dw.status stop_status
+        from sys_worker w,
+            sys_dept_worker dw,
+            sys_dept d
+        where w.id = dw.workerid
+          and dw.deptid = d.id
+          and d.orgid = #{orgid}
+          and d.id = #{deptid}
+          and dw.status = 'a'
+        <if test="name != null and name != ''">and w.name like concat(#{name},'%')</if>
+        order by name
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*)
+          from sys_worker w,
+               sys_dept_worker dw,
+               sys_dept d
+         where w.id = dw.workerid
+           and dw.deptid = d.id
+           and d.orgid = #{orgid}
+        <if test="id != null and id != ''">and id = #{id}</if>
+        <if test="name != null and name != ''">and w.name like concat(#{name},'%')</if>
+        <if test="pinyin != null and pinyin != ''">and pinyin = #{pinyin}</if>
+        <if test="gender != null and gender != ''">and gender = #{gender}</if>
+        <if test="certificateNo != null and certificateNo != ''">and certificate_no = #{certificateNo}</if>
+        <if test="birthday != null and birthday != ''">and birthday = #{birthday}</if>
+        <if test="workDate != null and workDate != ''">and work_date = #{workDate}</if>
+        <if test="firstEducation != null and firstEducation != ''">and first_education = #{firstEducation}</if>
+        <if test="lastEducation != null and lastEducation != ''">and last_education = #{lastEducation}</if>
+        <if test="phone != null and phone != ''">and phone = #{phone}</if>
+        <if test="mphone != null and mphone != ''">and mphone = #{mphone}</if>
+        <if test="address != null and address != ''">and address = #{address}</if>
+        <if test="postCode != null and postCode != ''">and post_code = #{postCode}</if>
+        <if test="email != null and email != ''">and email = #{email}</if>
+        <if test="weixin != null and weixin != ''">and weixin = #{weixin}</if>
+        <if test="qq != null and qq != ''">and qq = #{qq}</if>
+        <if test="status != null and status != ''">and status = #{status}</if>
+    </select>
+
+    <insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.WorkerDO" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_worker
+        (
+            name,
+            pinyin,
+            gender,
+            certificate_no,
+            birthday,
+            work_date,
+            first_education,
+            last_education,
+            phone,
+            mphone,
+            address,
+            post_code,
+            email,
+            weixin,
+            qq,
+            status,
+            operator,
+            update_date
+        )
+        values
+        (
+            #{name},
+            #{pinyin},
+            #{gender},
+            #{certificateNo},
+            <if test="birthday == ''">birthday = null,</if>
+            <if test="birthday != ''">birthday = #{birthday},</if>
+            <if test="workDate == ''">work_date = null,</if>
+            <if test="workDate != ''">work_date = #{workDate},</if>
+            #{firstEducation},
+            #{lastEducation},
+            #{phone},
+            #{mphone},
+            #{address},
+            #{postCode},
+            #{email},
+            #{weixin},
+            #{qq},
+            #{status},
+            #{operator},
+            now()
+        )
+    </insert>
+
+    <update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.WorkerDO">
+        update sys_worker
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="pinyin != null">pinyin = #{pinyin},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="certificateNo != null">certificate_no = #{certificateNo},</if>
+            <if test="birthday != ''">birthday = #{birthday},</if>
+            <if test="workDate != ''">work_date = #{workDate},</if>
+            <if test="firstEducation != null">first_education = #{firstEducation},</if>
+            <if test="lastEducation != null">last_education = #{lastEducation},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="mphone != null">mphone = #{mphone},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="postCode != null">post_code = #{postCode},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="weixin != null">weixin = #{weixin},</if>
+            <if test="qq != null">qq = #{qq},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="updateDate != null">update_date = now()</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from sys_worker where id = #{value}
+	</delete>
+</mapper>

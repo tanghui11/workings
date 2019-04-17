@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${scoreHisStudent.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>准考证编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="studentid" name="studentid" th:value="${scoreHisStudent.studentid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业开设编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="specialityRecordid" name="specialityRecordid" th:value="${scoreHisStudent.specialityRecordid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>课程编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="courseid" name="courseid" th:value="${scoreHisStudent.courseid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>课程类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="type" name="type" th:value="${scoreHisStudent.type}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>对象编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="objid" name="objid" th:value="${scoreHisStudent.objid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>客观题成绩：</label>
+                                        </td>
+                                        <td>
+                                            <input id="kgGrade" name="kgGrade" th:value="${scoreHisStudent.kgGrade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>主观题成绩：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zgGrade" name="zgGrade" th:value="${scoreHisStudent.zgGrade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>原始成绩：</label>
+                                        </td>
+                                        <td>
+                                            <input id="oldGrade" name="oldGrade" th:value="${scoreHisStudent.oldGrade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>统考成绩：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examGrade" name="examGrade" th:value="${scoreHisStudent.examGrade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>平时成绩：</label>
+                                        </td>
+                                        <td>
+                                            <input id="schoolGrade" name="schoolGrade" th:value="${scoreHisStudent.schoolGrade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>成绩：</label>
+                                        </td>
+                                        <td>
+                                            <input id="grade" name="grade" th:value="${scoreHisStudent.grade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>缺考：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examFlag" name="examFlag" th:value="${scoreHisStudent.examFlag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>违纪：</label>
+                                        </td>
+                                        <td>
+                                            <input id="status" name="status" th:value="${scoreHisStudent.status}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>使用状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="useStatus" name="useStatus" th:value="${scoreHisStudent.useStatus}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>顶替标志：</label>
+                                        </td>
+                                        <td>
+                                            <input id="flag" name="flag" th:value="${scoreHisStudent.flag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>源课程：</label>
+                                        </td>
+                                        <td>
+                                            <input id="sourceCourseid" name="sourceCourseid" th:value="${scoreHisStudent.sourceCourseid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>年度码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="etDm" name="etDm" th:value="${scoreHisStudent.etDm}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>旧准考证：</label>
+                                        </td>
+                                        <td>
+                                            <input id="oldStudentid" name="oldStudentid" th:value="${scoreHisStudent.oldStudentid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>考试日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examDate" name="examDate" th:value="${scoreHisStudent.examDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>旧课程代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="oldCourseid" name="oldCourseid" th:value="${scoreHisStudent.oldCourseid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>平时成绩编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="schoolScoreid" name="schoolScoreid" th:value="${scoreHisStudent.schoolScoreid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																					                                    <tr>
+                                        <td  class="W180">
+                                            <label>数据标记：</label>
+                                        </td>
+                                        <td>
+                                            <input id="dbFlag" name="dbFlag" th:value="${scoreHisStudent.dbFlag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																														
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/school/student/scoreHisStudent/edit.js" th:src="@{/js/appjs/school/student/scoreHisStudent/edit.js}">
+</script>
+</body>
+</html>

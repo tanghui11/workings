@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<table class="table table-bordered table-style">
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>开设专业：</label>
+								</td>
+								<td>
+									<input id="specialityRecordid" name="specialityRecordid" type="hidden">
+									<input id="specialityName" name="specialityName" class="form-control" placeholder="点击选择加考专业" onclick="majorName()">
+								</td>
+								<td>
+									<label><span style="color:red">*</span>名称：</label>
+								</td>
+								<td>
+									<input id="name" name="name" class="form-control">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${pla_course_check_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+								<td>
+									<label>共几门课程：</label>
+								</td>
+								<td>
+									<input id="courseNum" name="courseNum" class="form-control" type="text" value="1">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>至少选几门：</label>
+								</td>
+								<td>
+									<input id="leastNum" name="leastNum" class="form-control" type="text" value="1">
+								</td>
+								<td>
+									<label>最少学分：</label>
+								</td>
+								<td>
+									<input id="leastScore" name="leastScore" class="form-control" type="text" value="0">
+								</td>
+							</tr>
+							</table>
+							<div class="form-group" style="text-align:center">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/courseCheck/add.js" th:src="@{/js/appjs/center/plan/courseCheck/add.js}">
+	</script>
+</body>
+</html>

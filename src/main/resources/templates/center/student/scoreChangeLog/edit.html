@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="change_type" name="change_type" th:value="${scoreChangeLog.change_type}"  type="hidden">
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">用户类别：</label>
+								<div class="col-sm-8">
+									<input id="userType" name="userType" th:value="${scoreChangeLog.userType}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">编号：</label>
+								<div class="col-sm-8">
+									<input id="id" name="id" th:value="${scoreChangeLog.id}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">准考证编号：</label>
+								<div class="col-sm-8">
+									<input id="studentid" name="studentid" th:value="${scoreChangeLog.studentid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">专业开设编号：</label>
+								<div class="col-sm-8">
+									<input id="specialityRecordid" name="specialityRecordid" th:value="${scoreChangeLog.specialityRecordid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">课程编号：</label>
+								<div class="col-sm-8">
+									<input id="courseid" name="courseid" th:value="${scoreChangeLog.courseid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">课程类别：</label>
+								<div class="col-sm-8">
+									<input id="type" name="type" th:value="${scoreChangeLog.type}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">对象编号：</label>
+								<div class="col-sm-8">
+									<input id="objid" name="objid" th:value="${scoreChangeLog.objid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">客观题成绩：</label>
+								<div class="col-sm-8">
+									<input id="kgGrade" name="kgGrade" th:value="${scoreChangeLog.kgGrade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">主观题成绩：</label>
+								<div class="col-sm-8">
+									<input id="zgGrade" name="zgGrade" th:value="${scoreChangeLog.zgGrade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">原始成绩：</label>
+								<div class="col-sm-8">
+									<input id="oldGrade" name="oldGrade" th:value="${scoreChangeLog.oldGrade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">成绩：</label>
+								<div class="col-sm-8">
+									<input id="grade" name="grade" th:value="${scoreChangeLog.grade}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">缺考：</label>
+								<div class="col-sm-8">
+									<input id="examFlag" name="examFlag" th:value="${scoreChangeLog.examFlag}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">违纪：</label>
+								<div class="col-sm-8">
+									<input id="status" name="status" th:value="${scoreChangeLog.status}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">使用状态：</label>
+								<div class="col-sm-8">
+									<input id="useStatus" name="useStatus" th:value="${scoreChangeLog.useStatus}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">顶替标志：</label>
+								<div class="col-sm-8">
+									<input id="flag" name="flag" th:value="${scoreChangeLog.flag}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">源课程：</label>
+								<div class="col-sm-8">
+									<input id="sourceCourseid" name="sourceCourseid" th:value="${scoreChangeLog.sourceCourseid}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/scoreChangeLog/edit.js" th:src="@{/js/appjs/center/student/scoreChangeLog/edit.js}">
+	</script>
+</body>
+</html>

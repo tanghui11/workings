@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content " id="app">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input type="hidden" id="content" th:value="${notify.content}">
+                                <div class="ibox-content no-padding">
+                                    <div id="summernote" class="summernote" th:value="${notify.content}" readonly="readonly"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/oa/notify/preview.js" th:src="@{/js/appjs/oa/notify/preview.js}"></script>
+</body>
+</html>

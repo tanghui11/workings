@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.OrgDao">
+
+    <select id="get" resultType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+		select id,
+			parentid,
+			type,
+			code,
+            school_type,
+			name,
+			pinyin,
+			address,
+			post_code,
+			phone,
+			fax,
+			email,
+			operator,
+			update_date
+		from sys_org
+		where id = #{value}
+	</select>
+
+    <select id="getByCode" resultType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+        select id,
+            parentid,
+            type,
+            code,
+            school_type,
+            name,
+            pinyin,
+            address,
+            post_code,
+            phone,
+            fax,
+            email,
+            operator,
+            update_date
+        from sys_org
+        where code = #{value}
+        limit 0,1
+    </select>
+
+    <select id="list" resultType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+        select id,
+            parentid,
+            type,
+            code,
+            school_type,
+            name,
+            pinyin,
+            address,
+            post_code,
+            phone,
+            fax,
+            email,
+            operator,
+            update_date
+        from sys_org
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="parentid != null and parentid != ''">and parentid = #{parentid}</if>
+            <if test="type != null and type != ''">and type = #{type}</if>
+            <if test="code != null and code != ''">and code = #{code}</if>
+            <if test="searchKey != null and searchKey != ''">and (code like concat(#{searchKey},'%')
+                                                                    or name like concat(#{searchKey},'%'))
+            </if>
+            <if test="schoolType != null and schoolType != ''">and school_type = #{schoolType}</if>
+            <if test="pinyin != null and pinyin != ''">and pinyin = #{pinyin}</if>
+            <if test="address != null and address != ''">and address = #{address}</if>
+            <if test="postCode != null and postCode != ''">and post_code = #{postCode}</if>
+            <if test="phone != null and phone != ''">and phone = #{phone}</if>
+            <if test="fax != null and fax != ''">and fax = #{fax}</if>
+            <if test="email != null and email != ''">and email = #{email}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by code
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_org
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="parentid != null and parentid != ''">and parentid = #{parentid}</if>
+            <if test="type != null and type != ''">and type = #{type}</if>
+            <if test="searchKey != null and searchKey != ''">and (code like concat(#{searchKey},'%')
+                                                                    or name like concat(#{searchKey},'%'))
+            </if>
+            <if test="pinyin != null and pinyin != ''">and pinyin = #{pinyin}</if>
+            <if test="address != null and address != ''">and address = #{address}</if>
+            <if test="postCode != null and postCode != ''">and post_code = #{postCode}</if>
+            <if test="phone != null and phone != ''">and phone = #{phone}</if>
+            <if test="fax != null and fax != ''">and fax = #{fax}</if>
+            <if test="email != null and email != ''">and email = #{email}</if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.OrgDO"
+            useGeneratedKeys="true" keyProperty="id">
+		insert into sys_org
+		(
+			parentid,
+			type, 
+			code,
+            school_type,
+			name, 
+			pinyin, 
+			address, 
+			post_code, 
+			phone, 
+			fax, 
+			email, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{parentid}, 
+			#{type}, 
+			#{code},
+            #{schoolType},
+			#{name}, 
+			#{pinyin}, 
+			#{address}, 
+			#{postCode}, 
+			#{phone}, 
+			#{fax}, 
+			#{email}, 
+			#{operator},
+			now()
+		)
+	</insert>
+
+    <update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+        update sys_org
+        <set>
+            <if test="parentid != null">parentid = #{parentid},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="schoolType != null">school_type = #{schoolType},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="pinyin != null">pinyin = #{pinyin},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="postCode != null">post_code = #{postCode},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="fax != null">fax = #{fax},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            update_date = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from sys_org where id = #{value}
+	</delete>
+
+    <delete id="batchRemove">
+        delete from sys_org where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="listOrgForTree" resultType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+        select id,
+            parentid,
+            type,
+            school_type,
+            code,
+            name
+        from sys_org
+        where (id = #{id} and #{parentid} = -1)
+           or (parentid = #{parentid} and #{id} = -1)
+        order by code
+    </select>
+
+    <select id="verifyChildrenByOrgid" resultType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+        select id
+          from sys_org
+         where parentid = #{parentid}
+    </select>
+
+    <select id="listOrgsByParentid" resultType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+        select id,
+            parentid,
+            type,
+            code,
+            school_type,
+            name
+         from sys_org
+        where parentid in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by code
+    </select>
+
+    <select id="listOrgForTreeByIds" resultType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+        select id,
+            parentid,
+            type,
+            school_type,
+            code,
+            name
+         from sys_org
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by code
+    </select>
+
+</mapper>

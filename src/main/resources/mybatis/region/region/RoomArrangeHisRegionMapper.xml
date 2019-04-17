@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.RoomArrangeHisRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeHisDO">
+		select
+            id,
+            regionid,
+            exam_timeid,
+            exam_roomid,
+            exam_courseid,
+            type,
+            exam_type,
+            seat_start,
+            seat_end,
+            secret_code,
+            first_studentid,
+            status,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from reg_room_arrange_his
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeHisDO">
+		select
+	        id,
+	        regionid,
+	        exam_timeid,
+	        exam_roomid,
+	        exam_courseid,
+	        type,
+	        exam_type,
+	        seat_start,
+	        seat_end,
+	        secret_code,
+	        first_studentid,
+	        status,
+	        operator,
+	        update_date,
+	        db_flag,
+	        enabled_flag
+		 from reg_room_arrange_his
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="examTimeid != null and examTimeid != ''"> and exam_timeid = #{examTimeid} </if>
+		  <if test="examRoomid != null and examRoomid != ''"> and exam_roomid = #{examRoomid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="examType != null and examType != ''"> and exam_type = #{examType} </if>
+		  <if test="seatStart != null and seatStart != ''"> and seat_start = #{seatStart} </if>
+		  <if test="seatEnd != null and seatEnd != ''"> and seat_end = #{seatEnd} </if>
+		  <if test="secretCode != null and secretCode != ''"> and secret_code = #{secretCode} </if>
+		  <if test="firstStudentid != null and firstStudentid != ''"> and first_studentid = #{firstStudentid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_room_arrange_his
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="examTimeid != null and examTimeid != ''"> and exam_timeid = #{examTimeid} </if>
+		  <if test="examRoomid != null and examRoomid != ''"> and exam_roomid = #{examRoomid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="examType != null and examType != ''"> and exam_type = #{examType} </if>
+		  <if test="seatStart != null and seatStart != ''"> and seat_start = #{seatStart} </if>
+		  <if test="seatEnd != null and seatEnd != ''"> and seat_end = #{seatEnd} </if>
+		  <if test="secretCode != null and secretCode != ''"> and secret_code = #{secretCode} </if>
+		  <if test="firstStudentid != null and firstStudentid != ''"> and first_studentid = #{firstStudentid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.RoomArrangeHisDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_room_arrange_his
+		(
+			regionid, 
+			exam_timeid, 
+			exam_roomid, 
+			exam_courseid, 
+			type, 
+			exam_type, 
+			seat_start, 
+			seat_end, 
+			secret_code, 
+			first_studentid, 
+			status, 
+			operator, 
+			update_date, 
+			db_flag
+		)
+		values
+		(
+			#{regionid}, 
+			#{examTimeid}, 
+			#{examRoomid}, 
+			#{examCourseid}, 
+			#{type}, 
+			#{examType}, 
+			#{seatStart}, 
+			#{seatEnd}, 
+			#{secretCode}, 
+			#{firstStudentid}, 
+			#{status}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.RoomArrangeHisDO">
+		update reg_room_arrange_his 
+		<set>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="examTimeid != null">exam_timeid = #{examTimeid}, </if>
+			<if test="examRoomid != null">exam_roomid = #{examRoomid}, </if>
+			<if test="examCourseid != null">exam_courseid = #{examCourseid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="examType != null">exam_type = #{examType}, </if>
+			<if test="seatStart != null">seat_start = #{seatStart}, </if>
+			<if test="seatEnd != null">seat_end = #{seatEnd}, </if>
+			<if test="secretCode != null">secret_code = #{secretCode}, </if>
+			<if test="firstStudentid != null">first_studentid = #{firstStudentid}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}</if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_room_arrange_his set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_room_arrange_his set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

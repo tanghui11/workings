@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.region.dao.RoomArrangeDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeDO">
+		select
+            id,
+            regionid,
+            exam_timeid,
+            exam_roomid,
+            exam_courseid,
+            courseid,
+            type,
+            exam_type,
+            seat_start,
+            seat_end,
+            secret_code,
+            first_studentid,
+            status,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from reg_room_arrange
+		where id = #{value}
+	</select>
+
+	<select id="getFirstStudentid" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeDO">
+		select  c.studentid as firstStudentid from  reg_room_arrange a, reg_seat_arrange b,stu_student_course c
+where b.student_courseid=c.id and a.id =b.room_arrangeid  and a.exam_roomid=#{examRoomid} and a.exam_timeid= #{examTimeid} and b.seq=1 and a.enabled_flag=1 and b.enabled_flag=1 and c.enabled_flag=1 group by a.exam_roomid,a.exam_timeid,c.studentid
+
+
+	</select>
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeDO">
+		select
+		a.id,
+		a.regionid,
+		a.exam_timeid,
+		a.exam_roomid,
+		a.exam_courseid,
+		a.type,
+		a. exam_type,
+		a.seat_start,
+		a.seat_end,
+		a.secret_code,
+		a.first_studentid,
+		a.status,
+		a.operator,
+		a.update_date,
+		a.db_flag,
+		a.enabled_flag,
+		b.exam_taskid,
+		a.courseid,
+		b.exam_siteid,
+		c.name as siteName
+		from reg_room_arrange a
+		left join reg_exam_room b
+		on b.id= a.exam_roomid and b.enabled_flag=1
+		left join reg_exam_site c
+		on c.id= b.exam_siteid and c.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid} </if>
+			<if test="examTimeid != null and examTimeid != ''"> and a.exam_timeid = #{examTimeid} </if>
+			<if test="examRoomid != null and examRoomid != ''"> and a.exam_roomid = #{examRoomid} </if>
+			<if test="examCourseid != null and examCourseid != ''"> a.and exam_courseid = #{examCourseid} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="examType != null and examType != ''"> and a.exam_type = #{examType} </if>
+			<if test="seatStart != null and seatStart != ''"> and a.seat_start = #{seatStart} </if>
+			<if test="seatEnd != null and seatEnd != ''"> and a.seat_end = #{seatEnd} </if>
+			<if test="secretCode != null and secretCode != ''"> and a.secret_code = #{secretCode} </if>
+			<if test="firstStudentid != null and firstStudentid != ''"> and a.first_studentid = #{firstStudentid} </if>
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+			<if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+			<if test="examTaskid != null and examTaskid != ''"> and b.exam_taskid = #{examTaskid} </if>
+			<if test="examSiteid != null and examSiteid != ''"> and b.exam_siteid= #{examSiteid} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+ 	<select id="count" resultType="int">
+		select
+		count(1)
+		from reg_room_arrange a
+		left join reg_exam_room b
+		on b.id= a.exam_roomid and b.enabled_flag=1
+		left join reg_exam_site c
+		on c.id= b.exam_siteid and c.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid} </if>
+			<if test="examTimeid != null and examTimeid != ''"> and a.exam_timeid = #{examTimeid} </if>
+			<if test="examRoomid != null and examRoomid != ''"> and a.exam_roomid = #{examRoomid} </if>
+			<if test="examCourseid != null and examCourseid != ''"> a.and exam_courseid = #{examCourseid} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="examType != null and examType != ''"> and a.exam_type = #{examType} </if>
+			<if test="seatStart != null and seatStart != ''"> and a.seat_start = #{seatStart} </if>
+			<if test="seatEnd != null and seatEnd != ''"> and a.seat_end = #{seatEnd} </if>
+			<if test="secretCode != null and secretCode != ''"> and a.secret_code = #{secretCode} </if>
+			<if test="firstStudentid != null and firstStudentid != ''"> and a.first_studentid = #{firstStudentid} </if>
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+			<if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+			<if test="examTaskid != null and examTaskid != ''"> and b.exam_taskid = #{examTaskid} </if>
+			<if test="examSiteid != null and examSiteid != ''"> and b.exam_siteid= #{examSiteid} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.RoomArrangeDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_room_arrange
+		(
+			regionid, 
+			exam_timeid, 
+			exam_roomid, 
+			exam_courseid, 
+			courseid,
+			type,
+			exam_type,
+			seat_start,
+			seat_end,
+			secret_code,
+			first_studentid,
+			status,
+			operator,
+			update_date,
+			db_flag
+		)
+		values
+		(
+			#{regionid},
+			#{examTimeid},
+			#{examRoomid},
+			#{examCourseid},
+			#{courseid},
+			#{type},
+			#{examType}, 
+			#{seatStart}, 
+			#{seatEnd}, 
+			#{secretCode}, 
+			#{firstStudentid}, 
+			#{status}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.RoomArrangeDO">
+		update reg_room_arrange 
+		<set>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="examTimeid != null">exam_timeid = #{examTimeid}, </if>
+			<if test="examRoomid != null">exam_roomid = #{examRoomid}, </if>
+			<if test="examCourseid != null">exam_courseid = #{examCourseid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="examType != null">exam_type = #{examType}, </if>
+			<if test="seatStart != null">seat_start = #{seatStart}, </if>
+			<if test="seatEnd != null">seat_end = #{seatEnd}, </if>
+			<if test="secretCode != null">secret_code = #{secretCode}, </if>
+			<if test="firstStudentid != null">first_studentid = #{firstStudentid}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}</if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_room_arrange set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_room_arrange set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="listKeepSecret" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeKeepSecretDO">
+		select a.id,b.exam_date,b.segment,c.exam_siteid,d.name as examSiteName,a.exam_roomid, a.courseid,a.secret_code from reg_room_arrange a
+		left join exa_exam_time b on b.id=a.exam_timeid and b.enabled_flag=1
+		left join reg_exam_room c on c.id =a.exam_roomid and c.enabled_flag=1
+		left join reg_exam_site d on d.id =c.exam_siteid and d.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+			<if test="examTaskid != null and examTaskid != ''"> and c.exam_taskid = #{examTaskid} </if>
+
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="countKeepSecret" resultType="int">
+		select count(1) from reg_room_arrange a
+		left join exa_exam_time b on b.id=a.exam_timeid and b.enabled_flag=1
+		left join reg_exam_room c on c.id =a.exam_roomid and c.enabled_flag=1
+		left join reg_exam_site d on d.id =c.exam_siteid and d.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+			<if test="examTaskid != null and examTaskid != ''"> and c.exam_taskid = #{examTaskid} </if>
+		</where>
+	</select>
+	<update id="batchUpdate">
+		<foreach item="item" collection="list" open="" separator=";" close="">
+		update  reg_room_arrange set secret_code =#{item.secretCode},first_studentid=#{item.firstStudentid} where id =
+		#{item.id}
+	</foreach>
+	</update>
+	<update id="batchUpdateQx">
+		update  reg_room_arrange set secret_code ='' where id in
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item.id}
+		</foreach>
+</update>
+	<select id="listCheck" resultType="java.util.HashMap">
+				select
+						d.code,
+						d.name,
+						e.code as code1,
+						e.name as name1,
+					  COUNT(1) num
+                             from stu_student_course a,
+	                              exa_exam_course b,
+	                              exa_exam_time c,
+									reg_region d ,
+									reg_region e
+                            where a.exam_courseid = b.id
+                             and b.exam_timeid = c.id
+							and d.id=a.regionid
+							and e.id=a.child_regionid
+			<if test="type == b">and a.arrange_status = 'a'</if>
+			<if test="type == c">and a.arrange_status = 'b'</if>
+			<if test="type == d">and a.status = 'a'</if>
+			<if test="type == e">and a.status = 'b'</if>
+
+                             and c.exam_taskid = #{exam_taskid}
+			and a.enabled_flag=1 and b.enabled_flag=1 and c.enabled_flag=1 and d.enabled_flag=1 and e.enabled_flag=1 and b.auditStatus='b'
+                            group by d.code,d.name,e.code,e.name
+							order by d.code,e.code
+			<if test="type == f">having COUNT(*) > 1</if>
+	</select>
+
+	<select id="getByTimeidRoomId" resultType="com.hxy.nzxy.stexam.domain.RoomArrangeDO">
+		select
+            id,
+            regionid,
+            exam_timeid,
+            exam_roomid,
+            exam_courseid,
+            type,
+            exam_type,
+            seat_start,
+            seat_end,
+            secret_code,
+            first_studentid,
+            status,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from reg_room_arrange
+		<where>
+			and enabled_flag=1
+			<if test="examTimeid != null and examTimeid != ''"> and exam_timeid = #{examTimeid} </if>
+			<if test="examRoomid != null and examRoomid != ''"> and exam_roomid = #{examRoomid} </if>
+		</where>
+	</select>
+
+	<update id="updateRoomArrangeConfirm">
+        update reg_room_arrange
+		   set status =#{status}
+		 where regionid = #{regionid}
+	       and exam_timeid in(select id
+							    from exa_exam_time
+							   where exam_taskid = #{exam_taskid})
+    </update>
+</mapper>

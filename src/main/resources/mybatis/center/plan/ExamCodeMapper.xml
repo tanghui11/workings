@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.ExamCodeDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ExamCodeDO">
+		select
+            fixed,
+            seq,
+            enabled_flag
+		from pla_exam_code
+		where fixed = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ExamCodeDO">
+		select
+	        fixed,
+	        seq,
+	        enabled_flag
+		 from pla_exam_code
+        <where>
+         and enabled_flag=1
+		  <if test="fixed != null and fixed != ''"> and fixed = #{fixed} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by fixed desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_exam_code
+		 <where>
+             and enabled_flag=1
+		  <if test="fixed != null and fixed != ''"> and fixed = #{fixed} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ExamCodeDO">
+		insert into pla_exam_code
+		(
+			fixed, 
+			seq
+		)
+		values
+		(
+			#{fixed}, 
+			#{seq}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ExamCodeDO">
+		update pla_exam_code 
+		<set>
+			<if test="seq != null">seq = #{seq}</if>
+
+		</set>
+		where fixed = #{fixed}
+	</update>
+	<update id="remove">
+		update pla_exam_code set enabled_flag =0  where fixed = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  pla_exam_code set enabled_flag =0 where fixed in
+		<foreach item="fixed" collection="array" open="(" separator="," close=")">
+			#{fixed}
+		</foreach>
+	</update>
+
+</mapper>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+				<div class="fixed-table-toolbar">
+						
+						<!-- <div class="columns pull-left" style="margin-right:10px;">
+							准考证号
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="" type="text" class="form-control" style="width:120px;">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div> -->
+						
+					</div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <table class="table table-bordered table-style">
+									<tr>
+                                        <td>
+                                            <label><span style="color:red">*</span>基本信息：</label>
+                                        </td>
+                                        <td colspan="3">
+											<input id="studentid2" name="studentid" class="form-control" type="hidden">
+											<input id="regionid" name="regionid" class="form-control" type="hidden">
+                                            <input id="studentid" name="jbxx" class="form-control" type="text" onclick="studentXinxi()">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label><span style="color:red">*</span>报考专业信息：</label>
+                                        </td>
+                                        <td colspan="3">
+											<input id="specialityid2" name="specialityid" class="form-control" type="hidden">
+                                            <input id="specialityid" name="bkxx" class="form-control" type="text" onclick="studentXinxi()">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>转入省份：</label>
+                                        </td>
+                                        <td>
+											<select id="province" name="province" class="form-control">
+											</select>
+                                        </td>
+										<td>
+                                            <label>转入地市：</label>
+                                        </td>
+                                        <td>
+											<select id="city" name="city" class="form-control">
+											</select>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label><span style="color:red">*</span>转出原因：</label>
+                                        </td>
+                                        <td>
+											<select id="cause" name="cause" class="form-control">
+												<option th:each="item:${reg_student_out_cause}" th:value="${item.id}" th:text="${item.name}" ></option>
+											</select>
+                                        </td>
+										<td>
+                                            <label><span style="color:red">*</span>转入准考证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zkInZkz" name="zkInZkz" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label><span style="color:red">*</span>转入专业名称：</label>
+                                        </td>
+                                        <td colspan="3">
+											<input id="zkInZyDm2" name="zkInZyDm" class="form-control" type="hidden">
+                                            <input id="zkInZyDm" name="zzd" class="form-control" type="text" onclick="zrzymc()">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>转入专业方向：</label>
+                                        </td>
+                                        <td colspan="3">
+                                            <input id="zkZyFx" name="zkZyFx" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									
+								</table>
+								<div style="text-align:center;">
+									
+										<button class="btn btn btn-primary" id="submission">转出</button>
+										<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+									
+								</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/region/studentOutRegion/add.js" th:src="@{/js/appjs/region/region/studentOutRegion/add.js}" >
+</script>
+</body>
+</html>

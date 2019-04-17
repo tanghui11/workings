@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<tr>
+								<td style="width:110px">
+									<label>毕业证书编号：</label>
+								</td>
+								<td>
+									<input id="code" name="code" class="form-control" type="text">
+								</td>
+								<td style="width:110px">
+									<label>准考证号：</label>
+								</td>
+								<td>
+									<input id="studentid" name="studentid" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>专业报考编号：</label>
+								</td>
+								<td>
+									<input id="studentSpecialityid" name="studentSpecialityid" class="form-control" type="text">
+								</td>
+								<td>
+									<label>专业代码：</label>
+								</td>
+								<td>
+									<input id="specialityid" name="specialityid" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>专业名称：</label>
+								</td>
+								<td>
+									<input id="specialityName" name="specialityName" class="form-control" type="text">
+								</td>
+								<td>
+									<label>论文分数：</label>
+								</td>
+								<td>
+									<input id="paperScore" name="paperScore" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>毕业时间：</label>
+								</td>
+								<td>
+									<input id="graduateDate" name="graduateDate" class="form-control" type="text">
+								</td>
+								<td>
+									<label>毕业院校：</label>
+								</td>
+								<td>
+									<input id="schoolName" name="schoolName" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>专业方向：</label>
+								</td>
+								<td>
+									<input id="graduateDirection" name="graduateDirection" class="form-control" type="text">
+								</td>
+								<td>
+									<label>专业层次：</label>
+								</td>
+								<td>
+									<input id="specialityLevels" name="specialityLevels" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>审批时间：</label>
+								</td>
+								<td>
+									<input id="auditDate" name="auditDate" class="form-control" type="text">
+								</td>
+								<td>
+									<label>审批人：</label>
+								</td>
+								<td>
+									<input id="auditOperator" name="auditOperator" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>审批时间：</label>
+								</td>
+								<td>
+									<input id="auditDate" name="auditDate" class="form-control" type="text">
+								</td>
+								<td>
+									<label>审批人：</label>
+								</td>
+								<td>
+									<input id="auditOperator" name="auditOperator" class="form-control" type="text">
+								</td>
+							</tr>
+                            </table>
+                           <!--  <div class="form-group">
+								<label class="col-sm-3 control-label">识别码：</label>
+								<div class="col-sm-8">
+									<input id="key" name="key" class="form-control" type="text">
+								</div>
+							</div> -->
+								<div style="text-align:center;margin-top:5px">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+								</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentCertificate/add.js" th:src="@{/js/appjs/center/student/studentCertificate/add.js}">
+	</script>
+</body>
+</html>

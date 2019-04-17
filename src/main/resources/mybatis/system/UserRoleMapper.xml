@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.UserRoleDao">
+
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.UserRoleDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user_role
+		(
+			userid,
+			roleid,
+			operator,
+			update_date
+		)
+		values
+		(
+			#{userid},
+			#{roleid},
+			#{operator},
+			now()
+		)
+	</insert>
+
+	<select id="listRoleId" resultType="com.hxy.nzxy.stexam.system.domain.RoleDO">
+		select r.id,r.name
+		  from sys_user_role ur,
+		       sys_role r
+		where ur.roleid = r.id
+		  and ur.userid = #{userid}
+	</select>
+
+	<delete id="removeByUserId">
+		delete from sys_user_role where userid=#{userid}
+	</delete>
+
+	<delete id="batchRemoveByUserId">
+		delete from sys_user_role where user_id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<insert id="batchSave">
+		insert into sys_user_role(userid, roleid,operator,update_date) values
+		<foreach item="item" index="index" collection="list"
+			separator=",">
+			(#{item.userid},#{item.roleid},#{item.operator},now())
+		</foreach>
+	</insert>
+</mapper>

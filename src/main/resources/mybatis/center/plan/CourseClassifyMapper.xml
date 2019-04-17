@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.CourseClassifyDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.CourseClassifyDO" parameterType="java.util.Map">
+		select
+            type,
+            courseid,
+            operator,
+            update_date,
+            enabled_flag
+		from pla_course_classify
+		where type = #{type} and courseid = #{courseid}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.CourseClassifyDO">
+		select
+	        type,
+	        courseid,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from pla_course_classify
+        <where>
+         and enabled_flag=1
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by type desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_course_classify
+		 <where>
+			 and enabled_flag=1
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.CourseClassifyDO">
+		insert into pla_course_classify
+		(
+			type, 
+			courseid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{type}, 
+			#{courseid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.CourseClassifyDO">
+		update pla_course_classify 
+		<set>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where type = #{type}
+	</update>
+	<update id="remove" parameterType="java.util.Map">
+		update pla_course_classify set enabled_flag =0  where type = #{type}  and courseid=#{courseid}
+	</update>
+	
+	<update id="batchRemove">
+        update  pla_course_classify set enabled_flag =0 where type in
+		<foreach item="type" collection="array" open="(" separator="," close=")">
+			#{type}
+		</foreach>
+	</update>
+
+	<select id="listCZ" resultType="com.hxy.nzxy.stexam.domain.CourseClassifyDO">
+		select
+		type,
+		courseid,
+		operator,
+		now()
+		from pla_course_classify
+		<where>
+
+			<foreach item = "bean" collection = "list" open = "and" separator = "or" close = "">
+				(type = #{bean.type} and courseid = #{bean.courseid} and enabled_flag=1)
+			</foreach>
+		</where>
+	</select>
+
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into pla_course_classify
+		(
+		courseid,
+		type,
+		operator,
+		update_date
+		)
+		values
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+			(
+			#{bean.courseid},
+			#{bean.type},
+			#{bean.operator},
+			now()
+			)
+		</foreach>
+
+	</insert>
+
+
+
+
+
+</mapper>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${schoolScoreStudent.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>准考证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="studentid" name="studentid" th:value="${schoolScoreStudent.studentid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业开设记录编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="specialityRecordid" name="specialityRecordid" th:value="${schoolScoreStudent.specialityRecordid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>课程代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="courseid" name="courseid" th:value="${schoolScoreStudent.courseid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>成绩：</label>
+                                        </td>
+                                        <td>
+                                            <input id="grade" name="grade" th:value="${schoolScoreStudent.grade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>合并比例：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ratio" name="ratio" th:value="${schoolScoreStudent.ratio}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="status" name="status" th:value="${schoolScoreStudent.status}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditStatus" name="auditStatus" th:value="${schoolScoreStudent.auditStatus}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>审核操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditOperator" name="auditOperator" th:value="${schoolScoreStudent.auditOperator}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>审核日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditDate" name="auditDate" th:value="${schoolScoreStudent.auditDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/school/student/schoolScoreStudent/edit.js" th:src="@{/js/appjs/school/student/schoolScoreStudent/edit.js}">
+</script>
+</body>
+</html>

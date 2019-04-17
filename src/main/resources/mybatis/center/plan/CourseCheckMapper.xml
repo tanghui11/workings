@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.CourseCheckDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.CourseCheckDO">
+		select
+            id,
+            speciality_recordid,
+            name,
+            type,
+            course_num,
+            least_num,
+            least_score,
+            operator,
+            update_date,
+            enabled_flag
+		from pla_course_check
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.CourseCheckDO">
+		select
+	        id,
+	        speciality_recordid,
+	        name,
+	        type,
+	        course_num,
+	        least_num,
+	        least_score,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from pla_course_check
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="courseNum != null and courseNum != ''"> and course_num = #{courseNum} </if>
+		  <if test="leastNum != null and leastNum != ''"> and least_num = #{leastNum} </if>
+		  <if test="leastScore != null and leastScore != ''"> and least_score = #{leastScore} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_course_check
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="courseNum != null and courseNum != ''"> and course_num = #{courseNum} </if>
+		  <if test="leastNum != null and leastNum != ''"> and least_num = #{leastNum} </if>
+		  <if test="leastScore != null and leastScore != ''"> and least_score = #{leastScore} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.CourseCheckDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pla_course_check
+		(
+			speciality_recordid, 
+			name, 
+			type, 
+			course_num, 
+			least_num, 
+			least_score, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{specialityRecordid}, 
+			#{name}, 
+			#{type}, 
+			#{courseNum}, 
+			#{leastNum}, 
+			#{leastScore}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.CourseCheckDO">
+		update pla_course_check 
+		<set>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="courseNum != null">course_num = #{courseNum}, </if>
+			<if test="leastNum != null">least_num = #{leastNum}, </if>
+			<if test="leastScore != null">least_score = #{leastScore}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update pla_course_check set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  pla_course_check set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

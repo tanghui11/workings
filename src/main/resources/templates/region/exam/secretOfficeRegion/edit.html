@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${secretOfficeRegion.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+									<tr>
+                                        <td  class="W180">
+                                            <label><span style="color:red">*</span>考试任务：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksrwVal" name="" th:value="${secretOfficeRegion.examTaskid}" type="hidden">
+											<select id="examTaskid" name="examTaskid" class="form-control">
+											</select>
+                                        </td>
+										 <td  class="W180">
+                                            <label><span style="color:red">*</span>类型：</label>
+                                        </td>
+                                        <td>
+                                            <select id="type" name="type" class="form-control">
+												<option th:each="item:${exa_secret_office_type}" th:value="${item.id}" th:text="${item.name}" th:field="${secretOfficeRegion.type}"></option>
+											</select>
+                                        </td>
+										<!--  <td  class="W180">
+                                            <label>考区编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="regionid" name="regionid" th:value="${secretOfficeRegion.regionid}" class="form-control" type="text">
+                                        </td> -->
+                                    </tr>
+									<tr>
+                                        <td  class="W180">
+                                            <label><span style="color:red">*</span>名称：</label>
+                                        </td>
+                                        <td>
+                                            <input id="name" name="name" th:value="${secretOfficeRegion.name}" class="form-control" type="text" onkeyup="spell()" onchange="spell()">
+                                        </td>
+										 <td  class="W180">
+                                            <label><span style="color:red">*</span>拼音：</label>
+                                        </td>
+                                        <td>
+                                            <input id="pinyin" name="pinyin" th:value="${secretOfficeRegion.pinyin}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                       
+										 <td  class="W180">
+                                            <label><span style="color:red">*</span>保密室固定电话区号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="phonePre" name="phonePre" th:value="${secretOfficeRegion.phonePre}" class="form-control" type="text">
+                                        </td>
+										<td  class="W180">
+                                            <label><span style="color:red">*</span>保密室固定电话号码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="phone" name="phone" th:value="${secretOfficeRegion.phone}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        
+										<td  class="W180">
+                                            <label><span style="color:red">*</span>负责人姓名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="chargeman" name="chargeman" th:value="${secretOfficeRegion.chargeman}" class="form-control" type="text">
+                                        </td>
+										 <td  class="W180">
+                                            <label><span style="color:red">*</span>负责人手机：</label>
+                                        </td>
+                                        <td>
+                                            <input id="chargemanTel" name="chargemanTel" th:value="${secretOfficeRegion.chargemanTel}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td  class="W180">
+                                            <label><span style="color:red">*</span>负责人固定电话区号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="chargemanPhonePre" name="chargemanPhonePre" th:value="${secretOfficeRegion.chargemanPhonePre}" class="form-control" type="text">
+                                        </td>
+										<td  class="W180">
+                                            <label><span style="color:red">*</span>负责人固定电话号码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="chargemanPhone" name="chargemanPhone" th:value="${secretOfficeRegion.chargemanPhone}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                       
+										
+										 <td  class="W180">
+                                            <label><span style="color:red">*</span>是否配备武警/公安人员值班：</label>
+                                        </td>
+                                        <td>
+											 <select id="hasForce" name="hasForce" class="form-control">
+												<option th:each="item:${exa_secret_office_has_force}" th:value="${item.id}" th:text="${item.name}" th:field="${secretOfficeRegion.hasForce}"></option>
+											</select>
+                                        </td>
+										<td  class="W180">
+                                            <label>武警/公安人员数量：</label>
+                                        </td>
+                                        <td>
+                                            <input id="forceNum" name="forceNum" th:value="${secretOfficeRegion.forceNum}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                       
+										
+										<td  class="W180">
+                                            <label>考区主任姓名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="leader" name="leader" th:value="${secretOfficeRegion.leader}" class="form-control" type="text">
+                                        </td>
+										<td  class="W180">
+                                            <label>考区主任电话：</label>
+                                        </td>
+                                        <td>
+                                            <input id="leaderPhone" name="leaderPhone" th:value="${secretOfficeRegion.leaderPhone}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+										 <td  class="W180">
+                                            <label>考区主任手机：</label>
+                                        </td>
+                                        <td>
+                                            <input id="leaderMphone" name="leaderMphone" th:value="${secretOfficeRegion.leaderMphone}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									 <tr>
+                                       
+										 <td>
+                                            <label>值班人员名单：</label>
+                                        </td>
+                                        <td colspan="3">
+                                            <textarea id="dutyMan" name="dutyMan" class="form-control" type="text" th:text="${secretOfficeRegion.dutyMan}"></textarea>
+                                        </td>
+                                    </tr>
+									<!-- <tr>
+                                        <td  class="W180">
+                                            <label>审核操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditOperator" name="auditOperator" th:value="${secretOfficeRegion.auditOperator}" class="form-control" type="text">
+                                        </td>
+										<td  class="W180">
+                                            <label>审核日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditDate" name="auditDate" th:value="${secretOfficeRegion.auditDate}" class="form-control" type="text" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'})">
+                                        </td>
+                                    </tr> -->
+								</table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary" id="submission">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/exam/secretOfficeRegion/edit.js" th:src="@{/js/appjs/region/exam/secretOfficeRegion/edit.js}">
+</script>
+</body>
+</html>

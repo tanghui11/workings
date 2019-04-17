@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${teachSite.id}"  type="hidden">
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">办学点编号：</label>
+								<div class="col-sm-8">
+									<input id="schoolSiteid" name="schoolSiteid" th:value="${teachSite.schoolSiteid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">学院编号：</label>
+								<div class="col-sm-8">
+									<input id="collegeid" name="collegeid" th:value="${teachSite.collegeid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">单位名称：</label>
+								<div class="col-sm-8">
+									<input id="name" name="name" th:value="${teachSite.name}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">拼音：</label>
+								<div class="col-sm-8">
+									<input id="pinyin" name="pinyin" th:value="${teachSite.pinyin}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">联系人：</label>
+								<div class="col-sm-8">
+									<input id="linkman" name="linkman" th:value="${teachSite.linkman}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">固定电话：</label>
+								<div class="col-sm-8">
+									<input id="phone" name="phone" th:value="${teachSite.phone}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">移动电话：</label>
+								<div class="col-sm-8">
+									<input id="mphone" name="mphone" th:value="${teachSite.mphone}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">邮箱：</label>
+								<div class="col-sm-8">
+									<input id="email" name="email" th:value="${teachSite.email}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">邮编：</label>
+								<div class="col-sm-8">
+									<input id="postCode" name="postCode" th:value="${teachSite.postCode}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">联系地址：</label>
+								<div class="col-sm-8">
+									<input id="address" name="address" th:value="${teachSite.address}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">状态：</label>
+								<div class="col-sm-8">
+									<input id="status" name="status" th:value="${teachSite.status}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/school/teachSite/edit.js" th:src="@{/js/appjs/center/school/teachSite/edit.js}">
+	</script>
+</body>
+</html>

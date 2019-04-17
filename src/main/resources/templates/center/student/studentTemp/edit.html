@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="type" name="type" th:value="${studentTemp.type}"  type="hidden">
+							<tr>
+								<td style="width:95px">
+									<label>准考证号：</label>
+								</td>
+								<td>
+									<input id="ksZkz" name="ksZkz" th:value="${studentTemp.ksZkz}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td style="width:95px">
+									<label>姓名：</label>
+								</td>
+								<td>
+									<input id="ksXm" name="ksXm" th:value="${studentTemp.ksXm}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>英文名：</label>
+								</td>
+								<td>
+									<input id="ksExm" name="ksExm" th:value="${studentTemp.ksExm}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>性别：</label>
+								</td>
+								<td>
+									<input id="ksXb" name="ksXb" th:value="${studentTemp.ksXb}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>户籍代码：</label>
+								</td>
+								<td>
+									<input id="hjDm" name="hjDm" th:value="${studentTemp.hjDm}" class="form-control" type="text" readonly="readonly"> 
+								</td>
+								<td>
+									<label>面貌代码：</label>
+								</td>
+								<td>
+									<input id="mmDm" name="mmDm" th:value="${studentTemp.mmDm}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>民族代码：</label>
+								</td>
+								<td>
+									<input id="mzDm" name="mzDm" th:value="${studentTemp.mzDm}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>学历代码：</label>
+								</td>
+								<td>
+									<input id="xlDm" name="xlDm" th:value="${studentTemp.xlDm}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>职业代码：</label>
+								</td>
+								<td>
+									<input id="zhiyDm" name="zhiyDm" th:value="${studentTemp.zhiyDm}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>专业代码：</label>
+								</td>
+								<td>
+									<input id="zyDm" name="zyDm" th:value="${studentTemp.zyDm}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>第一专业：</label>
+								</td>
+								<td>
+									<input id="firstZy" name="firstZy" th:value="${studentTemp.firstZy}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>集体代码：</label>
+								</td>
+								<td>
+									<input id="jtdmDm" name="jtdmDm" th:value="${studentTemp.jtdmDm}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>身份证号：</label>
+								</td>
+								<td>
+									<input id="ksSfz" name="ksSfz" th:value="${studentTemp.ksSfz}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>出生日期：</label>
+								</td>
+								<td>
+									<input id="ksBirthda" name="ksBirthda" th:value="${studentTemp.ksBirthda}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>联系电话：</label>
+								</td>
+								<td>
+									<input id="ksPhone" name="ksPhone" th:value="${studentTemp.ksPhone}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>邮编：</label>
+								</td>
+								<td>
+									<input id="ksZip" name="ksZip" th:value="${studentTemp.ksZip}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>联系地址：</label>
+								</td>
+								<td>
+									<input id="ksAddress" name="ksAddress" th:value="${studentTemp.ksAddress}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>报名市县：</label>
+								</td>
+								<td>
+									<input id="ksBmxs" name="ksBmxs" th:value="${studentTemp.ksBmxs}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>报名时间：</label>
+								</td>
+								<td>
+									<input id="ksBmsj" name="ksBmsj" th:value="${studentTemp.ksBmsj}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>：</label>
+								</td>
+								<td>
+									<input id="ksZdyxx" name="ksZdyxx" th:value="${studentTemp.ksZdyxx}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>停考时间：</label>
+								</td>
+								<td>
+									<input id="ksTksj" name="ksTksj" th:value="${studentTemp.ksTksj}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>延期毕业：</label>
+								</td>
+								<td>
+									<input id="ksYqby" name="ksYqby" th:value="${studentTemp.ksYqby}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>考生区县：</label>
+								</td>
+								<td>
+									<input id="ksQx" name="ksQx" th:value="${studentTemp.ksQx}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>市县代码：</label>
+								</td>
+								<td>
+									<input id="sxDm" name="sxDm" th:value="${studentTemp.sxDm}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>修改标志：</label>
+								</td>
+								<td>
+									<input id="modified" name="modified" th:value="${studentTemp.modified}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>旧准考证号：</label>
+								</td>
+								<td>
+										<input id="ksOldzkz" name="ksOldzkz" th:value="${studentTemp.ksOldzkz}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>专业名称：</label>
+								</td>
+								<td>
+									<input id="zyMc" name="zyMc" th:value="${studentTemp.zyMc}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>密码：</label>
+								</td>
+								<td>
+										<input id="mm" name="mm" th:value="${studentTemp.mm}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>手机1：</label>
+								</td>
+								<td>
+									<input id="sj1" name="sj1" th:value="${studentTemp.sj1}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>手机2：</label>
+								</td>
+								<td>
+										<input id="sj2" name="sj2" th:value="${studentTemp.sj2}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>电话：</label>
+								</td>
+								<td>
+									<input id="zzdh" name="zzdh" th:value="${studentTemp.zzdh}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>预报名号：</label>
+								</td>
+								<td>
+									<input id="ybmh" name="ybmh" th:value="${studentTemp.ybmh}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>报名点代码：</label>
+								</td>
+								<td>
+									<input id="bmddm" name="bmddm" th:value="${studentTemp.bmddm}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>工作单位：</label>
+								</td>
+								<td>
+									<input id="gzdw" name="gzdw" th:value="${studentTemp.gzdw}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>电子邮件：</label>
+								</td>
+								<td>
+									<input id="email" name="email" th:value="${studentTemp.email}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>：</label>
+								</td>
+								<td>
+									<input id="msdm" name="msdm" th:value="${studentTemp.msdm}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>：</label>
+								</td>
+								<td>
+									<input id="hkszd" name="hkszd" th:value="${studentTemp.hkszd}" class="form-control" type="text" readonly="readonly">
+								</td>
+								<td>
+									<label>：</label>
+								</td>
+								<td>
+									<input id="gzdwszd" name="gzdwszd" th:value="${studentTemp.gzdwszd}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>：</label>
+								</td>
+								<td>
+									<input id="flag" name="flag" th:value="${studentTemp.flag}" class="form-control" type="text" readonly="readonly">
+								</td>
+								
+							</tr>
+							<!-- <div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+								</div>
+							</div> -->
+						</table>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentTemp/edit.js" th:src="@{/js/appjs/center/student/studentTemp/edit.js}">
+	</script>
+</body>
+</html>

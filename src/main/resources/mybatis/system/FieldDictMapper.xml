@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.FieldDictDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.system.domain.FieldDictDO">
+		select appid,
+			table_name,
+			field_name,
+			field_value,
+			field_mean,
+			type,
+			display_status,
+			status,
+			seq,
+			remark,
+			operator,
+			update_date
+		from sys_field_dict
+		where appid = #{appid}
+		  and table_name = #{tableName}
+		  and field_name = #{fieldName}
+		  and field_value = #{fieldValue}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.system.domain.FieldDictDO">
+		select  appid,
+			table_name,
+			field_name,
+			field_value,
+			field_mean,
+			type,
+			display_status,
+			status,
+			seq,
+			remark,
+			operator,
+			update_date
+		from sys_field_dict
+        <where>  
+		  <if test="appid != null and appid != ''"> and appid = #{appid} </if>
+		  <if test="tableName != null and tableName != ''"> and table_name = #{tableName} </if>
+		  <if test="fieldName != null and fieldName != ''"> and field_name = #{fieldName} </if>
+		  <if test="fieldValue != null and fieldValue != ''"> and field_value = #{fieldValue} </if>
+		  <if test="fieldMean != null and fieldMean != ''"> and field_mean = #{fieldMean} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="displayStatus != null and displayStatus != ''"> and display_status = #{displayStatus} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by appid desc, seq asc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_field_dict
+		 <where>  
+		  <if test="appid != null and appid != ''"> and appid = #{appid} </if>
+		  <if test="tableName != null and tableName != ''"> and table_name = #{tableName} </if>
+		  <if test="fieldName != null and fieldName != ''"> and field_name = #{fieldName} </if>
+		  <if test="fieldValue != null and fieldValue != ''"> and field_value = #{fieldValue} </if>
+		  <if test="fieldMean != null and fieldMean != ''"> and field_mean = #{fieldMean} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="displayStatus != null and displayStatus != ''"> and display_status = #{displayStatus} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.FieldDictDO">
+		insert into sys_field_dict
+		(
+			appid, 
+			table_name, 
+			field_name, 
+			field_value, 
+			field_mean, 
+			type, 
+			display_status, 
+			status, 
+			seq, 
+			remark, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{appid}, 
+			#{tableName}, 
+			#{fieldName}, 
+			#{fieldValue}, 
+			#{fieldMean}, 
+			#{type}, 
+			#{displayStatus}, 
+			#{status}, 
+			#{seq}, 
+			#{remark}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.FieldDictDO">
+		update sys_field_dict 
+		<set>
+			<if test="fieldMean != null">field_mean = #{fieldMean}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="displayStatus != null">display_status = #{displayStatus}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="seq != null">seq = #{seq}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where appid = #{appid}
+		  and table_name = #{tableName}
+		  and field_name = #{fieldName}
+		  and field_value = #{fieldValue}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_field_dict
+		where appid = #{appid}
+		  and table_name = #{tableName}
+		  and field_name = #{fieldName}
+		  and field_value = #{fieldValue}
+	</delete>
+
+	<!-- 查询所有表名 -->
+	<select id="listAllTables" resultType="com.hxy.nzxy.stexam.common.domain.CommonDO">
+		select id,name
+		  from (select t.table_name id,
+					case when length(t.table_comment) = 0 then t.table_name
+						else t.table_comment
+					end name
+				from information_schema.tables t,
+					 sys_app a
+				where t.table_schema = a.db_name
+				  and a.id = #{appid}) a
+		order by convert(a.name using gbk)
+	</select>
+	<!-- 查询单个表所有的字段名 -->
+	<select id="listAllFields" resultType="com.hxy.nzxy.stexam.common.domain.CommonDO">
+		select c.column_name id,
+			case when length(c.column_comment) = 0 then c.column_name
+				else c.column_comment
+			end name
+		from information_schema.columns c,
+			 sys_app a
+		where c.table_schema = a.db_name
+		  and a.id = #{appid}
+		  and c.table_name = #{table_name}
+		order by c.ordinal_position
+	</select>
+
+</mapper>

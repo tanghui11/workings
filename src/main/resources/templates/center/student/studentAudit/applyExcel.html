@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content" style="overflow:hidden;padding:0;padding-top:15px;border:none">
+						<div class="col-sm-6">
+						<form class="form-horizontal" id="signupForm">
+						<table class="table table-bordered table-style" id="table1">
+                           <tr>
+								<td colspan="6" style="text-align:center;font-size:20px">
+									<label>考试合格成绩</label>
+								</td>
+							</tr>
+                            <tr style="font-size:18px">
+								<td>
+									<label>课程名称</label>
+								</td>
+								<td>
+									<label>成绩</label>
+								</td>
+								<td>
+									<label>学分</label>
+								</td>
+								<td>
+									<label>课程名称</label>
+								</td>
+								<td>
+									<label>成绩</label>
+								</td>
+								<td>
+									<label>学分</label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName1">
+									<label></label>
+								</td>
+								<td id="grade1">
+									<label></label>
+								</td>
+								<td id="courseScore1">
+									<label></label>
+								</td>
+								<td id="courseName2">
+									<label></label>
+								</td>
+								<td id="grade2">
+									<label></label>
+								</td>
+								<td id="courseScore2">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName3">
+									<label></label>
+								</td>
+								<td id="grade3">
+									<label></label>
+								</td>
+								<td id="courseScore3">
+									<label></label>
+								</td>
+								<td id="courseName4">
+									<label></label>
+								</td>
+								<td id="grade4">
+									<label></label>
+								</td>
+								<td id="courseScore4">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName5">
+									<label></label>
+								</td>
+								<td id="grade5">
+									<label></label>
+								</td>
+								<td id="courseScore5">
+									<label></label>
+								</td>
+								<td id="courseName6">
+									<label></label>
+								</td>
+								<td id="grade6">
+									<label></label>
+								</td>
+								<td id="courseScore6">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName7">
+									<label></label>
+								</td>
+								<td id="grade7">
+									<label></label>
+								</td>
+								<td id="courseScore7">
+									<label></label>
+								</td>
+								<td id="courseName8">
+									<label></label>
+								</td>
+								<td id="grade8">
+									<label></label>
+								</td>
+								<td id="courseScore8">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName9">
+									<label></label>
+								</td>
+								<td id="grade9">
+									<label></label>
+								</td>
+								<td id="courseScore9">
+									<label></label>
+								</td>
+								<td id="courseName10">
+									<label></label>
+								</td>
+								<td id="grade10">
+									<label></label>
+								</td>
+								<td id="courseScore10">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName11">
+									<label></label>
+								</td>
+								<td id="grade11">
+									<label></label>
+								</td>
+								<td id="courseScore11">
+									<label></label>
+								</td>
+								<td id="courseName12">
+									<label></label>
+								</td>
+								<td id="grade12">
+									<label></label>
+								</td>
+								<td id="courseScore12">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName13">
+									<label></label>
+								</td>
+								<td id="grade13">
+									<label></label>
+								</td>
+								<td id="courseScore13">
+									<label></label>
+								</td>
+								<td id="courseName14">
+									<label></label>
+								</td>
+								<td id="grade14">
+									<label></label>
+								</td>
+								<td id="courseScore14">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName15">
+									<label></label>
+								</td>
+								<td id="grade15">
+									<label></label>
+								</td>
+								<td id="courseScore15">
+									<label></label>
+								</td>
+								<td id="courseName16">
+									<label></label>
+								</td>
+								<td id="grade16">
+									<label></label>
+								</td>
+								<td id="courseScore16">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName17">
+									<label></label>
+								</td>
+								<td id="grade17">
+									<label></label>
+								</td>
+								<td id="courseScore17">
+									<label></label>
+								</td>
+								<td id="courseName18">
+									<label></label>
+								</td>
+								<td id="grade18">
+									<label></label>
+								</td>
+								<td id="courseScore18">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName19">
+									<label></label>
+								</td>
+								<td id="grade19">
+									<label></label>
+								</td>
+								<td id="courseScore19">
+									<label></label>
+								</td>
+								<td id="courseName20">
+									<label></label>
+								</td>
+								<td id="grade20">
+									<label></label>
+								</td>
+								<td id="courseScore20">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName21">
+									<label></label>
+								</td>
+								<td id="grade21">
+									<label></label>
+								</td>
+								<td id="courseScore21">
+									<label></label>
+								</td>
+								<td id="courseName22">
+									<label></label>
+								</td>
+								<td id="grade22">
+									<label></label>
+								</td>
+								<td id="courseScore22">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName23">
+									<label></label>
+								</td>
+								<td id="grade23">
+									<label></label>
+								</td>
+								<td id="courseScore23">
+									<label></label>
+								</td>
+								<td id="courseName24">
+									<label></label>
+								</td>
+								<td id="grade24">
+									<label></label>
+								</td>
+								<td id="courseScore24">
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td id="courseName25">
+									<label></label>
+								</td>
+								<td id="grade25">
+									<label></label>
+								</td>
+								<td id="courseScore25">
+									<label></label>
+								</td>
+								<td id="courseName26">
+									<label></label>
+								</td>
+								<td id="grade26">
+									<label></label>
+								</td>
+								<td id="courseScore26">
+									<label></label>
+								</td>
+							</tr><tr>
+								<td id="courseName27">
+									<label></label>
+								</td>
+								<td id="grade27">
+									<label></label>
+								</td>
+								<td id="courseScore27">
+									<label></label>
+								</td>
+								<td id="courseName28">
+									<label></label>
+								</td>
+								<td id="grade28">
+									<label></label>
+								</td>
+								<td id="courseScore28">
+									<label></label>
+								</td>
+							</tr><tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr><tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr><tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr><tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr><tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+								<td>
+									<label></label>
+								</td>
+							</tr>
+							
+							</tr>
+							<tr>
+								<td colspan="6" style="text-align:center;font-size:20px">
+									<label><p>注：该专业至少修满<span id="score">60</span>学分方可毕业。</p><p>以上成绩可向甘肃省高等教育自学考试办公室查证</p></label>
+								</td>
+								
+							</tr>
+							<!-- <tr>
+								<td>
+									<label>专业层次：</label>
+								</td>
+								<td>
+									<input id="classify" name="classify" class="form-control" type="text" readonly>
+								</td>
+								<td>
+									<label>助学方式</label>
+								</td>
+								<td>
+									<input id="type" name="type" class="form-control" type="text" readonly>
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>学制</label>
+								</td>
+								<td>
+									<input id="educateLength" name="educateLength" class="form-control" type="text" readonly>
+								</td>
+							</tr> -->
+                        </table>
+						</form>
+						</div>
+						<div class="col-sm-6">
+							<table  class="table table-bordered table-style" style="margin-bottom:0px" id="table2">
+								<tr>
+									<td rowspan="7" style="width:130px">
+										
+									</td>
+									<td>
+										<label>姓名</label>
+									</td>
+									<td colspan="3" id="name"> 
+										
+									</td>
+									<td>
+										<label>性别</label>
+									</td>
+									<td id='gender'>
+										
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>户籍</label>
+									</td>
+									<td id="homeType">
+										
+									</td>
+									<td>
+										<label>名族</label>
+									</td>
+									<td id="nation">
+										
+									</td>
+									<td>
+										<label>政治面貌</label>
+									</td>
+									<td id="politics">
+										
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<label>学历层次</label>
+									</td>
+									<td colspan="4" id="classify">
+										
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<label>专业名称</label>
+									</td>
+									<td colspan="4" id="specialityName">
+										
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<label>身份证号</label>
+									</td>
+									<td colspan="4" id="certificateNo">
+										
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<label>准考证号</label>
+									</td>
+									<td colspan="4" id="studentid">
+										
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<label>毕业证书号</label>
+									</td>
+									<td colspan="4" id="grad_certificate">
+										
+									</td>
+								</tr>
+							</table>
+							<div style="height:300px;border:1px solid #ddd;border-top:none;position:relative" media="screen">
+								<p style="padding-top:20px;margin-left:50px;font-weight:bold;font-size:20px">主考院校审批意见：</p>
+								<p style="margin-left:100px;font-weight:bold;font-size:20px" id="biye1">审查合格，准予毕业</p>
+								<div style="position:absolute;bottom:10px;right:20px;font-weight:bold;font-size:20px">
+									<p>兰州***********</p>
+									<p class="gradAuditDate"></p>
+								</div>
+							</div>
+							<div style="height:300px;border:1px solid #ddd;border-top:none;position:relative" media="screen">
+								<p style="padding-top:20px;margin-left:50px;font-weight:bold;font-size:20px">甘肃省高等教育自学考试委员会审批意见:</p>
+								<p style="margin-left:100px;font-weight:bold;font-size:20px" id="biye2">经审查考试成绩合格，政治思想坚定合格，准予毕业</p>
+								<div style="position:absolute;bottom:10px;right:20px;font-weight:bold;font-size:20px">
+									<p>兰州***********</p>
+									<p class="gradAuditDate"></p>
+								</div>
+							</div>
+							<div style="height:100px;border:1px solid #ddd;border-top:none;position:relative;font-weight:bold;font-size:20px;line-height:100px" media="screen">
+								<div style="width:100px;height:100px;border-right:1px solid #ddd;float:left;text-align:center">备注：</div>
+								<div style="float:left;margin-left:10px;font-size:18px;">本登记表需加盖甘肃省高等教育自学考试委员会和主考院校的印章方可生效</div>
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="text-align:center">
+		<button class="btn btn-info" onclick="prints()" type="button" id="prints">打印</button>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentAudit/applyExcel.js" th:src="@{/js/appjs/center/student/studentAudit/applyExcel.js}">
+	</script>
+</body>
+</html>

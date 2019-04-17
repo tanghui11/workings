@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<!-- <div class="columns pull-left" style="margin-right:10px;">
+							考生类别
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<select class="form-control" id="" placeholder="" type="text">
+								
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							课程类别
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<select class="form-control" id="" placeholder="" type="text">
+								
+							</select>
+						</div> -->
+						<div class="columns pull-left" style="margin-right:10px;">
+							考试任务
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<select class="form-control" id="searchKsrw" placeholder="" type="text">
+								
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							考试时间
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<select id="kktime" name="examTimeid" class="form-control" >
+								<option value="">-请选择-</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left">
+							<!-- <button shiro:hasPermission="region:roomArrangeRegion:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="region:roomArrangeRegion:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button> -->
+								<div class="btn-group">
+									<button class="btn btn-info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius:3px;margin-right:5px">自动编排&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+									<ul class="dropdown-menu">
+										<li><a  href="#" mce_href="#" title="安排上下午都有考试的考生" onclick="ap1()">1.安排上下午都有考试的考生</a></li>
+										<li><a href="#" mce_href="#" title="已安排课程补上剩余人数" onclick="ap2()">2.已安排课程补上剩余人数</a></li>
+										<li><a  href="#" mce_href="#" title="安排剩余课程" onclick="ap3()">3.安排剩余课程</a></li>
+										<li><li><a  href="#" mce_href="#" title="安排一门课程到一个考点" onclick="ap4()">4.安排一门课程到一个考点</a></li>
+										<li><li><a  href="#" mce_href="#" title="安排一门课程到一个考场" onclick="ap5()">5.安排一门课程到一个考场</a></li>
+									</ul>
+								</div>
+							<button type="button" class="btn  btn-danger"
+								onclick="scbp()">
+								删除编排
+							</button>
+							<button type="button" class="btn  btn-primary"
+								onclick="bpqr()">
+								编排确认
+							</button>
+							<button type="button" class="btn  btn-primary"
+								onclick="bptz()">
+								编排调整
+							</button>
+							<button type="button" class="btn  btn-primary"
+								onclick="kdqtz()">
+								考点间调整
+							</button>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="fixed-table-toolbar" style="overflow:hidden;">
+						
+						
+						<div class="columns pull-left" style="margin-right:10px;">
+							每个考场最多安排
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="inMaxExamCourse" type="number" value="4" max="8" min="1" class="form-control" style="width:80px;">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							课程
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							每个考点预留
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="reserve" type="number" max="100" value="20" min="0" step="10" class="form-control" style="width:80px;">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							%的考场
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							优先安排报考人数在
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="minStudent" type="number" value="30" min="0" step="5" class="form-control" style="width:80px;">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							以上的考生
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							考点
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<select class="form-control" id="searchKd" placeholder="" type="text">
+
+							</select>
+						</div>
+						<!-- <div class="columns pull-left" style="margin-right:10px;">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
+						</div> -->
+						
+					</div>
+					
+					<div class="col-sm-12" style="padding:0;">
+						<div style="width: 48%;float: left;margin-right: 2%">
+							<h3 class="bg-danger" style="padding:10px;margin:0;">待编排报考课程</h3>
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+						<div style="width: 50%;float:left;">
+							<h3 class="bg-info" style="padding:10px;margin:0;">可编排考场</h3>
+							<table id="exampleTable2" data-mobile-responsive="true">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrangeRegion:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrangeRegion:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrangeRegion:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/region/region/roomArrangeRegion/roomArrangeRegion.js" th:src="@{/js/appjs/region/region/roomArrangeRegion/roomArrangeRegion.js}"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<head th:fragment="header">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico" />
+	<script th:inline="javascript"> var contextPath = [[@{/}]]
+        if(contextPath=="/"){
+            contextPath="";
+        };
+	</script>
+	<link href="/css/bootstrap.min.css?v=3.3.6" th:href="@{/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+	<link href="/css/font-awesome.css?v=4.4.0" th:href="@{/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+	<link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" th:href="@{/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">
+	<link href="/css/plugins/jsTree/style.min.css" th:href="@{/css/plugins/jsTree/style.min.css}" rel="stylesheet">
+	<link href="/css/plugins/jqTreeGrid/jquery.treegrid.css" th:href="@{/css/plugins/jqTreeGrid/jquery.treegrid.css}" rel="stylesheet">
+	<!--summernote css -->
+	<link href="/css/plugins/summernote/summernote-0.8.8.css" th:href="@{/css/plugins/summernote/summernote-0.8.8.css}" rel="stylesheet">
+	<link href="/css/animate.css" th:href="@{/css/animate.css}"  rel="stylesheet">
+	<link href="/css/plugins/chosen/chosen.css" th:href="@{/css/plugins/chosen/chosen.css}" rel="stylesheet">
+	<link href="/css/style.css?v=4.1.0" th:href="@{/css/style.css?v=4.1.0}" rel="stylesheet">
+	<!--datetimepicker-->
+	<link href="/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css" th:href="@{/css/plugins/datetimepicker/bootstrap-datetimepicker.min.css}" rel="stylesheet">
+	<!--bootstarp-editable-->
+	<link href="/css/plugins/bootstarp-editable/bootstrap-editable.css" th:href="@{/css/plugins/bootstarp-editable/bootstrap-editable.css}"  rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/plugins/zTree/zTreeStyle/zTreeStyle.css}"  rel="stylesheet">
+</head>
+<div th:fragment="footer">
+	<script src="/js/jquery.min.js?v=2.1.4" th:src="@{/js/jquery.min.js?v=2.1.4}" ></script>
+	<script src="/js/circliful.js" th:src="@{/js/circliful.js}" ></script>
+	<script src="/js/jquery.base64.js" th:src="@{/js/jquery.base64.js}" ></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6" th:src="@{/js/bootstrap.min.js?v=3.3.6}" ></script>
+	<script src="/js/plugins/bootstrap-table/bootstrap-table.min.js" th:src="@{/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>
+	<script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js" th:src="@{/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>
+	<script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js" th:src="@{/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+	<script src="/js/plugins/bootstrap-table/tableExport.min.js" th:src="@{/js/plugins/bootstrap-table/tableExport.min.js}"></script>
+	<script src="/js/plugins/bootstrap-table/bootstrap-table-export.js" th:src="@{/js/plugins/bootstrap-table/bootstrap-table-export.js}"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js" th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
+	<script src="/js/plugins/validate/jquery.validate.extend.js" th:src="@{/js/plugins/validate/jquery.validate.extend.js}"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js" th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
+	<script src="/js/plugins/jsTree/jstree.min.js" th:src="@{/js/plugins/jsTree/jstree.min.js}"></script>
+	<script src="/js/plugins/jqTreeGrid/jquery.treegrid.min.js" th:src="@{/js/plugins/jqTreeGrid/jquery.treegrid.min.js}"></script>
+	<script src="/js/plugins/jqTreeGrid/jquery.treegrid.extension.js" th:src="@{/js/plugins/jqTreeGrid/jquery.treegrid.extension.js}"></script>
+	<script src="/js/plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js" th:src="@{/js/plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js}"></script>
+	<script src="/js/plugins/chosen/chosen.jquery.js" th:src="@{/js/plugins/chosen/chosen.jquery.js}"></script>
+	<script src="/js/plugins/layer/layer.js" th:src="@{/js/plugins/layer/layer.js}"></script>
+	<!--拼音首字母大写-->
+	<script src="/js/pinyinDX.js" th:src="@{/js/pinyinDX.js}"></script>
+
+	<script src="/js/content.js?v=1.0.0" th:src="@{/js/content.js?v=1.0.0}"></script>
+	<!--summernote-->
+	<script src="/js/plugins/summernote/summernote.js" th:src="@{/js/plugins/summernote/summernote.js}"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.min.js" th:src="@{/js/plugins/summernote/summernote-zh-CN.min.js}"></script>
+    <!--datetimepicker-->
+    <script src="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.js" th:src="@{/js/plugins/datetimepicker/bootstrap-datetimepicker.min.js}"></script>
+	<script src="/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js" th:src="@{/js/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+	<script type="text/javascript" src="/js/plugins.js" th:src="@{/js/plugins.js}"></script>
+	<!--bootstarp-editable-->
+	<script src="/js/plugins/bootstarp-editable/bootstrap-editable.js" th:src="@{/js/plugins/bootstarp-editable/bootstrap-editable.js}"></script>
+	<script src="/js/plugins/bootstarp-editable/bootstrap-table-editable.js" th:src="@{/js/plugins/bootstarp-editable/bootstrap-table-editable.js}"></script>
+	<script  src="/js/plugins/My97DatePicker/WdatePicker.js" th:src="@{/js/plugins/My97DatePicker/WdatePicker.js}"></script>
+	<script  src="/js/zPinyin.js" th:src="@{/js/zPinyin.js}"></script>
+	<script  src="/js/plugins/jquery.form.js" th:src="@{/js/plugins/jquery.form.js}"></script>
+	<script  src="/js/plush.js" th:src="@{/js/plush.js}"></script>
+	<script th:src="@{/js/plugins/zTree/jquery.ztree.core.min.js}"></script>
+	<script  src="/js/countDown.js" th:src="@{/js/countDown.js}"></script>
+</div>

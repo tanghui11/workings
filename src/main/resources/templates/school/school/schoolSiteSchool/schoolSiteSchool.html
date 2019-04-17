@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<!--进度条显示-->
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<form id="form"  th:action="@{/school/schoolSiteSchool/searchOutExcel}">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left  nopadding" style="margin-right:10px;">
+							<input id="code" type="text" class="form-control" name="code"
+								placeholder="请输入代码">
+						</div>
+						<!--<div class="columns pull-left  nopadding" style="margin-right:10px;">-->
+							<!--<input id="searchSchoolName" type="text" class="form-control" name="schoolName"-->
+								<!--placeholder="请输入助学组织名称">-->
+						<!--</div>-->
+						<!--<div class="columns pull-left  nopadding" style="margin-right:10px;">-->
+							<!--<input id="regionName" type="text" class="form-control" name="regionName"-->
+								<!--placeholder="请输入考区名称">-->
+						<!--</div>-->
+						<div class="columns pull-left">
+							<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px;">
+							<button shiro:hasPermission="school:schoolSiteSchool:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="school:schoolSiteSchool:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+								<button  type="button" class="btn  btn-primary" onclick="onZipAll()">
+									导出
+								</button>
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+				</form>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:schoolSiteSchool:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:schoolSiteSchool:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:schoolSiteSchool:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/school/schoolSiteSchool/schoolSiteSchool.js" th:src="@{/js/appjs/school/school/schoolSiteSchool/schoolSiteSchool.js}"></script>
+</body>
+</html>

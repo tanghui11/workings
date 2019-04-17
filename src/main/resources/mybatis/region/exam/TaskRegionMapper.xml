@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.exam.dao.TaskRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.TaskDO">
+		select
+            id,
+            exam_year,
+            exam_month,
+            begin_date,
+            end_date,
+            begin_date_append,
+            end_date_append,
+            begin_date1,
+            end_date1,
+            begin_date_append1,
+            end_date_append1,
+            arrange_begin_date,
+            arrange_end_date,
+            remark,
+            status,
+            confirm_status,
+            audit_status,
+            operator,
+            update_date,
+            enabled_flag
+		from exam_task
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.TaskDO">
+		select
+	        id,
+	        exam_year,
+	        exam_month,
+	        begin_date,
+	        end_date,
+	        begin_date_append,
+	        end_date_append,
+	        begin_date1,
+	        end_date1,
+	        begin_date_append1,
+	        end_date_append1,
+	        arrange_begin_date,
+	        arrange_end_date,
+	        remark,
+	        status,
+	        confirm_status,
+	        audit_status,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from exam_task
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="examYear != null and examYear != ''"> and exam_year = #{examYear} </if>
+		  <if test="examMonth != null and examMonth != ''"> and exam_month = #{examMonth} </if>
+		  <if test="beginDate != null and beginDate != ''"> and begin_date = #{beginDate} </if>
+		  <if test="endDate != null and endDate != ''"> and end_date = #{endDate} </if>
+		  <if test="beginDateAppend != null and beginDateAppend != ''"> and begin_date_append = #{beginDateAppend} </if>
+		  <if test="endDateAppend != null and endDateAppend != ''"> and end_date_append = #{endDateAppend} </if>
+		  <if test="beginDate1 != null and beginDate1 != ''"> and begin_date1 = #{beginDate1} </if>
+		  <if test="endDate1 != null and endDate1 != ''"> and end_date1 = #{endDate1} </if>
+		  <if test="beginDateAppend1 != null and beginDateAppend1 != ''"> and begin_date_append1 = #{beginDateAppend1} </if>
+		  <if test="endDateAppend1 != null and endDateAppend1 != ''"> and end_date_append1 = #{endDateAppend1} </if>
+		  <if test="arrangeBeginDate != null and arrangeBeginDate != ''"> and arrange_begin_date = #{arrangeBeginDate} </if>
+		  <if test="arrangeEndDate != null and arrangeEndDate != ''"> and arrange_end_date = #{arrangeEndDate} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="confirmStatus != null and confirmStatus != ''"> and confirm_status = #{confirmStatus} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from exam_task
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="examYear != null and examYear != ''"> and exam_year = #{examYear} </if>
+		  <if test="examMonth != null and examMonth != ''"> and exam_month = #{examMonth} </if>
+		  <if test="beginDate != null and beginDate != ''"> and begin_date = #{beginDate} </if>
+		  <if test="endDate != null and endDate != ''"> and end_date = #{endDate} </if>
+		  <if test="beginDateAppend != null and beginDateAppend != ''"> and begin_date_append = #{beginDateAppend} </if>
+		  <if test="endDateAppend != null and endDateAppend != ''"> and end_date_append = #{endDateAppend} </if>
+		  <if test="beginDate1 != null and beginDate1 != ''"> and begin_date1 = #{beginDate1} </if>
+		  <if test="endDate1 != null and endDate1 != ''"> and end_date1 = #{endDate1} </if>
+		  <if test="beginDateAppend1 != null and beginDateAppend1 != ''"> and begin_date_append1 = #{beginDateAppend1} </if>
+		  <if test="endDateAppend1 != null and endDateAppend1 != ''"> and end_date_append1 = #{endDateAppend1} </if>
+		  <if test="arrangeBeginDate != null and arrangeBeginDate != ''"> and arrange_begin_date = #{arrangeBeginDate} </if>
+		  <if test="arrangeEndDate != null and arrangeEndDate != ''"> and arrange_end_date = #{arrangeEndDate} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="confirmStatus != null and confirmStatus != ''"> and confirm_status = #{confirmStatus} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.TaskDO" useGeneratedKeys="true" keyProperty="id">
+		insert into exam_task
+		(
+			exam_year, 
+			exam_month, 
+			begin_date, 
+			end_date, 
+			begin_date_append, 
+			end_date_append, 
+			begin_date1, 
+			end_date1, 
+			begin_date_append1, 
+			end_date_append1, 
+			arrange_begin_date, 
+			arrange_end_date, 
+			remark, 
+			status, 
+			confirm_status, 
+			audit_status, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{examYear}, 
+			#{examMonth}, 
+			#{beginDate}, 
+			#{endDate}, 
+			#{beginDateAppend}, 
+			#{endDateAppend}, 
+			#{beginDate1}, 
+			#{endDate1}, 
+			#{beginDateAppend1}, 
+			#{endDateAppend1}, 
+			#{arrangeBeginDate}, 
+			#{arrangeEndDate}, 
+			#{remark}, 
+			#{status}, 
+			#{confirmStatus}, 
+			#{auditStatus}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.TaskDO">
+		update exam_task 
+		<set>
+			<if test="examYear != null">exam_year = #{examYear}, </if>
+			<if test="examMonth != null">exam_month = #{examMonth}, </if>
+			<if test="beginDate != null">begin_date = #{beginDate}, </if>
+			<if test="endDate != null">end_date = #{endDate}, </if>
+			<if test="beginDateAppend != null">begin_date_append = #{beginDateAppend}, </if>
+			<if test="endDateAppend != null">end_date_append = #{endDateAppend}, </if>
+			<if test="beginDate1 != null">begin_date1 = #{beginDate1}, </if>
+			<if test="endDate1 != null">end_date1 = #{endDate1}, </if>
+			<if test="beginDateAppend1 != null">begin_date_append1 = #{beginDateAppend1}, </if>
+			<if test="endDateAppend1 != null">end_date_append1 = #{endDateAppend1}, </if>
+			<if test="arrangeBeginDate != null">arrange_begin_date = #{arrangeBeginDate}, </if>
+			<if test="arrangeEndDate != null">arrange_end_date = #{arrangeEndDate}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="confirmStatus != null">confirm_status = #{confirmStatus}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update exam_task set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  exam_task set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+
+
+
+
+</mapper>

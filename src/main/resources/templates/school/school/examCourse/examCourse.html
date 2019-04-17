@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<form method="post" id="form" th:action="@{/school/examCourse/searchOutExcel}">
+						<div class="columns pull-left" >
+							<span class="pull-left" style="margin-right:10px;">考试任务</span>
+						</div>
+						<div class="columns pull-left" >
+							<select id="searchName" class="form-control" onchange="ktime(this.value)"></select>
+						</div>
+						<div class="columns pull-left">
+							<span class="pull-left" style="margin:0 10px">开考时间</span>
+							
+						</div>
+						<div class="columns pull-left" >
+							<select id="kktime" class="form-control">
+								<option value="">-请选择-</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button shiro:hasPermission="school:examCourse:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="school:examCourse:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:5px">
+
+								<button  type="submit" class="btn  btn-primary" onclick="onZipAll()">
+									导出
+								</button>
+
+						</div>
+						</form>
+					</div>
+					<div style="clear:both"></div>
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<span class="pull-left" style="margin-right:10px">开考类别</span>
+							
+						</div>
+						<div class="columns pull-left" >
+							<select id="type" name="type" class="form-control">
+								<option value="">-请选择-</option>
+								<option th:each="item:${exa_exam_course_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						<div class="columns pull-left">
+							<span class="pull-left" style="margin:0 10px">课程名称</span>
+							
+						</div>
+						<div class="columns pull-left" >
+							<input id="coursess" class="form-control" type="text" placeholder="" onclick="courseName()">
+						</div>
+						<div class="columns pull-left">
+							<span class="pull-left" style="margin:0 10px">课程代码：</span>
+						</div>
+						<div class="columns pull-left" >
+							<input id="coDaima" type="text"  class="form-control" placeholder="">
+						</div>
+						<!--<div class="columns pull-left nopadding" >-->
+							<!--<input type="text" id="courseT" name="courseT" hidden="hidden">-->
+							<!--<span class="pull-left" style="margin-left:15px;">课程类别:</span>-->
+							<!--<select id="searchCourseType" value="" name="courseType" onmouseout="dd()" class="pull-left" style="font-size: 14px;border: 1px solid #ccc;border-radius: 1px;padding-left:10px;height:38px;width:168px">-->
+								<!--<option value="">-请选择-</option>-->
+								<!--<option value="b">衔接</option>-->
+								<!--<option value="c">实践</option>-->
+							<!--</select>-->
+						<!--</div>-->
+					</div>
+					<div style="clear:both"></div>
+					<div class="list-group-item label" id="one"></div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:examCourse:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:examCourse:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:examCourse:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/school/examCourse/examCourse.js" th:src="@{/js/appjs/school/school/examCourse/examCourse.js}"></script>
+</body>
+</html>

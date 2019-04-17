@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+	<script th:inline="javascript"> var contextPath = [[@{/}]]
+        if(contextPath=="/"){
+            contextPath="";
+        };
+		
+	</script>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="基于Bootstrap的web表单构造器，通过拖拽组件的方式生成完整可用的表单">
+	<meta name="keywords" content="Bootstrap,Form,表单,拖拽">
+	<meta name="author" content="Bootstrap中文网">
+	<link href="/css/plugins/bootstrap.css" th:href="@{/css/plugins/bootstrap.css}" rel="stylesheet">
+	<style>
+	  body {
+		<!-- padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */ -->
+		padding-bottom: 10px;
+		    <!-- background-color: #f3f3f4; -->
+	  }
+	  #components{
+		min-height: 600px;
+	  }
+	  #target{
+		min-height: 200px;
+		border: 1px solid #ccc;
+		padding: 5px;
+	  }
+	  #target .component{
+		border: 1px solid #fff;
+	  }
+	  #temp{
+		width: 500px;
+		background: white;
+		border: 1px dotted #ccc;
+		border-radius: 10px;
+	  }
+
+	  .popover-content form {
+		margin: 0 auto;
+		width: 213px;
+	  }
+	  .popover-content form .btn{
+		margin-right: 10px
+	  }
+	  #source{
+		min-height: 500px;
+	  }
+	  .popover.fade{
+		z-index: 100000;
+	  }
+	  .container {
+		margin-right: 0;
+		margin-left: 0px;
+	   }
+	   #source{
+			min-height: 248px;
+	   }
+	   #components{
+			min-height: 0px;
+	   }
+	   #target{
+			min-height: 301px;
+	   }
+	</style>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+  </head>
+
+	<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+	<div class="ibox">
+	<div class="ibox-body">
+				<div style="width:100%;overflow:hidden;margin-top: 20px;">
+					<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+						数据库名称
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;">
+						<select id="appids" name="appid" class="form-control">
+							<option value="">请选择</option>
+							<option th:each="item:${appList}" th:value="${item.id}" th:text="${item.name}" ></option>
+						</select>
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;line-height: 34px;">
+						报表编码
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;">
+						<input id="code" name ="code" type="text" class="form-control"
+							   placeholder="报表编码 例如：R201">
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;line-height: 34px;">
+						表单名称
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;">
+						<input id="name" name ="name" type="text" class="form-control"
+							   placeholder="表单名称">
+					</div>
+				</div>
+				<div style="width:100%;overflow:hidden;margin-top: 20px;">
+					<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+						参数代码
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 18px;">
+						<input id="param" name ="param" type="hidden" class="form-control"
+							   placeholder="参数代码">
+						<input id="paramInput" name ="" type="text" class="form-control"
+							   placeholder="参数代码">
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;line-height: 34px;">
+						菜单名称
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;">
+						<input id="modelid" name ="modelid" type="text" class="form-control"
+							   placeholder="菜单名称">
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;line-height: 34px;">
+						报表路径
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;">
+						<input id="path" name ="path" type="text" class="form-control"
+							   placeholder="报表路径">
+					</div>
+				</div>
+	
+	<div class="container" style="padding-top: 20px;width:100%;box-sizing: border-box;padding-left: 40px;">
+	  <div class="row clearfix">
+	<div class="span6">
+		  <div class="clearfix">
+			<h2>搜素条件框</h2>
+			<hr>
+			<div id="build">
+			  <form id="target" class="form-horizontal">
+				<fieldset>
+				  <div id="legend" class="component" rel="popover" title="Form Title" trigger="manual"
+					data-content="
+					<form class='form'>
+					  <div class='controls'>
+						<label class='control-label'>Title</label> <input class='input-large' type='text' name='title' id='text'>
+						<hr/>
+						<button class='btn btn-info'>Save</button><button class='btn btn-danger'>Cancel</button>
+					  </div>
+					</form>"
+					>
+					<legend class="valtype" data-valtype="text">表单名</legend>
+				  </div>
+				</fieldset>
+			  </form>
+			</div>
+		  </div>
+		</div>	
+
+	<div class="span6">
+		<h2>拖拽下面的组件到左侧</h2>
+		<hr>
+	  <div class="tabbable">
+		<ul class="nav nav-tabs" id="navtab">
+		  <li class="active srk"><a href="#1" data-toggle="tab">输入框</a></li>
+		  <li class><a href="#2" data-toggle="tab">Select</a></li>
+		  <li class><a href="#3" data-toggle="tab">Checkbox / Radio</a></li>
+		 <!--  <li class><a href="#4" data-toggle="tab">文件 / 按钮</a></li> -->
+		  <li class="scdm"><a id="sourcetab" href="#5" data-toggle="tab">生成代码</a></li>
+		</ul>
+		<form class="form-horizontal" id="components">
+		  <fieldset>
+			<div class="tab-content">
+			  <div class="tab-pane active" id="1">
+				<div class="control-group component" data-type="text" rel="popover" title="Text Input" trigger="manual"
+				  data-content="
+				  <form class='form'>
+					<div class='controls'>
+					  <label class='control-label'>Label Text</label> <input class='input-large' type='text' name='label' id='label'>
+					  <label class='control-label'>Placeholder</label> <input type='text' name='placeholder' id='placeholder'>
+						
+					  <label class='control-label'>name</label> <input type='text' name='nameV' id='nameV'>
+					  <label class='control-label'>id</label> <input type='text' name='idV' id='idV'>
+					  <label class='control-label' style='display:none;'>onchange</label> <input style='display:none;' type='text' name='onchange' id='onchange'>
+						<label class='control-label'>onfocus</label> <input type='text' name='onfocus' id='onfocus'>
+					  <label class='control-label'>onload</label> <input type='text' name='onload' id='onload'>
+					  <label class='control-label'>onclick</label> <input type='text' name='onclick' id='onclick'>
+					  <hr/>
+					  <button class='btn btn-info'>Save</button><button class='btn btn-danger'>Cancel</button>
+					</div>
+				  </form>"
+				  >
+
+				  
+				  
+				  
+				  <!-- Text input-->
+				  <label class="control-label valtype" for="input01" data-valtype='label'>Text input</label>
+				  <div class="controls">
+					<input type="text" placeholder="placeholder" class="input-xlarge valtype title" data-valtype="placeholder" >
+					
+				  </div>
+				</div>
+				
+				<div class="control-group component hidden" data-type="search" rel="popover" title="hidden Input" trigger="manual"
+                      data-content="
+                      <form class='form'>
+                        <div class='controls'>
+						 <label class='control-label'>Label Text</label> <input class='input-large' type='text' name='label' id='label'>
+                           <label class='control-label'>name</label> <input type='text' name='nameV' id='nameV'>
+						  <label class='control-label'>id</label> <input type='text' name='idV' id='idV'>
+						  <label class='control-label' style='display:none;'>onchange</label> <input style='display:none;' type='text' name='onchange' id='onchange'>
+							
+						  <label class='control-label' style='display:none;'>onload</label> <input style='display:none;' type='text' name='onload' id='onload'>
+						  <label class='control-label' style='display:none;'>onclick</label> <input style='display:none;' type='text' name='onclick' id='onclick'>
+						  
+                          <hr/>
+                          <button class='btn btn-info'>Save</button><button class='btn btn-danger'>Cancel</button>
+                        </div>
+                      </form>"
+                      >
+
+                      <!-- Search input-->
+                      <label class="control-label valtype hidden" data-valtype="label">hidden input</label>
+                      <div class="controls">
+                        <input type="text" class="input-xlarge search-query valtype hidden" data-valtype="placeholder">
+                      </div>
+
+                    </div>
+				
+				
+				
+				
+				
+			  </div>
+
+
+		<div class="tab-pane" id="2">
+
+				<div class="control-group component" rel="popover" title="Search Input" trigger="manual"
+				  data-content="
+				  <form class='form'>
+					<div class='controls'>
+					  <label class='control-label'>Label Text</label> <input class='input-large' type='text' name='label' id='label'>
+					  <label class='control-label'>Options: </label>
+					  <textarea style='min-height: 100px' id='option'> </textarea>
+					  <label class='control-label'>name</label> <input type='text' name='nameV' id='nameV'>
+					  <label class='control-label'>id</label> <input type='text' name='idV' id='idV'>
+					   <label class='control-label'>onchange</label> <input type='text' name='onchange' id='onchange'>
+						
+					  <label class='control-label'>onload</label> <input type='text' name='onload' id='onload'>
+					  <label class='control-label'>onclick</label> <input type='text' name='onclick' id='onclick'>
+					  <hr/>
+					  <button class='btn btn-info'>Save</button><button class='btn btn-danger'>Cancel</button>
+					</div>
+				  </form>"
+				  >
+
+				  <!-- Select Basic -->
+				  <label class="control-label valtype" data-valtype="label">Select - name</label>
+				  <div class="controls">
+					<select class="input-xlarge valtype appid" data-valtype="option">
+					  <option>Enter</option>
+					  <option>Your</option>
+					  <option>Options</option>
+					  <option>Here!</option>
+					</select>
+				  </div>
+
+				</div>
+
+
+			  </div>
+
+			  <div class="tab-pane" id="3">
+
+				
+
+				<div class="control-group component" rel="popover" title="Inline Checkboxes" trigger="manual"
+				  data-content="
+				  <form class='form'>
+					<div class='controls'>
+					  <label class='control-label'>Label Text</label> <input class='input-large' type='text' name='label' id='label'>
+					  <textarea style='min-height: 200px' id='inline-checkboxes'></textarea>
+					   <label class='control-label'>onchange</label> <input type='text' name='onchange' id='onchange'>
+						
+					  <label class='control-label'>onload</label> <input type='text' name='onload' id='onload'>
+					  <hr/>
+					  <button class='btn btn-info'>Save</button><button class='btn btn-danger'>Cancel</button>
+					</div>
+				  </form>"
+				  >
+				  <label class="control-label valtype" data-valtype="label">Inline Checkboxes</label>
+
+				  <!-- Multiple Checkboxes -->
+				  <div class="controls valtype" data-valtype="inline-checkboxes">
+					<label class="checkbox inline">
+					  <input type="checkbox" value="1"> a
+					</label>
+					<label class="checkbox inline">
+					  <input type="checkbox" value="2"> b
+					</label>
+					<label class="checkbox inline">
+					  <input type="checkbox" value="3"> c
+					</label>
+				  </div>
+
+				</div>
+
+				<div class="control-group component" rel="popover" title="Inline radioes" trigger="manual"
+				  data-content="
+				  <form class='form'>
+					<div class='controls'>
+					  <label class='control-label'>Label Text</label> <input class='input-large' type='text' name='label' id='label'>
+					  <label class='control-label'>Name Attribute</label> <input class='input-large' type='text' name='name' id='name'>
+					  <textarea style='min-height: 200px' id='inline-radios'></textarea>
+					  <hr/>
+					  <button class='btn btn-info'>Save</button><button class='btn btn-danger'>Cancel</button>
+					</div>
+				  </form>"
+				  >
+				  <label class="control-label valtype" data-valtype="label">Inline radios</label>
+				  <div class="controls valtype" data-valtype="inline-radios">
+
+					<!-- Inline Radios -->
+					<label class="radio inline">
+					  <input type="radio" value="1" checked="checked" name="group">
+					  1
+					</label>
+					<label class="radio inline">
+					  <input type="radio" value="2" name="group">
+					  2
+					</label>
+					<label class="radio inline">
+					  <input type="radio" value="3">
+					  3
+					</label>
+				  </div>
+				</div>
+
+			  </div>
+
+			  <div class="tab-pane" id="4">
+				<div class="control-group component" rel="popover" title="File Upload" trigger="manual"
+				  data-content="
+				  <form class='form'>
+					<div class='controls'>
+					  <label class='control-label'>Label Text</label> <input class='input-large' type='text' name='label' id='label'>
+					  <hr/>
+					  <button class='btn btn-info'>Save</button><button class='btn btn-danger'>Cancel</button>
+					</div>
+				  </form>"
+				  >
+				  <label class="control-label valtype" data-valtype="label">File Button</label>
+
+				  <!-- File Upload -->
+				  <div class="controls">
+					<input class="input-file" id="fileInput" type="file">
+				  </div>
+				</div>
+
+				<div class="control-group component" rel="popover" title="Search Input" trigger="manual"
+				  data-content="
+				  <form class='form'>
+					<div class='controls'>
+					  <label class='control-label'>Label Text</label> <input class='input-large' type='text' name='label' id='label'>
+					  <label class='control-label'>Button Text</label> <input class='input-large' type='text' name='label' id='button'>
+					  <label class='control-label' id=''>Type: </label>
+					  <select class='input' id='color'>
+						<option id='btn-default'>Default</option>
+						<option id='btn-primary'>Primary</option>
+						<option id='btn-info'>Info</option>
+						<option id='btn-success'>Success</option>
+						<option id='btn-warning'>Warning</option>
+						<option id='btn-danger'>Danger</option>
+						<option id='btn-inverse'>Inverse</option>
+					  </select>
+					  <hr/>
+					  <button class='btn btn-info'>Save</button><button class='btn btn-danger'>Cancel</button>
+					</div>
+				  </form>"
+				  >
+				  <label class="control-label valtype" data-valtype="label">Button</label>
+
+				  <!-- Button -->
+				  <div class="controls valtype"  data-valtype="button">
+					<button class='btn btn-success'>Button</button>
+				  </div>
+				</div>
+			  </div>
+
+
+			  <div class="tab-pane" id="5">
+				<textarea id="source" class="span6"></textarea>
+			  </div>
+
+
+
+
+
+			</div>
+			</fieldset>
+		  </form>
+		</div>
+	  </div>
+	  
+	 <div class="span6">
+	  <div class="clearfix">
+		<h2>类型及sql</h2>
+		<hr>
+		<div style="border: 1px solid #ccc;padding: 5px;">
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					类型一
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 10px;">
+					<select id="type1" name="type1" class="form-control">
+						<option value="">请选择</option>
+						<option value="title">title</option>
+						<option value="body">body</option>
+						<option value="footer">footer</option>
+					</select>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					sql1
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 25px;">
+					<textarea id="sql1" class="sql1 sql"></textarea>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					类型二
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 10px;">
+					<select id="type2" name="type2" class="form-control">
+						<option value="">请选择</option>
+						<option value="title">title</option>
+						<option value="body">body</option>
+						<option value="footer">footer</option>
+					</select>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					sql2
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 25px;">
+					<textarea id="sql2" class="sql2 sql"></textarea>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					类型三
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 10px;">
+					<select id="type3" name="type3" class="form-control">
+						<option value="">请选择</option>
+						<option value="title">title</option>
+						<option value="body">body</option>
+						<option value="footer">footer</option>
+					</select>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					sql3
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 25px;">
+					<textarea id="sql3" class="sql3 sql"></textarea>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					类型四
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 10px;">
+					<select id="type4" name="type4" class="form-control">
+						<option value="">请选择</option>
+						<option value="title">title</option>
+						<option value="body">body</option>
+						<option value="footer">footer</option>
+					</select>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					sql4
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 25px;">
+					<textarea id="sql4" class="sql4 sql"></textarea>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					类型五
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 10px;">
+					<select id="type5" name="type5" class="form-control">
+						<option value="">请选择</option>
+						<option value="title">title</option>
+						<option value="body">body</option>
+						<option value="footer">footer</option>
+					</select>
+				</div>
+			</div>
+			<div style="width:100%;overflow:hidden;">
+				<div class="columns pull-left  nopadding" style="margin-left: 40px;line-height: 34px;">
+					sql5
+				</div>
+				<div class="columns pull-left  nopadding" style="margin-left: 25px;">
+					<textarea id="sql5" class="sql5 sql"></textarea>
+				</div>
+			</div>
+		</div>
+	  </div>
+	</div>
+	</div>
+	</div> <!-- /container -->
+	<table style="width:100%;text-align:center;margin:50px 0;">
+		<tr>
+			<td>
+				<button id="btn" class="btn btn-primary" style="padding:5px 30px;" onclick="save()">提交</button>
+			</td>
+		</tr>
+	</table>
+</div>
+</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="sys:report:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="sys:report:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="sys:report:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+</div>
+</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/sys/report/fb.js" th:src="@{/js/appjs/center/sys/report/fb.js}"></script>
+	<script type="text/javascript" src="/js/appjs/center/sys/report/report.js" th:src="@{/js/appjs/center/sys/report/report.js}"></script>
+		<script type="text/javascript" src="/js/appjs/center/sys/report/bootstrap.js" th:src="@{/js/appjs/center/sys/report/bootstrap.js}"></script>
+</body>
+</html>
+<script>
+	
+	
+</script>

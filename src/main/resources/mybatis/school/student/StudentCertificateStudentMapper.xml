@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.student.dao.StudentCertificateStudentDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentCertificateDO">
+		select
+            id,
+            code,
+            studentid,
+            student_specialityid,
+            specialityid,
+            speciality_name,
+            paper_score,
+            graduate_date,
+            school_name,
+            graduate_direction,
+            speciality_levels,
+            audit_date,
+            audit_operator,
+            operator,
+            update_date,
+            enabled_flag,
+            key
+		from stu_student_certificate
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentCertificateDO">
+		select
+			a.id,
+			a.studentid,
+			c.name,
+			b.id as speciality_recordid,
+			b.specialityid,
+			d.name as specialityName,
+			b.direction as graduateDirection
+		case
+			when c.type = #{studentType}
+			then dbo.get_school_name_from_school_speciality_regid(a.school_speciality_regid)
+			else dbo.get_school_name_from_speciality_recordid(a.speciality_recordid)
+			end
+			school as schoolName,
+			a.update_date,
+			a.grad_audit_status,
+			dbo.get_user_name(a.grad_audit_operator) grad_audit_operator,
+			dbo.get_formate_date(a.grad_audit_date) grad_audit_date,
+			dbo.get_system_option('自学考试分类代码')+d.class+dbo.get_system_option('省码')+a.studentid code
+		from
+			stu_student_speciality a,
+			pla_speciality_record b,
+			stu_student c,
+			pla_speciality d,
+			sch_school_speciality_reg e
+		<where>
+			and a.speciality_recordid = b.id
+			and a.studentid = c.id
+			and b.specialityid = d.id
+			and a.graduate = #{graduate}
+			and a.grad_audit_status = #{gradAuditStatus}
+			<if test="studentid != null and studentid != ''"> and c.id = #{studentid} </if>
+			and c.type = #{studentType}
+			and a.apply_operator in (
+				select
+					a.id
+				from
+					users a,
+					worker b
+		</where>
+		<where>
+			and a.workerid = b.id
+			and (('b' = 'a' and ((b.type = 'b' and b.deptid = '201101030004')
+			or (b.type = 'c' and dbo.get_region_parent_id(b.deptid) = '201101030004')))
+			or ('b' = 'b' and ((b.type = 'd' and b.deptid = '201101030004')
+			or (b.type = 'e' and dbo.get_schoolid_from_collegeid(b.deptid) = '201101030004')))))
+			and (a.speciality_recordid = '' or '' = '')))
+			and a.apply_date between '2014-08-01 00:00:00'
+			and '2015-01-31 23:59:59'
+		order by d.id,a.studentid
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		  <if test="key != null and key != ''"> and key = #{key} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_certificate
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="studentSpecialityid != null and studentSpecialityid != ''"> and student_specialityid = #{studentSpecialityid} </if>
+		  <if test="specialityid != null and specialityid != ''"> and specialityid = #{specialityid} </if>
+		  <if test="specialityName != null and specialityName != ''"> and speciality_name = #{specialityName} </if>
+		  <if test="paperScore != null and paperScore != ''"> and paper_score = #{paperScore} </if>
+		  <if test="graduateDate != null and graduateDate != ''"> and graduate_date = #{graduateDate} </if>
+		  <if test="schoolName != null and schoolName != ''"> and school_name = #{schoolName} </if>
+		  <if test="graduateDirection != null and graduateDirection != ''"> and graduate_direction = #{graduateDirection} </if>
+		  <if test="specialityLevels != null and specialityLevels != ''"> and speciality_levels = #{specialityLevels} </if>
+		  <if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		  <if test="key != null and key != ''"> and key = #{key} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentCertificateDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_certificate
+		(
+			code, 
+			studentid, 
+			student_specialityid, 
+			specialityid, 
+			speciality_name, 
+			paper_score, 
+			graduate_date, 
+			school_name, 
+			graduate_direction, 
+			speciality_levels, 
+			audit_date, 
+			audit_operator, 
+			operator, 
+			update_date, 
+			key, 
+		)
+		values
+		(
+			#{code}, 
+			#{studentid}, 
+			#{studentSpecialityid}, 
+			#{specialityid}, 
+			#{specialityName}, 
+			#{paperScore}, 
+			#{graduateDate}, 
+			#{schoolName}, 
+			#{graduateDirection}, 
+			#{specialityLevels}, 
+			#{auditDate}, 
+			#{auditOperator}, 
+			#{operator}, 
+			now(), 
+			#{key}, 
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentCertificateDO">
+		update stu_student_certificate 
+		<set>
+			<if test="code != null">code = #{code}, </if>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="studentSpecialityid != null">student_specialityid = #{studentSpecialityid}, </if>
+			<if test="specialityid != null">specialityid = #{specialityid}, </if>
+			<if test="specialityName != null">speciality_name = #{specialityName}, </if>
+			<if test="paperScore != null">paper_score = #{paperScore}, </if>
+			<if test="graduateDate != null">graduate_date = #{graduateDate}, </if>
+			<if test="schoolName != null">school_name = #{schoolName}, </if>
+			<if test="graduateDirection != null">graduate_direction = #{graduateDirection}, </if>
+			<if test="specialityLevels != null">speciality_levels = #{specialityLevels}, </if>
+			<if test="auditDate != null">audit_date = #{auditDate}, </if>
+			<if test="auditOperator != null">audit_operator = #{auditOperator}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="key != null">key = #{key}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_certificate set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_certificate set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

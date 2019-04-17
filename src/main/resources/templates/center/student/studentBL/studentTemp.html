@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+					<form shiro:hasPermission="student:studentBLXX:student"   class="form-horizontal pull-left" id="form_table" action="#" th:action="@{/student/studentBLXX/BLsavBathData}" enctype="multipart/form-data" method="post">
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							考生类别
+						</div>
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							<select id="type" name="type" class="form-control">
+									<option value="">请选择</option>
+									<option th:each="item:${pla_speciality_record_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+								</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:5px">
+							<button class="btn btn-success" type="button" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left" style="overflow: hidden;">
+						
+								<div class="pull-left">
+									<div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle;margin-right:10px;">
+										<button class="btn btn-success fileinput-button" type="button">选择文件</button>
+										<input type="file" name="filename" id="jobData" accept=".dbf" onchange="loadFile(this.files[0])" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
+									</div>
+									<span id="filename" style="vertical-align: middle" style="margin-right:10px;">未上传文件</span>
+									<!-- <input type="button" style="margin-left:10px;"
+										   onclick="closes()" class="btn pull-right btn-primary" value="开始导入"/> -->
+								   <a th:href="@{/jasper/考生基本信息临时表.dbf}"><button class="btn" type="button" style="margin-right:5px">模板下载</button></a>
+								</div>
+								<div class="pull-left">
+									<!-- <div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle;margin-right:10px;">
+										<button class="btn btn-success fileinput-button" type="button">照片路径</button>
+										<input type="file" name="photoName" id="jobData1" onchange="loadFile1(this.files[0])" style="position:absolute;top:0;left:0;font-size:34px; opacity:0">
+									</div>
+									<span id="filename1" style="vertical-align: middle" style="margin-right:10px;">未上传文件</span> -->
+									<!-- <input type="hidden" id="havePhoto" name="havePhoto" value="false"/> -->
+									<!-- <input type="checkBox" style="margin-left:10px;" id="havePhoto" name="havePhoto"/><span>自动跳过没有照片的考生</span> -->
+									<input type="button" style="margin-left:10px;"
+										   onclick="closes()" class="btn pull-right btn-primary" value="开始导入"/>
+								</div>
+								<script>
+									function loadFile(file){
+										$("#filename").html(file.name);
+									}
+									function loadFile1(file){
+										$("#filename1").html(file.name);
+									}
+									function closes(){
+									if($("#jobData").val()==""){
+										layer.msg("请选择文件")
+									}else if($("#havePhoto").prop("checked")==true){
+											if($("#jobData1").val()==""){
+												layer.msg("请选择照片路径")
+											}else{
+												$("#form_table").submit();
+											}
+											
+									}else{
+										$("#form_table").submit();
+									}
+										
+									}
+								</script>
+
+							<input id="msg" type="hidden" class="form-control" th:value="${msg}">
+					</div>
+					</form>
+						<!--<div class="columns pull-left" style="margin-left:5px">-->
+							<!--<button shiro:hasPermission="student:studentTemp:add" type="button" class="btn  btn-primary" onclick="add()">-->
+								<!--<i class="fa fa-plus" aria-hidden="true"></i>添加-->
+							<!--</button>-->
+							<!--<button shiro:hasPermission="student:studentTemp:batchRemove" type="button" class="btn  btn-danger"-->
+								<!--onclick="batchRemove()">-->
+								<!--<i class="fa fa-trash" aria-hidden="true"></i>删除-->
+							<!--</button>-->
+						<!--</div>-->
+						
+						
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentTemp:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentTemp:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentTemp:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentBL/studentTemp.js" th:src="@{/js/appjs/center/student/studentBL/studentTemp.js}"></script>
+	<script>
+    $(function(){
+        if($("#msg").val()!=""){
+            layer.msg($("#msg").val())
+			reLoad();
+        }
+    })
+</script>
+</body>
+</html>

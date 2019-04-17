@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.exam.dao.ExamTimeRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ExamTimeDO">
+		select
+            id,
+            exam_taskid,
+            seq,
+            exam_date,
+            segment,
+            begin_time,
+            end_time,
+            operator,
+            update_date,
+            enabled_flag
+		from exa_exam_time
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ExamTimeDO">
+		select
+	        id,
+	        exam_taskid,
+	        seq,
+	        exam_date,
+	        segment,
+	        begin_time,
+	        end_time,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from exa_exam_time
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="examTaskid != null and examTaskid != ''"> and exam_taskid = #{examTaskid} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="examDate != null and examDate != ''"> and exam_date = #{examDate} </if>
+		  <if test="segment != null and segment != ''"> and segment = #{segment} </if>
+		  <if test="beginTime != null and beginTime != ''"> and begin_time = #{beginTime} </if>
+		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from exa_exam_time
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="examTaskid != null and examTaskid != ''"> and exam_taskid = #{examTaskid} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="examDate != null and examDate != ''"> and exam_date = #{examDate} </if>
+		  <if test="segment != null and segment != ''"> and segment = #{segment} </if>
+		  <if test="beginTime != null and beginTime != ''"> and begin_time = #{beginTime} </if>
+		  <if test="endTime != null and endTime != ''"> and end_time = #{endTime} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ExamTimeDO" useGeneratedKeys="true" keyProperty="id">
+		insert into exa_exam_time
+		(
+			exam_taskid, 
+			seq, 
+			exam_date, 
+			segment, 
+			begin_time, 
+			end_time, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{examTaskid}, 
+			#{seq}, 
+			#{examDate}, 
+			#{segment}, 
+			#{beginTime}, 
+			#{endTime}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ExamTimeDO">
+		update exa_exam_time 
+		<set>
+			<if test="examTaskid != null">exam_taskid = #{examTaskid}, </if>
+			<if test="seq != null">seq = #{seq}, </if>
+			<if test="examDate != null">exam_date = #{examDate}, </if>
+			<if test="segment != null">segment = #{segment}, </if>
+			<if test="beginTime != null">begin_time = #{beginTime}, </if>
+			<if test="endTime != null">end_time = #{endTime}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update exa_exam_time set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  exa_exam_time set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

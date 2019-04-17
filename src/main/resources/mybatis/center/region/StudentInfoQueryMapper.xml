@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.region.dao.StudentInfoQueryDao">
+	<!--报考统计
+		/*
+		and  'b.code'+b.name = #{name}*/
+	-->
+	<select id="list" resultType="com.hxy.nzxy.stexam.center.region.domain.StudentInfoQueryDO">
+				select id,
+	<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>concat(gcode,gname )  studentName,</if>
+	<if test='studentType=="b" and regOrType!="b"'>concat(fcode,fname ) as studentName,</if>
+				count(1) as studentCount
+				from
+					(
+					  select
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>g.id,g.code gcode,g.name gname</if>
+		<if test='studentType=="b" and regOrType!="b"'>f.id,f.name  fname,f.code fcode</if>
+
+					  from stu_student_course a,
+						   stu_student b,
+						   exa_exam_course c,
+						   exa_exam_time d,
+						   stu_student_speciality e
+	<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>,reg_region g</if>
+	<if test='studentType=="b" and regOrType!="b"'>,sch_school f</if>
+					<where>
+							and a.enabled_flag=1
+							and b.enabled_flag=1
+							and c.enabled_flag=1
+							and d.enabled_flag=1
+							and e.enabled_flag=1
+						<if test='studentType=="b" and regOrType!="b"'>
+							and f.enabled_flag=1
+						</if>
+						<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+							and g.enabled_flag=1
+						</if>
+						and a.studentid = b.id
+						   and b.id = e.studentid
+						<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>	and a.regionid= g.id</if>
+					<if test='studentType=="b" and regOrType!="b"'>	and e.schoolid= f.id</if>
+						   and b.type = #{studentType}
+						   and a.exam_courseid = c.id
+						   and c.exam_timeid = d.id
+						   and d.exam_taskid = #{examTaskid}
+						<if test="type != null and type != ''">
+					       and a.type = #{type}
+						</if>
+
+					</where>
+				group by
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>g.id,g.code,g.name,</if>
+		<if test='studentType=="b" and regOrType!="b"'>f.id,f.code,f.name,</if>
+							a.id
+		<if test='count=="b" '>	,c.courseid      </if>
+							) as temp  group by id
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>,concat(gcode,gname)</if>
+		<if test='studentType=="b" and regOrType!="b"'>,concat(fcode,fname)</if>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by studentName
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="count" resultType="int">
+		select count(1) from(
+		select
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>concat(gcode,gname ) as name,</if>
+		<if test='studentType=="b" and regOrType!="b"'>concat(fcode,fname ) as name,</if>
+		count(1) as studentCount
+		from
+		(
+		select
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>g.code gcode,g.name gname</if>
+		<if test='studentType=="b" and regOrType!="b"'>f.name  fname,f.code fcode</if>
+
+		from stu_student_course a,
+		stu_student b,
+		exa_exam_course c,
+		exa_exam_time d,
+		stu_student_speciality e
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>,reg_region g</if>
+		<if test='studentType=="b" and regOrType!="b"'>,sch_school f</if>
+		<where>
+			and a.enabled_flag=1
+			and b.enabled_flag=1
+			and c.enabled_flag=1
+			and d.enabled_flag=1
+			and e.enabled_flag=1
+			<if test='studentType=="b" and regOrType!="b"'>
+				and f.enabled_flag=1
+			</if>
+			<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+				and g.enabled_flag=1
+			</if>
+			and	a.studentid = b.id
+			and b.id = e.studentid
+			<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>	and a.regionid= g.id</if>
+			<if test='studentType=="b" and regOrType!="b"'>	and e.schoolid= f.id</if>
+			and b.type = #{studentType}
+			and a.exam_courseid = c.id
+			and c.exam_timeid = d.id
+			and d.exam_taskid = #{examTaskid}
+			<if test="type != null and type != ''">
+				and a.type = #{type}
+			</if>
+
+		</where>
+		group by
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>g.code,g.name,</if>
+		<if test='studentType=="b" and regOrType!="b"'>f.code,f.name,</if>
+		a.id
+			<if test='count=="b" '>	,c.courseid   </if>
+		) as temp  group by
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>concat(gcode,gname)</if>
+		<if test='studentType=="b" and regOrType!="b"'>concat(fcode,fname)</if>
+		) as a
+	</select>
+
+<!--查看明细-->
+	<select id="listDetail" resultType="com.hxy.nzxy.stexam.center.region.domain.StudentInfoQueryDO">
+		select  name,
+	                                   count(*) count
+                                  from
+                                (
+		                                select
+						<if test='studentType=="b" and regOrType!="b"'>
+		                                concat(g.code," ",f.parent_name,"->",f.name)  name
+										</if>
+						<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+										 a.child_regionid, concat(f.code+" "+f.name) as name
+										</if>
+		                                  from stu_student_course a,
+			                                   stu_student b,
+			                                   exa_exam_course c,
+			                                   exa_exam_time d,
+								<if test='studentType=="b" and regOrType!="b"'>
+												stu_student_speciality e,
+										</if>
+												reg_region f
+			<if test='studentType=="b" and regOrType!="b"'>
+												,sch_school_site g
+										</if>
+
+		                                 where 1=1
+											and a.enabled_flag=1
+											and b.enabled_flag=1
+											and c.enabled_flag=1
+											and d.enabled_flag=1
+										<if test='studentType=="b" and regOrType!="b"'>
+											and e.enabled_flag=1
+										</if>
+												and f.enabled_flag=1
+
+											<if test='studentType=="b" and regOrType!="b"'>
+												and g.enabled_flag=1
+											</if>
+											and a.studentid = b.id
+				<if test='studentType=="b" and regOrType!="b"'>
+											and b.id = e.studentid
+											and g.schoolid=e.schoolid and f.id =a.child_regionid
+											and g.status='b'
+										</if>
+				<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+												and f.id =a.child_regionid
+											</if>
+											and b.type = #{studentType}
+		                                   and (a.type = 'all' or 'all' = 'all')
+		                                   and a.exam_courseid = c.id
+		                                   and c.exam_timeid = d.id
+		                                   and d.exam_taskid =#{examTaskid}
+					<if test='studentType=="b" and regOrType!="b"'>
+		                                   and e.schoolid = #{id}
+										</if>
+					<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+											and a.regionid = #{id}
+										</if>
+					<if test='studentType=="b" and regOrType!="b"'>
+										group by g.code,b.id,f.name ,f.parent_name
+										</if>
+					<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+										group by a.child_regionid,b.id
+  										</if>
+										<if test='count=="b" '>	,c.courseid </if>
+		) a
+                                group by  name
+                                order by name
+	</select>
+	<select id="countDetail" resultType="int">
+		select count(*)
+		from(
+		select  name,
+		count(*) count
+		from
+		(
+		select
+		<if test='studentType=="b" and regOrType!="b"'>
+			concat(g.code," ",f.parent_name,"->",f.name)  name
+		</if>
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+			a.child_regionid, concat(f.code+" "+f.name) as name
+		</if>
+		from stu_student_course a,
+		stu_student b,
+		exa_exam_course c,
+		exa_exam_time d,
+		<if test='studentType=="b" and regOrType!="b"'>
+			stu_student_speciality e,
+		</if>
+		reg_region f
+		<if test='studentType=="b" and regOrType!="b"'>
+			,sch_school_site g
+		</if>
+
+		where 1=1
+		and a.enabled_flag=1
+		and b.enabled_flag=1
+		and c.enabled_flag=1
+		and d.enabled_flag=1
+		<if test='studentType=="b" and regOrType!="b"'>
+			and e.enabled_flag=1
+		</if>
+		and f.enabled_flag=1
+
+		<if test='studentType=="b" and regOrType!="b"'>
+			and g.enabled_flag=1
+		</if>
+
+
+		and a.studentid = b.id
+		<if test='studentType=="b" and regOrType!="b"'>
+			and b.id = e.studentid
+			and g.schoolid=e.schoolid and f.id =a.child_regionid
+			and g.status='b'
+		</if>
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+			and f.id =a.child_regionid
+		</if>
+		and b.type = #{studentType}
+		and (a.type = 'all' or 'all' = 'all')
+		and a.exam_courseid = c.id
+		and c.exam_timeid = d.id
+		and d.exam_taskid =#{examTaskid}
+		<if test='studentType=="b" and regOrType!="b"'>
+			and e.schoolid = #{id}
+		</if>
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+			and a.regionid = #{id}
+		</if>
+		<if test='studentType=="b" and regOrType!="b"'>
+			group by g.code,b.id,f.name ,f.parent_name
+		</if>
+		<if test='studentType=="a" or (studentType=="b" and regOrType=="b")'>
+			group by a.child_regionid,b.id
+		</if>
+		<if test='count=="b" '>	,c.courseid </if>
+		) a
+		group by  name
+		order by name
+		)as a
+	</select>
+</mapper>

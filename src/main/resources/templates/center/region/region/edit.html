@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${region.id}"  type="hidden">
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">父编号：</label>
+								<div class="col-sm-4">
+									<input id="parentid" name="parentid" th:value="${region.parentid}" class="form-control" type="text">
+								</div>
+								<label class="col-sm-2 control-label">代码：</label>
+								<div class="col-sm-4">
+									<input id="code" name="code" th:value="${region.code}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">类别：</label>
+								<div class="col-sm-4">
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${reg_region_type}" th:value="${item.id}" th:text="${item.name}" th:field="${region.type}"></option>
+									</select>
+								</div>
+								<label class="col-sm-2 control-label">名称：</label>
+								<div class="col-sm-4">
+									<input id="name" name="name" th:value="${region.name}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">拼音：</label>
+								<div class="col-sm-4">
+									<input id="pinyin" name="pinyin" th:value="${region.pinyin}" class="form-control" type="text">
+								</div>
+								<label class="col-sm-2 control-label">联系人：</label>
+								<div class="col-sm-4">
+									<input id="linkman" name="linkman" th:value="${region.linkman}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">联系地址：</label>
+								<div class="col-sm-4">
+									<input id="address" name="address" th:value="${region.address}" class="form-control" type="text">
+								</div>
+								<label class="col-sm-2 control-label">邮编：</label>
+								<div class="col-sm-4">
+									<input id="postCode" name="postCode" th:value="${region.postCode}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">固定电话：</label>
+								<div class="col-sm-4">
+									<input id="phone" name="phone" th:value="${region.phone}" class="form-control" type="text">
+								</div>
+								<label class="col-sm-2 control-label">移动电话：</label>
+								<div class="col-sm-4">
+									<input id="mphone" name="mphone" th:value="${region.mphone}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">传真：</label>
+								<div class="col-sm-4">
+									<input id="fax" name="fax" th:value="${region.fax}" class="form-control" type="text">
+								</div>
+								<label class="col-sm-2 control-label">是否能照相：</label>
+								<div class="col-sm-4">
+									<select id="photoFlag" name="photoFlag" class="form-control">
+										<option th:each="item:${reg_region_photo_flag}" th:value="${item.id}" th:text="${item.name}" th:field="${region.photoFlag}"></option>
+									</select>
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">考区转移：</label>
+								<div class="col-sm-4">
+									<input id="examTransfer" name="examTransfer" th:value="${region.examTransfer}" class="form-control" type="text">
+								</div>
+								<label class="col-sm-2 control-label">考场规格：</label>
+								<div class="col-sm-4">
+									<input id="roomSize" name="roomSize" th:value="${region.roomSize}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">考试提示：</label>
+								<div class="col-sm-4">
+									<input id="examMsg" name="examMsg" th:value="${region.examMsg}" class="form-control" type="text">
+								</div>
+								<label class="col-sm-2 control-label">考场编排序号：</label>
+								<div class="col-sm-4">
+									<input id="seq" name="seq" th:value="${region.seq}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12" style="text-align:center;">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/region/region/edit.js" th:src="@{/js/appjs/center/region/region/edit.js}">
+	</script>
+</body>
+</html>

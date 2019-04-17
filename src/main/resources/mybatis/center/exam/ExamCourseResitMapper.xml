@@ -1,0 +1,1017 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.exam.dao.ExamCourseResitDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+		select
+            id,
+            courseid,
+            bookid,
+            exam_taskid,
+            exam_timeid,
+            full_score,
+            pass_score,
+            objectives_score,
+            subjective_score,
+            exceed_number,
+            type,
+            classify,
+            card_type,
+            remark,
+            seq,
+            operator,
+            update_date,
+            enabled_flag
+		from exa_exam_course
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+		select
+	        a.id,
+	        a.courseid,
+		    b.name as courseName,
+		    c.name as bookName,
+		    a.exam_taskid,
+	        a.exam_timeid,
+	        a.full_score,
+	        a.pass_score,
+	        a.objectives_score,
+	        a.subjective_score,
+	        a.exceed_number,
+	        a.type,
+	        a.classify,
+	        a.card_type,
+	        a.remark,
+	        a.seq,
+	        a.operator,
+	        a.update_date
+		 from exa_exam_course  a left  join  (select id,name from  pla_course where enabled_flag=1)  b on b.id=a.courseid  left  join (select id,name from  pla_book where enabled_flag=1)  c on a.bookid=c.id
+        <where>
+         and a.enabled_flag=1
+		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+		  <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+		  <if test="bookid != null and bookid != ''"> and a.bookid = #{bookid} </if>
+			<if test="examTaskid != null and examTaskid != ''"> and a.exam_taskid = #{examTaskid} </if>
+		  <if test="examTimeid != null and examTimeid != ''"> and a.exam_timeid = #{examTimeid} </if>
+		  <if test="fullScore != null and fullScore != ''"> and a.full_score = #{fullScore} </if>
+		  <if test="passScore != null and passScore != ''"> and a.pass_score = #{passScore} </if>
+		  <if test="objectivesScore != null and objectivesScore != ''"> and a.objectives_score = #{objectivesScore} </if>
+		  <if test="subjectiveScore != null and subjectiveScore != ''"> and sa.ubjective_score = #{subjectiveScore} </if>
+		  <if test="exceedNumber != null and exceedNumber != ''"> and a.exceed_number = #{exceedNumber} </if>
+		  <if test="type != null and type != ''"> and a.type = #{type} </if>
+		  <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+		  <if test="cardType != null and cardType != ''"> and a.card_type = #{cardType} </if>
+		  <if test="remark != null and remark != ''"> and a.remark = #{remark} </if>
+		  <if test="seq != null and seq != ''"> and a.seq = #{seq} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from exa_exam_course
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="bookid != null and bookid != ''"> and bookid = #{bookid} </if>
+		  <if test="examTimeid != null and examTimeid != ''"> and exam_timeid = #{examTimeid} </if>
+		  <if test="fullScore != null and fullScore != ''"> and full_score = #{fullScore} </if>
+		  <if test="passScore != null and passScore != ''"> and pass_score = #{passScore} </if>
+		  <if test="objectivesScore != null and objectivesScore != ''"> and objectives_score = #{objectivesScore} </if>
+		  <if test="subjectiveScore != null and subjectiveScore != ''"> and subjective_score = #{subjectiveScore} </if>
+		  <if test="exceedNumber != null and exceedNumber != ''"> and exceed_number = #{exceedNumber} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		  <if test="cardType != null and cardType != ''"> and card_type = #{cardType} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ExamCourseDO" useGeneratedKeys="true" keyProperty="id">
+		insert into exa_exam_course
+		(
+			courseid, 
+			bookid,
+			exam_taskid,
+			exam_timeid, 
+			full_score, 
+			pass_score, 
+			objectives_score, 
+			subjective_score, 
+			exceed_number, 
+			type, 
+			classify, 
+			card_type, 
+			remark, 
+			seq, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{courseid}, 
+			#{bookid},
+			#{examTaskid},
+			#{examTimeid}, 
+			#{fullScore}, 
+			#{passScore}, 
+			#{objectivesScore}, 
+			#{subjectiveScore}, 
+			#{exceedNumber}, 
+			#{type}, 
+			#{classify}, 
+			#{cardType}, 
+			#{remark}, 
+			#{seq}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+		update exa_exam_course 
+		<set>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="bookid != null">bookid = #{bookid}, </if>
+			<if test="examTimeid != null">exam_timeid = #{examTimeid}, </if>
+			<if test="fullScore != null">full_score = #{fullScore}, </if>
+			<if test="passScore != null">pass_score = #{passScore}, </if>
+			<if test="objectivesScore != null">objectives_score = #{objectivesScore}, </if>
+			<if test="subjectiveScore != null">subjective_score = #{subjectiveScore}, </if>
+			<if test="exceedNumber != null">exceed_number = #{exceedNumber}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="classify != null">classify = #{classify}, </if>
+			<if test="cardType != null">card_type = #{cardType}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="seq != null">seq = #{seq}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update exa_exam_course set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  exa_exam_course set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="listByids" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+	select
+	id,
+	courseid
+	from exa_exam_course where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+	<select id="listProposition" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+SELECT
+   e.id,
+   e.classify,
+   e.courseid,
+   e.exam_timeid,
+   e.bookid,
+   e.update_date,
+	e.seq,
+   e.exam_date,
+   e.segment,
+   count(e.type) AS type,
+    e.courseType,
+    e.bookName,
+    e.publisher,
+     e.version
+FROM
+   (
+      SELECT
+         a.id,
+         a.classify,
+         a.courseid,
+         a.exam_timeid,
+         a.bookid,
+         a.update_date,
+			a.seq,
+         c.type,
+         d.exam_date,
+         d.segment,
+       a.type as courseType,
+        p.name as bookName,
+        p.publisher,
+        p.version
+      FROM
+         exa_exam_course a
+      LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+      LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+      LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+      LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+		WHERE 1=1
+		<if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+		<if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+      AND a.enabled_flag = 1
+      AND b.enabled_flag = 1
+      AND c.enabled_flag = 1
+      AND d.enabled_flag = 1
+        and a.auditStatus='b'
+      AND (c.type = 'a' OR c.type = 'b')
+      GROUP BY
+         a.id,
+         a.classify,
+         a.courseid,
+         a.exam_timeid,
+         a.bookid,
+         a.update_date,
+		 a.seq,
+         c.type,
+         d.exam_date,
+         d.segment,
+        a.type,
+        p.name ,
+        p.publisher,
+        p.version
+   ) e
+GROUP BY
+   e.id,
+   e.classify,
+   e.courseid,
+   e.exam_timeid,
+   e.bookid,
+   e.update_date,
+   e.exam_date,
+	e.seq,
+   e.segment,
+    e.courseType,
+    e.bookName,
+    e.publisher,
+   e.version
+HAVING
+   type = 2
+UNION
+   SELECT
+      a.id,
+      a.classify,
+      a.courseid,
+      a.exam_timeid,
+      a.bookid,
+      a.update_date,
+		a.seq,
+      d.exam_date,
+      d.segment,
+      c.type,
+        a.type as courseType,
+        p.name as bookName,
+        p.publisher,
+        p.version
+   FROM
+      exa_exam_course a
+   LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+   LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+   LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+    LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+		WHERE 1=1
+		<if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+		<if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+   AND a.enabled_flag = 1
+   AND b.enabled_flag = 1
+   AND c.enabled_flag = 1
+   AND d.enabled_flag = 1
+    and a.auditStatus='b'
+   AND c.type = 'a'
+   AND a.id IN (
+      SELECT
+         e.id
+      FROM
+         (
+            SELECT
+               a.id,
+               a.classify,
+               a.courseid,
+               a.exam_timeid,
+               a.bookid,
+               a.update_date,
+			    a.seq,
+               c.type,
+               d.exam_date,
+               d.segment,
+               a.type as courseType,
+                p.name as bookName,
+                p.publisher,
+                p.version
+            FROM
+               exa_exam_course a
+            LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+            LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+            LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+             LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+        WHERE 1=1
+		<if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+		<if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+            AND a.enabled_flag = 1
+            AND b.enabled_flag = 1
+            AND c.enabled_flag = 1
+            AND d.enabled_flag = 1
+            and a.auditStatus='b'
+            AND (c.type = 'a' OR c.type = 'b')
+            GROUP BY
+               a.id,
+               a.classify,
+               a.courseid,
+               a.exam_timeid,
+               a.bookid,
+               a.update_date,
+				a.seq,
+               c.type,
+               d.exam_date,
+               d.segment,
+                a.type,
+                p.name ,
+                p.publisher,
+                p.version
+         ) e
+      GROUP BY
+         e.id,
+         e.classify,
+         e.courseid,
+         e.exam_timeid,
+         e.bookid,
+         e.update_date,
+         e.exam_date,
+		e.seq,
+         e.segment,
+        e.courseType,
+        e.bookName,
+        e.publisher,
+        e.version
+      HAVING
+         count(e.type) = 1
+   )
+   UNION
+      SELECT
+         a.id,
+         a.classify,
+         a.courseid,
+         a.exam_timeid,
+         a.bookid,
+         a.update_date,
+		a.seq,
+         d.exam_date,
+         d.segment,
+         c.type,
+        a.type as courseType,
+        p.name as bookName,
+        p.publisher,
+        p.version
+      FROM
+         exa_exam_course a
+      LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+      LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+      LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+      LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+		WHERE 1=1
+		<if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+		<if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+      AND a.enabled_flag = 1
+      AND b.enabled_flag = 1
+      AND c.enabled_flag = 1
+      AND d.enabled_flag = 1
+        and a.auditStatus='b'
+      AND c.type = 'b'
+      AND a.id IN (
+         SELECT
+            e.id
+         FROM
+            (
+               SELECT
+                  a.id,
+                  a.classify,
+                  a.courseid,
+                  a.exam_timeid,
+                  a.bookid,
+                  a.update_date,
+				  a.seq,
+                  c.type,
+                  d.exam_date,
+                  d.segment,
+                  a.type as courseType,
+                    p.name as bookName,
+                    p.publisher,
+                    p.version
+               FROM
+                  exa_exam_course a
+               LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+               LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+               LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+               LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+               WHERE 1=1
+				<if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+				<if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+                <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+               AND a.enabled_flag = 1
+               AND b.enabled_flag = 1
+               AND c.enabled_flag = 1
+               AND d.enabled_flag = 1
+        and a.auditStatus='b'
+               AND (c.type = 'a' OR c.type = 'b')
+               GROUP BY
+                  a.id,
+                  a.classify,
+                  a.courseid,
+                  a.exam_timeid,
+                  a.bookid,
+                  a.update_date,
+				  a.seq,
+                  c.type,
+                  d.exam_date,
+                  d.segment,
+                  a.type,
+                    p.name ,
+                    p.publisher,
+                    p.version
+            ) e
+         GROUP BY
+            e.id,
+            e.classify,
+            e.courseid,
+            e.exam_timeid,
+            e.bookid,
+            e.update_date,
+			e.seq,
+            e.exam_date,
+            e.segment,
+            e.courseType,
+            e.bookName,
+            e.publisher,
+            e.version
+            HAVING
+            count(e.type) = 1
+      )
+GROUP BY a.id,a.classify,a.courseid,a.exam_timeid,a.bookid,a.update_date,a.seq,c.type,d.exam_date,d.segment,a.type,  p.name ,
+        p.publisher,
+        p.version
+	</select>
+
+	<select id="countProposition" resultType="int">
+        select count(1) from(
+        SELECT
+        e.id,
+        e.classify,
+        e.courseid,
+        e.exam_timeid,
+        e.bookid,
+        e.update_date,
+        e.seq,
+        e.exam_date,
+        e.segment,
+        count(e.type) AS type,
+        e.courseType,
+        e.bookName,
+        e.publisher,
+        e.version
+        FROM
+        (
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment,
+        a.type as courseType,
+        p.name as bookName,
+        p.publisher,
+        p.version
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND (c.type = 'a' OR c.type = 'b')
+        GROUP BY
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment,
+        a.type,
+        p.name ,
+        p.publisher,
+        p.version
+        ) e
+        GROUP BY
+        e.id,
+        e.classify,
+        e.courseid,
+        e.exam_timeid,
+        e.bookid,
+        e.update_date,
+        e.exam_date,
+        e.seq,
+        e.segment,
+        e.courseType,
+        e.bookName,
+        e.publisher,
+        e.version
+        HAVING
+        type = 2
+        UNION
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        d.exam_date,
+        d.segment,
+        c.type,
+        a.type as courseType,
+        p.name as bookName,
+        p.publisher,
+        p.version
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND c.type = 'a'
+        AND a.id IN (
+        SELECT
+        e.id
+        FROM
+        (
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment,
+        a.type as courseType,
+        p.name as bookName,
+        p.publisher,
+        p.version
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND (c.type = 'a' OR c.type = 'b')
+        GROUP BY
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment,
+        a.type,
+        p.name ,
+        p.publisher,
+        p.version
+        ) e
+        GROUP BY
+        e.id,
+        e.classify,
+        e.courseid,
+        e.exam_timeid,
+        e.bookid,
+        e.update_date,
+        e.exam_date,
+        e.seq,
+        e.segment,
+        e.courseType,
+        e.bookName,
+        e.publisher,
+        e.version
+        HAVING
+        count(e.type) = 1
+        )
+        UNION
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        d.exam_date,
+        d.segment,
+        c.type,
+        a.type as courseType,
+        p.name as bookName,
+        p.publisher,
+        p.version
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND c.type = 'b'
+        AND a.id IN (
+        SELECT
+        e.id
+        FROM
+        (
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment,
+        a.type as courseType,
+        p.name as bookName,
+        p.publisher,
+        p.version
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        LEFT JOIN pla_book p ON p.id = a.bookid and p.enabled_flag=1
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND (c.type = 'a' OR c.type = 'b')
+        GROUP BY
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment,
+        a.type,
+        p.name ,
+        p.publisher,
+        p.version
+        ) e
+        GROUP BY
+        e.id,
+        e.classify,
+        e.courseid,
+        e.exam_timeid,
+        e.bookid,
+        e.update_date,
+        e.seq,
+        e.exam_date,
+        e.segment,
+        e.courseType,
+        e.bookName,
+        e.publisher,
+        e.version
+        HAVING
+        count(e.type) = 1
+        )
+        GROUP BY a.id,a.classify,a.courseid,a.exam_timeid,a.bookid,a.update_date,a.seq,c.type,d.exam_date,d.segment,a.type,  p.name ,
+        p.publisher,
+        p.version
+        )
+	</select>
+	<update id="updateAllDefault" parameterType="com.hxy.nzxy.stexam.domain.ExamCourseDO" >
+		update exa_exam_course set classify='a' where id in(
+		select a.id  from (
+		select id from exa_exam_course
+		WHERE 1=1
+		<if test="examTaskid != null and examTaskid != ''"> and  exam_taskid=#{examTaskid} </if>
+		<if test="courseid != null and courseid != ''"> and courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		AND enabled_flag = 1
+		)a)
+	</update>
+	<update id="updateSequence"  parameterType="java.util.List" >
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=";">
+					update exa_exam_course set seq=#{bean.seq} where id=#{bean.id}
+		</foreach>
+
+	</update>
+
+	<select id="listSequence" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO" >
+		set @seq=0;
+		select @seq:=@seq+1 as seq,f.id from
+
+		(SELECT
+        e.id,
+        e.classify,
+        e.courseid,
+        e.exam_timeid,
+        e.bookid,
+        e.update_date,
+        e.seq,
+        e.exam_date,
+        e.segment,
+        count(e.type) AS type
+        FROM
+        (
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND (c.type = 'a' OR c.type = 'b')
+        GROUP BY
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment
+        ) e
+        GROUP BY
+        e.id,
+        e.classify,
+        e.courseid,
+        e.exam_timeid,
+        e.bookid,
+        e.update_date,
+        e.exam_date,
+        e.seq,
+        e.segment
+        HAVING
+        type = 2
+        UNION
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        d.exam_date,
+        d.segment,
+        c.type
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        AND c.type = 'a'
+        and a.auditStatus='b'
+        AND a.id IN (
+        SELECT
+        e.id
+        FROM
+        (
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND (c.type = 'a' OR c.type = 'b')
+        GROUP BY
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment
+        ) e
+        GROUP BY
+        e.id,
+        e.classify,
+        e.courseid,
+        e.exam_timeid,
+        e.bookid,
+        e.update_date,
+        e.exam_date,
+        e.seq,
+        e.segment
+        HAVING
+        count(e.type) = 1
+        )
+        UNION
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        d.exam_date,
+        d.segment,
+        c.type
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND c.type = 'b'
+        AND a.id IN (
+        SELECT
+        e.id
+        FROM
+        (
+        SELECT
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment
+        FROM
+        exa_exam_course a
+        LEFT JOIN pla_speciality_course b ON a.courseid = b.courseid
+        LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+        LEFT JOIN exa_exam_time d ON d.id = a.exam_timeid
+        WHERE 1=1
+        <if test="examTaskid != null and examTaskid != ''"> and  a.exam_taskid=#{examTaskid} </if>
+        <if test="courseid != null and courseid != ''"> and  a.courseid=#{courseid} </if>
+        <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+        AND a.enabled_flag = 1
+        AND b.enabled_flag = 1
+        AND c.enabled_flag = 1
+        AND d.enabled_flag = 1
+        and a.auditStatus='b'
+        AND (c.type = 'a' OR c.type = 'b')
+        GROUP BY
+        a.id,
+        a.classify,
+        a.courseid,
+        a.exam_timeid,
+        a.bookid,
+        a.update_date,
+        a.seq,
+        c.type,
+        d.exam_date,
+        d.segment
+        ) e
+        GROUP BY
+        e.id,
+        e.classify,
+        e.courseid,
+        e.exam_timeid,
+        e.bookid,
+        e.update_date,
+        e.seq,
+        e.exam_date,
+        e.segment
+        HAVING
+        count(e.type) = 1
+        )
+        GROUP BY a.id,a.classify,a.courseid,a.exam_timeid,a.bookid,a.update_date,a.seq,c.type,d.exam_date,d.segment)f
+	</select>
+
+</mapper>

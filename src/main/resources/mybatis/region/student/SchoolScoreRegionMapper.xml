@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.student.dao.SchoolScoreRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.SchoolScoreDO">
+		select
+            id,
+            studentid,
+            speciality_recordid,
+            courseid,
+            grade,
+            ratio,
+            status,
+            audit_status,
+            audit_operator,
+            audit_date,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_school_score
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.SchoolScoreDO">
+		select
+	        a.id,
+			a.studentid,
+			a.speciality_recordid,
+			a.courseid,
+			a.grade,
+			a.ratio,
+			a.status,
+			a.audit_status,
+			a.audit_operator,
+			a.audit_date,
+			a.operator,
+			a.update_date,
+			a.enabled_flag
+		 from stu_school_score a left join pla_speciality_record b on a.speciality_recordid = b. id
+        <where>
+         and a.enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="grade != null and grade != ''"> and grade = #{grade} </if>
+		  <if test="ratio != null and ratio != ''"> and ratio = #{ratio} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+			<if test="schoolid != null and schoolid !=''"> and b.schoolid = #{schoolid}</if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+			<if test="time1 != null and time2 != null">
+				AND a.update_date &gt;= #{time1} AND a.update_date &lt;= #{time2}
+			</if>
+			<!--<if test="time != null and year != null"> and update_data &gt;= #{time1} and update_date &lt;= #{time2} </if>-->
+
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_school_score
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="grade != null and grade != ''"> and grade = #{grade} </if>
+		  <if test="ratio != null and ratio != ''"> and ratio = #{ratio} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.SchoolScoreDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_school_score
+		(
+			studentid, 
+			speciality_recordid, 
+			courseid, 
+			grade, 
+			ratio, 
+			status, 
+			audit_status, 
+			audit_operator, 
+			audit_date, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{studentid}, 
+			#{specialityRecordid}, 
+			#{courseid}, 
+			#{grade}, 
+			#{ratio}, 
+			#{status}, 
+			#{auditStatus}, 
+			#{auditOperator}, 
+			#{auditDate}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.SchoolScoreDO">
+		update stu_school_score 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="grade != null">grade = #{grade}, </if>
+			<if test="ratio != null">ratio = #{ratio}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="auditOperator != null">audit_operator = #{auditOperator}, </if>
+			<if test="auditDate != null">audit_date = #{auditDate}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_school_score set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_school_score set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="updateStatus" parameterType="com.hxy.nzxy.stexam.domain.SchoolScoreDO">
+
+			update stu_school_score
+			<set>
+				audit_status = #{auditStatus},operator = #{operator},update_date = now()
+			</set>
+			where id = #{id} and status = 'a' and enabled_flag = 1
+
+	</update>
+
+	<select id="listT" resultType="com.hxy.nzxy.stexam.domain.SchoolScoreDO">
+		select
+		a.id,
+		a.studentid,
+		a.speciality_recordid,
+		a.courseid,
+		a.grade,
+		a.ratio,
+		a.status,
+		a.audit_status,
+		a.audit_operator,
+		a.audit_date,
+		a.operator,
+		a.update_date,
+		a.enabled_flag
+		from stu_school_score a left join pla_speciality_record b on a.speciality_recordid = b. id
+		<where>
+			and a.enabled_flag=1
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+			<if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+			<if test="grade != null and grade != ''"> and grade = #{grade} </if>
+			<if test="ratio != null and ratio != ''"> and ratio = #{ratio} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+			<if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+			<if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+			<if test="schoolid != null and schoolid !=''"> and b.schoolid = #{schoolid}</if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+			<if test="time1 != null and time2 != null">
+				AND a.update_date &gt;= #{time1} AND a.update_date &lt;= #{time2}
+			</if>
+		</where>
+
+	</select>
+</mapper>

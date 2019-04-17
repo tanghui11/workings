@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+  <div>
+      <div id="Mask"></div>
+      <div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+  </div>
+
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<form method="post" th:action="@{/plan/speciality/searchOutExcel}" id="form">
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							<input id="searchName" name="name" type="text" class="form-control"
+								placeholder="请输入专业名称">
+						</div>
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							<input id="searchPinyin" name="pinyin" type="text" class="form-control"
+								placeholder="请输入拼音查找">
+						</div>
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							<input id="searchType" 	name="id" type="text" class="form-control"
+								placeholder="请输入专业代码查找">
+						</div>
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							<select id="classify" name="classify" class="form-control">
+										<option value="">--请选择专业层次--</option>
+										<option th:each="item:${pla_speciality_classify}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+						</div>
+						<div class="columns pull-left">
+							<button shiro:hasPermission="plan:speciality:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加专业
+							</button>
+							<button shiro:hasPermission="plan:speciality:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+							<button shiro:hasPermission="plan:speciality:savBathData" type="button" class="btn  btn-primary" onclick="importData()">
+								导入专业
+							</button>
+							<button shiro:hasPermission="plan:speciality:searchOutExcel" type="button" onclick="onZipAll()" class="btn  btn-primary" >
+								导出专业
+							</button>
+
+						</div>
+						</form>
+						
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:speciality:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:speciality:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:speciality:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/speciality/speciality.js" th:src="@{/js/appjs/center/plan/speciality/speciality.js}"></script>
+</body>
+</html>

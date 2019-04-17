@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="col-sm-6">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left nopadding">
+							<div style="overflow:hidden">
+								<div class="columns  pull-left nopadding" style="width:70px">
+									准考证号：
+								</div>
+								<div class="columns  pull-left nopadding">
+									<input id="searchName" type="hidden" class="form-control">
+									<input id="searchNames" type="text" class="form-control"
+										   placeholder="选择准考证"  onclick="zkzh('1')" readonly >
+								</div>
+								<div class="columns pull-left" style="margin-left:10px">
+									<button class="btn btn-success" onclick="reLoad()">查询</button>
+								</div>
+							</div>
+							<div>
+								<div class="columns  pull-left nopadding" style="width:70px">
+									性别：
+								</div>
+								<div class="columns pull-left nopadding">
+									<input id="sex" type="text" class="form-control"
+										   placeholder="性别" readonly="readonly">
+								</div>
+							</div>
+							<div>
+								<div class="columns  pull-left nopadding" style="width:70px">
+									身份证号：
+								</div>
+								<div class="columns pull-left nopadding">
+									<input id="sfz" type="text" class="form-control"
+										   placeholder="身份证" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						<div class="columns pull-right nopadding" style="margin-left:20px">
+							<img th:src="@{/js/sample/images/userImage.png}" id="pic"  style="width:100px;height:130px">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div style="overflow:hidden" class="columns pull-left nopadding" >
+							<div style="overflow:hidden">
+								<div class="columns pull-left nopadding" style="width:70px"">
+									准考证号：
+								</div>
+								<div class="columns pull-left nopadding">
+									<input id="searchName1" type="hidden" class="form-control">
+								   <input id="searchName1s" type="text" class="form-control"
+								   placeholder="输入准考证" style="width:255px" onclick="zkzh('2')" readonly>
+								</div>
+								<div class="columns pull-left" style="margin-left:10px">
+									<button class="btn btn-success" onclick="reLoad1()">查询</button>
+								</div>
+							</div>
+							<div style="overflow:hidden">
+								<div class="columns pull-left nopadding" style="width:70px">
+									性别：
+								</div>
+								<div class="columns pull-left nopadding">
+									<input id="sex1" type="text" class="form-control"
+										   placeholder="性别" style="width:70px" readonly="readonly">
+								</div>
+								<div class="columns pull-left nopadding" style="margin-left:10px" readonly="readonly">
+									身份证号：
+								</div>
+								<div class="columns pull-left nopadding">
+									<input id="sfz1" type="text" class="form-control"
+										   placeholder="身份证号" readonly="readonly">
+								</div>
+							</div>
+							<div>
+								<div class="columns pull-left nopadding">
+									<input id="yStudentid" type="text" class="form-control"
+										   placeholder="旧准考证号">
+								</div>
+								<div class="columns pull-left" style="margin-left:10px">
+									<button class="btn btn-info" onclick="megerZkz()">合并</button>
+									<button class="btn btn-success" onclick="qxhb()">取消合并</button>
+								</div>
+							</div>
+						</div>
+						<div class="columns pull-right nopadding" style="margin-left:20px">
+							<div>
+								<img th:src="@{/js/sample/images/userImage.png}" id="pic1"  style="width:100px;height:130px">
+							</div>
+						</div>
+
+
+
+					</div>
+					<table id="exampleTable1" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮可见性 -->
+	<div>
+		<script type="text/javascript">
+            var s_edit_h = 'hidden';
+            var s_remove_h = 'hidden';
+            var s_resetPwd_h = 'hidden';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:scoreRegion:edit">
+		<script type="text/javascript">
+            s_edit_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:scoreRegion:remove">
+		<script type="text/javascript">
+            var s_remove_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:scoreRegion:resetPwd">
+		<script type="text/javascript">
+            var s_resetPwd_h = '';
+		</script>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/region/student/scoreRegion/scoreRegion.js" th:src="@{/js/appjs/region/student/scoreRegion/scoreRegion.js}"></script>
+</body>
+</html>

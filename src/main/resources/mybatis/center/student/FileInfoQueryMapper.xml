@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.FileInfoQueryDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.center.student.domain.FileInfoQueryDO">
+		select
+			a.id,
+			a.studentid,
+			c.name,
+			b.id as speciality_recordid,
+			b.specialityid,
+			d.name as specialityName,
+			case
+			when c.type = 'b' then e.name
+			else a.speciality_recordid
+			end schoolName,
+			a.update_date,
+			a.grad_audit_status,
+			a.grad_audit_operator,
+			a.grad_audit_date
+		from
+			stu_student_speciality_his a,
+			pla_speciality_record b,
+			stu_student_his c,
+			pla_speciality d,
+			sch_school e,
+			sch_school_speciality_reg f
+		where a.id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.center.student.domain.FileInfoQueryDO">
+		select
+			a.id,
+			a.studentid,
+			c.name,
+			b.id as speciality_recordid,
+			b.specialityid,
+			d.name as specialityName,
+			case
+			when c.type = 'b' then e.name
+			else a.speciality_recordid
+			end schoolName,
+			a.update_date,
+			a.grad_audit_status,
+			a.grad_audit_operator,
+			a.grad_audit_date
+		from
+			stu_student_speciality_his a,
+			pla_speciality_record b,
+			stu_student_his c,
+			pla_speciality d,
+			sch_school e,
+			sch_school_speciality_reg f
+        <where>
+            and a.speciality_recordid = b.id
+            and a.studentid = c.id
+            and a.graduate = 'b'
+            and a.audit_status = 'b'
+            and (c.id = '' or #{studentid} = '')
+            and a.school_speciality_regid = f.id
+            and f.schoolid = e.id
+            and ((#{studentType} = 'b' and c.type = #{studentType}) or (#{studentType} != 'b' and c.type = 'a'))
+         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+			and a.grad_audit_date between #{startDate} and #{endDate}
+		    </if>
+		<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+		<if test="child_regionid != null and child_regionid != ''"> and a.child_regionid = #{childRegionid} </if>
+		<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid}</if>
+		<if test="type != null and type != ''"> and c.type = #{type}</if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+ 	<select id="count" resultType="int">
+		select count(*)
+		from
+			stu_student_speciality_his a,
+			pla_speciality_record b,
+			stu_student_his c,
+			pla_speciality d,
+			sch_school e,
+			sch_school_speciality_reg f
+		<where>
+			and a.speciality_recordid = b.id
+			and a.studentid = c.id
+			and a.graduate = 'b'
+			and a.audit_status = 'b'
+			and (c.id = '' or #{studentid} = '')
+			and a.school_speciality_regid = f.id
+			and f.schoolid = e.id
+			and a.grad_audit_date between #{startDate} and #{endDate}
+			and ((#{studentType} = 'b' and c.type = #{studentType}) or (#{studentType} != 'b' and c.type = 'a'))
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				and a.grad_audit_date between #{startDate} and #{endDate}
+			</if>
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="child_regionid != null and child_regionid != ''"> and a.child_regionid = #{childRegionid} </if>
+			<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid}</if>
+			<if test="type != null and type != ''"> and c.type = #{type}</if>
+		</where>
+	</select>
+
+	<!--毕业证信息-->
+	<select id="listDiploma" resultType="com.hxy.nzxy.stexam.center.student.domain.FileInfoQueryDO">
+		select
+			a.id,
+			a.code,
+			a.studentid,
+			a.specialityid,
+			b.name as specialityName,
+			a.graduate_direction,
+			a.paper_score,
+			a.school_name as gradSchool,
+			a.graduate_date,
+			a.speciality_levels,
+			a.audit_date,
+			a.audit_operator,
+			a.operator,
+			a.update_date
+		from
+			student_certificate a,
+			student_speciality b
+		where
+			and a.enabled_flag=1
+			and a.studentid = b.studentid
+			and a.student_specialityid = b.id
+		<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+		<if test="time1 != null and time2 != null">
+			AND a.update_date &gt;= #{time1} AND a.update_date &lt;= #{time2}
+		</if>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="countDiploma" resultType="int">
+		select count(*)
+		from
+			student_certificate a,
+			student_speciality b
+		where
+			and a.enabled_flag=1
+			and a.studentid = b.studentid
+			and a.student_specialityid = b.id
+		<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+	</select>
+
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.center.student.domain.FileInfoQueryDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_speciality
+		(
+			studentid,
+			speciality_recordid,
+			courseid,
+			type,
+			objid,
+			kg_grade,
+			zg_grade,
+			old_grade,
+			exam_grade,
+			school_grade,
+			grade,
+			exam_flag,
+			status,
+			use_status,
+			flag,
+			source_courseid,
+			et_dm,
+			old_studentid,
+			exam_date,
+			old_courseid,
+			school_scoreid,
+			operator,
+			update_date,
+			db_flag
+		)
+		select
+		(
+			#{studentid},
+			#{specialityRecordid},
+			#{courseid},
+			#{type},
+			#{objid},
+			#{kgGrade},
+			#{zgGrade},
+			#{oldGrade},
+			#{examGrade},
+			#{schoolGrade},
+			#{grade},
+			#{examFlag},
+			#{status},
+			#{useStatus},
+			#{flag},
+			#{sourceCourseid},
+			#{etDm},
+			#{oldStudentid},
+			#{examDate},
+			#{oldCourseid},
+			#{schoolScoreid},
+			#{operator},
+			now(),
+			#{dbFlag}
+		)
+		from
+			stu_student_speciality_his
+	</insert>
+
+	<update id="remove">
+		update stu_score_his set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_score_his set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

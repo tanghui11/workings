@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					
+					<div class="fixed-table-toolbar">
+					<form class="form-horizontal m-t" id="signupForm">
+						<input id="examCourseid" name="examCourseid" type="hidden" class="form-control">
+						<div class="columns pull-left nopadding">
+							考试任务
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="searchName" name="examTaskid" type="text" class="form-control"
+								placeholder=""></select>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							报考课程
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<input id="search" type="text" class="form-control"
+								placeholder="" onclick="baokao()" style="width:300px">
+						</div>
+						
+						
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							准考证号
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<input id="studentId" name="studentid" type="text" class="form-control"
+								placeholder="" onclick="zhunkao()"/>
+						</div>
+						<div style="clear:both"></div>
+						<div class="columns pull-left nopadding">
+							考区名称
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="regionid" name="regionid" type="text" class="form-control"
+								placeholder="" onchange="region()" style="width:124px"></select>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="childRegionid" name="childRegionid" type="text" class="form-control"
+								placeholder="">
+								<option>--请选择--</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" type="button" onclick="reLoad()">查询</button>
+							<button class="btn  btn-primary" type="button" onclick="revamp()">修改课程</button>
+							<button class="btn  btn-info" type="button" onclick="centre()">修改考点</button>
+						</div>
+						<!-- <div class="columns pull-left" style="margin-left:10px">
+							<button shiro:hasPermission="student:studentCourseLook:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="student:studentCourseLook:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div> -->
+						
+					</form>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseRepaire:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseRepaire:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseRepaire:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentCourseRepaire/studentCourseUpdate.js" th:src="@{/js/appjs/center/student/studentCourseRepaire/studentCourseUpdate.js}"></script>
+</body>
+</html>

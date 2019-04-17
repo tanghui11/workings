@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style" style="max-width:800px;margin:0 auto">
+							<input id="id" name="id" th:value="${commonCourseReplaceItem.id}"  type="hidden">
+							<input id="courseid" name="courseid" th:value="${commonCourseReplaceItem.courseid}"  type="hidden">
+							<input id="courseReplaceid" name="courseReplaceid" th:value="${commonCourseReplaceItem.courseReplaceid}" class="form-control" type="hidden">
+                            <!-- <div class="form-group">
+								<label class="col-sm-3 control-label">课程顶替编号：</label>
+								<div class="col-sm-8">
+									<input id="courseReplaceid" name="courseReplaceid" th:value="${commonCourseReplaceItem.courseReplaceid}" class="form-control" type="text" readonly=" readonly">
+								</div>
+							</div> -->
+							<tr>
+								<td>
+									<label>课程名称：</label>
+								</td>
+								<td>
+									<input id="coursess" name="coursess" class="form-control" type="text" onclick="courseNames()">
+								</td>
+							<tr>
+							</tr>
+								<td>
+									<label>备注：</label>
+								</td>
+								<td>
+									<input id="remark" name="remark" th:value="${commonCourseReplaceItem.remark}" class="form-control" type="text">
+								</td>
+							</tr>
+							
+						</table>
+						<div style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/commonCourseReplaceItem/edit.js" th:src="@{/js/appjs/center/plan/commonCourseReplaceItem/edit.js}">
+	</script>
+</body>
+</html>

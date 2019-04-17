@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<script language="javascript">
+function preview(oper){
+	if (oper < 10){
+		bdhtml=window.document.body.innerHTML;//获取当前页的html代码
+		sprnstr="<!--startprint"+oper+"-->";//设置打印开始区域
+		eprnstr="<!--endprint"+oper+"-->";//设置打印结束区域
+		prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+18); //从开始代码向后取html
+		prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html
+		window.document.body.innerHTML=prnhtml;
+		window.print();
+		window.document.body.innerHTML=bdhtml;
+	} else {
+		window.print();
+	}
+}
+</script>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar" style="overflow:hidden;">
+						<!-- <form method="post" th:action="@{/student/studentFile/searchOutSFExcel}"> -->
+						<div class="columns pull-left" style="margin-right:5px">
+							招生专业
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+						<input id="specialityRecordid" type="hidden">
+
+						<input id="schoolid"  type="hidden">
+							<input id="serachName" class="form-control" type="text" onclick="yemian()" placeholder="">
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							招生计划
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<input id="schoolSpecialityRegid" type="hidden">
+							<input id="searchName" class="form-control" type="text" onclick="jihua()" placeholder="" style="width:550px">
+						</div>
+						<div class="columns pull-left" style="margin-right:5px" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left" style="margin-left: 5px;">
+
+							<button shiro:hasPermission="student:studentFile:add" type="button" class="btn  btn-primary" onclick="importData()">
+								考生补注册导入
+							</button>
+							<!--<button shiro:hasPermission="student:studentFile:add" type="submit" class="btn  btn-primary" >-->
+								<!--考生补注册导出-->
+							<!--</button>-->
+						</div>
+						<!-- </form> -->
+					</div>
+					<!--startprint1-->
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+					<!--endprint1-->
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentFileStudent/studentFileStudent.js" th:src="@{/js/appjs/center/student/studentFileStudent/studentFileStudent.js}"></script>
+</body>
+</html>

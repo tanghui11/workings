@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="regionid" name="regionid" th:value="${regionid}" class="form-control" type="hidden">
+                        <table class="table table-bordered table-style">
+                            <tr>
+                                <td style="width:125px;">
+                                    <label><span style="color:red">*</span>考点代码：</label>
+                                </td>
+                                <td>
+                                    <input id="code" name="code" class="form-control" type="text">
+                                </td>
+								<td style="width:125px;">
+                                    <label><span style="color:red">*</span>名称：</label>
+                                </td>
+                                <td>
+                                    <input id="name" name="name" class="form-control" type="text" onkeyup="spell()" onchange="spell()" >
+                                </td>
+                            </tr>
+                            <tr>
+								<td  >
+                                    <label>联系人：</label>
+                                </td>
+                                <td>
+                                    <input id="linkman" name="linkman" class="form-control" type="text">
+                                </td>
+                                <td  >
+                                    <label><span style="color:red">*</span>拼音：</label>
+                                </td>
+                                <td>
+                                    <input id="pinyin" name="pinyin" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  >
+                                    <label>联系电话：</label>
+                                </td>
+                                <td>
+                                    <input id="phone" name="phone" class="form-control" type="text">
+                                </td>
+								<td  >
+                                    <label>传真：</label>
+                                </td>
+                                <td>
+                                    <input id="fax" name="fax" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  >
+                                    <label>联系地址：</label>
+                                </td>
+                                <td>
+                                    <input id="address" name="address" class="form-control" type="text">
+                                </td>
+								<td  >
+                                    <label>邮政编码：</label>
+                                </td>
+                                <td>
+                                    <input id="postCode" name="postCode" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  >
+                                    <label>主考姓名：</label>
+                                </td>
+                                <td>
+                                    <input id="leader" name="leader" class="form-control" type="text">
+                                </td>
+								<td  >
+                                    <label>是否标准化考场：</label>
+                                </td>
+                                <td>
+                                    <select id="standard" name="standard" class="form-control">
+                                        <option th:each="item:${reg_exam_site_standard}" th:value="${item.id}" th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  >
+                                    <label>是否助学组织：</label>
+                                </td>
+                                <td>
+                                    <select id="school" name="school" class="form-control">
+                                        <option th:each="item:${reg_exam_site_school}" th:value="${item.id}" th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+								<td  >
+                                    <label>办学许可证编号：</label>
+                                </td>
+                                <td>
+                                    <input id="schoolCode" name="schoolCode" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  >
+                                    <label>助学许可证编号：</label>
+                                </td>
+                                <td>
+                                    <input id="teachCode" name="teachCode" class="form-control" type="text">
+                                </td>
+								<td  >
+                                    <label>考场数量：</label>
+                                </td>
+                                <td>
+                                    <input id="num" name="num" th:value="0" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  >
+                                    <label>状态：</label>
+                                </td>
+                                <td>
+                                    <select id="status" name="status" class="form-control">
+                                        <option th:each="item:${reg_exam_site_status}" th:value="${item.id}" th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+								<td  >
+                                    <label>备注：</label>
+                                </td>
+                                <td>
+                                    <input id="remark" name="remark" class="form-control" type="text">
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary" id="submission">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/region/examSiteRegion/add.js" th:src="@{/js/appjs/region/region/examSiteRegion/add.js}">
+</script>
+</body>
+</html>

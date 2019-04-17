@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${courseAppend.id}"  type="hidden">
+							<tr>
+									<td>
+										<label><span style="color:red">*</span>开设专业：</label>
+									</td>
+									<td>
+										<input id="specialityRecordid" name="specialityRecordid" th:value="${courseAppend.specialityRecordid}" class="form-control" type="hidden">
+										<input id="specialityName" name="specialityName" class="form-control" th:value="${courseAppend.specialityRecordName}" onclick="majorName()">
+									</td>
+									<td>
+										<label><span style="color:red">*</span>名称：</label>
+									</td>
+									<td>
+										<input id="name" name="name" th:value="${courseAppend.name}" class="form-control" type="text">
+										<!-- <input id="names" name="names" class="form-control" th:value="${courseAppend.name}" onclick="courseName()" placeholder="点击选择加考课程"> -->
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label><span style="color:red">*</span>分类：</label>
+									</td>
+									<td>
+										<select id="classify" name="classify" class="form-control" >
+											<option th:each="item:${pla_course_append_classify}" th:value="${item.id}" th:text="${item.name}" th:field="${courseAppend.classify}"></option>
+										</select>
+									</td>
+									<td>
+										<label><span style="color:red">*</span>类别：</label>
+									</td>
+									<td>
+										<select id="type" name="type" class="form-control" >
+											<option th:each="item:${pla_course_append_type}" th:value="${item.id}" th:text="${item.name}" th:field="${courseAppend.type}"></option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>共几门课程：</label>
+									</td>
+									<td>
+										<input id="courseNum" name="courseNum" th:value="${courseAppend.courseNum}" class="form-control" type="text">
+									</td>
+									<td>
+										<label>至少选几门：</label>
+									</td>
+									<td>
+										<input id="leastNum" name="leastNum" th:value="${courseAppend.leastNum}" class="form-control" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>最少学分：</label>
+									</td>
+									<td>
+										<input id="leastScore" name="leastScore" th:value="${courseAppend.leastScore}" class="form-control" type="text">
+									</td>
+									<td>
+										<label>备注：</label>
+									</td>
+									<td>
+										<input id="remark" name="remark" th:value="${courseAppend.remark}" class="form-control" type="text">
+									</td>
+								</tr>
+                           <!--  <div class="form-group">
+								<label class="col-sm-3 control-label">专业开设编号：</label>
+								<div class="col-sm-8">
+									<input id="specialityRecordid" name="specialityRecordid" th:value="${courseAppend.specialityRecordid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">名称：</label>
+								<div class="col-sm-8">
+									<input id="name" name="name" th:value="${courseAppend.name}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">分类：</label>
+								<div class="col-sm-8">
+									<input id="classify" name="classify" th:value="${courseAppend.classify}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">类别：</label>
+								<div class="col-sm-8">
+									<input id="type" name="type" th:value="${courseAppend.type}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">共几门课程：</label>
+								<div class="col-sm-8">
+									<input id="courseNum" name="courseNum" th:value="${courseAppend.courseNum}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">至少选几门：</label>
+								<div class="col-sm-8">
+									<input id="leastNum" name="leastNum" th:value="${courseAppend.leastNum}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">最少学分：</label>
+								<div class="col-sm-8">
+									<input id="leastScore" name="leastScore" th:value="${courseAppend.leastScore}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">备注：</label>
+								<div class="col-sm-8">
+									<input id="remark" name="remark" th:value="${courseAppend.remark}" class="form-control" type="text">
+								</div>
+							</div> -->
+							</table>
+							<div style="text-align:center;margin-top:5px">
+								<button type="submit" class="btn btn-primary" id="submission">提交</button>
+								<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/courseAppend/edit.js" th:src="@{/js/appjs/center/plan/courseAppend/edit.js}">
+	</script>
+</body>
+</html>

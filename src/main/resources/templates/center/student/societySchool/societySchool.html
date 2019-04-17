@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="col-sm-3">
+				<input id="orgid" name="orgid" type="hidden" th:value="1">
+				<input id="specialityid" name="specialityid" type="hidden">
+				<input id="orgType" name="orgType" type="hidden" th:value="a">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>助学组织列表</h5>
+					</div> 
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<!-- <div class="columns pull-left">
+								<button shiro:hasPermission="student:practiceSchool:add" type="button" class="btn  btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i>添加
+								</button>
+								<button shiro:hasPermission="student:practiceSchool:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+							</div> -->
+							<div class="columns pull-left nopadding" style="margin-right:10px">
+								入库状态
+							</div>
+							<div class="columns pull-left" style="margin-right:10px">
+								<select id="status" name="status" class="form-control">
+									<option th:each="item:${stu_practice_school_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+								</select>
+							</div>
+							<div class="columns pull-left nopadding" style="margin-right:10px">
+								准考证号
+							</div>
+							<div class="columns pull-left nopadding">
+								<input id="studentid" type="text" class="form-control" placeholder="请输入准考证号">
+							</div>
+							<div class="columns pull-left nopadding" style="margin-left:10px">
+								实践成绩
+							</div>
+							<div class="columns pull-left nopadding" style="margin-left:10px;width:100px">
+								<input id="grade" name="grade" type="text" class="form-control" placeholder="请输入成绩">
+							</div>
+							<div class="columns pull-left" style="margin-left:10px">
+								<button class="btn btn-success" onclick="reLoad()">查询</button>
+								<button class="btn btn-primary" onclick="hangworkPerformance()">手工录入</button>
+								<button class="btn btn-info" onclick="importData()">导入成绩</button>
+								<button class="btn btn-info" onclick="removePerformance()">删除成绩</button>
+							</div>
+							<div style="clear:both"></div>
+							<div class="columns pull-left nopadding" style="margin-right:10px">
+								报名日期
+							</div>
+							<div class="columns pull-left nopadding">
+								<input id="time1" type="text" class="form-control" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })">
+							</div>
+							<div class="columns pull-left nopadding">
+								至
+							</div>
+							<div class="columns pull-left nopadding">
+								<input id="time2" type="text" class="form-control" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })">
+							</div>
+
+							<div class="columns pull-left" style="margin-left:10px">
+								<input type="checkbox" onclick="wrk()">未报名考生成绩自动入库
+								<input type="hidden" id="yes" value="a">
+								<button class="btn btn-primary" onclick="storage()">入库</button>
+							</div>
+							<div class="columns pull-left" style="margin-left:10px">
+								<button class="btn  btn-danger" onclick="cancelImport()">取消入库</button>
+							</div>
+							<div style="clear:both">
+							</div>
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:practiceSchool:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:practiceSchool:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:practiceSchool:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/societySchool/societySchool.js" th:src="@{/js/appjs/center/student/societySchool/societySchool.js}"></script>
+</body>
+</html>

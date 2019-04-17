@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+
+					<div class="fixed-table-toolbar">
+					<form class="form-horizontal m-t" id="form"  method="post" th:action="@{/student/studentCourseRepaire/searchOutExcel}" >
+						<input id="examCourseid" name="examCourseid" type="hidden" class="form-control">
+						<div class="columns pull-left nopadding">
+							考试任务
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="searchName" name="examTaskid" type="text" class="form-control"
+								placeholder=""></select>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							报考课程
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<input id="search" type="text" class="form-control"
+								placeholder="" onclick="baokao()" style="width:300px">
+						</div>
+						
+						
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							准考证号
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<input id="studentId" name="studentid" type="text" class="form-control"
+								placeholder="" onclick="zhunkao()"/>
+						</div>
+						<div style="clear:both"></div>
+						<div class="columns pull-left" style="margin-right:10px">
+							学院名称
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+							<select id="collegeid" name="collegeid" class="form-control">
+								<!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							教学点
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+							<select id="teachSiteid" name="teachid" class="form-control">
+								<!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" type="button" onclick="reLoad()">查询</button>
+							<button  type="button" class="btn  btn-primary" onclick="exportExcel('/student/studentCourseLook/searchOutExcel')">
+								导出报考课程
+							</button>
+						</div>
+					</form>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseLook:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+
+		<div shiro:hasPermission="student:studentCourseLook:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseLook:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/studentCourseRepaire/studentCourseRepaire.js" th:src="@{/js/appjs/school/student/studentCourseLook/studentCourseLook.js}"></script>
+</body>
+</html>

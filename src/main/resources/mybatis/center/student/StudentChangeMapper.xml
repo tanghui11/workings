@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentChangeDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentChangeDO">
+			select
+	        a.studentid,
+		    b.name,
+	        a.begin_date,
+	        a.end_date,
+	        a.operator,
+	        a.update_date
+		 from stu_student_change a left JOIN stu_student b on a.studentid = b.id
+		 left join stu_student_speciality c on a.studentid = c.studentid
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentChangeDO">
+		select
+	        a.studentid,
+		    b.name,
+	        a.begin_date,
+	        a.end_date,
+	        a.operator,
+	        a.update_date
+		 from stu_student_change a left JOIN stu_student b on a.studentid = b.id
+		 left join stu_student_speciality c on a.studentid = c.studentid
+        <where>
+         and a.enabled_flag=1
+		  <if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="name != null and name != ''"> and b.name = #{name} </if>
+		  <if test="beginDate != null and beginDate != ''"> and a.begin_date = #{beginDate} </if>
+		  <if test="endDate != null and endDate != ''"> and a.end_date = #{endDate} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*)
+		from stu_student_change a
+		left JOIN stu_student b on a.studentid = b.id
+		left join stu_student_speciality c on a.studentid = c.studentid
+		<where>
+			and a.enabled_flag=1
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="name != null and name != ''"> and b.name = #{name} </if>
+			<if test="beginDate != null and beginDate != ''"> and a.begin_date = #{beginDate} </if>
+			<if test="endDate != null and endDate != ''"> and a.end_date = #{endDate} </if>
+		</where>
+	</select>
+
+	<select id="getSpecialityid" resultType="com.hxy.nzxy.stexam.domain.StudentChangeDO">
+		select
+		id as specialityRecordid
+		from  stu_student_speciality
+		where
+			 a.enabled_flag=1 and a.studentid = b.studentid
+	</select>
+
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentChangeDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_change
+		(
+			studentid, 
+			speciality_recordid, 
+			type,
+			begin_date, 
+			end_date, 
+			objid, 
+			status, 
+			operator
+			update_date, 
+		)
+		values
+		(
+			#{studentid}, 
+			#{specialityRecordid}, 
+			#{type}, 
+			#{beginDate}, 
+			#{endDate}, 
+			#{objid}, 
+			#{status}, 
+			#{operator}
+			now(), 
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentChangeDO">
+		update stu_student_change 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="beginDate != null">begin_date = #{beginDate}, </if>
+			<if test="endDate != null">end_date = #{endDate}, </if>
+			<if test="objid != null">objid = #{objid}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}</if>
+			update_date = now(), 
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_change set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_change set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" type="text/css" href="/js/sample/css/base.css" th:href="@{/js/sample/css/base.css}"/>
+<link rel="stylesheet" type="text/css" href="/js/sample/css/whole.css" th:href="@{/js/sample/css/whole.css}" media="screen" />
+<link type="text/css" rel="stylesheet" href="/js/sample/jBox/Skins/Default/jbox.css" th:href="@{/js/sample/jBox/Skins/Default/jbox.css}"/>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${student.id}"  type="hidden">
+							 <tr>
+                                        <td colspan="5" style="text-align:center;font-weight:700;padding:8px !important;">
+                                            学生档案信息
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td style="width:85px;">
+                                            <label>姓名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="name" name="name" th:value="${student.name}" class="form-control" type="text" onkeyup="CC2PY('name','pinyin')" onchange="CC2PY('name','pinyin')">
+                                        </td>
+                                        <td style="width:85px;">
+                                            <label>拼音：</label>
+                                        </td>
+                                        <td>
+                                            <input id="pinyin" name="pinyin" th:value="${student.pinyin}" class="form-control" type="text">
+                                        </td>
+                                        <td style="width:150px;" rowspan="8">
+                                            <img width="120px" height="140px" th:src="@{/js/sample/images/userImage.png}" style="margin-left:9px" id="id_img_pers" name="uploadfile">
+                                            <button type="button" class="btn btn-primary" id="button_readID" onclick="new Device().startFun()" style="margin-left:7px;margin-top:5px;">读取身份证信息</button>
+                                            <img width="120px" height="140px" th:src="@{/js/sample/images/userImage.png}" style="margin-left:9px" id="scPhone">
+                                           <input type="hidden" name ="idcardPic" id="idcardPic" th:value="${student.idcardPic}"/>
+                                            <input type="hidden" name ="pic" id="pic" th:value="${student.pic}"/>
+                                             <!-- <input type="hidden" name ="id" id="id" th:value="${studentSpecialityStudent.id}"/>-->
+                                            <button type="button" class="btn btn-info" onclick="upload()" style="margin-left:10px;margin-top:5px;">上传</button>
+                                            <button type="button" class="btn btn-primary" onclick="" style="margin-left:5px;margin-top:5px;">拍照</button> 
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>性别：</label>
+                                        </td>
+                                        <td>
+                                            <select id="gender" name="gender" class="form-control">
+                                                <option th:each="item:${stu_student_gender}" th:value="${item.id}" th:text="${item.name}" th:field="${student.gender}"></option>
+                                            </select>
+                                        </td>
+                                         <td>
+                                            <label>户籍：</label>
+                                        </td>
+                                        <td>
+                                            <select id="homeType" name="homeType" class="form-control">
+                                                <option th:each="item:${stu_student_home_type}" th:value="${item.id}" th:text="${item.name}" th:field="${student.homeType}"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>政治面貌：</label>
+                                        </td>
+                                        <td>
+                                            <select id="politics" name="politics" class="form-control">
+                                                <option th:each="item:${stu_student_politics}" th:value="${item.id}" th:text="${item.name}" th:field="${student.politics}"></option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label>民族：</label>
+                                        </td>
+                                        <td>
+                                            <select id="nation" name="nation" class="form-control">
+                                                <option th:each="item:${stu_student_nation}" th:value="${item.id}" th:text="${item.name}" th:field="${student.nation}"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>籍贯：</label>
+                                        </td>
+                                        <td>
+                                            <input id="nativePlace" name="nativePlace" th:value="${student.nativePlace}" class="form-control" type="text">
+                                        </td>
+                                         <td>
+                                            <label>出生日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="birthday" name="birthday" th:value="${#dates.format(student.birthday, 'yyyy-MM-dd')}"  class="form-control" type="text" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd '})" readonly>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>职业：</label>
+                                        </td>
+                                        <td colspan="3">
+                                            <select id="profession" name="profession" class="form-control">
+                                                <option th:each="item:${stu_student_profession}" th:value="${item.id}" th:text="${item.name}" th:field="${student.profession}"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>证件类别：</label>
+                                        </td>
+                                        <td>
+                                            <select id="certificateType" name="certificateType" class="form-control">
+                                                <option th:each="item:${stu_student_certificate_type}" th:value="${item.id}" th:text="${item.name}" th:field="${student.certificateType}"></option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label>身份证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="certificateNo" name="certificateNo" th:value="${student.certificateNo}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>固定电话：</label>
+                                        </td>
+                                        <td>
+                                            <input id="phone" name="phone" th:value="${student.phone}" class="form-control" type="text">
+                                        </td>
+                                        <td>
+                                            <label>移动电话：</label>
+                                        </td>
+                                        <td>
+                                            <input id="mphone" name="mphone" th:value="${student.mphone}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>通讯地址：</label>
+                                        </td>
+                                        <td colspan="3">
+                                            <input id="address" name="address" th:value="${student.address}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>邮编：</label> 
+                                        </td>
+                                        <td>
+                                            <input id="postCode" name="postCode" th:value="${student.postCode}" class="form-control" type="text">
+                                        </td>
+                                        <td>
+                                            <label>电子邮箱：</label>
+                                        </td>
+                                        <td colspan="2">
+                                            <input id="email" name="email" th:value="${student.email}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label>考生来源：</label>
+                                        </td>
+                                        <td colspan="4">
+                                            <input id="groupid2" name="groupid" th:value="${student.groupid}" type="hidden">
+                                            <input id="groupid" class="form-control" th:value="${student.groupName}" type="text" onclick="yemianKSLY()" readonly>
+                                        </td>
+                                    </tr>
+						</table>
+						<div style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/student/edit.js" th:src="@{/js/appjs/center/student/student/edit.js}">
+	</script>
+	<script type="text/javascript" src="/js/sample/jBox/jquery.jBox-2.3.min.js" th:src="@{/js/sample/jBox/jquery.jBox-2.3.min.js}"></script>
+<script type="text/javascript" src="/js/sample/js/baseISSObject.js" th:src="@{/js/sample/js/baseISSObject.js}"></script>
+<script type="text/javascript" src="/js/sample/js/baseISSOnline.js" th:src="@{/js/sample/js/baseISSOnline.js}"></script>
+<script type="text/javascript" src="/js/sample/js/common.js" th:src="@{/js/sample/js/common.js}"></script>
+</body>
+</html>

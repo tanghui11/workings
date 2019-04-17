@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<tr>
+								<td style="width:100px">
+									<label>代码：</label>
+								</td>
+								<td>
+									<input id="code" name="code" class="form-control" type="text">
+								</td>
+								<td>
+									<label>违规类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${exa_foul_punish_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+								
+							</tr>
+							<tr>
+								<td>
+									<label>处理方式：</label>
+								</td>
+								<td colspan="3">
+									<select id="flag" name="flag" class="form-control">
+										<option th:each="item:${exa_foul_punish_flag}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td >
+									<label>名称：</label>
+								</td>
+								<td colspan="3">
+									<input id="name" name="name" class="form-control" type="text">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>处罚公式：</label>
+								</td>
+								<td colspan="3">
+									<input id="formula" name="formula" class="form-control" type="text">
+									<span  class="form-control" type="text" readonly="readonly" style="height:70px;margin-top:3px">用字符串表示处罚。A扣分，B取消成绩，C停考，D推迟毕业，
+E取消考籍；a所有课程，b当次所有课程，c当科；后跟数字表示程度。如"Bc&C1"表示：取消当科成绩并停考一年。</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>备注：</label>
+								</td>
+								<td colspan="3"> 
+									<textarea id="remark" name="remark" class="form-control" type="text"></textarea>
+								</td>
+							</tr>
+<!-- 							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+								</div>
+							</div> -->
+						</table>
+						<div class="" style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/foulPunish/add.js" th:src="@{/js/appjs/center/exam/foulPunish/add.js}">
+	</script>
+</body>
+</html>

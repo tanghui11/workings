@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentCourseDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select
+            id,
+            studentid,
+            regionid,
+            child_regionid,
+            exam_courseid,
+            type,
+            status,
+            arrange_status,
+            operator,
+            update_date,
+            db_flag
+		from stu_student_course
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select
+	        id,
+	        studentid,
+	        regionid,
+	        child_regionid,
+	        exam_courseid,
+	        type,
+	        status,
+	        arrange_status,
+	        operator,
+	        update_date,
+	        db_flag
+		 from stu_student_course
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="arrangeStatus != null and arrangeStatus != ''"> and arrange_status = #{arrangeStatus} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_course
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="arrangeStatus != null and arrangeStatus != ''"> and arrange_status = #{arrangeStatus} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_course
+		(
+			studentid, 
+			regionid, 
+			child_regionid, 
+			exam_courseid, 
+			type, 
+			status, 
+			arrange_status, 
+			operator, 
+			update_date,
+			db_flag
+		)
+		values
+		(
+			#{studentid}, 
+			#{regionid}, 
+			#{childRegionid}, 
+			#{examCourseid}, 
+			#{type}, 
+			#{status}, 
+			#{arrangeStatus}, 
+			#{operator}, 
+			now(),
+			#{dbFlag}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		update stu_student_course 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="examCourseid != null">exam_courseid = #{examCourseid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="arrangeStatus != null">arrange_status = #{arrangeStatus}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_course set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_course set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="listCZ" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select
+		a.id,
+		a.studentid,
+		a.regionid,
+		a.child_regionid,
+		a.exam_courseid,
+		a.type,
+		a.status,
+		a.arrange_status,
+		b.courseid
+		from stu_student_course a left join exa_exam_course b on b.id=a.exam_courseid and b.enabled_flag=1 and b.auditStatus='b'
+		<where>
+
+			<foreach item="bean" collection="list" open="and" separator="or" close="">
+				(a.studentid = #{bean.studentid} and a.exam_courseid = #{bean.examCourseid} and enabled_flag=1)
+			</foreach>
+		</where>
+
+	</select>
+
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into stu_student_course
+		(
+		studentid,
+		regionid,
+		child_regionid,
+		exam_courseid,
+		type,
+		status,
+		arrange_status,
+		operator,
+		update_date,
+		db_flag
+		)
+		values
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+			(
+			#{bean.studentid},
+			#{bean.regionid},
+			#{bean.childRegionid},
+			#{bean.examCourseid},
+			#{bean.type},
+			#{bean.status},
+			#{bean.arrangeStatus},
+			#{bean.operator},
+			now(),
+			#{bean.dbFlag}
+			)
+		</foreach>
+	</insert>
+	<insert id="tempSave" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseTempDO">
+		insert into stu_student_course
+		(
+			studentid,
+			regionid,
+			child_regionid,
+			exam_courseid,
+			type,
+			status,
+			arrange_status,
+			operator,
+			update_date,
+			db_flag
+		)
+		values
+		(
+			#{ksZkz},
+			#{sxDm},
+			#{sxDm},
+			#{examCourseid},
+			'b',
+			'a',
+			'a',
+			#{operator},
+			now(),
+			0
+		)
+	</insert>
+
+	<update id="meger">
+		update stu_score
+		<set>
+			<if test="newStudentid != null">studentid = #{newStudentid}, </if>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+		</set>
+		where enabled_flag = 1 and studentid = #{oldStudentid} and courseid = #{courseid}
+	</update>
+	<update id="reMeger">
+		update stu_score
+		<set>
+			<if test="newStudentid != null">studentid = #{oldStudentid}, </if>
+			<if test="oldStudentid != null">old_studentid = '', </if>
+		</set>
+		where enabled_flag = 1 and old_studentid is not null and old_studentid != "" and courseid = #{courseid}
+	</update>
+
+	<update id="megerZkz">
+		update stu_score
+		<set>
+			<if test="newStudentid != null">studentid = #{newStudentid}, </if>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+		</set>
+		where enabled_flag = 1 and studentid = #{oldStudentid};
+		update stu_student
+		<set>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+		</set>
+		where  id = #{newStudentid};
+	</update>
+	<update id="reMegerZkz">
+		update stu_score
+		<set>
+			<if test="newStudentid != null">studentid = #{oldStudentid}, </if>
+			<if test="oldStudentid != null">old_studentid = '', </if>
+		</set>
+		where enabled_flag = 1 and old_studentid is not null and old_studentid != "";
+		update stu_student
+		<set>
+			<if test="oldStudentid != null">old_studentid ='', </if>
+		</set>
+		where  id = #{newStudentid};
+	</update>
+	<select id="listRepairetLayOut" resultType="java.util.HashMap">
+select  a.id AS room_arrangeid,
+	   e.id exam_roomid,
+	   c.id exam_timeid,
+       g.regionid,
+	   g.`name`,
+	 c.exam_date,
+	 c.segment,
+	   b.courseid,
+	 b.courseid,
+	   e.room_no,
+	   a.seat_start,
+	   a.seat_end
+ from reg_room_arrange a,
+	   exa_exam_course b,
+	   exa_exam_time c,
+	   reg_region d,
+	   reg_exam_room e,
+	  reg_exam_site_submit f,
+	   reg_exam_site g
+ where a.exam_courseid = b.id
+   and b.exam_timeid = c.id
+   and a.exam_roomid = e.id
+   and a.regionid = d.id
+   and e.exam_site_submitid = f.id
+   and f.exam_siteid = g.id
+   and a.exam_courseid = #{exam_courseid}
+   and e.seat_num >get_exam_room_seat_remain_num(e.id,c.id)
+   and (d.parentid = #{regionid} or d.id = #{regionid})
+AND a.enabled_flag = 1
+AND b.enabled_flag = 1
+AND c.enabled_flag = 1
+AND d.enabled_flag = 1
+AND e.enabled_flag = 1
+AND f.enabled_flag = 1
+AND g.enabled_flag = 1
+
+ order by g.code,e.room_no,a.seat_start
+    </select>
+	<select id="countRepairetLayOut" resultType="int">
+	select count(1)
+ from reg_room_arrange a,
+	   exa_exam_course b,
+	   exa_exam_time c,
+	   reg_region d,
+	   reg_exam_room e,
+	  reg_exam_site_submit f,
+	   reg_exam_site g
+ where a.exam_courseid = b.id
+   and b.exam_timeid = c.id
+   and a.exam_roomid = e.id
+   and a.regionid = d.id
+   and e.exam_site_submitid = f.id
+   and f.exam_siteid = g.id
+   and a.exam_courseid = #{exam_courseid}
+   and e.seat_num >get_exam_room_seat_remain_num(e.id,c.id)
+   and (d.parentid = #{regionid} or d.id = #{regionid})
+AND a.enabled_flag = 1
+AND b.enabled_flag = 1
+AND c.enabled_flag = 1
+AND d.enabled_flag = 1
+AND e.enabled_flag = 1
+AND f.enabled_flag = 1
+AND g.enabled_flag = 1
+	</select>
+	<select id="listSeat" resultType="java.util.HashMap">
+SELECT
+  a.id,d.courseid,b.type,b.studentid,a.seq,a.update_date,c.`name`,a.student_courseid
+FROM
+   reg_seat_arrange a,
+		stu_student_course b,
+		stu_student c,
+exa_exam_course d
+WHERE
+a.student_courseid=b.id
+and b.studentid=c.id
+and d.id=a.exam_courseid
+  and room_arrangeid IN (SELECT id FROM reg_room_arrange a WHERE exam_roomid = #{exam_roomid}
+	<if test="exam_timeid != null and exam_timeid != ''"> and exam_timeid=#{exam_timeid} </if>
+	<if test="exam_courseid != null and exam_courseid != ''"> and exam_courseid=#{exam_courseid} </if>
+   AND enabled_flag = 1)
+and a.enabled_flag=1
+and b.enabled_flag=1
+and c.enabled_flag=1
+and d.enabled_flag=1  and d.auditStatus='b'
+ORDER BY
+   a.seq
+	</select>
+<select id="selectSameTime" resultType="java.util.HashMap">
+select  1 from exa_exam_course where id=#{exam_courseid} and exam_timeid not in(
+SELECT b.exam_timeid from stu_student_course a,exa_exam_course b
+where  a.exam_courseid=b.id
+and a.studentid=#{studentid}
+and a.enabled_flag=1 and b.enabled_flag=1)
+</select>
+
+	<insert id="saveSeat" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO reg_seat_arrange (room_arrangeid, student_courseid, exam_courseid, seq, operator, update_date)
+VALUES
+   (
+      #{room_arrangeid},
+      #{student_courseid},
+      #{examCourseid},
+      #{seq},
+      #{operator},
+      now()
+      )
+	</insert>
+	<select id="selectSeq"  resultType="java.util.HashMap">
+		 SELECT
+  max(a.seq) seq
+FROM
+   reg_seat_arrange a,
+		stu_student_course b,
+		stu_student c,
+exa_exam_course d
+WHERE
+a.student_courseid=b.id
+and b.studentid=c.id
+and d.id=a.exam_courseid
+  and room_arrangeid IN (SELECT id FROM reg_room_arrange a WHERE exam_roomid = #{exam_roomid}
+		<if test="exam_timeid != null and exam_timeid != ''"> and exam_timeid=#{exam_timeid} </if>
+		<if test="exam_courseid1!= null and exam_courseid1!= ''"> and exam_courseid=#{exam_courseid} </if>
+		AND enabled_flag = 1)
+and a.enabled_flag=1
+and b.enabled_flag=1
+and c.enabled_flag=1
+and d.enabled_flag=1  and d.auditStatus='b'
+
+	</select>
+	<select id="selectStudent_courseid"  resultType="java.util.HashMap">
+	select id from stu_student_course where studentid=#{studentid} and exam_courseid=#{exam_courseid} and enabled_flag=1 LIMIT 1
+	</select>
+	<select id="selectLast" resultType="java.util.HashMap">
+	select 1 from  reg_seat_arrange where id =#{id} and seq in
+(select seat_end from  reg_room_arrange  where exam_roomid=#{exam_roomid }
+		<if test="exam_timeid != null and exam_timeid != ''"> and exam_timeid=#{exam_timeid} </if>
+		<if test="exam_courseid != null and exam_courseid != ''"> and exam_courseid=#{exam_courseid} </if>
+  and enabled_flag=1)
+	</select>
+
+	<select id="selectSeatByid"  resultType="java.util.HashMap">
+SELECT
+  a.id,b.type
+FROM
+   		reg_seat_arrange a,
+		stu_student_course b
+WHERE
+a.student_courseid=b.id
+and a.enabled_flag=1
+and b.enabled_flag=1
+and b.type='d'
+and a.id=#{id}
+	</select>
+	<update id="removeSeat">
+		update reg_seat_arrange set enabled_flag =0  where id = #{id};
+	</update>
+
+	<select id="selectRoom" resultType="java.util.HashMap">
+		select a.id,
+	   c.regionid,
+	  concat(convert(c.code,char) ,' ',c.name )as region,
+	   a.room_no,
+	   a.seat_num,
+	  a.operator operator,
+	   a.update_date update_date
+  from reg_exam_room a,
+	   reg_exam_site_submit b,
+		reg_exam_site c,
+	   reg_region d
+ where a.exam_site_submitid = b.id
+   and b.exam_siteid = c.id
+   and c.regionid=d.id
+    <!-- and a.regionid = #{regionid}-->
+   and get_region_code(#{regionid}) = get_region_code_exam_transfer(a.regionid)
+   and a.exam_taskid = #{exam_taskid}
+   and a.exam_site_submitid = #{exam_site_submitid}
+	and a.enabled_flag=1
+	and b.enabled_flag=1
+	and c.enabled_flag=1
+	and d.enabled_flag=1
+ order by room_no
+	</select>
+<select id="selectSubmitSite" resultType="java.util.HashMap">
+		select a.id,
+	concat(convert(b.code,char),' ',b.name )as  name
+	from reg_exam_site_submit a,
+	reg_exam_site b,
+	reg_region c
+	where a.exam_siteid =  b.id
+	and b.regionid = c.id
+	<!--and c.id = #{regionid}-->
+	and get_region_code(#{regionid}) = get_region_code_exam_transfer(c.id)
+	and a.exam_taskid = #{exam_taskid}
+	and a.enabled_flag=1
+	and b.enabled_flag=1
+	and c.enabled_flag=1
+	order by b.code
+</select>
+	<select id="selectRoom2" resultType="com.hxy.nzxy.stexam.domain.ExamRoomDO">
+		select a.*
+  from reg_exam_room a
+ where
+	<!-- and a.regionid = #{regionid}-->
+   get_region_code(#{regionid}) = get_region_code_exam_transfer(a.regionid)
+   and a.exam_taskid = #{exam_taskid}
+   and a.enabled_flag=1
+   and a.exam_site_submitid = #{exam_site_submitid} order by a.room_no desc limit 1
+	</select>
+	<select id="selectExamRoomRoom" resultType="java.util.HashMap">
+select a.id,
+	   e.id exam_roomid,
+	   c.id exam_timeid,
+       g.regionid,
+	   g.name exam_site,
+	   c.exam_date,
+	   c.segment,
+	   b.courseid,
+	   b.id as exam_courseid,
+	   e.room_no,
+	   a.seat_start,
+	   a.seat_end
+  from reg_room_arrange a,
+	   exa_exam_course b,
+	   exa_exam_time c,
+	   reg_region d,
+	   reg_exam_room e,
+	   reg_exam_site_submit f,
+	   reg_exam_site g
+ where a.exam_courseid = b.id
+   and b.exam_timeid = c.id
+   and a.exam_roomid = e.id
+   and a.regionid = d.id
+   and e.exam_site_submitid = f.id
+   and f.exam_siteid = g.id
+   and c.id = #{exam_timeid}
+   and e.id = #{exam_roomid}
+   and (d.parentid = #{regionid} or d.id =#{regionid})
+   and a.enabled_flag=1
+   and b.enabled_flag=1  and b.auditStatus='b'
+   and c.enabled_flag=1
+   and d.enabled_flag=1
+   and e.enabled_flag=1
+   and f.enabled_flag=1
+   and g.enabled_flag=1
+ order by g.code,e.room_no,a.seat_start
+	</select>
+	<select id="selectAllSeat" resultType="com.hxy.nzxy.stexam.domain.SeatArrangeDO">
+		select * from reg_seat_arrange where  room_arrangeid in (
+select id from  reg_room_arrange where exam_roomid=(
+select exam_roomid from reg_room_arrange where id=(
+select room_arrangeid from reg_seat_arrange where id =#{room_arrangeid } and enabled_flag=1))
+ and exam_timeid=(select exam_timeid from reg_room_arrange where id=(
+select room_arrangeid from reg_seat_arrange where id =#{room_arrangeid } and enabled_flag=1)) and enabled_flag=1) and enabled_flag=1
+
+	</select>
+</mapper>

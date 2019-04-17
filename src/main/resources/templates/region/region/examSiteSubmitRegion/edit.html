@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="examSiteid" name="examSiteid" th:value="${examSiteRegion.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+									<tr>
+                                        <td>
+                                            <label>考试任务：</label>
+                                        </td>
+                                        <td>
+                                            <select id="examTaskid" name="examTaskid" class="form-control">
+                                                <option th:each="item:${taskList}" th:value="${item.id}" th:text="${item.examName}"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+									<!--<tr>
+                                        <td  class="W180">
+                                            <label>考点编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examSiteid" name="examSiteid" th:value="${examSiteSubmitRegion.examSiteid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>-->
+									<tr>
+                                        <td>
+                                            <label>数量：</label>
+                                        </td>
+                                        <td>
+                                            <input id="num" name="num" th:value="${examSiteRegion.num}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<!--<tr>
+                                        <td  class="W180">
+                                            <label>状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="status" name="status" th:value="${examSiteSubmitRegion.status}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td  class="W180">
+                                            <label>数据标记：</label>
+                                        </td>
+                                        <td>
+                                            <input id="dbFlag" name="dbFlag" th:value="${examSiteSubmitRegion.dbFlag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>-->
+																														
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">上报</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/region/examSiteSubmitRegion/edit.js" th:src="@{/js/appjs/region/region/examSiteSubmitRegion/edit.js}">
+</script>
+</body>
+</html>

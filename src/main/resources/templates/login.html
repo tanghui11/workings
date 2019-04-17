@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		  content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+	<link rel="shortcut icon" href="favicon.ico" th:href="@{favicon.ico}" />
+	<title th:text="${'用户登录 - ' + eduSystemName}"></title>
+	<meta name="keywords" th:content="${'用户登录 - ' + eduSystemName}">
+	<meta name="description" th:content="${'用户登录 - ' + eduSystemName}">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+	<link href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link href="/css/font-awesome.css?v=4.4.0" th:href="@{/css/font-awesome.css?v=4.4.0}"  rel="stylesheet">
+	<link href="/css/animate.css" th:href="@{/css/animate.css}"  rel="stylesheet">
+	<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet">
+	<link href="/css/login.css" th:href="@{/css/login.css}"  rel="stylesheet">
+	<script th:inline="javascript"> 
+		var contextPath = [[@{/}]] ;
+	</script>
+	<style type="text/css">
+			label.error{
+				 color:#fff;
+			}
+			.form-control:focus, .single-line:focus{
+				box-shadow: 1px 1px 10px 0px #999 inset;
+				border:1px solid #e1dfe0 !important;
+			}
+			body{
+				height:auto;
+				min-height:615px;
+			}
+			.content{
+				background: url(img/login/bg.jpg) no-repeat center 90px;
+				height:576px;
+			}
+			#header img{
+				position: absolute;
+				left: 100px;
+				top: 20px;
+			}
+			.center{
+				width: 1200px;
+				margin: 0 auto;
+				position: relative;
+				text-align: center;
+			}
+			.center .img{
+				position: absolute;
+				left: 195px;
+				top: 195px;
+			}
+			.siForm{
+				position: absolute;
+				width: 323px;
+				right: 210px;
+				top: 185px;
+				padding: 0 12px 30px;
+				text-align: center;
+				<!-- background: #fff; -->
+			}
+			
+			.uname,.pword{
+				border: 1px solid #e1dfe0;
+				height: 44px;
+				color:#7a7a7a;
+				width:271px;
+			}
+			.uname{
+				<!-- padding-left: 35px; -->
+				<!-- background: #f6f6f6 url(img/ren.png) no-repeat 12px center; -->
+				box-sizing: border-box;
+				margin: 20px auto 0px;
+				border-radius: 4px;
+				box-shadow: 1px 1px 10px 0px #999 inset;
+			}
+			.pword{
+				margin-bottom: 12px;
+				<!-- padding-left: 35px; -->
+				<!-- background:#f6f6f6 url(img/suo.png) no-repeat 12px center; -->
+				box-sizing: border-box;
+				margin: 20px auto 0px;
+				border-radius: 4px;
+				box-shadow: 1px 1px 10px 0px #999 inset;
+			}
+			#vrifyCode{
+				width: 124px;
+				height: 44px;
+				border: 1px solid #e1dfe0;
+				float: left;
+				<!-- padding-left: 35px; -->
+				box-sizing: border-box;
+				<!-- background:#f6f6f6 url(img/yzm.png) no-repeat 12px center; -->
+				color: #7a7a7a;
+				border-radius: 4px;
+				box-shadow: 1px 1px 10px 0px #999 inset;
+			}
+			.btn-login{
+				width:271px;
+				height: 44px;
+				color: #fff;
+				background: url(img/login/btn1.png) no-repeat center;
+				border: none;
+				font-size: 19px;
+				margin:20px auto 0;
+				transition: background 0.3s linear 0.1s;
+			}
+			.btn-login:hover{
+				background: url(img/login/btn.png) no-repeat center;
+				border:none;
+			}
+			footer{
+				width: 100%;
+				
+				font-size: 12px;
+				text-align: center;
+				color: #444444;
+			}
+			@media screen and (max-width: 450px) { 
+				.img{ display: none}
+				#header img{width:360px;}
+				body{min-height:auto;}
+			}
+			@media screen and (max-width:414px) and (min-width:375px) { 
+				.siForm{left:4%;}
+			}
+			@media screen and (max-width:413px) { 
+				.siForm{left:2%;}
+			}
+			@media screen and (max-width:321px) { 
+				.siForm{left:0px;}
+				#header img{width:318px;}
+				.content{height:500px;}
+			}
+		</style>
+	<!--[if lt IE 9]>
+	<meta http-equiv="refresh" content="0;ie.html"/>
+	<![endif]-->
+	<script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+	</script>
+</head>
+<body>
+<div class="content">
+	<div class="center">
+		<div id="header">
+			<img src="img/login/login.png"/>
+		</div>
+		<img class="img" src="img/login/loginBg.png"/>
+		<div class="siForm">
+			<form id="signupForm" autocomplete="off">
+					<input type="text" name="username" class="form-control uname" value="" placeholder="请输入账号"/>
+					<input type="password" name="password" class="form-control pword m-b" value="" placeholder="请输入密码"/>
+					<div style="margin: 20px auto 0px;overflow: hidden;width:271px">
+						<input type="text" name="vrifyCode" id="vrifyCode" value="" placeholder="验证码" class="form-control"/>
+						<img onclick = "this.src='defaultKaptcha?d='+new Date()*1"   th:src="@{/defaultKaptcha}" style="float: left;width: 120px;height: 44px;margin-left: 27px;"/>
+					</div>
+					<button class="btn btn-login btn-block">登录</button>
+				</form>
+		</div>
+	</div>
+</div>
+
+<footer>
+	© 2018 All Rights Reserved. 北京恒信源教育文化集团有限公司&nbsp;&nbsp;&nbsp;&nbsp;技术支持：北京纳智校园科技发展有限公司
+</footer>
+<script th:inline="javascript"> var contextPath =[[@{/}]] </script>
+<!-- 全局js -->
+<script src="/js/jquery.min.js?v=2.1.4" th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6" th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
+
+<!-- 自定义js -->
+<script src="/js/content.js?v=1.0.0" th:src="@{/js/content.js?v=1.0.0}"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="/js/plugins/validate/jquery.validate.min.js" th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
+<script src="/js/plugins/validate/messages_zh.min.js" th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
+<script src="/js/plugins/layer/layer.min.js" th:src="@{/js/plugins/layer/layer.min.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        validateRule();
+    });
+
+    $.validator.setDefaults({
+        submitHandler: function () {
+            login();
+        }
+    });
+
+    function login() {
+        $.ajax({
+            type: "POST",
+            url: contextPath+"login",
+            data: $('#signupForm').serialize(),
+            success: function (r) {
+                if (r.code == 0) {
+                    parent.location.href = contextPath+'index';
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }
+
+    function validateRule() {
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#signupForm").validate({
+            rules: {
+                username: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                username: {
+                    required: icon + "请输入您的用户名",
+                },
+                password: {
+                    required: icon + "请输入您的密码",
+                }
+            }
+        })
+    }
+	/*$(window).resize(function() {
+	  setH();
+	});
+	setH();
+	function setH(){
+		$(".center").css("marginTop",($(window).height()-650)/2)
+		if($(window).height()<=615){
+			$(".center").css("marginTop",(615-650)/2);
+		}
+	}*/
+</script>
+</body>
+</html>
+

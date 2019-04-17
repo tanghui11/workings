@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.student.dao.PracticeSchoolRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.PracticeSchoolDO">
+		select
+            id,
+            studentid,
+            speciality_recordid,
+            courseid,
+            grade,
+            in_operator,
+            in_date,
+            status,
+            confirm_status,
+            confirm_operator,
+            confirm_date,
+            audit_status,
+            audit_operator,
+            audit_date,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from stu_practice_school
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.PracticeSchoolDO">
+		select  a.id,a.studentid,c.name as studentName,b.specialityid,b.direction,a.courseid,a.audit_status,a.operator,
+		a.update_date from stu_practice_school a,pla_speciality_record b,stu_student c
+        <where>
+			a.speciality_recordid=b.id and a.studentid=c.id and a.enabled_flag=1
+			and b.enabled_flag=1 and c.enabled_flag=1
+		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+		  <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+		  <if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+		  <if test="inOperator != null and inOperator != ''"> and a.in_operator = #{inOperator} </if>
+		  <if test="inDate != null and inDate != ''"> and a.in_date = #{inDate} </if>
+		  <if test="status != null and status != ''"> and a.status = #{status} </if>
+		  <if test="confirmStatus != null and confirmStatus != ''"> and a.confirm_status = #{confirmStatus} </if>
+		  <if test="confirmOperator != null and confirmOperator != ''"> and a.confirm_operator = #{confirmOperator} </if>
+		  <if test="confirmDate != null and confirmDate != ''"> and a.confirm_date = #{confirmDate} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(1)from stu_practice_school a,pla_speciality_record b,stu_student c
+		<where>
+			a.speciality_recordid=b.id and a.studentid=c.id and a.enabled_flag=1
+			and b.enabled_flag=1 and c.enabled_flag=1
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+			<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			<if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			<if test="inOperator != null and inOperator != ''"> and a.in_operator = #{inOperator} </if>
+			<if test="inDate != null and inDate != ''"> and a.in_date = #{inDate} </if>
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+			<if test="confirmStatus != null and confirmStatus != ''"> and a.confirm_status = #{confirmStatus} </if>
+			<if test="confirmOperator != null and confirmOperator != ''"> and a.confirm_operator = #{confirmOperator} </if>
+			<if test="confirmDate != null and confirmDate != ''"> and a.confirm_date = #{confirmDate} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+			<if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+			<if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	<select id="listCourse" resultType="com.hxy.nzxy.stexam.domain.SpecialityCourseDO">
+	select
+	a.id,
+	a.courseid,
+	a.bookid,
+	a.type,
+	a.classify,
+	a.seq,
+	a.status,
+	a.operator,
+	a.update_date
+	from pla_speciality_course a
+	<where>
+		and a.enabled_flag=1
+		<if test="id != null and id != ''"> and a.id = #{id} </if>
+		<if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+		<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+		<if test="bookid != null and bookid != ''"> and a.bookid = #{bookid} </if>
+		<if test="type != null and type != ''"> and a.type = #{type} </if>
+		<if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+		<if test="seq != null and seq != ''"> and a.seq = #{seq} </if>
+		<if test="status != null and status != ''"> and a.status = #{status} </if>
+		<if test="courseName != null and courseName != ''"> and b.name like concat('%',#{courseName},'%') </if>
+		<if test="bookName != null and bookName != ''"> and c.name like concat('%',#{bookName},'%') </if>
+		<if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+	</where>
+	<choose>
+		<when test="sort != null and sort.trim() != ''">
+			order by ${sort} ${order}
+		</when>
+		<otherwise>
+			order by a.id desc
+		</otherwise>
+	</choose>
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+</select>
+	<select id="countCourse" resultType="int">
+		select count(*) from pla_speciality_course
+		<where>
+			and enabled_flag=1
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+			<if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+			<if test="bookid != null and bookid != ''"> and bookid = #{bookid} </if>
+			<if test="type != null and type != ''"> and type = #{type} </if>
+			<if test="classify != null and classify != ''"> and classify = #{classify} </if>
+			<if test="seq != null and seq != ''"> and seq = #{seq} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+			<if test="courseName != null and courseName != ''"> and b.name like concat('%',#{courseName},'%') </if>
+			<if test="bookName != null and bookName != ''"> and c.name like concat('%',#{bookName},'%') </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+
+
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.PracticeSchoolDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_practice_school
+		(
+			studentid, 
+			speciality_recordid, 
+			courseid, 
+			grade, 
+			in_operator, 
+			in_date, 
+			status, 
+			confirm_status, 
+			confirm_operator, 
+			confirm_date, 
+			audit_status, 
+			audit_operator, 
+			audit_date, 
+			operator, 
+			update_date, 
+			db_flag
+		)
+		values
+		(
+			#{studentid}, 
+			#{specialityRecordid}, 
+			#{courseid}, 
+			#{grade}, 
+			#{inOperator}, 
+			#{inDate}, 
+			#{status}, 
+			#{confirmStatus}, 
+			#{confirmOperator}, 
+			#{confirmDate}, 
+			#{auditStatus}, 
+			#{auditOperator}, 
+			#{auditDate}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.PracticeSchoolDO">
+		update stu_practice_school 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="grade != null">grade = #{grade}, </if>
+			<if test="inOperator != null">in_operator = #{inOperator}, </if>
+			<if test="inDate != null">in_date = #{inDate}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="confirmStatus != null">confirm_status = #{confirmStatus}, </if>
+			<if test="confirmOperator != null">confirm_operator = #{confirmOperator}, </if>
+			<if test="confirmDate != null">confirm_date = #{confirmDate}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="auditOperator != null">audit_operator = #{auditOperator}, </if>
+			<if test="auditDate != null">audit_date = #{auditDate}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}</if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_practice_school set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_practice_school set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

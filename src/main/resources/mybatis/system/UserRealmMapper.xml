@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.UserRealmDao">
+
+    <select id="get" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+        select u.id,
+            o.id orgid,
+            o.name org_name,
+            d.id deptid,
+            d.name dept_name,
+            w.name worker_name,
+            w.mphone worker_mphone,
+            w.phone worker_phone,
+            w.email worker_email,
+            w.status worker_status,
+            dw.id dept_workerid,
+            dw.status dept_worker_status,
+            u.workerid,
+            u.name,
+            u.pwd,
+            u.img,
+            u.question,
+            u.answer,
+            u.status,
+            u.operator,
+            u.update_date
+        from sys_user u,
+            sys_dept_worker dw,
+            sys_dept d,
+            sys_org o,
+            sys_worker w
+        where u.workerid = dw.workerid
+          and dw.deptid = d.id
+          and d.orgid = o.id
+          and w.id = u.workerid
+          and u.id = #{value}
+	</select>
+
+    <select id="getByWorkerid" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+		select
+            id,
+            workerid,
+            name,
+            pwd,
+            img,
+            question,
+            answer,
+            status,
+            operator,
+            update_date
+		from sys_user
+		where workerid = #{value}
+	</select>
+
+    <select id="getByName" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+		select u.id,
+			o.id orgid,
+			d.id deptid,
+            w.name worker_name,
+            w.mphone worker_mphone,
+            w.phone worker_phone,
+            w.email worker_email,
+            w.status worker_status,
+            dw.id dept_workerid,
+            dw.status dept_worker_status,
+			u.workerid,
+			u.name,
+			u.pwd,
+			u.img,
+			u.question,
+			u.answer,
+			u.status,
+			u.operator,
+			u.type,
+			u.update_date
+			from sys_user u,
+			sys_dept_worker dw,
+			sys_dept d,
+			sys_org o,
+            sys_worker w
+		where u.workerid = dw.workerid
+	  	  and dw.deptid = d.id
+		  and d.orgid = o.id
+          and w.id = u.workerid
+		  and dw.status = 'a'
+		  and u.status = 'a'
+		  and u.name = #{value}
+	</select>
+
+    <select id="list" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+        select u.id,
+            o.id orgid,
+            o.name org_name,
+            d.id deptid,
+            d.name dept_name,
+            w.name worker_name,
+            w.mphone worker_mphone,
+            w.phone worker_phone,
+            w.email worker_email,
+            w.status worker_status,
+            dw.id dept_workerid,
+            dw.status dept_worker_status,
+            u.workerid,
+            u.name,
+            u.pwd,
+            u.img,
+            u.question,
+            u.answer,
+            u.status,
+            u.operator,
+            u.update_date,
+            u.type
+        from sys_user u,
+            sys_dept_worker dw,
+            sys_dept d,
+            sys_org o,
+            sys_worker w
+        where u.workerid = dw.workerid
+          and dw.deptid = d.id
+          and d.orgid = o.id
+          and w.id = u.workerid
+        <if test="type != null and type != ''">and u.type  =1</if>
+
+        <if test="name != null and name != ''">and u.name  like CONCAT('%','${name}','%')</if>
+        order by u.name
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*)
+        from sys_user u,
+             sys_dept_worker dw,
+             sys_dept d,
+             sys_org o,
+             sys_worker w
+        where u.workerid = dw.workerid
+          and dw.deptid = d.id
+          and d.orgid = o.id
+          and w.id = u.workerid
+
+        <if test="name != null and name != ''">and u.name  like CONCAT('%','${name}','%')</if>
+    </select>
+
+    <insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.UserDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user
+		(
+			workerid,
+			name,
+			pwd,
+			img,
+			question,
+			answer,
+			status,
+			operator,
+			update_date,
+			type
+		)
+		values
+		(
+			#{workerid},
+			#{name},
+			#{pwd},
+			#{img},
+			#{question},
+			#{answer},
+			#{status},
+			#{operator},
+			now(),
+			#{type}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.UserDO">
+        update sys_user
+        <set>
+            <if test="workerid != null">workerid = #{workerid},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="pwd != null">pwd = #{pwd},</if>
+            <if test="img != null">img = #{img},</if>
+            <if test="question != null">question = #{question},</if>
+            <if test="answer != null">answer = #{answer},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="updateDate != null">update_date = now()</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from sys_user where id = #{value}
+	</delete>
+
+    <delete id="batchRemove">
+        delete from sys_user where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
+    <select id="listRegion" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+        select u.id,
+        reg.type as regType
+        reg.name worker_name,
+        reg.mphone worker_mphone,
+        reg.phone worker_phone,
+        reg.email worker_email,
+        u.workerid,
+        u.name,
+        u.pwd,
+        u.img,
+        u.question,
+        u.answer,
+        u.status,
+        u.operator,
+        u.update_date,
+        u.type
+        from sys_user u,
+        reg_region reg
+        where u.workerid = reg.id
+        <if test="type != null and type != ''">and u.type  =2</if>
+        <if test="name != null and name != ''">and u.name  like CONCAT('%','${name}','%')</if>
+        order by u.name
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="listSchool" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+        select u.id,
+        sch.name worker_name,
+        sch.mphone worker_mphone,
+        sch.phone worker_phone,
+        sch.email worker_email,
+        sch.regionid,
+        u.workerid,
+        u.name,
+        u.pwd,
+        u.img,
+        u.question,
+        u.answer,
+        u.status,
+        u.operator,
+        u.update_date,
+        u.type
+        from sys_user u,
+        sch_school sch
+        where u.workerid = sch.id
+        <if test="type != null and type != ''">and u.type  =3</if>
+        <if test="name != null and name != ''">and u.name  like CONCAT('%','${name}','%')</if>
+        order by u.name
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="listCollege" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+        select u.id,
+        col.name worker_name,
+        col.mphone worker_mphone,
+        col.phone worker_phone,
+        col.email worker_email,
+        u.workerid,
+        u.name,
+        u.pwd,
+        u.img,
+        u.question,
+        u.answer,
+        u.status,
+        u.operator,
+        u.update_date,
+        u.type
+        from sys_user u,
+        sch_college col
+        where u.workerid = col.id
+        <if test="type != null and type != ''">and u.type  =4</if>
+        <if test="name != null and name != ''">and u.name  like CONCAT('%','${name}','%')</if>
+        order by u.name
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="countRegion" resultType="int">
+        select
+        count(*)
+        from sys_user u,
+        reg_region reg
+
+        where u.workerid = reg.id
+
+        <if test="type != null and type != ''">and u.type  =2</if>
+        <if test="name != null and name != ''">and u.name  like CONCAT('%','${name}','%')</if>
+    </select>
+    <select id="countSchool" resultType="int">
+        select
+        count(*)
+        from sys_user u,
+        sch_school reg
+        where u.workerid = reg.id
+        <if test="type != null and type != ''">and u.type  =3</if>
+        <if test="name != null and name != ''">and u.name  like CONCAT('%','${name}','%')</if>
+    </select>
+    <select id="countCollege" resultType="int">
+        select
+        count(*)
+        from sys_user u,
+        sch_college reg
+        where u.workerid = reg.id
+        <if test="type != null and type != ''">and u.type  =4</if>
+        <if test="name != null and name != ''">and u.name  like CONCAT('%','${name}','%')</if>
+    </select>
+    <select id="getUserType" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+        select * from sys_user where name = #{value}
+    </select>
+    <select id="getSchoolByName" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+		select u.id,
+		    sch.id schoolid,
+            sch.name worker_name,
+            sch.mphone worker_mphone,
+            sch.phone worker_phone,
+            sch.email worker_email,
+			u.workerid,
+			u.name,
+			u.pwd,
+			u.img,
+			u.question,
+			u.answer,
+			u.status,
+			u.operator,
+			u.type,
+			u.update_date
+			from sys_user u,
+			sch_school sch
+		where u.workerid = sch.id
+		  and u.status = 'a'
+		  and u.name = #{value}
+	</select>
+    <select id="getRegionByName" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+		select u.id,
+            sch.id regionid,
+            sch.name worker_name,
+            sch.mphone worker_mphone,
+            sch.phone worker_phone,
+            sch.email worker_email,
+             sch.type as regType,
+			u.workerid,
+			u.name,
+			u.pwd,
+			u.img,
+			u.question,
+			u.answer,
+			u.status,
+			u.operator,
+			u.type,
+			u.update_date
+			from sys_user u,
+			reg_region sch
+
+		where u.workerid = sch.id
+		  and u.status = 'a'
+		  and u.name = #{value}
+	</select>
+    <select id="getCollegeByName" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+		select u.id,
+            sch.id collegeid,
+            sch.name worker_name,
+            sch.mphone worker_mphone,
+            sch.phone worker_phone,
+            sch.email worker_email,
+			u.workerid,
+			u.name,
+			u.pwd,
+			u.img,
+			u.question,
+			u.answer,
+			u.status,
+			u.operator,
+			u.type,
+			u.update_date
+			from sys_user u,
+			sch_college sch
+		where u.workerid = sch.id
+		  and u.status = 'a'
+		  and u.name = #{value}
+	</select>
+</mapper>

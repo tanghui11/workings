@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<!--进度条显示-->
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<form id="form" th:action="@{/school/teachSiteSchool/searchOutExcel}">
+		<div class="col-sm-12">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>学院列表</h5>
+					</div>
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<input id="orgid" name="orgid" type="hidden" th:value="1">
+							<input id="orgType" name="orgType" type="hidden" th:value="a">
+							<div class="columns pull-left" style="margin-right:10px;">
+								<input id="searchName" type="text" class="form-control" name="name"
+									placeholder="请输入教学点名称">
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								<input id="searchLinkman" type="text" class="form-control" name="linkman"
+									placeholder="请输入联系人">
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								<input id="schoolSiteName" type="text" class="form-control" name="schoolSiteName"
+									placeholder="请输入办学地区">
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+							</div>
+							<div class="columns pull-left">
+								<button shiro:hasPermission="school:teachSiteSchool:add" type="button" class="btn  btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i>添加
+								</button>
+								<button shiro:hasPermission="school:teachSiteSchool:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+							</div>
+							<div class="columns pull-left" style="margin-left:5px">
+									<button  type="button" class="btn  btn-primary" onclick="exportExcel()">
+										教学点管理导出
+									</button>
+							</div>
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:teachSiteSchool:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:teachSiteSchool:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:teachSiteSchool:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/school/teachSiteSchool/teachSiteSchool.js" th:src="@{/js/appjs/school/school/teachSiteSchool/teachSiteSchool.js}"></script>
+</body>
+</html>

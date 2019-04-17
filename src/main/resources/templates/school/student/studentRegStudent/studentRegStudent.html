@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar" style="overflow: hidden;">
+						<input id="studentSpecialityid" name="studentSpecialityid" th:value="${studentSpecialityid}" type="hidden">
+						<div class="columns pull-left" style="margin-right: 10px">
+							<button shiro:hasPermission="student:studentRegStudent:add" type="button" class="btn  btn-primary" onclick="save()">
+								<i class="fa fa-plus" aria-hidden="true"></i>注册
+							</button>
+							<button shiro:hasPermission="student:studentRegStudent:batchRemove" type="button" class="btn  btn-danger"
+								onclick="qxzhuce()">
+								<i class="fa fa-trash" aria-hidden="true"></i>取消注册
+							</button>
+						</div>
+					</div>
+				    	<h3 class="bg-info" style="padding:10px;margin:0;">学生注册信息</h3>
+						<table id="exampleTable2" data-mobile-responsive="true">
+						</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/studentRegStudent/studentRegStudent.js" th:src="@{/js/appjs/school/student/studentRegStudent/studentRegStudent.js}"></script>
+</body>
+</html>

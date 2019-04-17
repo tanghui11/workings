@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentCertificateQueryDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.center.student.domain.StudentCertificateQueryDO">
+		select
+			a.id as studentid,
+			a.name as studentName,
+			b.id as studentCertificateid,
+			b.code as diplomaNo,
+			b.studentid,
+			b.student_specialityid as specialityid,
+			a.certificate_type as certificateType,
+			a.certificate_no as certificateNo,
+			b.specialityid ,
+			b.paper_score,
+			b.graduate_date as graduationDate,
+			b.school_name as gradSchool,
+			b.graduate_direction as gradDirection,
+			b.speciality_levels as specialityLevels
+		from
+			stu_student a,
+			stu_student_certificate b
+		where a.id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.center.student.domain.StudentCertificateQueryDO">
+		select
+			a.id as studentid,
+			a.name as studentName,
+			b.id as studentCertificateid,
+			b.code as diplomaNo,
+			b.studentid,
+			b.student_specialityid as specialityid,
+			a.certificate_type as certificateType,
+			a.certificate_no as certificateNo,
+			b.specialityid ,
+			b.paper_score,
+			b.graduate_date as graduationDate,
+			b.school_name as gradSchool,
+			b.graduate_direction as gradDirection,
+			b.speciality_levels as specialityLevels
+		from
+			stu_student a,
+			stu_student_certificate b
+		<where> a.id = b.studentid
+			<if test="id != null and id != '' and name != null and name != '' and certificateNo != null and certificateNo != '' and code != null and code != ''">
+		 	and concat(a.id,a.name,a.certificate_no,b.code)  like #{searchName} </if>
+		</where>
+		union
+		select
+			id,
+			name,
+			id,
+			code,
+			studentid,
+			student_specialityid,
+			certificate_type,
+			certificate_no,
+			specialityid,
+			speciality_name,
+			paper_score,
+			graduate_date,
+			school_name,
+			graduate_direction,
+			speciality_levels
+		from stu_student_certificate_old
+		<where>
+		      <if test="id != null and id != '' and name != null and name != '' and certificateNo != null and certificateNo != '' and code != null and code != ''">
+			   concat(a.id,a.name,a.certificate_no,b.code)  like #{searchName} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*)
+		from
+		stu_student a,
+		stu_student_certificate b
+		<where>
+			and a.id = b.studentid
+			<if test="id != null and id != '' and name != null and name != '' and certificateNo != null and certificateNo != '' and code != null and code != ''">
+			and concat(a.id,a.name,a.certificate_no,b.code)  like #{searchName} </if>
+		</where>
+		union
+		select count(*)
+		from stu_student_certificate_old
+		<where>
+			<if test="id != null and id != '' and name != null and name != '' and certificateNo != null and certificateNo != '' and code != null and code != ''">
+			and concat(a.id,a.name,a.certificate_no,b.code)  like #{searchName} </if>
+		</where>
+
+	</select>
+
+
+</mapper>

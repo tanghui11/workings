@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.student.dao.StudentCardPoolStudentDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentCardPoolDO">
+		select
+            id,
+            studentid,
+            status,
+            regionid,
+            child_regionid,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_student_card_pool
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentCardPoolDO">
+		select
+	        id,
+	        studentid,
+	        status,
+	        regionid,
+	        child_regionid,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from stu_student_card_pool
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_card_pool
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentCardPoolDO">
+		insert into stu_student_card_pool
+		(
+			id, 
+			studentid, 
+			status, 
+			regionid, 
+			child_regionid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{id}, 
+			#{studentid}, 
+			#{status}, 
+			#{regionid}, 
+			#{childRegionid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentCardPoolDO">
+		update stu_student_card_pool 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_card_pool set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_card_pool set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left" style="margin-right:10px;">
+							提示信息
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="searchName" type="text" class="form-control" style="width:500px;color:red;" readOnly>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left" style="margin-right:10px;">
+							考试任务
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<select class="form-control" id="searchKsrw" placeholder="" type="text">
+								
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							考试时间
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<select id="kktime" name="examTimeid" class="form-control" >
+								<option value="">-请选择-</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+							<button class="btn btn-primary" onclick="tz()">考场编排调整<i class="fa fa-arrow-circle-right" style="margin-left:10px;"></i></button>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="col-sm-12" style="padding:0;">
+						<h3 class="bg-danger" style="padding:10px;margin-bottom:10px;">末尾考场编排调整</h3>
+						<div style="width: 48%;float: left;margin-right: 2%">
+							<!-- <h3 class="bg-danger" style="padding:10px;margin:0;">待编排报考课程</h3> -->
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+						<div style="width: 50%;float:left;">
+							<!-- <h3 class="bg-info" style="padding:10px;margin:0;">可编排考场</h3> -->
+							<table id="exampleTable2" data-mobile-responsive="true">
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrangeRegion:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrangeRegion:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrangeRegion:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/region/region/roomArrangeRegion/roomArrangeRegion1.js" th:src="@{/js/appjs/region/region/roomArrangeRegion/roomArrangeRegion1.js}"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12" style="padding-right:0">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>考区列表</h5>
+					</div>
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+			<div class="ibox">
+				<div class="ibox-body">
+					<form method="post" th:action="@{/student/student/searchOutExcel}" id="form">
+					<div class="fixed-table-toolbar">
+					<input id="orgid" name="orgid" type="hidden" th:value="0">
+						<input id="pic" name="pic" type="hidden">
+					<!-- <input id="schoolid" name="schoolid" type="hidden">
+					<input id="collegeid" name="collegeid" type="hidden">
+					<input id="teachSiteid" name="teachSiteid" type="hidden"> -->
+					<input id="regionid" name="teachSiteid" type="hidden">
+					<input id="childRegionid" name="childRegionid" type="hidden">
+						<div class="columns pull-left" style="margin-right:5px">
+							考生状态
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;width:105px;">
+							<select id="status" name="status" class="form-control">
+								<option value="">请选择</option>
+								<option th:each="item:${stu_student_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						<div class="columns pull-left nopadding"  style="margin-right:5px">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="请输入姓名查询">
+						</div>
+						<div class="columns pull-left nopadding" style="margin-right:5px">
+								<select id="auditStatus" name="auditStatus" class="form-control">
+									<option th:each="item:${stu_student_audit_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+								</select> 
+						</div>
+						<div class="columns pull-left nopadding"  style="margin-right:5px">
+							<input id="subject" type="text" class="form-control"
+								placeholder="请输入专业名称查询" onclick="majorName()">
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="LockLoad()" type="button">没有照片的学生查询</button>
+						</div>
+						<div style="clear:both"></div>
+						<div class="columns pull-left" style="margin-right:5px">
+							招生年份
+						</div>
+						<div class="columns pull-left nopadding">
+							<input id="regYear" type="text" class="form-control"
+								placeholder="年份查询" onfocus="WdatePicker({dateFmt: 'yyyy'})">
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+						</div>
+						<!-- <div class="columns pull-left">
+							<button shiro:hasPermission="student:student:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="student:student:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>  -->
+						<div class="columns pull-left" style="margin-left:10px">
+<!-- 							<button class="btn  btn-primary" onclick="shenghe()" type="button">批量审核</button>
+							<button class="btn btn-warning" onclick="cancalAudit()" type="button">取消审核</button> -->
+							 <button class="btn btn-info" onclick="cancalRecord()" type="button">删除档案</button> 
+							<!--  <button class="btn btn-primary" onclick="edits()" type="button">修改</button>  -->
+							 <button class="btn btn-danger" onclick="dropOut()" type="button">退学</button> 
+							 <button class="btn btn-primary" onclick="goBack()" type="button">复学</button>
+							<button  shiro:hasPermission="student:studentRegion:savBathData" type="button" class="btn  btn-primary" type="button" onclick="importData()">
+								导入档案
+							</button>
+							<button shiro:hasPermission="student:studentRegion:searchOutExcel"  type="button" class="btn  btn-primary" onclick="onZipAll('student/studentRegionGl/searchOutExcel')">
+							导出
+						</button>
+							<button  shiro:hasPermission="student:studentRegion:savBathDataSpeciality" type="button" class="btn  btn-primary" type="button" onclick="importData1()">
+								导入报考专业
+							</button>
+							<!--<button  type="button" class="btn  btn-primary" type="button" onclick="exportExcel('student/studentSpeciality/searchOutExcel')">
+								导出报考专业
+							</button>-->
+						</div> 
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+				</form>
+			</div>
+
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:student:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:student:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:student:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentgl/student.js" th:src="@{/js/appjs/center/student/studentgl/student.js}"></script>
+</body>
+</html>

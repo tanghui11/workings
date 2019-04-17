@@ -1,0 +1,1144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentSpecialityDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+            id,
+            studentid,
+            regionid,
+            child_regionid,
+            schoolid,
+            collegeid,
+            teach_siteid,
+            grad_school,
+            grad_certificate,
+            grad_specialityid,
+            education,
+            school_speciality_regid,
+            speciality_recordid,
+            status,
+            graduate,
+            print_certificate,
+            apply_operator,
+            apply_date,
+            audit_status,
+            audit_operator,
+            audit_date,
+            grad_audit_status,
+            grad_audit_operator,
+            grad_audit_date,
+            old_studentid,
+            operator,
+            update_date,
+            db_flag
+		from stu_student_speciality
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+		a.id,
+		a.studentid,
+		a.regionid,
+		a.child_regionid,
+		a.schoolid,
+		a.collegeid,
+		a.teach_siteid,
+		a.grad_school,
+		a.grad_certificate,
+		a.grad_specialityid,
+		a.education,
+		a.status,
+		a.graduate,
+		a.old_studentid,
+		a.operator,
+		a.update_date,
+		a.db_flag,
+		a.reg_year,
+		a.reg_season,
+		a.specialityid,
+		b.classify,
+		b.type,
+		b.educate_length,
+		c.direction
+		from v_stu_student_speciality a left join sch_school_speciality_reg b on a.school_speciality_regid=b.id  and b.enabled_flag=1
+		left join pla_speciality_record c on c.id =a.speciality_recordid  and c.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and a.child_regionid = #{childRegionid} </if>
+			<if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and a.teach_siteid = #{teachSiteid} </if>
+			<if test="gradSchool != null and gradSchool != ''"> and a.grad_school = #{gradSchool} </if>
+			<if test="gradCertificate != null and gradCertificate != ''"> and a.grad_certificate = #{gradCertificate} </if>
+			<if test="gradSpecialityid != null and gradSpecialityid != ''"> and a.grad_specialityid = #{gradSpecialityid} </if>
+			<if test="education != null and education != ''"> and a.education = #{education} </if>
+
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+			<if test="graduate != null and graduate != ''"> and a.graduate = #{graduate} </if>
+			<if test="printCertificate != null and printCertificate != ''"> and a.print_certificate = #{printCertificate} </if>
+			<if test="applyOperator != null and applyOperator != ''"> and apply_operator = #{applyOperator} </if>
+			<if test="applyDate != null and applyDate != ''"> and a.apply_date = #{applyDate} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="auditOperator != null and auditOperator != ''"> and a.audit_operator = #{auditOperator} </if>
+			<if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+			<if test="gradAuditStatus != null and gradAuditStatus != ''"> and a.grad_audit_status = #{gradAuditStatus} </if>
+			<if test="gradAuditOperator != null and gradAuditOperator != ''"> and a.grad_audit_operator = #{gradAuditOperator} </if>
+			<if test="gradAuditDate != null and gradAuditDate != ''"> and a.grad_audit_date = #{gradAuditDate} </if>
+			<if test="oldStudentid != null and oldStudentid != ''"> and a.old_studentid = #{oldStudentid} </if>
+
+		</where>
+	<choose>
+		<when test="sort != null and sort.trim() != ''">
+			order by ${sort} ${order}
+		</when>
+		<otherwise>
+			order by id desc
+		</otherwise>
+	</choose>
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+</select>
+
+	<select id="listSpeciality" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+				*
+		from v_stu_student_speciality
+		<where>
+			and enabled_flag=1
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+			<if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+			<if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and teach_siteid = #{teachSiteid} </if>
+			<if test="gradSchool != null and gradSchool != ''"> and grad_school = #{gradSchool} </if>
+			<if test="gradCertificate != null and gradCertificate != ''"> and grad_certificate = #{gradCertificate} </if>
+			<if test="gradSpecialityid != null and gradSpecialityid != ''"> and grad_specialityid = #{gradSpecialityid} </if>
+			<if test="education != null and education != ''"> and education = #{education} </if>
+			<if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''"> and school_speciality_regid = #{schoolSpecialityRegid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+			<if test="status != null and status != ''"> and status = #{status} </if>
+			<if test="graduate != null and graduate != ''"> and graduate = #{graduate} </if>
+			<if test="printCertificate != null and printCertificate != ''"> and print_certificate = #{printCertificate} </if>
+			<if test="applyOperator != null and applyOperator != ''"> and apply_operator = #{applyOperator} </if>
+			<if test="applyDate != null and applyDate != ''"> and apply_date = #{applyDate} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+			<if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+			<if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+			<if test="gradAuditStatus != null and gradAuditStatus != ''"> and grad_audit_status = #{gradAuditStatus} </if>
+			<if test="gradAuditOperator != null and gradAuditOperator != ''"> and grad_audit_operator = #{gradAuditOperator} </if>
+			<if test="gradAuditDate != null and gradAuditDate != ''"> and grad_audit_date = #{gradAuditDate} </if>
+			<if test="oldStudentid != null and oldStudentid != ''"> and old_studentid = #{oldStudentid} </if>
+			<if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_speciality
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and teach_siteid = #{teachSiteid} </if>
+		  <if test="gradSchool != null and gradSchool != ''"> and grad_school = #{gradSchool} </if>
+		  <if test="gradCertificate != null and gradCertificate != ''"> and grad_certificate = #{gradCertificate} </if>
+		  <if test="gradSpecialityid != null and gradSpecialityid != ''"> and grad_specialityid = #{gradSpecialityid} </if>
+		  <if test="education != null and education != ''"> and education = #{education} </if>
+		  <if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''"> and school_speciality_regid = #{schoolSpecialityRegid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="graduate != null and graduate != ''"> and graduate = #{graduate} </if>
+		  <if test="printCertificate != null and printCertificate != ''"> and print_certificate = #{printCertificate} </if>
+		  <if test="applyOperator != null and applyOperator != ''"> and apply_operator = #{applyOperator} </if>
+		  <if test="applyDate != null and applyDate != ''"> and apply_date = #{applyDate} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+		  <if test="gradAuditStatus != null and gradAuditStatus != ''"> and grad_audit_status = #{gradAuditStatus} </if>
+		  <if test="gradAuditOperator != null and gradAuditOperator != ''"> and grad_audit_operator = #{gradAuditOperator} </if>
+		  <if test="gradAuditDate != null and gradAuditDate != ''"> and grad_audit_date = #{gradAuditDate} </if>
+		  <if test="oldStudentid != null and oldStudentid != ''"> and old_studentid = #{oldStudentid} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+	</select>
+
+	<select id="seachStuSubjectlist" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+		a.id,
+		a.studentid,
+		a.regionid,
+		a.child_regionid,
+		a.schoolid,
+		a.collegeid,
+		a.teach_siteid,
+		a.grad_school,
+		a.grad_certificate,
+		a.grad_specialityid,
+		a.education,
+		a.status,
+		a.graduate,
+		a.old_studentid,
+		a.operator,
+		a.update_date,
+		a.db_flag,
+		a.reg_year,
+		a.reg_season,
+		a.specialityid,
+		b.classify,
+		b.type,
+		b.educate_length
+		from v_stu_student_speciality a left join sch_school_speciality_reg b on a.school_speciality_regid=b.id
+		<where>
+			and a.enabled_flag=1
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and a.child_regionid = #{childRegionid} </if>
+			<if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and a.teach_siteid = #{teachSiteid} </if>
+			<if test="gradSchool != null and gradSchool != ''"> and a.grad_school = #{gradSchool} </if>
+			<if test="gradCertificate != null and gradCertificate != ''"> and a.grad_certificate = #{gradCertificate} </if>
+			<if test="gradSpecialityid != null and gradSpecialityid != ''"> and a.grad_specialityid = #{gradSpecialityid} </if>
+			<if test="education != null and education != ''"> and a.education = #{education} </if>
+
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+			<if test="graduate != null and graduate != ''"> and a.graduate = #{graduate} </if>
+			<if test="printCertificate != null and printCertificate != ''"> and a.print_certificate = #{printCertificate} </if>
+			<if test="applyOperator != null and applyOperator != ''"> and apply_operator = #{applyOperator} </if>
+			<if test="applyDate != null and applyDate != ''"> and a.apply_date = #{applyDate} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="auditOperator != null and auditOperator != ''"> and a.audit_operator = #{auditOperator} </if>
+			<if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+			<if test="gradAuditStatus != null and gradAuditStatus != ''"> and a.grad_audit_status = #{gradAuditStatus} </if>
+			<if test="gradAuditOperator != null and gradAuditOperator != ''"> and a.grad_audit_operator = #{gradAuditOperator} </if>
+			<if test="gradAuditDate != null and gradAuditDate != ''"> and a.grad_audit_date = #{gradAuditDate} </if>
+			<if test="oldStudentid != null and oldStudentid != ''"> and a.old_studentid = #{oldStudentid} </if>
+
+		</where>
+
+				order by a.id desc
+	</select>
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_speciality
+		(
+			studentid,
+			regionid,
+			child_regionid,
+			schoolid,
+			collegeid,
+			teach_siteid,
+			grad_school,
+			grad_certificate,
+			grad_specialityid,
+			education,
+			school_speciality_regid,
+			speciality_recordid,
+			status,
+			graduate,
+			print_certificate,
+			apply_operator,
+			apply_date,
+			audit_status,
+			audit_operator,
+			audit_date,
+			grad_audit_status,
+			grad_audit_operator,
+			grad_audit_date,
+			old_studentid,
+			operator,
+			update_date,
+			db_flag,
+			create_date,
+			reg_year,
+			 reg_season,
+			 key_value,
+			 specialityid
+		)
+		values
+		(
+			#{studentid},
+			#{regionid},
+			#{childRegionid},
+			#{schoolid},
+			#{collegeid},
+			#{teachSiteid},
+			#{gradSchool},
+			#{gradCertificate},
+			#{gradSpecialityid},
+			#{education},
+			#{schoolSpecialityRegid},
+			#{specialityRecordid},
+			#{status},
+			#{graduate},
+			#{printCertificate},
+			#{applyOperator},
+			#{applyDate},
+			#{auditStatus},
+			#{auditOperator},
+			#{auditDate},
+			#{gradAuditStatus},
+			#{gradAuditOperator},
+			#{gradAuditDate},
+			#{oldStudentid},
+			#{operator},
+			now(),
+			1,
+			now(),
+			#{regYear},
+			#{regSeason},
+			 #{keyValue},
+			 #{specialityid}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		update stu_student_speciality 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="collegeid != null">collegeid = #{collegeid}, </if>
+			<if test="teachSiteid != null">teach_siteid = #{teachSiteid}, </if>
+			<if test="gradSchool != null">grad_school = #{gradSchool}, </if>
+			<if test="gradCertificate != null">grad_certificate = #{gradCertificate}, </if>
+			<if test="gradSpecialityid != null">grad_specialityid = #{gradSpecialityid}, </if>
+			<if test="education != null">education = #{education}, </if>
+			<if test="schoolSpecialityRegid != null">school_speciality_regid = #{schoolSpecialityRegid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="graduate != null">graduate = #{graduate}, </if>
+			<if test="printCertificate != null">print_certificate = #{printCertificate}, </if>
+			<if test="applyOperator != null">apply_operator = #{applyOperator}, </if>
+			<if test="applyDate != null">apply_date = #{applyDate}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="auditOperator != null">audit_operator = #{auditOperator}, </if>
+			<if test="auditDate != null">audit_date = #{auditDate}, </if>
+			<if test="gradAuditStatus != null">grad_audit_status = #{gradAuditStatus}, </if>
+			<if test="gradAuditOperator != null">grad_audit_operator = #{gradAuditOperator}, </if>
+			<if test="gradAuditDate != null">grad_audit_date = #{gradAuditDate}, </if>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			<if test="enabledFlag != null and enabledFlag!=''">enabled_flag = #{enabledFlag}, </if>
+			update_date = now()
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_speciality set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_speciality set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<update id="updateAudit">
+	update  stu_student_speciality set audit_status =#{auditStatus},audit_operator=#{operator},audit_date=now() where studentid=#{id}
+	</update>
+	<update id="batchUpdateAudit">
+		update  stu_student_speciality set audit_status =#{auditStatus},audit_operator=#{operator},audit_date=now() where studentid in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="listCZ" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+		studentid
+		from v_stu_student_speciality
+		<where>
+
+			<foreach item="bean" collection="list" open="and" separator="or" close="">
+				 (studentid = #{bean.studentid} and speciality_recordid = #{bean.specialityRecordid} and enabled_flag=1)
+			</foreach>
+		</where>
+
+	</select>
+
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into stu_student_speciality
+		(
+		studentid,
+		regionid,
+		child_regionid,
+		schoolid,
+		collegeid,
+		teach_siteid,
+		grad_school,
+		grad_certificate,
+		grad_specialityid,
+		education,
+		school_speciality_regid,
+		speciality_recordid,
+		status,
+		graduate,
+		print_certificate,
+		apply_operator,
+		apply_date,
+		audit_status,
+		audit_operator,
+		audit_date,
+		grad_audit_status,
+		grad_audit_operator,
+		grad_audit_date,
+		old_studentid,
+		operator,
+		update_date,
+		db_flag,
+		create_date,
+		reg_year,
+		reg_season,
+		key_value,
+		specialityid
+		)
+		values
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+			(
+			#{bean.studentid},
+			#{bean.regionid},
+			#{bean.childRegionid},
+			#{bean.schoolid},
+			#{bean.collegeid},
+			#{bean.teachSiteid},
+			#{bean.gradSchool},
+			#{bean.gradCertificate},
+			#{bean.gradSpecialityid},
+			#{bean.education},
+			#{bean.schoolSpecialityRegid},
+			#{bean.specialityRecordid},
+			#{bean.status},
+			#{bean.graduate},
+			#{bean.printCertificate},
+			#{bean.applyOperator},
+			#{bean.applyDate},
+			#{bean.auditStatus},
+			#{bean.auditOperator},
+			#{bean.auditDate},
+			#{bean.gradAuditStatus},
+			#{bean.gradAuditOperator},
+			#{bean.gradAuditDate},
+			#{bean.oldStudentid},
+			#{bean.operator},
+			now(),
+			1,
+			now(),
+			#{bean.regYear},
+			#{bean.regSeason},
+			#{bean.keyValue},
+			#{bean.specialityid}
+
+			)
+		</foreach>
+	</insert>
+
+	<select id="listQu" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+			a.id,
+			a.studentid,
+			a.graduate,
+			a.grad_specialityid,
+			a.education,
+			a.grad_school,
+			a.grad_certificate,
+			c.id as specialityid,
+			c.name as specialityName,
+			d.name as studentName,
+			a.speciality_recordid
+		from
+			stu_student_speciality a
+			left join
+			pla_speciality_record b on a.speciality_recordid = b.id
+			left join
+			pla_speciality c on b.specialityid = c.id
+			left join
+			stu_student d on a.studentid = d.id
+		<where>
+			and a.enabled_flag=1
+			<if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and a.teach_siteid = #{teachSiteid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="countQu" resultType="int">
+		select
+			count(*)
+		from
+			stu_student_speciality a
+			left join
+			pla_speciality_record b on a.speciality_recordid = b.id
+			left join
+			pla_speciality c on b.specialityid = c.id
+			left join
+			stu_student d on a.studentid = d.id
+		<where>
+			and a.enabled_flag=1
+			<if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and a.teach_siteid = #{teachSiteid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+		</where>
+	</select>
+	<select id="listCourseScore" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+		c.id as courseid,
+		c.name as courseName,
+		a.studentid ,
+		a.speciality_recordid ,
+		b.type,
+		case when a.use_status = 'a' then  0
+		when a.use_status = 'b' then a.grade
+		when a.grade is null then IFNULL(a.grade,0)
+		end as gradeT,
+		a.source_courseid
+		from
+		pla_speciality_course b
+		 left join pla_course c on b.courseid=c.id and c.enabled_flag = 1
+		 left join stu_score a on  a.speciality_recordid = b.speciality_recordid AND a.studentid = #{studentid} and a.courseid=b.courseid  and a.flag='a' and a.enabled_flag = 1
+
+		<where>
+			and b.enabled_flag = 1
+			and b.speciality_recordid = #{specialityRecordid}
+		</where>
+	</select>
+
+	<select id="listScore" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select
+		id,
+		studentid,
+		speciality_recordid,
+		courseid,
+		type,
+		objid,
+		kg_grade,
+		zg_grade,
+		old_grade,
+		exam_grade,
+		school_grade,
+		grade,
+		exam_flag,
+		status,
+		use_status,
+		flag,
+		source_courseid,
+		et_dm,
+		old_studentid,
+		exam_date,
+		old_courseid,
+		school_scoreid,
+		operator,
+		update_date,
+		db_flag,
+		enabled_flag,
+		key_value
+		from
+		stu_score
+		<where>
+			enabled_flag = 1 and use_status =#{userStatus} and grade>=60 and type!='g' and flag='a'
+			<if test="studentid != '' and studentid !=null"> and studentid = #{studentid}</if>
+
+		</where>
+	</select>
+	<select id="listScoreReplace" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select
+		id,
+		studentid,
+		speciality_recordid,
+		courseid,
+		type,
+		objid,
+		kg_grade,
+		zg_grade,
+		old_grade,
+		exam_grade,
+		school_grade,
+		grade,
+		exam_flag,
+		status,
+		use_status,
+		flag,
+		source_courseid,
+		et_dm,
+		old_studentid,
+		exam_date,
+		old_courseid,
+		school_scoreid,
+		operator,
+		update_date,
+		db_flag,
+		enabled_flag,
+		key_value
+		from
+		stu_score
+		<where>
+			enabled_flag = 1 and use_status =#{userStatus} and grade>=60
+			<if test="studentid != '' and studentid !=null"> and studentid = #{studentid}</if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+			<if test="courseid != null and courseid != ''"> and courseid = #{courseid2} </if>
+			<if test="type != null and type != ''"> and type = #{type} </if>
+		</where>
+	</select>
+	<select id="getCommonCourseReplace" resultType="com.hxy.nzxy.stexam.domain.CommonCourseReplaceDO">
+		SELECT
+	a.courseid,
+	a.type,
+	a.course_num,
+	a.least_num,
+	a.least_score,
+	a.append_courseid1,
+	a.append_courseid2,
+	a.append_courseid3,
+	a.append_courseid4,
+	b.courseid AS courseid_replace
+FROM
+	pla_common_course_replace a,
+	pla_common_course_replace_item b,
+	pla_speciality_course c,
+	pla_speciality_record d,
+	pla_speciality e
+	WHERE
+		a.id = b.course_replaceid
+	and c.courseid=a.courseid
+	and d.id=c.speciality_recordid
+	and e.id=d.specialityid and (a.course_class=e.classify or a.course_class='x')
+	AND a.enabled_flag = 1
+	AND b.enabled_flag = 1
+	AND c.enabled_flag = 1
+	AND d.enabled_flag = 1
+	AND e.enabled_flag = 1
+	AND c.speciality_recordid = #{specialityRecordid}
+	</select>
+
+	<select id="getItemList" resultType="com.hxy.nzxy.stexam.domain.CommonCourseReplaceItemDO">
+		select
+			a.courseid as commomCourseReplaceid,
+			b.courseid as commonCourseReplaceItemid
+		from
+			pla_common_course_replace a,
+			pla_common_course_replace_item b
+		 where a.id = b.course_replaceid and b.course_replaceid in
+			<foreach collection="list" item="bean" index="index" open="(" separator="," close=")"  >
+				#{bean.courseReplaceid}
+			</foreach>
+	</select>
+
+	<update id="editStudentInfo">
+		update stu_student_speciality
+		<trim prefix="set" suffixOverrides=",">
+			<if test="gradSchool != null and gradSchool != '' ">grad_school = #{gradSchool},</if>
+			<if test="gradCertificate != null and gradCertificate != '' ">grad_certificate = #{gradCertificate},</if>
+			<if test="gradSpecialityid != null and gradSpecialityid != '' ">grad_specialityid = #{gradSpecialityid},</if>
+			<if test="education != null and education != '' ">education = #{education},</if>
+		</trim>
+		<where>
+			enabled_flag = 1
+			<if test="collegeid != null and collegeid != '' ">and collegeid = #{collegeid}</if>
+			<if test="teachSiteid != null and teachSiteid != '' ">and teachSiteid = #{teachSiteid}</if>
+			<if test="specialityRecordid != null and specialityRecordid != '' ">and specialityRecordid = #{specialityRecordid}</if>
+			<if test="studentid != null and studentid != '' ">and studentid = #{studentid}</if>
+		</where>
+	</update>
+
+	<update id="editDoubleRight">
+		update stu_score set use_status = #{type},
+
+	speciality_Recordid = #{specialityRecordid}
+		<where>
+			<if test="studentid != null and studentid !=''">and studentid = #{studentid}</if>
+			<if test="courseid != null and courseid !=''">and courseid = #{courseid}</if>
+			and flag ='a' and type!='g'
+		</where>
+	</update>
+
+	<select id="getSourceCourse" resultType="java.lang.Float">
+		select grade
+		from
+		stu_score
+		<where>
+			enabled_flag = 1 and use_status = 'b'
+			<if test="studentid != '' and studentid !=null"> and studentid = #{studentid}</if>
+			<if test="courseid != null and courseid !=''">and courseid = #{courseid}</if>
+			<if test="specialityRecordid != null and specialityRecordid !=''">and speciality_Recordid = #{specialityRecordid}</if>
+		</where>
+	</select>
+
+	<select id="listCourseReplace" resultType="com.hxy.nzxy.stexam.domain.CourseReplaceDO">
+		SELECT
+		a.courseid,
+		a.type,
+		a.course_num,
+		a.least_num,
+		a.least_score,
+		append_courseid1,
+		append_courseid2,
+		append_courseid3,
+		append_courseid4,
+		b.courseid AS courseid_replace
+		FROM
+		pla_course_replace a,
+		pla_course_replace_item b
+		WHERE
+		a.id = b.course_replaceid
+		AND a.enabled_flag = 1
+		AND b.enabled_flag = 1
+		AND a.speciality_recordid = #{specialityRecordid}
+
+	</select>
+
+
+	<select id="listCourseAppend" resultType="com.hxy.nzxy.stexam.domain.CourseAppendDO">
+		select
+		a.id,
+		a.name,
+		b.name as courseName
+		from
+		pla_course_append a,
+		pla_course b,
+		pla_course_append_item c
+		where
+		a.name = b.id and a.id = c.course_appendid and c.course_appendid =#{specialityRecordid}
+		and a.name in
+		<foreach collection="list" item="bean" index="index" open="(" separator="," close=")" >
+			#{bean.courseid}
+		</foreach>
+	</select>
+
+	<select id="listCourseAppendItem" resultType="com.hxy.nzxy.stexam.domain.CourseAppendItemDO">
+		select
+		a.course_appendid,
+		a.courseid,
+		b.name as courseName
+		from
+		pla_course_speciality a,
+		pla_course b
+		where
+		a.courseid = b.id
+		and a.courseid in
+		<foreach collection="list" item="bean" index="index" open="(" separator=","   close=")">
+			#{bean.name}
+		</foreach>
+		and a.course_appendid in
+		<foreach collection="list" item="bean" index="index" open="(" separator=","   close=")">
+			#{bean.id}
+		</foreach>
+	</select>
+
+	<select id="listCourseCheck" resultType="com.hxy.nzxy.stexam.domain.CourseCheckDO">
+		select
+		a.id,
+		a.name,
+		b.name as courseName
+		from
+		pla_course_check a,
+		pla_course b
+		where
+		left(a.name,5) = b.id  and a.speciality_recordid =#{specialityRecordid}
+		and left(a.name,5) in
+		<foreach collection="list" item="bean" index="index" open="("  separator="," close=")" >
+			#{bean.courseid}
+		</foreach>
+	</select>
+
+	<select id="listCourseCheckItem" resultType="com.hxy.nzxy.stexam.domain.CourseCheckDO">
+
+			SELECT
+				a.name,
+				a.type,
+				a.course_num,
+				a.least_num,
+				a.least_score,
+				b.courseid
+			FROM
+				pla_course_check a,
+				pla_course_check_item b
+			WHERE
+				a.id = b.course_checkid
+			AND a.enabled_flag = 1
+			AND b.enabled_flag = 1
+			AND a.speciality_recordid = #{specialityRecordid}
+	</select>
+
+	<select id="selectCommonReolace" resultType="java.lang.Integer">
+		select
+		count(*)
+		from
+		pla_common_course_replace a,
+		pla_common_course_replace_item b
+		where a.id = b.course_replaceid and a.courseid = #{courseid1} and b.courseid = #{courseid2}
+	</select>
+
+	<select id="selectCourseReplace" resultType="java.lang.Integer">
+		select
+		count(1)
+		from
+		pla_course_replace a,
+		pla_course_replace_item b
+		where a.id = b.course_replaceid and a.speciality_recordid=#{specialityRecordid} and a.courseid = #{courseid2} and b.courseid = #{courseid1}
+	</select>
+
+	<select id="listStudent" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+		a.id,
+		b.name,
+		b.gender,
+		b.certificate_no,
+		d.id as specialityid,
+        d.name as specialityName,
+        c.direction,
+		a.studentid,
+		a.regionid,
+		a.child_regionid,
+		a.schoolid,
+		a.collegeid,
+		a.teach_siteid,
+		a.grad_school,
+		a.grad_certificate,
+		a.grad_specialityid,
+		a.education,
+		a.school_speciality_regid,
+		a.speciality_recordid,
+		a.status,
+		a.graduate,
+		a.print_certificate,
+		a.apply_operator,
+		a.apply_date,
+		a.audit_status,
+		a.audit_operator,
+		a.audit_date,
+		a.grad_audit_status,
+		a.grad_audit_operator,
+		a.grad_audit_date,
+		a.old_studentid,
+		a.operator,
+		a.update_date,
+		a.create_date,
+		a.db_flag
+		from stu_student_speciality a, stu_student b,pla_speciality_record c,pla_speciality d
+		<where>
+			a.studentid = b.id and a.speciality_recordid = c.id and c.specialityid = d.id and b.type = #{type} and date_format(a.update_date,'%Y') = #{years} and graduate != 'c'
+			<if test='time=="a"'>and date_format(a.update_date,'%m') in ('01','02','03','04','05','06')</if>
+			<if test='time=="b"'>and date_format(a.update_date,'%m') in ('07','08','09','10','11','12')</if>
+			<if test="specialityid != null and specialityid !=''">and a.specialityid = #{specialityid}</if>
+			<if test="studentid != null and studentid !=''">and a.studentid = #{studentid}</if>
+			<if test="auditStatus != null and auditStatus !=''">and a.audit_status = #{auditStatus}</if>
+			<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and a.child_regionid = #{childRegionid} </if>
+			<if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and a.teach_siteid = #{teachSiteid} </if>
+			<if test="gradAuditStatus != null and gradAuditStatus != ''"> and a.grad_audit_status = #{gradAuditStatus} </if>
+		</where>
+	</select>
+	<select id="countStudent" resultType="java.lang.Integer">
+		select
+		count(*)
+		from stu_student_speciality a, stu_student b
+		<where>
+			a.studentid = b.id and b.type = #{type} and date_format(a.update_date,'%Y') = #{years}
+			<if test='time=="a"'>and date_format(a.update_date,'%m') in ('01','02','03','04','05','06')</if>
+			<if test='time=="b"'>and date_format(a.update_date,'%m') in ('07','08','09','10','11','12')</if>
+			<if test="specialityRecordid != null and specialityRecordid !=''">and a.speciality_recordid = #{specialityRecordid}</if>
+			<if test="studentid != null and studentid !=''">and a.studentid = #{studentid}</if>
+			<if test="auditStatus != null and auditStatus !=''">and a.audit_status = #{auditStatus}</if>
+		</where>
+	</select>
+
+    <update id="updateAuditStudent">
+            update stu_student_speciality
+            set grad_audit_status = #{gradAuditStatus},grad_audit_operator=#{gradAuditOperator},grad_audit_date=now()
+            where id=#{ids}
+    </update>
+
+
+    <update id="updateGradute">
+            update stu_student_speciality
+            set graduate = 'c', grad_audit_operator=#{gradAuditOperator},grad_audit_date=now()
+            where id=#{ids} and grad_audit_status = 'a'
+    </update>
+
+
+	<select id="selectAuditStudent" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+		id,
+		studentid,
+		regionid,
+		child_regionid,
+		schoolid,
+		collegeid,
+		teach_siteid,
+		grad_school,
+		grad_certificate,
+		grad_specialityid,
+		education,
+		status,
+		graduate,
+		old_studentid,
+		operator,
+		update_date,
+		db_flag,
+		reg_year,
+		reg_season,
+		specialityid
+		from stu_student_speciality
+		<where>
+			and enabled_flag=1  and status='a'and graduate = 'b'
+			and id in
+			<foreach collection="array" item="id" index="index" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</select>
+
+	<select id="selectStudentInfo" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+			a.id as studentid,
+			a.type,
+			a.name,
+			a.ename,
+			a.pinyin,
+			a.gender,
+			a.home_type,
+			a.politics,
+			a.nation,
+			a.profession,
+			a.birthday,
+			a.native_place,
+			a.kjh,
+			a.certificate_type,
+			a.certificate_no,
+			a.phone,
+			a.mphone,
+			a.address,
+			a.post_code,
+			a.pic,
+			a.idcard_pic,
+			a.email,
+			a.regionid,
+			a.child_regionid,
+			b.grad_school,
+			b.grad_certificate,
+			b.grad_specialityid,
+			b.education,
+			b.speciality_recordid
+		from stu_student_speciality b,stu_student a
+		where b.enabled_flag=1  and b.studentid = a.id and b.id = #{id}
+	</select>
+
+	<update id="updateScore">
+		update stu_score
+		set use_status = "b",flag="b",speciality_recordid = #{specialityRecordid}
+		where studentid=#{studentid} and courseid=#{courseid1} and enabled_flag=1
+	</update>
+
+	<update id="updateScore1">
+		update stu_score
+		set source_courseid = #{courseid1}
+		where studentid=#{studentid}  and courseid=#{courseid2} and enabled_flag=1
+	</update>
+
+	<update id="updateScoreBack">
+		update stu_score
+		set use_status = "a",flag="a", speciality_recordid = null
+		where studentid=#{studentid}  and courseid=#{courseid1} and enabled_flag=1
+	</update>
+
+	<update id="updateScoreBack1">
+		update stu_score
+		set source_courseid = null
+		where studentid=#{studentid} and speciality_recordid = #{specialityRecordid} and courseid=#{courseid2} and enabled_flag=1
+	</update>
+
+	<update id="getInfomation" >
+		update stu_student_speciality
+		set graduate = #{graduate} where enabled_flag =1 and status = "a" and studentid = #{studentid} and speciality_recordid = #{specialityRecordid}
+	</update>
+
+	<select id="selectInfomation" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+			select
+            id,
+            studentid,
+            regionid,
+            child_regionid,
+            schoolid,
+            collegeid,
+            teach_siteid,
+            grad_school,
+            grad_certificate,
+            grad_specialityid,
+            education,
+            school_speciality_regid,
+            speciality_recordid,
+            status,
+            graduate,
+            print_certificate,
+            apply_operator,
+            apply_date,
+            audit_status,
+            audit_operator,
+            audit_date,
+            grad_audit_status,
+            grad_audit_operator,
+            grad_audit_date,
+            old_studentid,
+            operator,
+            update_date,
+            db_flag
+		from stu_student_speciality
+		where studentid = #{studentid}
+		<if test="specialityRecordid != null and specialityRecordid != ''">and speciality_recordid = #{specialityRecordid}</if>
+	</select>
+
+	<select id="selectStudentSpeciality" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+			select
+            id,
+            studentid,
+            regionid,
+            child_regionid,
+            schoolid,
+            collegeid,
+            teach_siteid,
+            grad_school,
+            grad_certificate,
+            grad_specialityid,
+            education,
+            school_speciality_regid,
+            speciality_recordid,
+            status,
+            graduate,
+            print_certificate,
+            apply_operator,
+            apply_date,
+            audit_status,
+            audit_operator,
+            audit_date,
+            grad_audit_status,
+            grad_audit_operator,
+            grad_audit_date,
+            old_studentid,
+            operator,
+            update_date,
+            db_flag
+		from stu_student_speciality
+		where studentid = #{studentid} order by id limit 1
+	</select>
+
+	<select id="listStudentSpeciality" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityDO">
+		select
+		id,
+		studentid,
+		regionid,
+		child_regionid,
+		schoolid,
+		collegeid,
+		teach_siteid,
+		grad_school,
+		grad_certificate,
+		grad_specialityid,
+		education,
+		school_speciality_regid,
+		speciality_recordid,
+		status,
+		graduate,
+		print_certificate,
+		apply_operator,
+		apply_date,
+		audit_status,
+		audit_operator,
+		audit_date,
+		grad_audit_status,
+		grad_audit_operator,
+		grad_audit_date,
+		old_studentid,
+		operator,
+		update_date,
+		db_flag
+		from stu_student_speciality
+		where studentid = #{studentid} and enabled_flag = 1
+	</select>
+
+	<select id="applyExcelScore" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select
+			a.id,
+			a.studentid,
+			f.score as courseScore,
+			a.speciality_recordid,
+			a.courseid,
+			a.type,
+			a.objid,
+			a.grade,
+			a.exam_flag,
+			a.status,
+			d.audit_status,
+			a.use_status,
+			a.flag,
+			a.source_courseid,
+			c.id as specialityid,
+			c.name as specialityName,
+			c.score,
+			c.classify,
+			a.enabled_flag,
+			d.grad_certificate,
+			e.name,
+			e.gender,
+			e.home_type,
+			e.politics,
+			e.nation,
+			e.certificate_no,
+			b.schoolid,
+			d.grad_audit_date,
+			f.type as scoreType,
+			e.mphone
+		from stu_score a
+		left join pla_speciality_record b on a.speciality_recordid = b.id
+		left join pla_speciality c on b.specialityid = c.id
+		left join stu_student_speciality d on a.speciality_recordid = d.speciality_recordid and a.studentid = d.studentid
+		left join stu_student e on a.studentid = e.id
+		left join pla_course f on a.courseid = f.id
+		where a.studentid=#{studentid}
+		and a.speciality_recordid = #{specialityRecordid}
+		and a.enabled_flag = 1
+		and a.exam_flag = 0
+		and a.status = 0
+		and a.use_status = 'b'
+	</select>
+
+
+
+</mapper>

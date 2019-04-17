@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.student.dao.StudentCourseStudentDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select
+            id,
+            studentid,
+            regionid,
+            child_regionid,
+            exam_courseid,
+            type,
+            status,
+            arrange_status,
+            operator,
+            update_date,
+            db_flag
+		from stu_student_course
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select
+	        id,
+	        studentid,
+	        regionid,
+	        child_regionid,
+	        exam_courseid,
+	        type,
+	        status,
+	        arrange_status,
+	        operator,
+	        update_date,
+	        db_flag
+		 from stu_student_course
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="arrangeStatus != null and arrangeStatus != ''"> and arrange_status = #{arrangeStatus} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_course
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="arrangeStatus != null and arrangeStatus != ''"> and arrange_status = #{arrangeStatus} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_course
+		(
+			studentid, 
+			regionid, 
+			child_regionid, 
+			exam_courseid, 
+			type, 
+			status, 
+			arrange_status, 
+			operator, 
+			update_date,
+			db_flag
+		)
+		values
+		(
+			#{studentid}, 
+			#{regionid}, 
+			#{childRegionid}, 
+			#{examCourseid}, 
+			#{type}, 
+			#{status}, 
+			#{arrangeStatus}, 
+			#{operator}, 
+			now(),
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		update stu_student_course 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="examCourseid != null">exam_courseid = #{examCourseid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="arrangeStatus != null">arrange_status = #{arrangeStatus}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(),			<if test="dbFlag != null">db_flag = #{dbFlag} </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_course set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_course set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+
+
+	<select id="kklist" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		SELECT
+		c.id,c.courseid,b.exam_date,b.segment
+		FROM
+		exam_task a
+		LEFT JOIN exa_exam_time b ON b.exam_taskid = a.id
+		LEFT JOIN exa_exam_course c ON c.exam_timeid = b.id
+		LEFT JOIN pla_speciality_course d ON c.courseid = d.courseid
+		WHERE
+		a.enabled_flag = 1
+		and	b.enabled_flag = 1
+		and	c.enabled_flag = 1
+		and	d.enabled_flag = 1
+		AND a.arrange_begin_date &lt;= now()
+		AND a.arrange_end_date &gt;= now()
+		AND a.confirm_status = 'b'
+		<if test="specialityRecordid != null and specialityRecordid != null">
+			AND d.speciality_recordid = #{specialityRecordid}
+		</if>
+
+		AND a.id=#{taskid}
+
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="listTask" resultType="com.hxy.nzxy.stexam.domain.TaskDO">
+		select
+		id,
+		exam_year,
+		exam_month
+		from exam_task
+		<where>
+			and enabled_flag=1
+			and confirm_status = 'b'
+
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			AND begin_date1 &lt;= now()
+			AND end_date1 &gt;= now()
+
+
+		</where>
+
+	</select>
+
+	<select id="listCourse" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+		select
+		a.id,
+		a.courseid,
+		a.exam_taskid,
+		a.exam_timeid,
+		a.full_score,
+		a.pass_score,
+		a.objectives_score,
+		a.subjective_score,
+		a.exceed_number,
+		a.type,
+		a.classify,
+		a.card_type,
+		a.remark,
+		a.seq,
+		a.operator,
+		a.update_date,
+		c.exam_date,
+		c.segment
+		FROM  pla_speciality_course b  left join exa_exam_course a  on b.courseid =a.courseid and a.enabled_flag=1
+		left  join exa_exam_time c on c.id=  a.exam_timeid  and c.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+			<if test="specialityRecordid != null and specialityRecordid != ''">
+			and b.speciality_recordid=#{specialityRecordid}
+			</if>
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			<if test="bookid != null and bookid != ''"> and a.bookid = #{bookid} </if>
+			<if test="examTaskid != null and examTaskid != ''"> and a.exam_taskid = #{examTaskid} </if>
+			<if test="examTimeid != null and examTimeid != ''"> and a.exam_timeid = #{examTimeid} </if>
+			<if test="fullScore != null and fullScore != ''"> and a.full_score = #{fullScore} </if>
+			<if test="passScore != null and passScore != ''"> and a.pass_score = #{passScore} </if>
+			<if test="objectivesScore != null and objectivesScore != ''"> and a.objectives_score = #{objectivesScore} </if>
+			<if test="subjectiveScore != null and subjectiveScore != ''"> and a.subjective_score = #{subjectiveScore} </if>
+			<if test="exceedNumber != null and exceedNumber != ''"> and a.exceed_number = #{exceedNumber} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+			<if test="cardType != null and cardType != ''"> and a.card_type = #{cardType} </if>
+			<if test="remark != null and remark != ''"> and a.remark = #{remark} </if>
+			<if test="seq != null and seq != ''"> and a.seq = #{seq} </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listCourseCount" resultType="int">
+		select
+		count(*)
+		FROM  pla_speciality_course b  left join exa_exam_course a  on b.courseid =a.courseid and a.enabled_flag=1
+		left  join exa_exam_time c on c.id=  a.exam_timeid  and c.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+			<if test="specialityRecordid != null and specialityRecordid != ''">
+				and b.speciality_recordid=#{specialityRecordid}
+			</if>
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			<if test="bookid != null and bookid != ''"> and a.bookid = #{bookid} </if>
+			<if test="examTaskid != null and examTaskid != ''"> and a.exam_taskid = #{examTaskid} </if>
+			<if test="examTimeid != null and examTimeid != ''"> and a.exam_timeid = #{examTimeid} </if>
+			<if test="fullScore != null and fullScore != ''"> and a.full_score = #{fullScore} </if>
+			<if test="passScore != null and passScore != ''"> and a.pass_score = #{passScore} </if>
+			<if test="objectivesScore != null and objectivesScore != ''"> and a.objectives_score = #{objectivesScore} </if>
+			<if test="subjectiveScore != null and subjectiveScore != ''"> and a.subjective_score = #{subjectiveScore} </if>
+			<if test="exceedNumber != null and exceedNumber != ''"> and a.exceed_number = #{exceedNumber} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+			<if test="cardType != null and cardType != ''"> and a.card_type = #{cardType} </if>
+			<if test="remark != null and remark != ''"> and a.remark = #{remark} </if>
+			<if test="seq != null and seq != ''"> and a.seq = #{seq} </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	<select id="selectstudentCourse" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select  a.studentid,a.exam_courseid,c.courseid ,b.name,'课程已报考' reason
+		from  stu_student_course a
+		left join v_stu_student  b on b.id=a.studentid and b.enabled_flag=1
+		left join exa_exam_course c on c.id =a.exam_courseid and c.enabled_flag=1  AND c.auditStatus='b'
+		where 1=1 and a.enabled_flag=1
+		<foreach item="stuid" collection="studentidList" open="" separator="" close="">
+			<foreach item="examid" collection="examCourseList" open="and" separator="or" close="">
+					(a.studentid =#{stuid} and a.exam_courseid=#{examid} )
+			</foreach>
+		</foreach>
+
+	</select>
+
+	<select id="selectstudentSameTime" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select  a.studentid,a.exam_courseid,c.courseid ,b.name,'同一考试时间已有报考课程' reason
+		from  stu_student_course a
+		left join v_stu_student  b on b.id=a.studentid and b.enabled_flag=1
+		left join exa_exam_course c on c.id =a.exam_courseid and c.enabled_flag=1  AND c.auditStatus='b'
+		where 1=1 and a.enabled_flag=1
+		<foreach item="stuid" collection="studentidList" open="" separator="" close="">
+			<foreach item="examid" collection="examCourseList" open="and" separator="or" close="">
+				(a.studentid =#{stuid}
+				AND c.exam_timeid =(select exam_timeid from exa_exam_course where id =#{examid})
+				)
+			</foreach>
+		</foreach>
+
+	</select>
+	<insert id="batchSave">
+		insert into stu_student_course(studentid,
+		regionid,
+		child_regionid,
+		exam_courseid,
+		type,
+		status,
+		arrange_status,
+		operator,
+		update_date,
+		db_flag) values
+		<foreach item="item" index="index" collection="list"
+				 separator=",">
+			(#{item.studentid},#{item.regionid},#{item.childRegionid},#{item.examCourseid},#{item.type},#{item.status},#{item.arrangeStatus},#{item.operator},now(),#{item.dbFlag})
+		</foreach>
+	</insert>
+	<select id="selectstudentCjCourse" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select a.id,a.studentid,a.courseid,b.name,'考试已通过' reason
+		from stu_score a
+		left join v_stu_student  b on b.id=a.studentid and b.enabled_flag=1
+
+		where 1=1
+		<foreach item="stuid" collection="studentidList" open="" separator="" close="">
+			<foreach item="courseid" collection="courseList1" open="and" separator="or" close="">
+				(a.studentid =#{stuid} and a.courseid=#{courseid} and a.enabled_flag=1)
+			</foreach>
+		</foreach>
+
+	</select>
+
+</mapper>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<!--进度条显示-->
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<form method="post"  th:action="@{/exam/examCourse/searchOutExcel}" id="form">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<input type="hidden" id="ids" th:value="${id}">
+						<input type="hidden" id="examYear" th:value="${examYear}">
+						<input type="hidden" id="examMonth" th:value="${examMonth}">
+						<input type="hidden" id="type" th:value="${type}">
+						<div class="columns pull-left" >
+							<span class="pull-left" style="margin-right:10px;">考试任务</span>
+						</div>
+						<div class="columns pull-left">
+							<select id="searchName" class="form-control" name="examTaskid" onchange="ktime(this.value)"></select>
+						</div>
+						<div class="columns pull-left">
+							<span class="pull-left" style="margin:0 10px">开考时间</span>
+						</div>
+						<div class="columns pull-left">
+							<select id="kktime" name="examTimeid" class="form-control" >
+								<option value="">-请选择-</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">审核状态</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<select id="auditStatus" name="auditStatus" class="form-control">
+								<option value="" >--请选择--</option>
+								<option th:each="item:${exa_secret_office_audit_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						<div class="columns pull-left">
+							<span class="pull-left" style="margin-right:10px">开考类别</span>
+						</div>
+						<div class="columns pull-left">
+							<select id="type" name="type" class="form-control" >
+								<option value="">-请选择-</option>
+								<option th:each="item:${exa_exam_course_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+					</div>
+					<div style="clear:both"></div>
+					<div class="fixed-table-toolbar">
+						
+						<div class="columns pull-left nopadding">
+							<span class="pull-left" style="margin-right:10px">课程名称</span>
+						</div>
+						<div class="columns pull-left nopadding">
+							<input id="coursess" type="text"  name="courseName"
+								placeholder="" class="form-control" onclick="courseName()">
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px;margin-right:10px">
+							课程代码
+						</div>
+						<div class="columns pull-left nopadding">
+							<input id="coDaima" type="text"  name="courseid"
+								placeholder="" class="form-control">
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px;margin-right:10px">
+						助学组织
+						</div>
+						<div class="columns pull-left nopadding">
+							<input id="schoolid" name="schoolid" class="form-control" type="hidden">
+							<input id="schoolName" name="schoolName" class="form-control" onclick="texture()">
+						</div>
+						<div style="clear:both"></div>
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							考试类型
+						</div>
+						<div class="columns pull-left nopadding">
+							<select id="courseType" name="courseType" class="form-control">
+								<option value="">-请选择-</option>
+								<option th:each="item:${exam_task_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button shiro:hasPermission="exam:examCourse:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="exam:examCourse:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+							<button shiro:hasPermission="exam:examCourse:add" type="button" class="btn  btn-primary" onclick="importData()">考试课程导入</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:5px">
+								<button  type="button" class="btn  btn-primary" type="submit" onclick="onZipAll()">
+									考试课程导出
+								</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:5px">
+							<button class="btn btn-success" onclick="place()" type="button">增加限制报考专业</button>
+						</div>
+						<!-- <div class="columns pull-left nopadding">
+							<span class="pull-left" style="margin:0 10px">课程代码：</span>
+							<input id="coDaima"  name="courseid" type="text"
+								placeholder="" style="font-size: 14px;border: 1px solid #ccc;border-radius: 1px;padding-left:15px;width:100px">
+						</div> 
+						<div class="columns pull-left" style="margin-left:10px">
+							<span class="pull-left" style="margin-right:10px">助学组织</span>
+						</div>
+						<div class="columns pull-left nopadding">
+							<input id="schoolid" name="schoolid" class="form-control" type="hidden">
+							<input id="schoolName" name="schoolName" class="form-control" onclick="texture()">
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">考试类型</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<select id="courseType" name="courseType" class="form-control">
+								<option value="">-请选择-</option>
+								<option th:each="item:${exam_task_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>-->
+					</div>
+					<div style="clear:both"></div>
+					<div class="list-group-item label" id="one"></div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+		</form>
+		<!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/examCourse/examCourse.js" th:src="@{/js/appjs/center/exam/examCourse/examCourse.js}"></script>
+</body>
+</html>

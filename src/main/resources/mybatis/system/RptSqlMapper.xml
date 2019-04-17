@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.RptSqlDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.system.domain.RptSqlDO">
+		select
+            id,
+            type,
+            sql_text,
+            operator,
+            update_date
+		from sys_rpt_sql
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.system.domain.RptSqlDO">
+		select
+	        id,
+	        type,
+	        sql_text,
+	        operator,
+	        update_date
+		 from sys_rpt_sql
+        <where>  
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="type != null and type != ''"> and type like concat('%',#{type},'%') </if>
+		  <if test="sqlText != null and sqlText != ''"> and sql_text = #{sqlText} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_rpt_sql
+		 <where>  
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="type != null and type != ''"> and type like concat('%',#{type},'%') </if>
+		  <if test="sqlText != null and sqlText != ''"> and sql_text = #{sqlText} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.RptSqlDO">
+		insert into sys_rpt_sql
+		(
+			id, 
+			type, 
+			sql_text, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{id}, 
+			#{type}, 
+			#{sqlText}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.RptSqlDO">
+		update sys_rpt_sql 
+		<set>
+			<if test="type != null">type = #{type}, </if>
+			<if test="sqlText != null">sql_text = #{sqlText}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_rpt_sql where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_rpt_sql where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

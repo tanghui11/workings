@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.ScoreReplaceDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ScoreReplaceDO">
+		select
+            id,
+            studentid,
+            speciality_recordid,
+            courseid,
+            course_freeid,
+            grade,
+            remark,
+            audit_status,
+            audit_operator,
+            audit_date,
+            status,
+            operator,
+            update_date,
+            db_flag
+		from stu_score_replace
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ScoreReplaceDO">
+		select
+	        a.id,
+		a.studentid,
+		a.speciality_recordid,
+		a.courseid,
+		a.course_freeid,
+		a.grade,
+		a.remark,
+		a.audit_status,
+		a.audit_operator,
+		a.audit_date,
+		a.status,
+		a.operator,
+		a.update_date,
+		a.db_flag,
+		c.name as specialityName,
+		d.name as courseName,
+		e.name as courseFreeName,
+		f.name,
+		b.specialityid
+		 from stu_score_replace a left join pla_speciality_record b on a.speciality_recordid = b.id left join pla_speciality c on b.specialityid = c.id
+		left join pla_course d on a.courseid = d.id left join pla_course_free e on a.course_freeid = e.id left join stu_student f on a.studentid = f.id
+        <where>
+			and a.enabled_flag=1
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="studentid != null and studentid != ''"> and a.studentid like CONCAT('%',#{studentid},'%') </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and b.id = #{specialityRecordid} </if>
+
+			<if test="type != null and type != ''"> and b.type = #{type} </if>
+
+			<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			<if test="courseFreeid != null and courseFreeid != ''"> and a.course_freeid = #{courseFreeid} </if>
+			<if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			<if test="remark != null and remark != ''"> and a.remark = #{remark} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="auditOperator != null and auditOperator != ''"> and a.audit_operator = #{auditOperator} </if>
+			<if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+			<if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+			<if test="courseid != null and courseid != ''"> and d.id = #{courseid} </if>
+			<if test="courseFree != null and courseFree != ''"> and e.id = #{courseFree} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*)  from stu_score_replace a left join pla_speciality_record b on a.speciality_recordid = b.id left join pla_speciality c on b.specialityid = c.id
+		left join pla_course d on a.courseid = d.id
+		 <where>
+			 and a.enabled_flag=1
+			 <if test="id != null and id != ''"> and a.id = #{id} </if>
+			 <if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			 <if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+			 <if test="specialityRecordid != null and specialityRecordid != ''"> and b.id = #{specialityRecordid} </if>
+			 <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			 <if test="courseFreeid != null and courseFreeid != ''"> and a.course_freeid = #{courseFreeid} </if>
+			 <if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			 <if test="remark != null and remark != ''"> and a.remark = #{remark} </if>
+			 <if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			 <if test="auditOperator != null and auditOperator != ''"> and a.audit_operator = #{auditOperator} </if>
+			 <if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+			 <if test="status != null and status != ''"> and a.status = #{status} </if>
+			 <if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+			 <if test="courseid != null and courseid != ''"> and d.id = #{courseid} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ScoreReplaceDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_score_replace
+		(
+			studentid, 
+			speciality_recordid, 
+			courseid, 
+			course_freeid, 
+			grade, 
+			remark, 
+			audit_status, 
+			audit_operator, 
+			audit_date, 
+			status, 
+			operator, 
+			update_date
+			db_flag, 
+		)
+		values
+		(
+			#{studentid}, 
+			#{specialityRecordid}, 
+			#{courseid}, 
+			#{courseFreeid}, 
+			#{grade}, 
+			#{remark}, 
+			#{auditStatus}, 
+			#{auditOperator}, 
+			#{auditDate}, 
+			#{status}, 
+			#{operator}, 
+			now()
+			#{dbFlag}, 
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ScoreReplaceDO">
+		update stu_score_replace 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="courseFreeid != null">course_freeid = #{courseFreeid}, </if>
+			<if test="grade != null">grade = #{grade}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="auditOperator != null">audit_operator = #{auditOperator}, </if>
+			<if test="auditDate != null">audit_date = #{auditDate}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_score_replace set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_score_replace set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="updateStatus">
+        update  stu_score_replace set audit_status = #{auditStatus} where studentid = #{studentid}
+	</update>
+
+</mapper>

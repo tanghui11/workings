@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>人脸认证</title>
+	<link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" th:href="@{/css/bootstrap.min.css?v=3.3.6}">
+	<link rel="stylesheet" type="text/css" href="/css/common.css" th:href="@/css/common.css}" />
+	<link rel="stylesheet" type="text/css" href="/css/face_video.css" th:href="@{/css/face_video.css}"/>
+	<link rel="stylesheet" type="text/css" href="/js/layui/css/layui.css" th:href="@{/js/layui/css/layui.css}"/>
+	<script src="/js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8" th:src="@{}"></script>
+	<script src="/js/layui/layui.all.js" type="text/javascript" charset="utf-8" th:src="@{}"></script>
+	<script src="/js/tracking-min.js" type="text/javascript" charset="utf-8" th:src="@{}"></script>
+	<script src="/js/face-min.js" type="text/javascript" charset="utf-8" th:src="@{}"></script>
+	<style type="text/css">
+		/*body{
+             -webkit-user-select: none;
+                -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }*/
+	</style>
+</head>
+
+<body>
+<input type="hidden" value="" name="thisImage" />
+<header></header>
+<div class="center">
+	<div class="center-top">
+		<p class="fl">人脸识别认证</p>
+	</div>
+	<div class="center-center">
+		<div style="overflow: hidden;">
+			<div class="center-center-left">
+				<div class="box">
+					<!--<h3 class="tit">请确保脸部位于视频中间，并避免过于黑暗或者白光</h3>-->
+					<video id="video" preload autoplay loop muted></video>
+					<canvas id="canvas"></canvas>
+				</div>
+			</div>
+			<div class="center-center-right">
+				<div class="imgName">
+					<img src="/img/touxiang.jpg" th:src="@{/img/touxiang.jpg}"/>
+				</div>
+				<div class="information">
+					<p><span class="youName" style="color: #666;">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span><span>李易峰</span></p>
+					<p><span style="color: #666;">专业名称：</span><span>计算机专业</span></p>
+				</div>
+			</div>
+		</div>
+		<div class="myBut">
+			<input type="button" value="开始认证" class="but butGo" style="margin-top:-10px">
+		</div>
+		<div class="msg">
+			<div class="info">
+				<em class="tit">认证说明：</em>
+				<p>1、如电脑无摄像头，请下载APP进行认证；</p>
+				<p>2、请确保脸部位于视频中间，并避免过于黑暗或者白光；</p>
+				<p>3、如无画面，请检查浏览器（不支持IE浏览器，请使用QQ、360等浏览器）。</p>
+			</div>
+		</div>
+	</div>
+
+</div>
+<!--进入页面提示-->
+<div class="tishi toast">
+	<div class="reminder">
+		<div class="hint">提示</div>
+		<div class="verification-info">
+			<p><span class="c1_scount"></span>即将进行人脸识别验证，请确保电脑已连接摄像头并可正常使用~</p>
+			<div class="sure-btn">
+				<!--<input type="button" value="再次认证" class="btn butGo">-->
+				<a href="javascript:void(0)"> <input type="button" value="确认" class="btn btnGo" style="line-height:30px"></a>
+			</div>
+		</div>
+	</div>
+</div>
+<!--人脸认证未通过-->
+<div class="tishi notPass" style="display: none;">
+	<div class="reminder">
+		<div class="hint">提示</div>
+		<div class="verification-info">
+			<p class="ti-text">您未通过本次人脸认证，请尝试调整视频再次进行认证~</p>
+			<div class="sure-btn"><input type="button" value="再次认证" class="btn butGoToo">
+				<a href="javascript:window.opener=null;window.close();"> <input type="button" value="退出认证" class="btn b nomarr"></a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>
+<script type="text/javascript">
+    $(function() {
+        //点击确定提示框关闭
+        $(".btnGo").click(function() {
+            $(".toast").hide();
+        })
+        //人脸
+        var video = $('#video');
+        var canvas = document.getElementById('canvas');
+        var num = document.getElementById('num');
+        var context = canvas.getContext('2d');
+        var tracker = new tracking.ObjectTracker('face');
+        tracker.setInitialScale(4);
+        tracker.setStepSize(2);
+        tracker.setEdgesDensity(0.1);
+        tracking.track('#video', tracker, {
+            camera: true
+        });
+
+        //点击认证
+        $('.butGo').click(function() {
+            captureImage();
+           // console.log($('input[name=thisImage]').val());
+            layer.load(3, {
+                shade: [1, "rgba(0,0,0,.7)"]
+            });
+            //此处演示关闭
+            setTimeout(function() {
+                layer.closeAll('loading');
+                var ss = true;
+                if(ss){
+                    layer.msg('认证成功！');
+                    location.href=contextPath+"/face/clsrz/video";
+                }else{
+                    $(".notPass").css("display","block");
+                    $(".butGoToo").click(function(){
+                        console.log($(".butGo").val());
+                        $(".butGo").val("再次认证");
+                        $(".notPass").css("display","none");
+                    })
+                }
+
+
+            },3000);
+
+        })
+        //认证
+        var captureImage = function() {
+            var video = $("#video").get(0);
+            var scale = 0.5;
+            var canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth * scale;
+            canvas.height = video.videoHeight * scale;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            var img = document.createElement("img");
+            var srcStr = canvas.toDataURL();
+            $('input[name=thisImage]').val(srcStr);
+        };
+    })
+</script>

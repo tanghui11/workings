@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.StudentOutRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentOutDO">
+		select
+            id,
+            regionid,
+            studentid,
+            specialityid,
+            code,
+            province,
+            city,
+            cause,
+            zk_in_zkz,
+            zk_in_zy_dm,
+            zk_zy_fx,
+            status,
+            operator,
+            update_date,
+            enabled_flag
+		from reg_student_out
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentOutDO">
+		select
+	        id,
+	        regionid,
+	        studentid,
+	        specialityid,
+	        code,
+	        province,
+	        city,
+	        cause,
+	        zk_in_zkz,
+	        zk_in_zy_dm,
+	        zk_zy_fx,
+	        status,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from reg_student_out
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="specialityid != null and specialityid != ''"> and specialityid = #{specialityid} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="province != null and province != ''"> and province = #{province} </if>
+		  <if test="city != null and city != ''"> and city = #{city} </if>
+		  <if test="cause != null and cause != ''"> and cause = #{cause} </if>
+		  <if test="zkInZkz != null and zkInZkz != ''"> and zk_in_zkz = #{zkInZkz} </if>
+		  <if test="zkInZyDm != null and zkInZyDm != ''"> and zk_in_zy_dm = #{zkInZyDm} </if>
+		  <if test="zkZyFx != null and zkZyFx != ''"> and zk_zy_fx = #{zkZyFx} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_student_out
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="specialityid != null and specialityid != ''"> and specialityid = #{specialityid} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="province != null and province != ''"> and province = #{province} </if>
+		  <if test="city != null and city != ''"> and city = #{city} </if>
+		  <if test="cause != null and cause != ''"> and cause = #{cause} </if>
+		  <if test="zkInZkz != null and zkInZkz != ''"> and zk_in_zkz = #{zkInZkz} </if>
+		  <if test="zkInZyDm != null and zkInZyDm != ''"> and zk_in_zy_dm = #{zkInZyDm} </if>
+		  <if test="zkZyFx != null and zkZyFx != ''"> and zk_zy_fx = #{zkZyFx} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentOutDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_student_out
+		(
+			regionid, 
+			studentid, 
+			specialityid, 
+			code, 
+			province, 
+			city, 
+			cause, 
+			zk_in_zkz, 
+			zk_in_zy_dm, 
+			zk_zy_fx, 
+			status, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{regionid}, 
+			#{studentid}, 
+			#{specialityid}, 
+			#{code}, 
+			#{province}, 
+			#{city}, 
+			#{cause}, 
+			#{zkInZkz}, 
+			#{zkInZyDm}, 
+			#{zkZyFx}, 
+			#{status}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentOutDO">
+		update reg_student_out 
+		<set>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="specialityid != null">specialityid = #{specialityid}, </if>
+			<if test="code != null">code = #{code}, </if>
+			<if test="province != null">province = #{province}, </if>
+			<if test="city != null">city = #{city}, </if>
+			<if test="cause != null">cause = #{cause}, </if>
+			<if test="zkInZkz != null">zk_in_zkz = #{zkInZkz}, </if>
+			<if test="zkInZyDm != null">zk_in_zy_dm = #{zkInZyDm}, </if>
+			<if test="zkZyFx != null">zk_zy_fx = #{zkZyFx}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_student_out set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_student_out set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

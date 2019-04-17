@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content" style="overflow:hidden;padding:0;padding-top:15px;border:none">
+						<div >
+						<form class="form-horizontal" id="signupForm">
+							<div style="text-align: center;">旅游管理申请表</div>
+						<table id="table1" style="width:100%">
+							<tr style="height:45px">
+								<td style="width:100px">姓    名:</td>
+								<td id="name"></td>
+								<td style="width:100px">性     别:</td>
+								<td id="gender"></td>
+								<td style="width:100px">民     族:</td>
+								<td id="nation"></td>
+							</tr>
+							<tr style="height:45px">
+								<td >户     籍:</td>
+								<td id="homeType"></td>
+								<td>政治面貌:</td>
+								<td id="politics"></td>
+								<td>联系电话</td>
+								<td id="phone"></td>
+							</tr>
+							<tr style="height:45px">
+								<td >准考证号:</td>
+								<td id="studentid"></td>
+								<td>身份证号:</td>
+								<td id="certificateNo"></td>
+								<td>旧准考证号:</td>
+								<td id="oldStudentid"></td>
+							</tr>
+                        </table>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+						</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="text-align:center">
+		<button class="btn btn-info" onclick="prints()" type="button" id="prints">打印</button>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/schoolStudentApply/applyExcel.js" th:src="@{/js/appjs/school/student/schoolStudentApply/applyExcel.js}">
+	</script>
+</body>
+</html>

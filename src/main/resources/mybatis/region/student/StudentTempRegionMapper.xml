@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.student.dao.StudentTempRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentTempDO">
+		select
+            type,
+            ks_zkz,
+            ks_xm,
+            ks_exm,
+            ks_xb,
+            hj_dm,
+            mm_dm,
+            mz_dm,
+            xl_dm,
+            zhiy_dm,
+            zy_dm,
+            first_zy,
+            jtdm_dm,
+            ks_sfz,
+            ks_birthda,
+            ks_phone,
+            ks_zip,
+            ks_address,
+            ks_bmxs,
+            ks_bmsj,
+            ks_zdyxx,
+            ks_tksj,
+            ks_yqby,
+            ks_qx,
+            sx_dm,
+            modified,
+            ks_oldzkz,
+            zy_mc,
+            mm,
+            sj1,
+            sj2,
+            zzdh,
+            ybmh,
+            bmddm,
+            gzdw,
+            email,
+            msdm,
+            hkszd,
+            gzdwszd,
+            flag,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_student_temp
+		where type = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentTempDO">
+		select
+	        type,
+	        ks_zkz,
+	        ks_xm,
+	        ks_exm,
+	        ks_xb,
+	        hj_dm,
+	        mm_dm,
+	        mz_dm,
+	        xl_dm,
+	        zhiy_dm,
+	        zy_dm,
+	        first_zy,
+	        jtdm_dm,
+	        ks_sfz,
+	        ks_birthda,
+	        ks_phone,
+	        ks_zip,
+	        ks_address,
+	        ks_bmxs,
+	        ks_bmsj,
+	        ks_zdyxx,
+	        ks_tksj,
+	        ks_yqby,
+	        ks_qx,
+	        sx_dm,
+	        modified,
+	        ks_oldzkz,
+	        zy_mc,
+	        mm,
+	        sj1,
+	        sj2,
+	        zzdh,
+	        ybmh,
+	        bmddm,
+	        gzdw,
+	        email,
+	        msdm,
+	        hkszd,
+	        gzdwszd,
+	        flag,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from stu_student_temp
+        <where>
+         and enabled_flag=1
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="ksZkz != null and ksZkz != ''"> and ks_zkz = #{ksZkz} </if>
+		  <if test="ksXm != null and ksXm != ''"> and ks_xm = #{ksXm} </if>
+		  <if test="ksExm != null and ksExm != ''"> and ks_exm = #{ksExm} </if>
+		  <if test="ksXb != null and ksXb != ''"> and ks_xb = #{ksXb} </if>
+		  <if test="hjDm != null and hjDm != ''"> and hj_dm = #{hjDm} </if>
+		  <if test="mmDm != null and mmDm != ''"> and mm_dm = #{mmDm} </if>
+		  <if test="mzDm != null and mzDm != ''"> and mz_dm = #{mzDm} </if>
+		  <if test="xlDm != null and xlDm != ''"> and xl_dm = #{xlDm} </if>
+		  <if test="zhiyDm != null and zhiyDm != ''"> and zhiy_dm = #{zhiyDm} </if>
+		  <if test="zyDm != null and zyDm != ''"> and zy_dm = #{zyDm} </if>
+		  <if test="firstZy != null and firstZy != ''"> and first_zy = #{firstZy} </if>
+		  <if test="jtdmDm != null and jtdmDm != ''"> and jtdm_dm = #{jtdmDm} </if>
+		  <if test="ksSfz != null and ksSfz != ''"> and ks_sfz = #{ksSfz} </if>
+		  <if test="ksBirthda != null and ksBirthda != ''"> and ks_birthda = #{ksBirthda} </if>
+		  <if test="ksPhone != null and ksPhone != ''"> and ks_phone = #{ksPhone} </if>
+		  <if test="ksZip != null and ksZip != ''"> and ks_zip = #{ksZip} </if>
+		  <if test="ksAddress != null and ksAddress != ''"> and ks_address = #{ksAddress} </if>
+		  <if test="ksBmxs != null and ksBmxs != ''"> and ks_bmxs = #{ksBmxs} </if>
+		  <if test="ksBmsj != null and ksBmsj != ''"> and ks_bmsj = #{ksBmsj} </if>
+		  <if test="ksZdyxx != null and ksZdyxx != ''"> and ks_zdyxx = #{ksZdyxx} </if>
+		  <if test="ksTksj != null and ksTksj != ''"> and ks_tksj = #{ksTksj} </if>
+		  <if test="ksYqby != null and ksYqby != ''"> and ks_yqby = #{ksYqby} </if>
+		  <if test="ksQx != null and ksQx != ''"> and ks_qx = #{ksQx} </if>
+		  <if test="sxDm != null and sxDm != ''"> and sx_dm = #{sxDm} </if>
+		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+		  <if test="ksOldzkz != null and ksOldzkz != ''"> and ks_oldzkz = #{ksOldzkz} </if>
+		  <if test="zyMc != null and zyMc != ''"> and zy_mc = #{zyMc} </if>
+		  <if test="mm != null and mm != ''"> and mm = #{mm} </if>
+		  <if test="sj1 != null and sj1 != ''"> and sj1 = #{sj1} </if>
+		  <if test="sj2 != null and sj2 != ''"> and sj2 = #{sj2} </if>
+		  <if test="zzdh != null and zzdh != ''"> and zzdh = #{zzdh} </if>
+		  <if test="ybmh != null and ybmh != ''"> and ybmh = #{ybmh} </if>
+		  <if test="bmddm != null and bmddm != ''"> and bmddm = #{bmddm} </if>
+		  <if test="gzdw != null and gzdw != ''"> and gzdw = #{gzdw} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  <if test="msdm != null and msdm != ''"> and msdm = #{msdm} </if>
+		  <if test="hkszd != null and hkszd != ''"> and hkszd = #{hkszd} </if>
+		  <if test="gzdwszd != null and gzdwszd != ''"> and gzdwszd = #{gzdwszd} </if>
+		  <if test="flag != null and flag != ''"> and flag = #{flag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by type desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_temp
+		 <where>
+             and enabled_flag=1
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="ksZkz != null and ksZkz != ''"> and ks_zkz = #{ksZkz} </if>
+		  <if test="ksXm != null and ksXm != ''"> and ks_xm = #{ksXm} </if>
+		  <if test="ksExm != null and ksExm != ''"> and ks_exm = #{ksExm} </if>
+		  <if test="ksXb != null and ksXb != ''"> and ks_xb = #{ksXb} </if>
+		  <if test="hjDm != null and hjDm != ''"> and hj_dm = #{hjDm} </if>
+		  <if test="mmDm != null and mmDm != ''"> and mm_dm = #{mmDm} </if>
+		  <if test="mzDm != null and mzDm != ''"> and mz_dm = #{mzDm} </if>
+		  <if test="xlDm != null and xlDm != ''"> and xl_dm = #{xlDm} </if>
+		  <if test="zhiyDm != null and zhiyDm != ''"> and zhiy_dm = #{zhiyDm} </if>
+		  <if test="zyDm != null and zyDm != ''"> and zy_dm = #{zyDm} </if>
+		  <if test="firstZy != null and firstZy != ''"> and first_zy = #{firstZy} </if>
+		  <if test="jtdmDm != null and jtdmDm != ''"> and jtdm_dm = #{jtdmDm} </if>
+		  <if test="ksSfz != null and ksSfz != ''"> and ks_sfz = #{ksSfz} </if>
+		  <if test="ksBirthda != null and ksBirthda != ''"> and ks_birthda = #{ksBirthda} </if>
+		  <if test="ksPhone != null and ksPhone != ''"> and ks_phone = #{ksPhone} </if>
+		  <if test="ksZip != null and ksZip != ''"> and ks_zip = #{ksZip} </if>
+		  <if test="ksAddress != null and ksAddress != ''"> and ks_address = #{ksAddress} </if>
+		  <if test="ksBmxs != null and ksBmxs != ''"> and ks_bmxs = #{ksBmxs} </if>
+		  <if test="ksBmsj != null and ksBmsj != ''"> and ks_bmsj = #{ksBmsj} </if>
+		  <if test="ksZdyxx != null and ksZdyxx != ''"> and ks_zdyxx = #{ksZdyxx} </if>
+		  <if test="ksTksj != null and ksTksj != ''"> and ks_tksj = #{ksTksj} </if>
+		  <if test="ksYqby != null and ksYqby != ''"> and ks_yqby = #{ksYqby} </if>
+		  <if test="ksQx != null and ksQx != ''"> and ks_qx = #{ksQx} </if>
+		  <if test="sxDm != null and sxDm != ''"> and sx_dm = #{sxDm} </if>
+		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+		  <if test="ksOldzkz != null and ksOldzkz != ''"> and ks_oldzkz = #{ksOldzkz} </if>
+		  <if test="zyMc != null and zyMc != ''"> and zy_mc = #{zyMc} </if>
+		  <if test="mm != null and mm != ''"> and mm = #{mm} </if>
+		  <if test="sj1 != null and sj1 != ''"> and sj1 = #{sj1} </if>
+		  <if test="sj2 != null and sj2 != ''"> and sj2 = #{sj2} </if>
+		  <if test="zzdh != null and zzdh != ''"> and zzdh = #{zzdh} </if>
+		  <if test="ybmh != null and ybmh != ''"> and ybmh = #{ybmh} </if>
+		  <if test="bmddm != null and bmddm != ''"> and bmddm = #{bmddm} </if>
+		  <if test="gzdw != null and gzdw != ''"> and gzdw = #{gzdw} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  <if test="msdm != null and msdm != ''"> and msdm = #{msdm} </if>
+		  <if test="hkszd != null and hkszd != ''"> and hkszd = #{hkszd} </if>
+		  <if test="gzdwszd != null and gzdwszd != ''"> and gzdwszd = #{gzdwszd} </if>
+		  <if test="flag != null and flag != ''"> and flag = #{flag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentTempDO">
+		insert into stu_student_temp
+		(
+			type, 
+			ks_zkz, 
+			ks_xm, 
+			ks_exm, 
+			ks_xb, 
+			hj_dm, 
+			mm_dm, 
+			mz_dm, 
+			xl_dm, 
+			zhiy_dm, 
+			zy_dm, 
+			first_zy, 
+			jtdm_dm, 
+			ks_sfz, 
+			ks_birthda, 
+			ks_phone, 
+			ks_zip, 
+			ks_address, 
+			ks_bmxs, 
+			ks_bmsj, 
+			ks_zdyxx, 
+			ks_tksj, 
+			ks_yqby, 
+			ks_qx, 
+			sx_dm, 
+			modified, 
+			ks_oldzkz, 
+			zy_mc, 
+			mm, 
+			sj1, 
+			sj2, 
+			zzdh, 
+			ybmh, 
+			bmddm, 
+			gzdw, 
+			email, 
+			msdm, 
+			hkszd, 
+			gzdwszd, 
+			flag, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{type}, 
+			#{ksZkz}, 
+			#{ksXm}, 
+			#{ksExm}, 
+			#{ksXb}, 
+			#{hjDm}, 
+			#{mmDm}, 
+			#{mzDm}, 
+			#{xlDm}, 
+			#{zhiyDm}, 
+			#{zyDm}, 
+			#{firstZy}, 
+			#{jtdmDm}, 
+			#{ksSfz}, 
+			#{ksBirthda}, 
+			#{ksPhone}, 
+			#{ksZip}, 
+			#{ksAddress}, 
+			#{ksBmxs}, 
+			#{ksBmsj}, 
+			#{ksZdyxx}, 
+			#{ksTksj}, 
+			#{ksYqby}, 
+			#{ksQx}, 
+			#{sxDm}, 
+			#{modified}, 
+			#{ksOldzkz}, 
+			#{zyMc}, 
+			#{mm}, 
+			#{sj1}, 
+			#{sj2}, 
+			#{zzdh}, 
+			#{ybmh}, 
+			#{bmddm}, 
+			#{gzdw}, 
+			#{email}, 
+			#{msdm}, 
+			#{hkszd}, 
+			#{gzdwszd}, 
+			#{flag}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentTempDO">
+		update stu_student_temp 
+		<set>
+			<if test="ksZkz != null">ks_zkz = #{ksZkz}, </if>
+			<if test="ksXm != null">ks_xm = #{ksXm}, </if>
+			<if test="ksExm != null">ks_exm = #{ksExm}, </if>
+			<if test="ksXb != null">ks_xb = #{ksXb}, </if>
+			<if test="hjDm != null">hj_dm = #{hjDm}, </if>
+			<if test="mmDm != null">mm_dm = #{mmDm}, </if>
+			<if test="mzDm != null">mz_dm = #{mzDm}, </if>
+			<if test="xlDm != null">xl_dm = #{xlDm}, </if>
+			<if test="zhiyDm != null">zhiy_dm = #{zhiyDm}, </if>
+			<if test="zyDm != null">zy_dm = #{zyDm}, </if>
+			<if test="firstZy != null">first_zy = #{firstZy}, </if>
+			<if test="jtdmDm != null">jtdm_dm = #{jtdmDm}, </if>
+			<if test="ksSfz != null">ks_sfz = #{ksSfz}, </if>
+			<if test="ksBirthda != null">ks_birthda = #{ksBirthda}, </if>
+			<if test="ksPhone != null">ks_phone = #{ksPhone}, </if>
+			<if test="ksZip != null">ks_zip = #{ksZip}, </if>
+			<if test="ksAddress != null">ks_address = #{ksAddress}, </if>
+			<if test="ksBmxs != null">ks_bmxs = #{ksBmxs}, </if>
+			<if test="ksBmsj != null">ks_bmsj = #{ksBmsj}, </if>
+			<if test="ksZdyxx != null">ks_zdyxx = #{ksZdyxx}, </if>
+			<if test="ksTksj != null">ks_tksj = #{ksTksj}, </if>
+			<if test="ksYqby != null">ks_yqby = #{ksYqby}, </if>
+			<if test="ksQx != null">ks_qx = #{ksQx}, </if>
+			<if test="sxDm != null">sx_dm = #{sxDm}, </if>
+			<if test="modified != null">modified = #{modified}, </if>
+			<if test="ksOldzkz != null">ks_oldzkz = #{ksOldzkz}, </if>
+			<if test="zyMc != null">zy_mc = #{zyMc}, </if>
+			<if test="mm != null">mm = #{mm}, </if>
+			<if test="sj1 != null">sj1 = #{sj1}, </if>
+			<if test="sj2 != null">sj2 = #{sj2}, </if>
+			<if test="zzdh != null">zzdh = #{zzdh}, </if>
+			<if test="ybmh != null">ybmh = #{ybmh}, </if>
+			<if test="bmddm != null">bmddm = #{bmddm}, </if>
+			<if test="gzdw != null">gzdw = #{gzdw}, </if>
+			<if test="email != null">email = #{email}, </if>
+			<if test="msdm != null">msdm = #{msdm}, </if>
+			<if test="hkszd != null">hkszd = #{hkszd}, </if>
+			<if test="gzdwszd != null">gzdwszd = #{gzdwszd}, </if>
+			<if test="flag != null">flag = #{flag}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where type = #{type}
+	</update>
+	<update id="remove">
+		update stu_student_temp set enabled_flag =0  where type = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_temp set enabled_flag =0 where type in
+		<foreach item="type" collection="array" open="(" separator="," close=")">
+			#{type}
+		</foreach>
+	</update>
+
+</mapper>

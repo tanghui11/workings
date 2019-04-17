@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head th:include="include :: header"></head>
+<link href="/css/zyUpload.css" th:href="@{/css/zyUpload.css}"  rel="stylesheet">
+<body>
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+               
+	
+				<div id="demo" class="demo" style="width: 500px;">
+							<div id="wenben">
+								<p style="margin:0;color:red;font-size:16px;">温馨提示</p>
+								<p style="margin:0;color:#000;">说明：白底免冠相片（头部占相片比例为2/3，肩膀不能露出来），356*476像素，jpg格式，20KB以上30KB以内</p>
+							</div>
+							<div id="imgBox">
+								
+							</div>
+							<form method="post" class="box-header with-border" action="/common/upload" th:action="@{/common/upload}" id="dataFrom" enctype="multipart/form-data" >
+								<input type="hidden" name ="studentid" id="studentid"/>
+								<input type="hidden" name ="regionid" id="regionid"/>
+								<input type="hidden" name ="teachid" id="teachid"/>
+								<div class="upload_box">
+									<div class="upload_main">
+									<div class="upload_choose">
+											<div class=""> <!-- convent_choice -->
+												<div class="andArea">
+													<img src="" id="img" style="margin-bottom:10px;">
+													<input id="fileImage" multiple="multiple" type="file" size="30" name="uploadfile" onchange="upload('#fileImage', '#img');"/>
+												</div>
+											</div>
+									</div>
+										<div class="status_bar">
+										<div id="status_info" class="info">共0KB</div>
+											<div class="btns">
+												
+												<div class="upload_btn">开始上传</div>
+											</div>
+									</div>
+											
+										</div>
+										
+									</div>
+							</form>
+						
+				
+				</div> 
+            </div>
+        </div>
+    </div>
+</div>
+<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+
+<div th:include="include::footer"></div>
+<script type="text/javascript">
+		$(function(){
+			$("#regionid").val(parent.$("#rRid").val());
+			$("#teachid").val(parent.$("#teachSiteidVal").val());
+			$("#studentid").val(parent.$("#id").val());
+		})
+		
+		var upload = function(c, d){
+			 var f = document.getElementById("fileImage").files;  
+			 var size =(f[0].size/1024).toFixed(2); 
+			 $("#status_info").text("共"+size+"KB");
+			 $("#img").attr("src","");
+			 var type=(f[0].name.substr(f[0].name.lastIndexOf("."))).toLowerCase();
+			 if(type!=".jpg"){
+				parent.layer.alert("您上传图片的类型不符合(.jpg)！<br/>请重新选择上传");
+				return;
+			 }
+			 if(size<=30&&size>=20){
+				$(".andArea").css("padding-top","0");
+				var $c = document.querySelector(c),
+					$d = document.querySelector(d),
+					file = $c.files[0],
+					reader = new FileReader();
+					reader.readAsDataURL(file);
+					reader.onload = function(e){
+					$d.setAttribute("src", e.target.result);
+				};
+			 }else{
+				parent.layer.alert("您上传图片的不能大于30KB且不能小于20KB<br/>请重新选择上传");
+				$("#fileImage").val("");
+				$(".andArea").css("padding-top","102px");
+				return;
+			 }
+			
+		};
+		
+		
+		
+		$(".upload_btn").click(function(){
+			if(document.getElementById("fileImage").files[0] == undefined){
+				parent.layer.alert('请选择上传文件或图片');
+			}else{
+				_s();
+			}
+		})
+		function _s() {  
+	         //var f = document.getElementById("fileImage").files; 
+	         //上次修改时间  
+	        //alert(f[0].lastModifiedDate);  
+	         //名称  
+	         //alert(f[0].name);  
+	         //大小 字节  
+	         //alert(f[0].size/1024);  
+	         //类型  
+	         //alert(f[0].type);  
+	      
+	         // 判断文件类型   type!=".jpg"&&type!=".gif"&&type!=".jpeg"&& type!=".png"    .jpg|.jpeg|.gif|.png
+			//var type=(f[0].name.substr(f[0].name.lastIndexOf("."))).toLowerCase();
+			//if(type!=".jpg"){
+			//	parent.layer.alert("您上传图片的类型不符合(.jpg)！<br/>请重新选择上传");
+			//	$(".upload_btn").text("开始上传");
+			//}else{
+				$(".upload_btn").text("正在上传");
+				$("#dataFrom").ajaxSubmit({
+					url : contextPath+"/common/uploadCenter",
+					type : "post",
+					dataType: "json",//预期服务器返回的数据类型
+					data: $('#dataFrom').serialize(),
+					success : function(data) {
+						parent.layer.closeAll('iframe');
+						parent.layer.msg(data.message);
+						var url = data.filePath[0]+'?number='+Math.random();
+						parent.$("#scPhone").attr("src",url);
+						parent.$("#pic").val(data.filePath[0]);
+						parent.$("#id").val(data.studentid);
+						parent.$("#studentid").val(data.studentid);
+						parent.phoneHX();//解决照片不刷新问题 后接随机参数
+					}
+				});
+	            
+	     }  
+		
+</script>
+
+</body>
+</html>

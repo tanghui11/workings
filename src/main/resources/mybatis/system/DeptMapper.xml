@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.DeptDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.system.domain.DeptDO">
+		select
+			id,
+			parentid,
+			orgid,
+			name,
+			pinyin,
+			linkman,
+			phone,
+			fax,
+			address,
+			post_code,
+			email,
+			operator,
+			update_date
+		from sys_dept
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.system.domain.DeptDO">
+		select
+			id,
+			parentid,
+			orgid,
+			name,
+			pinyin,
+			linkman,
+			phone,
+			fax,
+			address,
+			post_code,
+			email,
+			operator,
+			update_date
+		from sys_dept
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="parentid != null and parentid != ''"> and parentid = #{parentid} </if>
+			<if test="orgid != null and orgid != ''"> and orgid = #{orgid} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+			<if test="linkman != null and linkman != ''"> and linkman = #{linkman} </if>
+			<if test="phone != null and phone != ''"> and phone = #{phone} </if>
+			<if test="fax != null and fax != ''"> and fax = #{fax} </if>
+			<if test="address != null and address != ''"> and address = #{address} </if>
+			<if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+			<if test="email != null and email != ''"> and email = #{email} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by name
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from sys_dept
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="parentid != null and parentid != ''"> and parentid = #{parentid} </if>
+			<if test="orgid != null and orgid != ''"> and orgid = #{orgid} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+			<if test="linkman != null and linkman != ''"> and linkman = #{linkman} </if>
+			<if test="phone != null and phone != ''"> and phone = #{phone} </if>
+			<if test="fax != null and fax != ''"> and fax = #{fax} </if>
+			<if test="address != null and address != ''"> and address = #{address} </if>
+			<if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+			<if test="email != null and email != ''"> and email = #{email} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.DeptDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_dept
+		(
+			parentid,
+			orgid,
+			name,
+			pinyin,
+			linkman,
+			phone,
+			fax,
+			address,
+			post_code,
+			email,
+			operator,
+			update_date
+		)
+		values
+		(
+			#{parentid},
+			#{orgid},
+			#{name},
+			#{pinyin},
+			#{linkman},
+			#{phone},
+			#{fax},
+			#{address},
+			#{postCode},
+			#{email},
+			#{operator},
+			now()
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.DeptDO">
+		update sys_dept
+		<set>
+			<if test="parentid != null">parentid = #{parentid}, </if>
+			<if test="orgid != null">orgid = #{orgid}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="pinyin != null">pinyin = #{pinyin}, </if>
+			<if test="linkman != null">linkman = #{linkman}, </if>
+			<if test="phone != null">phone = #{phone}, </if>
+			<if test="fax != null">fax = #{fax}, </if>
+			<if test="address != null">address = #{address}, </if>
+			<if test="postCode != null">post_code = #{postCode}, </if>
+			<if test="email != null">email = #{email}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			<if test="updateDate != null">update_date = now()</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from sys_dept where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from sys_dept where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="listParentDept" resultType="long">
+		select distinct parent_id from sys_dept
+	</select>
+
+	<select id="getDeptWorkerNumber" resultType="int">
+		select count(*) from sys_dept_worker where deptid = #{value}
+	</select>
+
+	<select id="listDeptForTree" resultType="com.hxy.nzxy.stexam.system.domain.DeptDO">
+		select id,
+			parentid,
+			name
+		from sys_dept
+		where orgid = #{orgid}
+		  and ((id = #{id} and #{parentid} = -1)
+		   or (parentid = #{parentid} and #{id} = -1))
+		order by name
+	</select>
+
+	<select id="verifyChildrenByDeptid" resultType="com.hxy.nzxy.stexam.system.domain.DeptDO">
+		select id
+		  from sys_dept
+		 where parentid = #{parentid}
+	</select>
+</mapper>

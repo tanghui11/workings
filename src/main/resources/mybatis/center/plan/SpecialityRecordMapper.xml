@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.SpecialityRecordDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+		select
+		a.id,
+		a.specialityid,
+		a.schoolid,
+		a.collegeid,
+		a.type,
+		a.direction,
+		a.grad_courseid,
+		a.status,
+		a.grad_status,
+		a.remark,
+		a.update_date,
+		a.new_speciality_recordid,
+		b.specialityid as newSpecialityid,
+		b.direction as newDirection
+		from pla_speciality_record a
+		left join  pla_speciality_record b on b.id =a.new_speciality_recordid
+		and b.enabled_flag=1
+		where a.id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+		select
+		a.id,
+		a.specialityid,
+		a.schoolid,
+		a.collegeid,
+		a.type,
+		a.direction,
+		a.grad_courseid,
+		a.status,
+		a.grad_status,
+		a.remark,
+		a.update_date,
+		a.new_speciality_recordid,
+		b.specialityid as newSpecialityid
+		from pla_speciality_record a
+		left join  pla_speciality_record b on b.id =a.new_speciality_recordid
+		and b.enabled_flag=1
+        <where>
+         and a.enabled_flag=1
+		  <if test="id != null and id != ''"> and a.id != #{id} </if>
+		  <if test="specialityid != null and specialityid != ''"> and a.specialityid = #{specialityid} </if>
+		  <if test="type != null and type != ''"> and a.type = #{type} </if>
+		  <if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+		  <if test="direction != null and direction != ''"> and a.direction = #{direction} </if>
+		  <if test="gradCourseid != null and gradCourseid != ''"> and a.grad_courseid = #{gradCourseid} </if>
+		  <if test="status != null and status != ''"> and a.status = #{status} </if>
+		  <if test="gradStatus != null and gradStatus != ''"> and a.grad_status = #{gradStatus} </if>
+		  <if test="remark != null and remark != ''"> and a.remark = #{remark} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_speciality_record
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id != #{id} </if>
+		  <if test="specialityid != null and specialityid != ''"> and specialityid = #{specialityid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="direction != null and direction != ''"> and direction = #{direction} </if>
+		  <if test="gradCourseid != null and gradCourseid != ''"> and grad_courseid = #{gradCourseid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="gradStatus != null and gradStatus != ''"> and grad_status = #{gradStatus} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pla_speciality_record
+		(
+			specialityid, 
+			type, 
+			schoolid, 
+			collegeid,
+			direction, 
+			grad_courseid, 
+			status, 
+			grad_status, 
+			remark, 
+			operator, 
+			update_date,
+			new_speciality_recordid
+		)
+		values
+		(
+			#{specialityid}, 
+			#{type}, 
+			#{schoolid}, 
+			#{collegeid},
+			#{direction}, 
+			#{gradCourseid}, 
+			#{status}, 
+			#{gradStatus}, 
+			#{remark}, 
+			#{operator}, 
+			now(),
+			#{newSpecialityRecordid}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+		update pla_speciality_record 
+		<set>
+			<if test="specialityid != null">specialityid = #{specialityid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="collegeid != null">collegeid = #{collegeid}, </if>
+			<if test="direction != null">direction = #{direction}, </if>
+			<if test="gradCourseid != null">grad_courseid = #{gradCourseid}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="gradStatus != null">grad_status = #{gradStatus}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			<if test="newSpecialityRecordid != null">new_speciality_recordid = #{newSpecialityRecordid}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update pla_speciality_record set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  pla_speciality_record set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="getSpecialityRecordid" resultType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+	select
+	a.id
+	from pla_speciality_record a
+	<where>
+		and a.enabled_flag=1
+		<if test="id != null and id != ''"> and a.id = #{id} </if>
+		<if test="specialityCode != null and specialityCode != ''"> and a.specialityid = #{specialityCode} </if>
+		<if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+		<if test="status != null and status != ''"> and a.status = #{status} </if>
+
+	</where>
+
+		limit 1
+</select>
+
+
+
+<!--验证-->
+	<select id="listCZ" resultType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+		select
+			specialityid,
+			type,
+			schoolid,
+			collegeid,
+			direction,
+			grad_courseid,
+			grad_status
+		from pla_speciality_record
+		<where>
+			enabled_flag = 1
+			and specialityid in
+			<foreach collection="list" item="bean" index="index" open="(" close=")" separator=",">
+			#{bean.specialityid}
+			</foreach>
+		</where>
+
+	</select>
+
+<!--批量导入-->
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into pla_speciality_record
+		(
+		specialityid,
+		type,
+		schoolid,
+		collegeid,
+		direction,
+		grad_courseid,
+		status,
+		grad_status,
+		operator,
+		update_date
+		)
+		values
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+			(
+			#{bean.specialityid},
+			#{bean.type},
+			#{bean.schoolid},
+			#{bean.collegeid},
+			#{bean.direction},
+			#{bean.gradCourseid},
+			#{bean.status},
+			#{bean.gradStatus},
+			#{bean.operator},
+			now()
+			)
+		</foreach>
+
+	</insert>
+
+	<select id="listw" resultType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+	select
+	a.id,
+	a.specialityid,
+	a.schoolid,
+	a.collegeid,
+	a.type,
+	a.direction,
+	a.grad_courseid,
+	a.status,
+	a.grad_status,
+	a.remark,
+	a.update_date,
+	a.new_speciality_recordid
+	from pla_speciality_record a
+	where a.enabled_flag=1
+	</select>
+</mapper>

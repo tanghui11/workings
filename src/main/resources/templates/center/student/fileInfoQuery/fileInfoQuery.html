@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="col-sm-3">
+			<div class="ibox ibox-body">
+				<input id="orgid" name="orgid" type="hidden" th:value="0">
+				<input id="schoolid" name="schoolid" type="hidden" >
+				<input id="collegeid" name="collegeid" type="hidden" >
+				<input id="teachSiteid" name="teachSiteid" type="hidden" >
+				<input id="regionid" name="regionid" type="hidden">
+				<input id="childRegionid" name="childRegionid" type="hidden">
+				<div class="ibox-title">
+					<h5>考区列表</h5>
+				</div>
+				<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+					<div id="jstree"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-9">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left" style="margin-right:10px">
+							考生类别
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							<select id="type" name="type" class="form-control" onchange="bianhua()">
+								<option value="a" >社会型考试</option>
+								<option value="b" >应用型考试</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							准考证号
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="studentid" type="text" class="form-control"
+								   placeholder="" >
+						</div>
+						
+						<div class="columns pull-left" style="margin-right:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+							<button class="btn btn-info" onclick="save()">取消归档</button>
+						</div>
+						<div class="columns pull-left">
+							<button shiro:hasPermission="student:studentCertificate:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="student:studentCertificate:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						<div style="clear:both"></div>
+						<div class="columns pull-left" style="margin-right:10px">
+							毕业审批日期
+						</div>
+						<div class="columns pull-left" >
+							<input id="time1" type="text" class="form-control"
+							 onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd'})" readonly="readonly">
+						</div>
+						<div class="columns pull-left">
+							-
+						</div>
+						<div class="columns pull-left">
+							<input id="time2" type="text" class="form-control"
+							 onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd'})" readonly="readonly">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮可见性 -->
+	<div>
+		<script type="text/javascript">
+			var s_edit_h = 'hidden';
+			var s_remove_h = 'hidden';
+			var s_resetPwd_h = 'hidden';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:studentCertificate:edit">
+		<script type="text/javascript">
+			s_edit_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:studentCertificate:remove">
+		<script type="text/javascript">
+			var s_remove_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:studentCertificate:resetPwd">
+		<script type="text/javascript">
+			var s_resetPwd_h = '';
+		</script>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/center/student/fileInfoQuery/fileInfoQuery.js" th:src="@{/js/appjs/center/student/fileInfoQuery/fileInfoQuery.js}"></script>
+</body>
+</html>

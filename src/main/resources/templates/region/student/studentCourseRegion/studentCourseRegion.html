@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+
+				<div class="fixed-table-toolbar">
+					<form method="post" th:action="@{/student/studentCourseRegion/searchOutExcel}" id="form">
+					<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+						<input id="studentName" class="form-control" type="text"  placeholder="学生姓名">
+					</div>
+					<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+						<input id="studentid" class="form-control" type="text"  placeholder="准考证号">
+					</div>
+					<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+						<input id="idcard" class="form-control" type="text"  placeholder="身份证号">
+					</div>
+					<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+						<select id="task" name="task" class="form-control">
+							<option value="">请选择考试任务</option>
+						</select>
+					</div>
+					<div class="columns pull-left">
+						<button class="btn btn-success" type="button" onclick="reLoad()">查询</button>
+					</div>
+					<div class="columns pull-left"  style="margin-left:5px">
+						<button class="btn btn-success" type="button"  onclick="add()">批量报考</button>
+					</div>
+					
+						<div class="columns pull-left" style="margin-left:5px">
+						<button  shiro:hasPermission="student:studentCourseRegion:savBathData" class="btn btn-success" type="button"  onclick="importData()">报考信息导入  </button>
+						</div>
+						<div class="columns pull-left" style="margin-left:5px">
+						<button class="btn btn-danger" type="button"  onclick="batchRemove()">取消报考</button>
+					</div>
+						<input id="specialityRecordid" name="specialityRecordid" th:value="${specialityRecordid}" type="hidden">
+					</form>
+				</div>
+
+				<div class="col-sm-12" style="padding:0;">
+					<div style="width: 48%;float: left;margin-right: 2%">
+						<h3 class="bg-danger" style="padding:10px;margin:0;">学生档案</h3>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+					<div style="width: 50%;float:left;">
+						<h3 class="bg-info" style="padding:10px;margin:0;">开考课程</h3>
+						<table id="exampleTable2" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div style="position:fixed;bottom:15px;right:15px;" id="history">
+			<button shiro:hasPermission="student:studentCourseRegion:savBathData"  type="button" class="btn  btn-primary" onclick="history()">查看报考记录</button>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮可见性 -->
+	<div>
+		<script type="text/javascript">
+            var s_edit_h = 'hidden';
+            var s_remove_h = 'hidden';
+            var s_resetPwd_h = 'hidden';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:studentRegStudent:edit">
+		<script type="text/javascript">
+            s_edit_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:studentRegStudent:remove">
+		<script type="text/javascript">
+            var s_remove_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="student:studentRegStudent:resetPwd">
+		<script type="text/javascript">
+            var s_resetPwd_h = '';
+		</script>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+
+<script type="text/javascript" src="/js/appjs/region/student/studentCourseRegion/studentCourseRegion.js" th:src="@{/js/appjs/region/student/studentCourseRegion/studentCourseRegion.js}"></script>
+</body>
+</html>

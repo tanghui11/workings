@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${college.id}"  type="hidden">
+                            <!-- <div class="form-group">
+								<label class="col-sm-3 control-label">助学组织编号：</label>
+								<div class="col-sm-8">
+									<input id="schoolid" name="schoolid" th:value="${college.schoolid}" class="form-control" type="text">
+								</div>
+							</div> -->
+							<tr>
+								<td>
+									<label>名称：</label>
+								</td>
+								<td>
+									<input id="name" name="name" th:value="${college.name}" class="form-control" type="text" onkeyup="spell()" onchange="spell()">
+								</td>
+								<td>
+									<label>拼音：</label>
+								</td>
+								<td>
+									<input id="pinyin" name="pinyin" th:value="${college.pinyin}" class="form-control" type="text">
+								</td>
+							</tr>
+                             <tr>
+								<td>
+									<label>联系人：</label>
+								</td>
+								<td>
+									<input id="linkman" name="linkman" th:value="${college.linkman}" class="form-control" type="text">
+								</td>
+								<td>
+									<label>联系地址：</label>
+								</td>
+								<td>
+									<input id="address" name="address" th:value="${college.address}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>邮编：</label>
+								</td>
+								<td>
+									<input id="postCode" name="postCode" th:value="${college.postCode}" class="form-control" type="text">
+								</td>
+								<td>
+									<label>固定电话：</label>
+								</td>
+								<td>
+									<input id="phone" name="phone" th:value="${college.phone}" class="form-control" type="text">
+								</td>
+							</tr>
+							 <tr>
+								<td>
+									<label>移动电话：</label>
+								</td>
+								<td>
+									<input id="mphone" name="mphone" th:value="${college.mphone}" class="form-control" type="text">
+								</td>
+								<td>
+									<label>传真：</label>
+								</td>
+								<td>
+									<input id="fax" name="fax" th:value="${college.fax}" class="form-control" type="text">
+								</td>
+							</tr>
+                             <tr>
+								<td>
+									<label>邮箱：</label>
+								</td>
+								<td>
+									<input id="email" name="email" th:value="${college.email}" class="form-control" type="text">
+								</td>
+							</tr>
+						</table>
+						<div style="text-align:center">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/school/college/edit.js" th:src="@{/js/appjs/center/school/college/edit.js}">
+	</script>
+</body>
+</html>

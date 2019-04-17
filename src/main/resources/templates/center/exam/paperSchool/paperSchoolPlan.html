@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar hiddens">
+						<div class="columns pull-left nopadding">
+							考试任务
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="searchName" class="form-control"></select>
+						</div>
+
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+							<button class="btn btn-info" onclick="doPrint()">打印</button>
+						</div>
+						<div class="columns pull-left">
+							<button shiro:hasPermission="exam:paperSchool:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="exam:paperSchool:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+					</div>
+					<!--startprint-->
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+					<!--endprint-->
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:paperSchool:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:paperSchool:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:paperSchool:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/paperSchool/paperSchoolPlan.js" th:src="@{/js/appjs/center/exam/paperSchool/paperSchoolPlan.js}"></script>
+	<script>
+	function doPrint() {   
+    /*bdhtml=window.document.body.innerHTML;   
+    sprnstr="<!--startprint-->";   
+    eprnstr="<!--endprint-->";   
+    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);   
+    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));   
+    window.document.body.innerHTML=prnhtml;  
+    window.print();*/
+	$(".hiddens").hide();
+	$(".pagination-info").hide();
+	window.print();
+	$(".hiddens").show();
+	$(".pagination-info").show();
+}
+	</script>
+	</script>
+</body>
+</html>

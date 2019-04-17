@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.student.dao.StudentInStudentDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentInDO">
+		select
+            id,
+            name,
+            gender,
+            certificate_no,
+            in_province,
+            status,
+            studentid,
+            audit_status,
+            audit_operator,
+            audit_update_date,
+            out_operator,
+            out_update_date,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_student_in
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentInDO">
+		select
+	        id,
+	        name,
+	        gender,
+	        certificate_no,
+	        in_province,
+	        status,
+	        studentid,
+	        audit_status,
+	        audit_operator,
+	        audit_update_date,
+	        out_operator,
+	        out_update_date,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from stu_student_in
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  <if test="certificateNo != null and certificateNo != ''"> and certificate_no = #{certificateNo} </if>
+		  <if test="inProvince != null and inProvince != ''"> and in_province = #{inProvince} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditUpdateDate != null and auditUpdateDate != ''"> and audit_update_date = #{auditUpdateDate} </if>
+		  <if test="outOperator != null and outOperator != ''"> and out_operator = #{outOperator} </if>
+		  <if test="outUpdateDate != null and outUpdateDate != ''"> and out_update_date = #{outUpdateDate} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_in
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  <if test="certificateNo != null and certificateNo != ''"> and certificate_no = #{certificateNo} </if>
+		  <if test="inProvince != null and inProvince != ''"> and in_province = #{inProvince} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditUpdateDate != null and auditUpdateDate != ''"> and audit_update_date = #{auditUpdateDate} </if>
+		  <if test="outOperator != null and outOperator != ''"> and out_operator = #{outOperator} </if>
+		  <if test="outUpdateDate != null and outUpdateDate != ''"> and out_update_date = #{outUpdateDate} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentInDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_in
+		(
+			name, 
+			gender, 
+			certificate_no, 
+			in_province, 
+			status, 
+			studentid, 
+			audit_status, 
+			audit_operator, 
+			audit_update_date, 
+			out_operator, 
+			out_update_date, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{name}, 
+			#{gender}, 
+			#{certificateNo}, 
+			#{inProvince}, 
+			#{status}, 
+			#{studentid}, 
+			#{auditStatus}, 
+			#{auditOperator}, 
+			#{auditUpdateDate}, 
+			#{outOperator}, 
+			#{outUpdateDate}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentInDO">
+		update stu_student_in 
+		<set>
+			<if test="name != null">name = #{name}, </if>
+			<if test="gender != null">gender = #{gender}, </if>
+			<if test="certificateNo != null">certificate_no = #{certificateNo}, </if>
+			<if test="inProvince != null">in_province = #{inProvince}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="auditOperator != null">audit_operator = #{auditOperator}, </if>
+			<if test="auditUpdateDate != null">audit_update_date = #{auditUpdateDate}, </if>
+			<if test="outOperator != null">out_operator = #{outOperator}, </if>
+			<if test="outUpdateDate != null">out_update_date = #{outUpdateDate}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_in set enabled_flag =0  where id = #{value}
+	</update>
+
+	<!-- 删除成绩-->
+	<!--<update id="remove">-->
+		<!--update stu_student_in set enabled_flag =0  where id = #{value}-->
+	<!--</update>-->
+
+	<!--取消调档-->
+	<update id = "cancelAudit">
+			update stu_student_in set audit_status =0 where id = #{value}
+	</update>
+
+
+	<update id="batchRemove">
+        update  stu_student_in set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link href="/css/luzhi/index.css" th:href="@{/css/luzhi/index.css}" rel="stylesheet">
+	<script type="text/javascript" src="/css/luzhi/jquery-1.8.3.min.js" th:src="@{/css/luzhi/jquery-1.8.3.min.js}"></script>
+	<script type="text/javascript" src="/css/luzhi/tracking-min.js" th:src="@{/css/luzhi/tracking-min.js}"></script>
+	<script type="text/javascript" src="/css/luzhi/face-min.js" th:src="@{/css/luzhi/face-min.js}"></script>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="center">
+						<form method="post" class="" id="signupForm" th:action="@{/common/upload}">
+								<input type="hidden" name ="studentid" id="studentid" value=""/>
+								<input type="hidden" name ="teachid" id="teachid"/>
+						<div class="center-center">
+							<div style="overflow: hidden;">
+								<div class="center-center-left">
+									<div class="box">
+										<!--<h3 class="tit">请确保脸部位于视频中间，并避免过于黑暗或者白光</h3>-->
+										<video id="video" preload autoplay loop muted></video>
+										<canvas id="canvas"></canvas>
+									</div>
+								</div>
+								<!-- <div class="center-center-right">
+									<img src="" id="imges" style="width: 120px;height: 140px;"/>
+								</div> -->
+							</div>
+							<div class="myBut">
+								<input type="button" value="拍照" class="but butGo">
+							</div>
+							
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		
+<div th:include="include::footer"></div>
+	<script>
+		$(function() {
+			$("#studentid").val(parent.$("#studentid").val());
+			$("#teachid").val(parent.$("#teachSiteidVal").val());
+		//人脸
+		var video = $('#video');
+		var canvas = document.getElementById('canvas');
+		var num = document.getElementById('num');
+		var context = canvas.getContext('2d');
+		var tracker = new tracking.ObjectTracker('face');
+		tracker.setInitialScale(4);
+		tracker.setStepSize(2);
+		tracker.setEdgesDensity(0.1);
+		tracking.track('#video', tracker, {
+			camera: true
+		});
+
+		//点击认证
+		$('.butGo').click(function() {
+			captureImage();
+			var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+			parent.layer.close(index);
+		})
+		//认证
+		var captureImage = function() {
+			var video = $("#video").get(0);
+			var scale = 0.5;
+			var canvas = document.createElement("canvas");
+			canvas.width = video.videoWidth * scale;
+			canvas.height = video.videoHeight * scale;
+			canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+			var img = document.createElement("img");
+			var srcStr = canvas.toDataURL();
+			$('input[name=thisImage]').val(srcStr);
+			$("#imges").attr("src",srcStr)
+			
+			
+			
+			//转base64为路径(开头)
+	imgData =srcStr;
+	var url = "image/jpg;base64,"+imgData
+	sumitImageFile(url)
+	function sumitImageFile(base64Codes){  
+		var form=$("#signupForm")  
+		
+		var formData = new FormData(form);   //这里连带form里的其他参数也一起提交了,如果不需要提交其他参数可以直接FormData无参数的构造函数  
+		
+		//convertBase64UrlToBlob函数是将base64编码转换为Blob  
+		formData.append("uploadfile",convertBase64UrlToBlob(base64Codes));  //append函数的第一个参数是后台获取数据的参数名,和html标签的input的name属性功能相同  
+		var studentid = $('#studentid').val()
+		var teachid = $('#teachid').val()
+		formData.append("teachid",teachid)
+		formData.append("studentid",studentid)
+		//ajax 提交form  
+		$.ajax({  
+			url : contextPath+"/common/upload",  
+			type : "POST",  
+			data : formData,  
+			dataType:"json",  
+			processData : false,         // 告诉jQuery不要去处理发送的数据  
+			contentType : false,        // 告诉jQuery不要去设置Content-Type请求头  
+			async: false,
+			success:function(data){ 
+				parent.layer.msg(data.message);
+				var url = data.filePath[0]+'?number='+Math.random();
+				parent.$("#scPhone").attr("src",url);
+				parent.$("#pic").val(data.filePath[0]);
+				//parent.$("#id").val(data.studentid);
+				parent.$("#studentid").val(data.studentid);
+			},  
+			xhr:function(){            //在jquery函数中直接使用ajax的XMLHttpRequest对象  
+				var xhr = new XMLHttpRequest();  
+
+				xhr.upload.addEventListener("progress", function(evt){  
+					if (evt.lengthComputable) {  
+						var percentComplete = Math.round(evt.loaded * 100 / evt.total);    
+						//console.log("正在提交."+percentComplete.toString() + '%');        //在控制台打印上传进度  
+					}  
+				}, false);  
+
+				return xhr;  
+			}  
+
+		});  
+	}  
+
+		/**  
+		 * 将以base64的图片url数据转换为Blob  
+		 * @param urlData  
+		 *            用url方式表示的base64图片数据  
+		 */  
+		function convertBase64UrlToBlob(urlData){  
+			var bytes=window.atob(urlData.split(',')[2]);        //去掉url的头，并转换为byte  
+			
+			//处理异常,将ascii码小于0的转换为大于0  
+			var ab = new ArrayBuffer(bytes.length);  
+			var ia = new Uint8Array(ab);  
+			for (var i = 0; i < bytes.length; i++) {  
+				ia[i] = bytes.charCodeAt(i);  
+			}  
+
+			return new Blob( [ab] , {type : 'image/png'});  
+		}
+//转base64为路径(结束)
+			
+			
+			
+			
+			
+			
+		};
+	})
+	</script>
+</body>
+</html>

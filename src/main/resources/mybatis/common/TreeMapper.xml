@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxy.nzxy.stexam.common.dao.TreeDao">
+
+	<select id="listSchoolForTree" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+        select *
+        from sch_school
+	where enabled_flag=1
+		<if test="schoolid != null and schoolid != ''"> and schoolid=#{schoolid}</if>
+    </select>
+
+	<select id="verifyChildrenBySchoolid" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+        select id
+          from sch_school and enabled_flag=1
+		<if test="schoolid != null and schoolid != ''"> and schoolid=#{schoolid}</if>
+    </select>
+	<select id="listCollegeForTree" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+		select *
+		from sch_college
+		<where>
+			and enabled_flag=1
+			<if test="schoolid != null and schoolid != ''"> and schoolid=#{schoolid}</if>
+		</where>
+	</select>
+	<select id="listRegionDOForTree" resultType="com.hxy.nzxy.stexam.domain.RegionDO">
+		<if test="id != null and id != ''">
+			select *
+			from reg_region
+
+			where ((id = #{id} and #{parentid} = -1)
+			or (parentid = #{parentid} and #{id} = -1)) and enabled_flag=1
+		</if>
+		<if test="id == ''">
+			select *
+			from reg_region where
+			enabled_flag=1 and  parentid=0
+		</if>
+
+	</select>
+	<select id="verifyChildrenByRegionid" resultType="com.hxy.nzxy.stexam.domain.RegionDO">
+        select id
+          from reg_region
+         where parentid = #{parentid}  and enabled_flag=1
+    </select>
+
+	<select id="ChildrenBySchoolid" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+        select id
+          from sch_college
+         where 1=1  and enabled_flag=1
+		<if test="schoolid != null and schoolid != ''"> and schoolid=#{schoolid}</if>
+    </select>
+	<select id="listSchoolCollegeTeachSiteTree" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+		select *
+		from sch_school
+		where enabled_flag=1
+		<if test="schoolid != null and schoolid != ''"> and schoolid=#{schoolid}</if>
+	</select>
+
+	<select id="ChildrenSchoolCollegeTeachSite" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+		select id
+		from sch_school and enabled_flag=1
+		<if test="schoolid != null and schoolid != ''"> and schoolid=#{schoolid}</if>
+	</select>
+
+	<select id="listTeachSitForTree" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+	select *
+	from sch_teach_site
+	<where>
+		and enabled_flag=1
+		<if test="schoolid != null and schoolid != ''"> and collegeid = #{schoolid}</if>
+	</where>
+	</select>
+
+	<select id="verifyChildrenTeachid" resultType="com.hxy.nzxy.stexam.domain.RegionDO">
+        select id
+          from sch_teach_site
+         where enabled_flag=1 and collegeid = #{collegeid}
+    </select>
+
+	<select id="specialityTree1" resultType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+		select
+		a.id,
+		a.specialityid,
+		a.type,
+		a.schoolid,
+		a.collegeid,
+		a.direction,
+		a.grad_courseid,
+		a.status,
+		a.grad_status,
+		b.name as schoolName,
+		c.name as newSpecialityName
+		from pla_speciality_record a left join sch_school b on a.schoolid = b.id left join pla_speciality c on a.specialityid = c.id
+		where
+		a.enabled_flag=1
+		<if test="schoolid != null and schoolid != ''"> and a.schoolid=#{schoolid}</if>
+	</select>
+
+	<select id="specialityTree" resultType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+		select
+		a.schoolid,
+		b.name as schoolName
+		from pla_speciality_record a left join sch_school b on a.schoolid = b.id
+		where
+		a.enabled_flag=1 group by schoolid
+	</select>
+
+	<select id="arrangeTree" resultType="com.hxy.nzxy.stexam.domain.RegionDO">
+      SELECT
+	id,
+	parentid,
+	CONCAT(CODE,' ',NAME)  text,
+		CODE
+FROM
+	reg_region
+WHERE
+	type = 'a'
+AND CODE IN (
+	SELECT
+		exam_transfer
+	FROM
+		reg_region
+)
+UNION
+	SELECT
+		id,
+		parentid,
+		CONCAT(CODE,' ',NAME)  text,
+		CODE
+	FROM
+		reg_region
+	WHERE
+		type = 'b'
+	AND CODE IN (
+		SELECT
+			exam_transfer
+		FROM
+			reg_region
+	)
+	ORDER BY
+		CODE
+    </select>
+</mapper>

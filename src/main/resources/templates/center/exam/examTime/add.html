@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input type="hidden"  id="examTaskid" name="examTaskid" >
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>考试任务：</label>
+								</td>
+								<td>
+									<input id="examTask" name="examTask" class="form-control" type="text" readonly="readonly">
+								<td>
+									<label>序号：</label>
+								</td>
+								<td>
+									<input id="seq" name="seq" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>开考日期：</label>
+								</td>
+								<td>
+									<input id="examDate" name="examDate" class="form-control" type="text" onfocus = "WdatePicker({dateFmt: 'yyyy-MM-dd '})">
+								<td>
+									<label><span style="color:red">*</span>时段：</label>
+								</td>
+								<td>
+									<select id="segment" name="segment" class="form-control">
+										<option th:each="item:${exa_exam_time_segment}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td >
+									<label><span style="color:red">*</span>开考时间：</label>
+								</td>
+								<td>
+									<input id="beginTime" name="beginTime" class="form-control" type="text" onfocus = "WdatePicker({ dateFmt: 'HH:mm' })">
+								</td>
+								<td>
+									<label><span style="color:red">*</span>结束时间：</label>
+								</td>
+								<td>
+									<input id="endTime" name="endTime" class="form-control" type="text" onfocus = "WdatePicker({ dateFmt: 'HH:mm' })">
+								</td>
+							</tr>
+						</table>
+						<div style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary" id="submission">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/examTime/add.js" th:src="@{/js/appjs/center/exam/examTime/add.js}">
+	</script>
+</body>
+</html>

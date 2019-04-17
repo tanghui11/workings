@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.RegionExemptionCourseReplaceItemDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ExemptionCourseReplaceItemDO">
+	select
+		a.id
+		b.name as replaceName,
+		a.grade,
+		b.remark,
+		b.status,
+		a.audit_status,
+		a.audit_date,
+		b.operator,
+		b.update_date
+		from stu_score_replace a left join  pla_course_free b on a.course_freeid = b.id and b.id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ExemptionCourseReplaceItemDO">
+		select
+			a.id,
+			b.name as replaceName,
+			a.grade,
+			a.remark,
+			b.status,
+			a.audit_status,
+			a.audit_date,
+			b.operator,
+			b.update_date
+		from stu_score_replace a left join  pla_course_free b on a.course_freeid = b.id
+		<where>
+			and a.enabled_flag=1
+			and b.enabled_flag=1
+			and b.status = 'a'
+			and a.studentid=#{studentid}
+			and a.courseid=#{courseid}
+			<if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			<if test="replaceName != null and replaceName != ''"> and b.name = #{replaceName}</if>
+			<if test="remark != null and remark != ''"> and b.remark = #{remark} </if>
+			<if test="status != null and status != ''"> and b.status = #{status} </if>
+			<if test="operator != null and operator != ''"> and b.operator = #{operator} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(1)
+		from stu_score_replace a left join  pla_course_free b on a.course_freeid = b.id
+		<where>
+			and a.enabled_flag=1
+			and b.enabled_flag=1
+			and b.status = 'a'
+			and a.studentid=#{studentid}
+			and a.courseid=#{courseid}
+			<if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			<if test="replaceName != null and replaceName != ''"> and b.name = #{replaceName}</if>
+			<if test="remark != null and remark != ''"> and b.remark = #{remark} </if>
+			<if test="status != null and status != ''"> and b.status = #{status} </if>
+			<if test="operator != null and operator != ''"> and b.operator = #{operator} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+		</where>
+	</select>
+
+	<!--添加页面List-->
+	<select id="addList" resultType="com.hxy.nzxy.stexam.domain.ExemptionCourseReplaceItemDO">
+		select
+			a.id,
+			b.name as replaceName,
+			b.id as courseFreeid,
+			a.grade,
+			b.remark as replaceRemark,
+			b.status,
+			a.audit_status,
+			a.audit_date,
+			b.operator,
+			b.update_date
+		from stu_score_replace a ,  pla_course_free b
+		<where>
+			and a.enabled_flag = 1
+			and b.status = 'a'
+			and b.type = 'b'
+			<if test="replaceName != null and replaceName != ''"> and b.name = #{replaceName}</if>
+			<if test="grade != null and grade != ''"> and a.grade = #{grade}</if>
+			<if test="replaceRemark != null and replaceRemark != ''"> and b.remark = #{replaceRemark} </if>
+			<if test="status != null and status != ''"> and b.status = #{status} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+			<if test="operator != null and operator != ''"> and b.operator = #{operator} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by b.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="addCount" resultType="int">
+		select count(*)
+		from stu_score_replace a ,pla_course_free b
+		<where>
+			and a.enabled_flag=1
+			and b.status = 'a'
+			and b.type = 'b'
+			<if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			<if test="replaceName != null and replaceName != ''"> and b.name = #{replaceName}</if>
+			<if test="remark != null and remark != ''"> and b.remark = #{remark} </if>
+			<if test="status != null and status != ''"> and b.status = #{status} </if>
+			<if test="operator != null and operator != ''"> and b.operator = #{operator} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="auditDate != null and auditDate != ''"> and a.audit_date = #{auditDate} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ScoreReplaceDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_score_replace
+		(
+			studentid,
+			speciality_recordid,
+			courseid,
+			course_freeid,
+			grade,
+			remark,
+			audit_status,
+			audit_operator,
+			audit_date,
+			status,
+			operator,
+			update_date
+		)
+		values
+		(
+			#{studentid},
+			#{specialityRecordid},
+			#{courseid},
+			#{courseFreeid},
+			#{grade},
+			#{remark},
+			#{auditStatus},
+			#{auditOperator},
+			#{auditDate},
+			#{status},
+			#{operator},
+			now()
+		)
+	</insert>
+
+	<update id="remove">
+		update stu_score_replace set enabled_flag =0  where id = #{value}
+	</update>
+
+	<update id="batchRemove">
+        update  pla_course_free set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

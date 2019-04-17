@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.ScoreDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select
+            id,
+            studentid,
+            speciality_recordid,
+            courseid,
+            type,
+            objid,
+            kg_grade,
+            zg_grade,
+            old_grade,
+            exam_grade,
+            school_grade,
+            grade,
+            exam_flag,
+            status,
+            use_status,
+            flag,
+            source_courseid,
+            et_dm,
+            old_studentid,
+            exam_date,
+            old_courseid,
+            school_scoreid,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag,
+            key_value
+		from stu_score
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select
+		a.id,
+		a.studentid,
+		a.speciality_recordid,
+		a.courseid,
+		a.type,
+		a.objid,
+		a.kg_grade,
+		a.zg_grade,
+		a.old_grade,
+		a.exam_grade,
+		a.school_grade,
+		a.grade,
+		a.exam_flag,
+		a.status,
+		a.use_status,
+		a.flag,
+		a.source_courseid,
+		a.et_dm,
+		a.old_studentid,
+		a.exam_date,
+		a.old_courseid,
+		a.school_scoreid,
+		a.operator,
+		a.update_date,
+		a.db_flag,
+		a.enabled_flag,
+		a.key_value,
+		b.gender,
+		b.pic,
+		b.certificate_no
+		 from stu_score a left join stu_student b on
+		a.studentid = b.id
+        <where>
+         and a.enabled_flag=1
+		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+		  <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+		  <if test="type != null and type != ''"> and a.type = #{type} </if>
+		  <if test="objid != null and objid != ''"> and a.objid = #{objid} </if>
+		  <if test="kgGrade != null and kgGrade != ''"> and a.kg_grade = #{kgGrade} </if>
+		  <if test="zgGrade != null and zgGrade != ''"> and a.zg_grade = #{zgGrade} </if>
+		  <if test="oldGrade != null and oldGrade != ''"> and a.old_grade = #{oldGrade} </if>
+		  <if test="examGrade != null and examGrade != ''"> and a.exam_grade = #{examGrade} </if>
+		  <if test="schoolGrade != null and schoolGrade != ''"> and a.school_grade = #{schoolGrade} </if>
+		  <if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+		  <if test="examFlag != null and examFlag != ''"> and a.exam_flag = #{examFlag} </if>
+		  <if test="status != null and status != ''"> and a.status = #{status} </if>
+		  <if test="useStatus != null and useStatus != ''"> and a.use_status = #{useStatus} </if>
+		  <if test="flag != null and flag != ''"> and a.flag = #{flag} </if>
+		  <if test="sourceCourseid != null and sourceCourseid != ''"> and a.source_courseid = #{sourceCourseid} </if>
+		  <if test="etDm != null and etDm != ''"> and a.et_dm = #{etDm} </if>
+		  <if test="oldStudentid != null and oldStudentid != ''"> and a.old_studentid = #{oldStudentid} </if>
+		  <if test="examDate != null and examDate != ''"> and a.exam_date = #{examDate} </if>
+		  <if test="oldCourseid != null and oldCourseid != ''"> and a.old_courseid = #{oldCourseid} </if>
+		  <if test="schoolScoreid != null and schoolScoreid != ''"> and a.school_scoreid = #{schoolScoreid} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		  <if test="keyValue != null and keyValue != ''"> and a.key_value = #{keyValue} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listTwo" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select a.id, a.studentid, a.speciality_recordid, a.courseid,
+		a.type, a.objid, a.kg_grade, a.zg_grade, a.old_grade,a.exam_grade,
+		a.school_grade, a.grade, a.exam_flag, a.status, a.use_status, a.flag,
+		a.source_courseid, a.et_dm, a.old_studentid, a.exam_date, a.old_courseid,
+		a.school_scoreid, a.operator, a.update_date, a.db_flag, a.enabled_flag, a.key_value,
+		c.name,d.gender,d.pic,d.certificate_no
+		from stu_score a
+		left JOIN
+		pla_speciality_record b
+		ON
+		a.speciality_recordid = b.id
+		LEFT JOIN
+		pla_speciality c
+		ON
+		b.specialityid = c.id
+		left join stu_student d
+		on
+		a.studentid = d.id
+		<where>
+			and a.enabled_flag=1
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+			<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="objid != null and objid != ''"> and a.objid = #{objid} </if>
+			<if test="kgGrade != null and kgGrade != ''"> and a.kg_grade = #{kgGrade} </if>
+			<if test="zgGrade != null and zgGrade != ''"> and a.zg_grade = #{zgGrade} </if>
+			<if test="oldGrade != null and oldGrade != ''"> and a.old_grade = #{oldGrade} </if>
+			<if test="examGrade != null and examGrade != ''"> and a.exam_grade = #{examGrade} </if>
+			<if test="schoolGrade != null and schoolGrade != ''"> and a.school_grade = #{schoolGrade} </if>
+			<if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			<if test="examFlag != null and examFlag != ''"> and a.exam_flag = #{examFlag} </if>
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+			<if test="useStatus != null and useStatus != ''"> and a.use_status = #{useStatus} </if>
+			<if test="flag != null and flag != ''"> and a.flag = #{flag} </if>
+			<if test="sourceCourseid != null and sourceCourseid != ''"> and a.source_courseid = #{sourceCourseid} </if>
+			<if test="etDm != null and etDm != ''"> and a.et_dm = #{etDm} </if>
+			<if test="oldStudentid != null and oldStudentid != ''"> and a.old_studentid = #{oldStudentid} </if>
+			<if test="examDate != null and examDate != ''"> and a.exam_date = #{examDate} </if>
+			<if test="oldCourseid != null and oldCourseid != ''"> and a.old_courseid = #{oldCourseid} </if>
+			<if test="schoolScoreid != null and schoolScoreid != ''"> and a.school_scoreid = #{schoolScoreid} </if>
+			<if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+			<if test="keyValue != null and keyValue != ''"> and a.key_value = #{keyValue} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from stu_score
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="objid != null and objid != ''"> and objid = #{objid} </if>
+		  <if test="kgGrade != null and kgGrade != ''"> and kg_grade = #{kgGrade} </if>
+		  <if test="zgGrade != null and zgGrade != ''"> and zg_grade = #{zgGrade} </if>
+		  <if test="oldGrade != null and oldGrade != ''"> and old_grade = #{oldGrade} </if>
+		  <if test="examGrade != null and examGrade != ''"> and exam_grade = #{examGrade} </if>
+		  <if test="schoolGrade != null and schoolGrade != ''"> and school_grade = #{schoolGrade} </if>
+		  <if test="grade != null and grade != ''"> and grade = #{grade} </if>
+		  <if test="examFlag != null and examFlag != ''"> and exam_flag = #{examFlag} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="useStatus != null and useStatus != ''"> and use_status = #{useStatus} </if>
+		  <if test="flag != null and flag != ''"> and flag = #{flag} </if>
+		  <if test="sourceCourseid != null and sourceCourseid != ''"> and source_courseid = #{sourceCourseid} </if>
+		  <if test="etDm != null and etDm != ''"> and et_dm = #{etDm} </if>
+		  <if test="oldStudentid != null and oldStudentid != ''"> and old_studentid = #{oldStudentid} </if>
+		  <if test="examDate != null and examDate != ''"> and exam_date = #{examDate} </if>
+		  <if test="oldCourseid != null and oldCourseid != ''"> and old_courseid = #{oldCourseid} </if>
+		  <if test="schoolScoreid != null and schoolScoreid != ''"> and school_scoreid = #{schoolScoreid} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		  <if test="keyValue != null and keyValue != ''"> and key_value = #{keyValue} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ScoreDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_score
+		(
+			studentid, 
+			speciality_recordid, 
+			courseid, 
+			type, 
+			objid, 
+			kg_grade, 
+			zg_grade, 
+			old_grade, 
+			exam_grade, 
+			school_grade, 
+			grade, 
+			exam_flag, 
+			status, 
+			use_status, 
+			flag, 
+			source_courseid, 
+			et_dm, 
+			old_studentid, 
+			exam_date, 
+			old_courseid, 
+			school_scoreid, 
+			operator, 
+			update_date, 
+			db_flag, 
+			key_value
+		)
+		values
+		(
+			#{studentid}, 
+			#{specialityRecordid}, 
+			#{courseid}, 
+			#{type}, 
+			#{objid}, 
+			#{kgGrade}, 
+			#{zgGrade}, 
+			#{oldGrade}, 
+			#{examGrade}, 
+			#{schoolGrade}, 
+			#{grade}, 
+			#{examFlag}, 
+			#{status},
+			#{useStatus},
+			#{flag},
+			#{sourceCourseid}, 
+			#{etDm}, 
+			#{oldStudentid}, 
+			#{examDate}, 
+			#{oldCourseid}, 
+			#{schoolScoreid}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}, 
+			#{keyValue}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		update stu_score 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="objid != null">objid = #{objid}, </if>
+			<if test="kgGrade != null">kg_grade = #{kgGrade}, </if>
+			<if test="zgGrade != null">zg_grade = #{zgGrade}, </if>
+			<if test="oldGrade != null">old_grade = #{oldGrade}, </if>
+			<if test="examGrade != null">exam_grade = #{examGrade}, </if>
+			<if test="schoolGrade != null">school_grade = #{schoolGrade}, </if>
+			<if test="grade != null">grade = #{grade}, </if>
+			<if test="examFlag != null">exam_flag = #{examFlag}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="useStatus != null">use_status = #{useStatus}, </if>
+			<if test="flag != null">flag = #{flag}, </if>
+			<if test="sourceCourseid != null">source_courseid = #{sourceCourseid}, </if>
+			<if test="etDm != null">et_dm = #{etDm}, </if>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+			<if test="examDate != null">exam_date = #{examDate}, </if>
+			<if test="oldCourseid != null">old_courseid = #{oldCourseid}, </if>
+			<if test="schoolScoreid != null">school_scoreid = #{schoolScoreid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+			<if test="keyValue != null">key_value = #{keyValue}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_score set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_score set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="updateSchoolScore">
+        update  stu_school_score set status ='b',ratio = #{retio} where studentid =#{studentid} and courseid = #{courseid} and enabled_flag = 1
+	</update>
+
+	<update id="noUpdateSchoolScore">
+        update  stu_school_score set status ='a',ratio = 0 where studentid =#{studentid} and courseid = #{courseid} and enabled_flag = 1
+	</update>
+
+	<select id="getRetio" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select ratio from sch_school_score_ratio where enabled_flag=1 and schoolid = #{schoolid}
+	</select>
+
+	<select id="listMerger" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select d.id,
+		   d.name,
+		   b.courseid,
+		   e.exam_grade,
+		   e.school_grade,
+		   e.grade
+			from stu_student_course a,
+			exa_exam_course b,
+			exa_exam_time c,
+			stu_student d,
+			stu_score e
+ 		where a.exam_courseid = b.id
+		   and b.exam_timeid = c.id
+		   and a.studentid = d.id
+		   and d.type = 'b'
+		   and e.type = 'a'
+		   and e.status = '0'
+		   and e.exam_flag = '0'
+		   and a.id = e.objid
+		   and c.exam_taskid = #{examTaskid}
+		   and (d.schoolid = #{schoolid} or #{schoolid} = '0')
+ 		order by b.courseid,d.id
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="countMerger" resultType="int">
+		select count(*)
+		from
+		stu_student_course a,
+			exa_exam_course b,
+			exa_exam_time c,
+			stu_student d,
+			stu_score e
+ 		where
+ 			a.exam_courseid = b.id
+		   and b.exam_timeid = c.id
+		   and a.studentid = d.id
+		   and d.type = 'b'
+		   and e.type = 'a'
+		   and e.status = '0'
+		   and e.exam_flag = '0'
+		   and a.id = e.objid
+		   and c.exam_taskid = #{examTaskid}
+		   and (d.schoolid = #{schoolid} or #{schoolid} = '0')
+	</select>
+
+	<update id="setMerger">
+		update stu_score set grade = #{num},school_grade=#{schoolGrade} where studentid = #{studentid} and courseid=#{courseid} and enabled_flag = 1
+	</update>
+
+	<update id="qxMerger">
+		update stu_score set school_grade = 0,grade = exam_grade  where studentid = #{studentid} and courseid = #{courseid} and enabled_flag = 1
+	</update>
+	<update id="updateScoreSingle" parameterType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		update stu_score
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="objid != null">objid = #{objid}, </if>
+			<if test="kgGrade != null">kg_grade = #{kgGrade}, </if>
+			<if test="zgGrade != null">zg_grade = #{zgGrade}, </if>
+			<if test="oldGrade != null">old_grade = #{oldGrade}, </if>
+			<if test="examGrade != null">exam_grade = #{examGrade}, </if>
+			<if test="schoolGrade != null">school_grade = #{schoolGrade}, </if>
+			<if test="grade != null">grade = #{grade}, </if>
+			<if test="examFlag != null">exam_flag = #{examFlag}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="useStatus != null">use_status = #{useStatus}, </if>
+			<if test="flag != null">flag = #{flag}, </if>
+			<if test="sourceCourseid != null">source_courseid = #{sourceCourseid}, </if>
+			<if test="etDm != null">et_dm = #{etDm}, </if>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+			<if test="examDate != null">exam_date = #{examDate}, </if>
+			<if test="oldCourseid != null">old_courseid = #{oldCourseid}, </if>
+			<if test="schoolScoreid != null">school_scoreid = #{schoolScoreid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+			<if test="keyValue != null">key_value = #{keyValue}, </if>
+		</set>
+		where objid = #{objid} and enabled_flag=1
+	</update>
+
+	<select id="getScoreStudent" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select
+		id,
+            studentid,
+            speciality_recordid,
+            courseid,
+            type,
+            objid,
+            kg_grade,
+            zg_grade,
+            old_grade,
+            exam_grade,
+            school_grade,
+            grade,
+            exam_flag,
+            status,
+            use_status,
+            flag,
+            source_courseid,
+            et_dm,
+            old_studentid,
+            exam_date,
+            old_courseid,
+            school_scoreid,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag,
+            key_value
+            from stu_score
+		<where>
+			studentid=#{studentid} and speciality_recordid = #{specialityRecordid} and courseid in
+			<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+				#{item.courseid}
+			</foreach>
+		</where>
+	</select>
+
+
+	<select id="schoolScoreStudent" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		select
+		id,
+		studentid,
+		speciality_recordid,
+		courseid,
+		type,
+		objid,
+		kg_grade,
+		zg_grade,
+		old_grade,
+		exam_grade,
+		school_grade,
+		grade,
+		exam_flag,
+		status,
+		use_status,
+		flag,
+		source_courseid,
+		et_dm,
+		old_studentid,
+		exam_date,
+		old_courseid,
+		school_scoreid,
+		operator,
+		update_date,
+		db_flag,
+		enabled_flag,
+		key_value
+		from stu_score
+		<where>
+			studentid=#{studentid} and speciality_recordid = #{specialityRecordid}
+		</where>
+	</select>
+</mapper>

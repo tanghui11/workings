@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<!--进度条显示-->
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<form method="post" th:action="@{/school/teachSite/searchOutExcel}" id="form">
+		<div class="col-sm-12" style="padding-right:0">
+			<input id="orgid" name="orgid" type="hidden" th:value="1">
+			<input id="orgType" name="orgType" type="hidden" th:value="a">
+			<input id="collegeid" name="collegeid" type="hidden">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<div class="columns pull-left nopadding">
+								<input id="searchName" type="text" class="form-control" name="name"
+									placeholder="名称查询">
+							</div>
+							<div class="columns pull-left" style="margin-left:10px">
+								<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+							</div>
+
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+</form>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:teachSite:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:teachSite:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:teachSite:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentFileOption/teachSite.js" th:src="@{/js/appjs/center/student/studentFileOption/teachSite.js}"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+<body class="gray-bg">
+
+
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<form method="post" th:action="@{/student/studentFileOption/searchOutExcel}" id="form"　>
+					
+					<div class="fixed-table-toolbar" style="overflow:hidden;">
+						<div class="columns pull-left" style="margin-right:10px">
+							准考证号
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;width:130px;">
+							<input type="text"  id="id" name="id" maxlength="12" minlength="12" class="form-control" onkeyup="value=value.replace(/[^\d]/g,'')" >
+						</div>
+						<div class="columns pull-left" style="margin-right:5px">
+							身份证号
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;width:180px;">
+							<input type="text"  id="certificateNo" name="certificateNo" maxlength="18" minlength="18" class="form-control" onkeyup="value=value.replace(/[^\d]/g,'')">
+						</div>
+						<div class="columns pull-left">
+							<button shiro:hasPermission="student:studentRegion:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="student:studentRegion:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+							<button class="btn btn-success" type="button" onclick="add()">添加档案</button>
+						</div>
+
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+					
+					</form>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentFileOption:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentFileOption:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentFileOption:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentFileOption/studentFileStudent.js" th:src="@{/js/appjs/center/student/studentFileOption/studentFileStudent.js}"></script>
+</body>
+</html>

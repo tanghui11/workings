@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${studentCertificateStudent.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业证书编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="code" name="code" th:value="${studentCertificateStudent.code}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>准考证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="studentid" name="studentid" th:value="${studentCertificateStudent.studentid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业报考编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="studentSpecialityid" name="studentSpecialityid" th:value="${studentCertificateStudent.studentSpecialityid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="specialityid" name="specialityid" th:value="${studentCertificateStudent.specialityid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业名称：</label>
+                                        </td>
+                                        <td>
+                                            <input id="specialityName" name="specialityName" th:value="${studentCertificateStudent.specialityName}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>论文分数：</label>
+                                        </td>
+                                        <td>
+                                            <input id="paperScore" name="paperScore" th:value="${studentCertificateStudent.paperScore}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业时间：</label>
+                                        </td>
+                                        <td>
+                                            <input id="graduateDate" name="graduateDate" th:value="${studentCertificateStudent.graduateDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业院校：</label>
+                                        </td>
+                                        <td>
+                                            <input id="schoolName" name="schoolName" th:value="${studentCertificateStudent.schoolName}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业方向：</label>
+                                        </td>
+                                        <td>
+                                            <input id="graduateDirection" name="graduateDirection" th:value="${studentCertificateStudent.graduateDirection}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业层次：</label>
+                                        </td>
+                                        <td>
+                                            <input id="specialityLevels" name="specialityLevels" th:value="${studentCertificateStudent.specialityLevels}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>审批时间：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditDate" name="auditDate" th:value="${studentCertificateStudent.auditDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>审批人：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditOperator" name="auditOperator" th:value="${studentCertificateStudent.auditOperator}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																																				                                    <tr>
+                                        <td  class="W180">
+                                            <label>识别码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="key" name="key" th:value="${studentCertificateStudent.key}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+															
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/school/student/studentCertificateStudent/edit.js" th:src="@{/js/appjs/school/student/studentCertificateStudent/edit.js}">
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<!--进度条显示-->
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12" style="padding-right:0">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>考区列表</h5>
+					</div>
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="ibox">
+					<input id="orgid" name="orgid" type="hidden" th:value="0">
+
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<form method="post" th:action="@{/region/regionSpeciality/searchOutExcel}" id="form">
+							<div class="columns pull-left nopadding">
+								<input id="subjectCode" name="subjectCode" type="text" class="form-control"
+									placeholder="请输入专业代码">
+							</div>
+							<div class="columns pull-left" style='margin-left:10px'>
+								<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+							</div>
+							<div class="columns pull-left" style='margin-left:10px'>
+								<button shiro:hasPermission="region:regionSpeciality:add" type="button" class="btn  btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i>授权
+								</button>
+								<button  type="button" class="btn  btn-primary" onclick="allWarranty()">
+									全部授权
+								</button>
+								<button shiro:hasPermission="region:regionSpeciality:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+									<button shiro:hasPermission="region:regionSpeciality:add" type="button" class="btn  btn-primary" onclick="importData()">考区专业报考导入</button>
+									<!--input class="form-input pull-left " type="file" name="filename"></input>
+                                    <button type="submit" class="btn pull-left">开始导入</button-->
+									<input id="regionid" name="regionid" type="hidden" th:value="${regionid}">
+							</div>
+							<div class="columns pull-left" style='margin-left:10px'>
+									<button  type="button" class="btn  btn-primary" onclick="exportExcel()">
+										考区专业报考导出
+									</button>
+							</div>
+							</form>
+						</div>
+						<div style="clear:both"></div>
+						<div class="list-group-item label" >计划管理 > 考区专业报考设置<label  class="ttt"></label></div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:regionSpeciality:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:regionSpeciality:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:regionSpeciality:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/region/regionSpeciality/regionSpeciality.js" th:src="@{/js/appjs/center/region/regionSpeciality/regionSpeciality.js}"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left nopadding">
+							专业层次：
+						</div>
+						<div class="columns pull-left nopadding">
+							<select class="form-control" id="classify" name="classify">
+								<option value="">-请选择-</option>
+								<option value="g">专科(高本)</option>
+								<option value="a">专科</option>
+								<option value="f">专科(双证书)</option>
+								<option value="c">独立本科</option>
+								<option value="b">本科</option>
+								<option value="d">独立本科段(高职高专)</option>
+							</select>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							助学方式：
+						</div>
+						<div class="columns pull-left nopadding">
+							<select class="form-control" id="type" name="type">
+								<option value="">-请选择-</option>
+								<option value="b">业余</option>
+								<option value="a">全日制</option>
+								<option value="c">全日制(医学类)</option>
+								<option value="d">全日制(3年)</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button shiro:hasPermission="exam:educateLength:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="exam:educateLength:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						
+						
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:educateLength:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:educateLength:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:educateLength:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/educateLength/educateLength.js" th:src="@{/js/appjs/center/exam/educateLength/educateLength.js}"></script>
+</body>
+</html>

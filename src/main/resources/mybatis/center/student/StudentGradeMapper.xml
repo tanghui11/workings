@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentGradeDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentGradeDO">
+		select
+            id,
+            name,
+            name_old,
+            ename,
+            ename_old,
+            pinyin,
+            pinyin_old,
+            gender,
+            gender_old,
+            home_type,
+            home_type_old,
+            politics,
+            politics_old,
+            nation,
+            nation_old,
+            profession,
+            profession_old,
+            birthday,
+            birthday_old,
+            native_place,
+            native_old,
+            certificate_type,
+            certificate_type_old,
+            certificate_no,
+            certificate_no_old,
+            phone,
+            phone_old,
+            mphone,
+            mphone_old,
+            address,
+            address_old,
+            post_code,
+            post_code_old,
+            email,
+            email_old,
+            audit_status,
+            audit_operator,
+            audit_date,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_student_grade
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentGradeDO">
+		select
+	        id,
+	        name,
+	        name_old,
+	        ename,
+	        ename_old,
+	        pinyin,
+	        pinyin_old,
+	        gender,
+	        gender_old,
+	        home_type,
+	        home_type_old,
+	        politics,
+	        politics_old,
+	        nation,
+	        nation_old,
+	        profession,
+	        profession_old,
+	        birthday,
+	        birthday_old,
+	        native_place,
+	        native_old,
+	        certificate_type,
+	        certificate_type_old,
+	        certificate_no,
+	        certificate_no_old,
+	        phone,
+	        phone_old,
+	        mphone,
+	        mphone_old,
+	        address,
+	        address_old,
+	        post_code,
+	        post_code_old,
+	        email,
+	        email_old,
+	        audit_status,
+	        audit_operator,
+	        audit_date,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from stu_student_grade
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="nameOld != null and nameOld != ''"> and name_old = #{nameOld} </if>
+		  <if test="ename != null and ename != ''"> and ename = #{ename} </if>
+		  <if test="enameOld != null and enameOld != ''"> and ename_old = #{enameOld} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="pinyinOld != null and pinyinOld != ''"> and pinyin_old = #{pinyinOld} </if>
+		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  <if test="genderOld != null and genderOld != ''"> and gender_old = #{genderOld} </if>
+		  <if test="homeType != null and homeType != ''"> and home_type = #{homeType} </if>
+		  <if test="homeTypeOld != null and homeTypeOld != ''"> and home_type_old = #{homeTypeOld} </if>
+		  <if test="politics != null and politics != ''"> and politics = #{politics} </if>
+		  <if test="politicsOld != null and politicsOld != ''"> and politics_old = #{politicsOld} </if>
+		  <if test="nation != null and nation != ''"> and nation = #{nation} </if>
+		  <if test="nationOld != null and nationOld != ''"> and nation_old = #{nationOld} </if>
+		  <if test="profession != null and profession != ''"> and profession = #{profession} </if>
+		  <if test="professionOld != null and professionOld != ''"> and profession_old = #{professionOld} </if>
+		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
+		  <if test="birthdayOld != null and birthdayOld != ''"> and birthday_old = #{birthdayOld} </if>
+		  <if test="nativePlace != null and nativePlace != ''"> and native_place = #{nativePlace} </if>
+		  <if test="nativeOld != null and nativeOld != ''"> and native_old = #{nativeOld} </if>
+		  <if test="certificateType != null and certificateType != ''"> and certificate_type = #{certificateType} </if>
+		  <if test="certificateTypeOld != null and certificateTypeOld != ''"> and certificate_type_old = #{certificateTypeOld} </if>
+		  <if test="certificateNo != null and certificateNo != ''"> and certificate_no = #{certificateNo} </if>
+		  <if test="certificateNoOld != null and certificateNoOld != ''"> and certificate_no_old = #{certificateNoOld} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="phoneOld != null and phoneOld != ''"> and phone_old = #{phoneOld} </if>
+		  <if test="mphone != null and mphone != ''"> and mphone = #{mphone} </if>
+		  <if test="mphoneOld != null and mphoneOld != ''"> and mphone_old = #{mphoneOld} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="addressOld != null and addressOld != ''"> and address_old = #{addressOld} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="postCodeOld != null and postCodeOld != ''"> and post_code_old = #{postCodeOld} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  <if test="emailOld != null and emailOld != ''"> and email_old = #{emailOld} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_grade
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="nameOld != null and nameOld != ''"> and name_old = #{nameOld} </if>
+		  <if test="ename != null and ename != ''"> and ename = #{ename} </if>
+		  <if test="enameOld != null and enameOld != ''"> and ename_old = #{enameOld} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="pinyinOld != null and pinyinOld != ''"> and pinyin_old = #{pinyinOld} </if>
+		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  <if test="genderOld != null and genderOld != ''"> and gender_old = #{genderOld} </if>
+		  <if test="homeType != null and homeType != ''"> and home_type = #{homeType} </if>
+		  <if test="homeTypeOld != null and homeTypeOld != ''"> and home_type_old = #{homeTypeOld} </if>
+		  <if test="politics != null and politics != ''"> and politics = #{politics} </if>
+		  <if test="politicsOld != null and politicsOld != ''"> and politics_old = #{politicsOld} </if>
+		  <if test="nation != null and nation != ''"> and nation = #{nation} </if>
+		  <if test="nationOld != null and nationOld != ''"> and nation_old = #{nationOld} </if>
+		  <if test="profession != null and profession != ''"> and profession = #{profession} </if>
+		  <if test="professionOld != null and professionOld != ''"> and profession_old = #{professionOld} </if>
+		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
+		  <if test="birthdayOld != null and birthdayOld != ''"> and birthday_old = #{birthdayOld} </if>
+		  <if test="nativePlace != null and nativePlace != ''"> and native_place = #{nativePlace} </if>
+		  <if test="nativeOld != null and nativeOld != ''"> and native_old = #{nativeOld} </if>
+		  <if test="certificateType != null and certificateType != ''"> and certificate_type = #{certificateType} </if>
+		  <if test="certificateTypeOld != null and certificateTypeOld != ''"> and certificate_type_old = #{certificateTypeOld} </if>
+		  <if test="certificateNo != null and certificateNo != ''"> and certificate_no = #{certificateNo} </if>
+		  <if test="certificateNoOld != null and certificateNoOld != ''"> and certificate_no_old = #{certificateNoOld} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="phoneOld != null and phoneOld != ''"> and phone_old = #{phoneOld} </if>
+		  <if test="mphone != null and mphone != ''"> and mphone = #{mphone} </if>
+		  <if test="mphoneOld != null and mphoneOld != ''"> and mphone_old = #{mphoneOld} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="addressOld != null and addressOld != ''"> and address_old = #{addressOld} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="postCodeOld != null and postCodeOld != ''"> and post_code_old = #{postCodeOld} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  <if test="emailOld != null and emailOld != ''"> and email_old = #{emailOld} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentGradeDO">
+		insert into stu_student_grade
+		(
+			id, 
+			name, 
+			name_old, 
+			ename, 
+			ename_old, 
+			pinyin, 
+			pinyin_old, 
+			gender, 
+			gender_old, 
+			home_type, 
+			home_type_old, 
+			politics, 
+			politics_old, 
+			nation, 
+			nation_old, 
+			profession, 
+			profession_old, 
+			birthday, 
+			birthday_old, 
+			native_place, 
+			native_old, 
+			certificate_type, 
+			certificate_type_old, 
+			certificate_no, 
+			certificate_no_old, 
+			phone, 
+			phone_old, 
+			mphone, 
+			mphone_old, 
+			address, 
+			address_old, 
+			post_code, 
+			post_code_old, 
+			email, 
+			email_old, 
+			audit_status, 
+			audit_operator, 
+			audit_date, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{id}, 
+			#{name}, 
+			#{nameOld}, 
+			#{ename}, 
+			#{enameOld}, 
+			#{pinyin}, 
+			#{pinyinOld}, 
+			#{gender}, 
+			#{genderOld}, 
+			#{homeType}, 
+			#{homeTypeOld}, 
+			#{politics}, 
+			#{politicsOld}, 
+			#{nation}, 
+			#{nationOld}, 
+			#{profession}, 
+			#{professionOld}, 
+			#{birthday}, 
+			#{birthdayOld}, 
+			#{nativePlace}, 
+			#{nativeOld}, 
+			#{certificateType}, 
+			#{certificateTypeOld}, 
+			#{certificateNo}, 
+			#{certificateNoOld}, 
+			#{phone}, 
+			#{phoneOld}, 
+			#{mphone}, 
+			#{mphoneOld}, 
+			#{address}, 
+			#{addressOld}, 
+			#{postCode}, 
+			#{postCodeOld}, 
+			#{email}, 
+			#{emailOld}, 
+			#{auditStatus}, 
+			#{auditOperator}, 
+			#{auditDate}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentGradeDO">
+		update stu_student_grade 
+		<set>
+			<if test="name != null">name = #{name}, </if>
+			<if test="nameOld != null">name_old = #{nameOld}, </if>
+			<if test="ename != null">ename = #{ename}, </if>
+			<if test="enameOld != null">ename_old = #{enameOld}, </if>
+			<if test="pinyin != null">pinyin = #{pinyin}, </if>
+			<if test="pinyinOld != null">pinyin_old = #{pinyinOld}, </if>
+			<if test="gender != null">gender = #{gender}, </if>
+			<if test="genderOld != null">gender_old = #{genderOld}, </if>
+			<if test="homeType != null">home_type = #{homeType}, </if>
+			<if test="homeTypeOld != null">home_type_old = #{homeTypeOld}, </if>
+			<if test="politics != null">politics = #{politics}, </if>
+			<if test="politicsOld != null">politics_old = #{politicsOld}, </if>
+			<if test="nation != null">nation = #{nation}, </if>
+			<if test="nationOld != null">nation_old = #{nationOld}, </if>
+			<if test="profession != null">profession = #{profession}, </if>
+			<if test="professionOld != null">profession_old = #{professionOld}, </if>
+			<if test="birthday != null">birthday = #{birthday}, </if>
+			<if test="birthdayOld != null">birthday_old = #{birthdayOld}, </if>
+			<if test="nativePlace != null">native_place = #{nativePlace}, </if>
+			<if test="nativeOld != null">native_old = #{nativeOld}, </if>
+			<if test="certificateType != null">certificate_type = #{certificateType}, </if>
+			<if test="certificateTypeOld != null">certificate_type_old = #{certificateTypeOld}, </if>
+			<if test="certificateNo != null">certificate_no = #{certificateNo}, </if>
+			<if test="certificateNoOld != null">certificate_no_old = #{certificateNoOld}, </if>
+			<if test="phone != null">phone = #{phone}, </if>
+			<if test="phoneOld != null">phone_old = #{phoneOld}, </if>
+			<if test="mphone != null">mphone = #{mphone}, </if>
+			<if test="mphoneOld != null">mphone_old = #{mphoneOld}, </if>
+			<if test="address != null">address = #{address}, </if>
+			<if test="addressOld != null">address_old = #{addressOld}, </if>
+			<if test="postCode != null">post_code = #{postCode}, </if>
+			<if test="postCodeOld != null">post_code_old = #{postCodeOld}, </if>
+			<if test="email != null">email = #{email}, </if>
+			<if test="emailOld != null">email_old = #{emailOld}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="auditOperator != null">audit_operator = #{auditOperator}, </if>
+			<if test="auditDate != null">audit_date = #{auditDate}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_grade set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_grade set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

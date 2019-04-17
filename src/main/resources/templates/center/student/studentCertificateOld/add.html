@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<tr>
+								<td>
+									<label>类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+									   <option value="经刊联">经刊联</option>
+									   <option value="社会型">社会型</option>
+									   <option value="应用型">应用型</option>
+									   <option value="中专">中专</option>
+									   <option value="卫电高师">卫电高师</option>
+									</select>
+								</td>
+								<td>
+									<label>毕业证号：</label>
+								</td>
+								<td>
+									<input id="code" name="code" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>姓名：</label>
+								</td>
+								<td>
+									<input id="name" name="name" class="form-control" type="text">
+								</td>
+								<td>
+									<label>身份证号：</label>
+								</td>
+								<td>
+									<input id="certificateNo" name="certificateNo" class="form-control" type="text">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>性别：</label>
+								</td>
+								<td>
+									<select id="gender" name="gender" class="form-control">
+									   <option value="男">男</option>
+									   <option value="女">女</option>
+									</select>
+								</td>
+								<td>
+									<label>籍贯省：</label>
+								</td>
+								<td>
+									<input id="nativeProvince" name="nativeProvince" class="form-control" type="text">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>籍贯县：</label>
+								</td>
+								<td>
+									<input id="nativeCounty" name="nativeCounty" class="form-control" type="text">
+								</td>
+								<td>
+									<label>年龄：</label>
+								</td>
+								<td>
+									<input id="age" name="age" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>专业名称：</label>
+								</td>
+								<td>
+									<input id="specialityName" name="specialityName" class="form-control" type="text">
+								</td>
+								<td>
+									<label>专业层次：</label>
+								</td>
+								<td>
+									<input id="specialityLevels" name="specialityLevels" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>毕业院校：</label>
+								</td>
+								<td>
+									<input id="schoolName" name="schoolName" class="form-control" type="text">
+								</td>
+								<td>
+									<label>毕业时间：</label>
+								</td>
+								<td>
+									<input id="graduateDate" name="graduateDate" class="form-control" type="text" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>备注：</label>
+								</td>
+								<td>
+									<input id="remark" name="remark" class="form-control" type="text">
+								</td>
+							</tr>
+						</table>
+						<div style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentCertificateOld/add.js" th:src="@{/js/appjs/center/student/studentCertificateOld/add.js}">
+	</script>
+</body>
+</html>

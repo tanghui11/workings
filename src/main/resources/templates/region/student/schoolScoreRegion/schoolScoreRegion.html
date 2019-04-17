@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+		<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>助学组织列表</h5>
+					</div>
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="ibox">
+					<input id="orgid" name="orgid" type="hidden" th:value="1">
+					<input id="schoolid" name="schoolid" type="hidden" th:value="1">
+					<input id="orgType" name="orgType" type="hidden" th:value="a">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<div class="columns pull-left nopadding" style="margin-right:10px">
+								准考证号
+							</div>
+							<div class="columns pull-left nopadding" style="margin-right:10px">
+								<input id="studentid" type="text" class="form-control"
+									   placeholder="请输入准考证" style="margin-right:10px">
+							</div>
+							
+							<div class="columns pull-left">
+								<button class="btn btn-success" onclick="reLoad()">查询</button>
+								<button class="btn btn-info" onclick="sh()">审核</button>
+								<button class="btn btn-warning" onclick="qxsh1()">取消审核</button>
+							</div>
+							<div style="clear:both"></div>
+							<div class="columns pull-left nopadding">
+							状态
+							</div>
+							<div class="columns pull-left nopadding" style="margin-left:10px">
+								<select id="auditStatus" name="auditStatus" class="form-control">
+									<option th:each="item:${stu_school_score_audit_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+								</select>
+							</div>
+							<div class="columns pull-left nopadding" style="margin-left:10px">
+								导入时间
+							</div>
+							<div class="columns pull-left nopadding" style="margin-left:10px" style="width:130px">
+								<input id="time" type="text" class="form-control"
+									   placeholder="请输入导入时间" onfocus="WdatePicker({dateFmt:'yyyy'})" style="100px">
+							</div>
+							<div class="columns pull-left nopadding">
+								<select id="year" name="year" class="form-control">
+									<option value="a">上半年</option>
+									<option value="b">下半年</option>
+									
+								</select>
+							</div>
+							<!-- <div class="columns pull-left">
+								<button shiro:hasPermission="student:schoolScoreRegion:add" type="button" class="btn  btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i>添加
+								</button>
+								<button shiro:hasPermission="student:schoolScoreRegion:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+							</div> -->
+
+
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:schoolScoreRegion:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:schoolScoreRegion:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:schoolScoreRegion:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/region/student/schoolScoreRegion/schoolScoreRegion.js" th:src="@{/js/appjs/region/student/schoolScoreRegion/schoolScoreRegion.js}"></script>
+</body>
+</html>

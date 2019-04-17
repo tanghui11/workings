@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="list-group-item label">院校管理 > 基本信息维护</div>
+						<form class="form-horizontal m-t" id="signupForm">
+							<table class="table table-bordered table-style">
+								<input id="id" name="id" th:value="${schoolSchool.id}"  type="hidden">
+								<tr>
+									<td class="W180">
+										<label><span style="color:red">*</span>助学组织名称：</label>
+									</td>
+									<td>
+										<input id="name" name="name" th:value="${schoolSchool.name}" class="form-control" type="text" readonly>
+									</td>
+									<td class="W180">
+										<label>拼音：</label>
+									</td>
+									<td>
+										<input id="pinyin" name="pinyin" th:value="${schoolSchool.pinyin}" class="form-control" type="text">
+									</td>
+								<tr>
+								<tr>
+									<td>
+										<label>办学许可证编号：</label>
+									</td>
+									<td>
+										<input id="bCode" name="bCode" th:value="${schoolSchool.bCode}" class="form-control" type="text">
+									</td>
+									<td>
+										<label>办学许可证发放单位：</label>
+									</td>
+									<td>
+										<input id="bSendUnit" name="bSendUnit" th:value="${schoolSchool.bSendUnit}" class="form-control" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+									<label>办学许可证发放日期：</label>
+									</td>
+									<td>
+										<input id="bSendDate" name="bSendDate" th:value="${#dates.format(schoolSchool.bSendDate, 'yyyy-MM-dd')}" class="form-control" type="text" readonly onclick="WdatePicker({dateFmt: 'yyyy-MM-dd'})">
+									</td>
+									<td>
+										<label>助学许可证编号：</label>
+									</td>
+									<td>
+										<input id="zCode" name="zCode" th:value="${schoolSchool.zCode}" class="form-control" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>助学许可证发放单位：</label>
+									</td>
+									<td>
+										<input id="zSendUnit" name="zSendUnit" th:value="${schoolSchool.zSendUnit}" class="form-control" type="text">
+									</td>
+									<td>
+										<label>助学许可证发放日期：</label>
+									</td>
+									<td>
+										<input id="zSendDate" name="zSendDate" th:value="${#dates.format(schoolSchool.zSendDate, 'yyyy-MM-dd')}" class="form-control" type="text" readonly onclick="WdatePicker({dateFmt: 'yyyy-MM-dd'})">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>助学主体类型：</label>
+									</td>
+									<td>
+										<select id="type" name="type" class="form-control">
+											<option th:each="item:${sch_school_type}" th:value="${item.id}" th:text="${item.name}" th:field="${schoolSchool.type}"></option>
+										</select>
+									</td>
+									<td>
+										<label><span style="color:red">*</span>法人名称：</label>
+									</td>
+									<td>
+										<input id="legalPerson" name="legalPerson" th:value="${schoolSchool.legalPerson}" class="form-control" type="text">
+									</td>
+								</tr>
+								</tr>
+									<td>
+										<label>法人职务：</label>
+									</td>
+									<td>
+										<input id="legalPersonDuty" name="legalPersonDuty" th:value="${schoolSchool.legalPersonDuty}" class="form-control" type="text">
+									</td>
+									<td>
+										<label>兼职教学人员：</label>
+									</td>
+									<td>
+										<input id="jTeacherNum" name="jTeacherNum" th:value="${schoolSchool.jTeacherNum}" class="form-control" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label>专职教学人员：</label>
+									</td>
+									<td>
+										<input id="zTeacherNum" name="zTeacherNum" th:value="${schoolSchool.zTeacherNum}" class="form-control" type="text">
+									</td>
+									<td>
+										<label>管理人员总数：</label>
+									</td>
+									<td>
+										<input id="managerNum" name="managerNum" th:value="${schoolSchool.managerNum}" class="form-control" type="text">
+									</td>
+								</tr>
+								</tr>
+									<td>
+										<label>教学和管理人员数：</label>
+									</td>
+									<td>
+										<input id="allNum" name="allNum" th:value="${schoolSchool.allNum}" class="form-control" type="text">
+									</td>
+									<td>
+										<label>负责人：</label>
+									</td>
+									<td>
+										<input id="charger" name="charger" th:value="${schoolSchool.charger}" class="form-control" type="text">
+									</td>
+								</tr>
+								</tr>
+									<td>
+										<label>联系地址：</label>
+									</td>
+									<td>
+										<input id="address" name="address" th:value="${schoolSchool.address}" class="form-control" type="text">
+									</td>
+									<td>
+										<label><span style="color:red">*</span>邮政编码：</label>
+									</td>
+									<td>
+										<input id="postCode" name="postCode" th:value="${schoolSchool.postCode}" class="form-control" type="text">
+									</td>
+								</tr>
+								</tr>
+									<td>
+										<label><span style="color:red">*</span>固定电话：</label>
+									</td>
+									<td>
+										<input id="phone" name="phone" th:value="${schoolSchool.phone}" class="form-control" type="text">
+									</td>
+									<td>
+										<label><span style="color:red">*</span>移动电话：</label>
+									</td>
+									<td>
+										<input id="mphone" name="mphone" th:value="${schoolSchool.mphone}" class="form-control" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label><span style="color:red">*</span>传真：</label>
+									</td>
+									<td>
+										<input id="fax" name="fax" th:value="${schoolSchool.fax}" class="form-control" type="text">
+									</td>
+									<td>
+										<label><span style="color:red">*</span>邮件：</label>
+									</td>
+									<td>
+										<input id="email" name="email" th:value="${schoolSchool.email}" class="form-control" type="text">
+									</td>
+								</tr>
+							</table>
+							<div class="" style="text-align:center;">
+								<button type="submit" class="btn btn-primary" id="submission">提交</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/school/schoolSchool/edit.js" th:src="@{/js/appjs/school/school/schoolSchool/edit.js}">
+	</script>
+</body>
+</html>

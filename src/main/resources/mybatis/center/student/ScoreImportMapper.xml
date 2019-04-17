@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.ScoreImportDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ScoreImportDO">
+		select
+            kemuid,
+            code,
+            name,
+            totalscore,
+            zgscore,
+            omrscore,
+            qk,
+            wj,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_score_import
+		where kemuid = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ScoreImportDO">
+		select
+	        kemuid,
+	        code,
+	        name,
+	        totalscore,
+	        zgscore,
+	        omrscore,
+	        qk,
+	        wj,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from stu_score_import
+        <where>
+          and enabled_flag in ('0','1')
+		  <if test="kemuid != null and kemuid != ''"> and kemuid = #{kemuid} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="totalscore != null and totalscore != ''"> and totalscore = #{totalscore} </if>
+		  <if test="zgscore != null and zgscore != ''"> and zgscore = #{zgscore} </if>
+		  <if test="omrscore != null and omrscore != ''"> and omrscore = #{omrscore} </if>
+		  <if test="qk != null and qk != ''"> and qk = #{qk} </if>
+		  <if test="wj != null and wj != ''"> and wj = #{wj} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by kemuid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listAll" resultType="com.hxy.nzxy.stexam.domain.ScoreImportDO">
+		select
+		kemuid,
+		code,
+		name,
+		totalscore,
+		zgscore,
+		omrscore,
+		qk,
+		wj,
+		operator,
+		update_date,
+		enabled_flag
+		from stu_score_import
+		<where>
+			and enabled_flag=1
+			<if test="kemuid != null and kemuid != ''"> and kemuid = #{kemuid} </if>
+			<if test="code != null and code != ''"> and code = #{code} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="totalscore != null and totalscore != ''"> and totalscore = #{totalscore} </if>
+			<if test="zgscore != null and zgscore != ''"> and zgscore = #{zgscore} </if>
+			<if test="omrscore != null and omrscore != ''"> and omrscore = #{omrscore} </if>
+			<if test="qk != null and qk != ''"> and qk = #{qk} </if>
+			<if test="wj != null and wj != ''"> and wj = #{wj} </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+
+	<select id="listW" resultType="com.hxy.nzxy.stexam.domain.ScoreImportDO">
+		select
+			kemuid,
+			code,
+			name,
+			totalscore,
+			zgscore,
+			omrscore,
+			qk,
+			wj,
+			operator,
+			update_date,
+			enabled_flag
+		from stu_score_import
+		<where>
+
+			and kemuid in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+				#{item.kemuid}
+			</foreach>
+			and code in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+				#{item.code}
+			</foreach>
+		</where>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_score_import
+		 <where>
+             and enabled_flag=1
+		  <if test="kemuid != null and kemuid != ''"> and kemuid = #{kemuid} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="totalscore != null and totalscore != ''"> and totalscore = #{totalscore} </if>
+		  <if test="zgscore != null and zgscore != ''"> and zgscore = #{zgscore} </if>
+		  <if test="omrscore != null and omrscore != ''"> and omrscore = #{omrscore} </if>
+		  <if test="qk != null and qk != ''"> and qk = #{qk} </if>
+		  <if test="wj != null and wj != ''"> and wj = #{wj} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ScoreImportDO">
+		insert into stu_score_import
+		(
+			kemuid, 
+			code, 
+			name, 
+			totalscore, 
+			zgscore, 
+			omrscore, 
+			qk, 
+			wj, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{kemuid}, 
+			#{code}, 
+			#{name}, 
+			#{totalscore}, 
+			#{zgscore}, 
+			#{omrscore}, 
+			#{qk}, 
+			#{wj}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ScoreImportDO">
+		update stu_score_import 
+		<set>
+			<if test="code != null">code = #{code}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="totalscore != null">totalscore = #{totalscore}, </if>
+			<if test="zgscore != null">zgscore = #{zgscore}, </if>
+			<if test="omrscore != null">omrscore = #{omrscore}, </if>
+			<if test="qk != null">qk = #{qk}, </if>
+			<if test="wj != null">wj = #{wj}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where kemuid = #{kemuid}
+	</update>
+	<update id="remove">
+		update stu_score_import set enabled_flag =0  where kemuid = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_score_import set enabled_flag =0 where kemuid in
+		<foreach item="kemuid" collection="array" open="(" separator="," close=")">
+			#{kemuid}
+		</foreach>
+	</update>
+	<select id="selectStudentid" resultType="com.hxy.nzxy.stexam.domain.ScoreImportDO">
+		select
+			kemuid,
+			code,
+			name,
+			totalscore,
+			zgscore,
+			omrscore,
+			qk,
+			wj,
+			operator,
+			update_date,
+			enabled_flag
+		from stu_score_import
+		<where>
+			and enabled_flag=1
+			<if test="kemuid != null and kemuid != ''"> and kemuid = #{kemuid} </if>
+			<if test="code != null and code != ''"> and code = #{code} </if>
+		</where>
+	</select>
+
+	<insert id="putInFormation" parameterType="com.hxy.nzxy.stexam.domain.ScoreImportDO">
+		insert into stu_score
+		(
+			courseid,
+			studentid,
+			grade,
+			zg_grade,
+			kg_grade,
+			exam_flag,
+			status,
+			operator,
+			update_date,
+			use_status,
+			flag,
+			enabled_flag,
+			type
+		)
+		values
+		(
+			#{kemuid},
+			#{code},
+			#{totalscore},
+			#{zgscore},
+			#{omrscore},
+			#{qk},
+			#{wj},
+			#{operator},
+			now(),
+			'a',
+			'a',
+			1,
+			'a'
+		)
+	</insert>
+
+	<select id="ifPutIn" resultType="int">
+		select
+		count(b.id)
+		from exa_exam_course a
+		left join stu_student_course b
+		on
+		b.exam_courseid = a.id
+		<where>
+			and b.enabled_flag=1 and
+			a.courseid = #{kemuid} and
+			a.exam_taskid= #{examTaskid} and
+			b.studentid = #{code}
+		</where>
+	</select>
+
+	<update id="setEnabled">
+		update  stu_score_import set enabled_flag =0 where kemuid = #{kemuid} and code = #{code}
+	</update>
+
+	<delete id="delete">
+		delete from stu_score_import where enabled_flag = 0
+	</delete>
+</mapper>

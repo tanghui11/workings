@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<!-- <div class="fixed-table-toolbar">
+						<form method="post" th:action="@{/plan/specialityCourse/searchOutExcel}" id="form">
+							<input id="specialityRecord"  name="specialityRecord" type="hidden">
+							<div class="columns pull-left nopadding">
+								<input id="searchName" type="text" class="form-control" name="courseid"
+									placeholder="课程代码查询">
+							</div>
+
+							<div class="columns pull-left" style="margin-left:10px">
+								<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+							</div>
+							<div class="columns pull-left" style="margin-left:15px;">
+								成绩&nbsp;&nbsp;
+							</div>
+							<div class="columns pull-left nopadding" >
+								<input id="grade" type="text" style="width: 55px;height: 35px" name="grade" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="3" onblur="judge()">
+							</div>
+							<div class="columns pull-left" style="margin-left:10px">
+								<button type="button" class="btn  btn-primary" onclick="luru()">
+									<i  aria-hidden="true"></i>录入
+								</button>
+								<button shiro:hasPermission="plan:specialityCourse:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" ></i>删除
+								</button>
+							</div>
+						</form>
+					</div> -->
+					<input type="hidden" id="studentid">
+					<input type="hidden" id="specialityRecordid">
+					<input type="hidden" id="collegeid">
+					<input type="hidden" id="teachSiteid">
+					<div class="col-sm-12" style="min-height:600px;border:1px solid #ddd;padding:0">
+						<div class="col-sm-6" style="padding:0">
+							<table id="exampleTable" data-mobile-responsive="true">
+							</table>
+						</div>
+						<div class="col-sm-1" style="text-align:center;padding-top:150px;min-height:600px;border:1px solid #ddd">
+							<div style="margin-bottom:10px">
+							<button class="btn btn-success" type="button" onclick="abuses1()">&lt;&lt; </button>
+							</div>
+							<div style="margin-bottom:10px">
+								<button class="btn btn-success" type="button" onclick="abuses2()">&gt;&gt;</button>
+							</div>
+							
+							<div style="margin-bottom:10px">
+							<button class="btn btn-success" type="button" onclick="abuses3()">&nbsp;&lt;&nbsp;</button>
+							</div>
+							<div style="margin-bottom:10px">
+							<button class="btn btn-success" type="button" onclick="abuses4()">&nbsp;&gt;&nbsp;</button>
+							</div>
+							<div style="margin-bottom:10px">
+							<button class="btn btn-success" type="button" onclick="abuses5()">&lt;-&nbsp;</button>
+							</div>
+							<div style="margin-bottom:10px">
+							<button class="btn btn-success" type="button" onclick="abuses6()">-&gt;&nbsp;</button>
+							</div>
+							
+						</div>
+						<div class="col-sm-5" style="padding:0">
+							<table id="exampleTable1" data-mobile-responsive="true">
+							</table>
+						</div>
+					</div>
+					<div class="col-sm-12" style="border:1px solid #ddd;margin-top:20px;padding:20px">
+						<div style="max-width:1000px;margin:0 auto">
+						<p>课程复选提示：</p>
+						<p class="one" style="padding-left:15px"></p>
+						<p>课程顶替规则：</p>
+						<p class="two" style="padding-left:15px"></p>
+						<p>课程加考规则：</p>
+						<p class="three" style="padding-left:15px"></p>
+						<p>通用课程顶替提示：</p>
+						<p class="four" style="padding-left:15px"></p>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:specialityCourse:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:specialityCourse:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:specialityCourse:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/region/student/schoolStudentApply/specialityCourse.js" th:src="@{/js/appjs/region/student/schoolStudentApply/specialityCourse.js}"></script>
+</body>
+</html>

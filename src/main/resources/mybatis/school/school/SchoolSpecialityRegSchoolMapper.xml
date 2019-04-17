@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.school.dao.SchoolSpecialityRegSchoolDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.SchoolSpecialityRegDO">
+		select
+            id,
+            schoolid,
+            speciality_recordid,
+            teachid,
+            collegeid,
+            classify,
+            type,
+            method,
+            educate_length,
+            reg_year,
+            reg_season,
+            num,
+            source_regid,
+            grad_schoolid,
+            audit_status,
+            status,
+            operator,
+            update_date,
+            enabled_flag
+		from sch_school_speciality_reg
+		where id = #{value}
+	</select>
+	<select id="getSelect" resultType="com.hxy.nzxy.stexam.domain.SchoolSpecialityRegDO">
+	SELECT
+	a.id,
+	a.source_regid AS sourceRegid,
+	b. NAME AS teachSiteName,
+	d.id AS specialityId,
+	d. NAME AS specialityName,
+	a.classify,
+	a.type,
+	a.method,
+	a.educate_length AS educateLength,
+	a.reg_year as regYear,
+	a.reg_season AS regSeason,
+	a.num,
+	a. audit_status,
+	a.status,
+	a.operator,
+	a.update_date,
+	a.speciality_recordid,
+	e.name as schoolName
+	FROM
+	sch_school_speciality_reg a
+	LEFT JOIN sch_teach_site b ON a.teachid = b.id
+	LEFT JOIN pla_speciality_record c ON a.speciality_recordid = c.id
+	LEFT JOIN pla_speciality d ON c.specialityid = d.id
+	LEFT JOIN sch_school e ON a.grad_schoolid = e.id
+	where 1=1
+	and a.enabled_flag=1
+
+	and a.id = #{value}
+		</select>
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.SchoolSpecialityRegDO">
+		SELECT
+		a.id,
+		a.source_regid AS sourceRegid,
+		b. NAME AS teachSiteName,
+		d.id AS specialityId,
+		d. NAME AS specialityName,
+		a.classify,
+		a.type,
+		a.method,
+		a.educate_length AS educateLength,
+		a.reg_year as regYear,
+		a.reg_season AS regSeason,
+		a.num,
+		a. audit_status,
+		a.status,
+		a.operator,
+		a.update_date,
+		a.speciality_recordid,
+		e.name as schoolName,
+		c.direction
+		FROM
+		sch_school_speciality_reg a
+		LEFT JOIN sch_teach_site b ON a.teachid = b.id
+		LEFT JOIN pla_speciality_record c ON a.speciality_recordid = c.id
+		LEFT JOIN pla_speciality d ON c.specialityid = d.id
+		LEFT JOIN sch_school e ON a.grad_schoolid = e.id
+		where 1=1
+		and a.enabled_flag=1
+
+
+		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+		  <if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+		  <if test="teachid != null and teachid != ''"> and a.teachid = #{teachid} </if>
+			<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+		  <if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+		  <if test="type != null and type != ''"> and a.type = #{type} </if>
+		  <if test="method != null and method != ''"> and a.method = #{method} </if>
+		  <if test="educateLength != null and educateLength != ''"> and a.educate_length = #{educateLength} </if>
+		  <if test="regYear != null and regYear != ''"> and a.reg_year = #{regYear} </if>
+		  <if test="regSeason != null and regSeason != ''"> and a.reg_season = #{regSeason} </if>
+		  <if test="num != null and num != ''"> and a.num = #{num} </if>
+		  <if test="sourceRegid != null and sourceRegid != ''"> and a.source_regid = #{sourceRegid} </if>
+		  <if test="gradSchoolid != null and gradSchoolid != ''"> and a.grad_schoolid = #{gradSchoolid} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+		  <if test="status != null and status != ''"> and a.status = #{status} </if>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sch_school_speciality_reg
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="teachid != null and teachid != ''"> and teachid = #{teachid} </if>
+		  <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		   <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="method != null and method != ''"> and method = #{method} </if>
+		  <if test="educateLength != null and educateLength != ''"> and educate_length = #{educateLength} </if>
+		  <if test="regYear != null and regYear != ''"> and reg_year = #{regYear} </if>
+		  <if test="regSeason != null and regSeason != ''"> and reg_season = #{regSeason} </if>
+		  <if test="num != null and num != ''"> and num = #{num} </if>
+		  <if test="sourceRegid != null and sourceRegid != ''"> and source_regid = #{sourceRegid} </if>
+		  <if test="gradSchoolid != null and gradSchoolid != ''"> and grad_schoolid = #{gradSchoolid} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.SchoolSpecialityRegDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sch_school_speciality_reg
+		(
+			schoolid, 
+			speciality_recordid, 
+			teachid,
+			collegeid,
+			classify, 
+			type, 
+			method, 
+			educate_length, 
+			reg_year, 
+			reg_season, 
+			num, 
+			source_regid, 
+			grad_schoolid, 
+			audit_status, 
+			status, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{schoolid}, 
+			#{specialityRecordid}, 
+			#{teachid},
+			#{collegeid},
+			#{classify}, 
+			#{type}, 
+			#{method}, 
+			#{educateLength}, 
+			#{regYear}, 
+			#{regSeason}, 
+			#{num}, 
+			#{sourceRegid}, 
+			#{gradSchoolid}, 
+			#{auditStatus}, 
+			#{status}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.SchoolSpecialityRegDO">
+		update sch_school_speciality_reg 
+		<set>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="teachid != null">teachid = #{teachid}, </if>
+			<if test="collegeid != null">collegeid = #{collegeid}, </if>
+			<if test="classify != null">classify = #{classify}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="method != null">method = #{method}, </if>
+			<if test="educateLength != null">educate_length = #{educateLength}, </if>
+			<if test="regYear != null">reg_year = #{regYear}, </if>
+			<if test="regSeason != null">reg_season = #{regSeason}, </if>
+			<if test="num != null">num = #{num}, </if>
+			<if test="sourceRegid != null">source_regid = #{sourceRegid}, </if>
+			<if test="gradSchoolid != null">grad_schoolid = #{gradSchoolid}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update sch_school_speciality_reg set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  sch_school_speciality_reg set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="listBk" resultType="com.hxy.nzxy.stexam.domain.SchoolSpecialityRegDO">
+
+		select b.speciality_recordid,c.specialityid,c.direction,c.schoolid from
+		sch_college_speciality a left join sch_speciality_reg b
+		on b.id =a.speciality_regid  and b.enabled_flag=1 left join  pla_speciality_record c
+		on c.id=b.speciality_recordid and c.enabled_flag=1
+		where
+		a.enabled_flag=1
+		<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="countBk" resultType="int">
+		select count(*) from
+		sch_college_speciality a left join sch_speciality_reg b
+		on b.id =a.speciality_regid  and b.enabled_flag=1 left join  pla_speciality_record c
+		on c.id=b.speciality_recordid and c.enabled_flag=1
+		where
+		a.enabled_flag=1
+		<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+	</select>
+</mapper>

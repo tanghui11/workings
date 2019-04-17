@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${studentChange.id}"  type="hidden">
+							<tr>
+								<td>
+									<label>准考证号：</label>
+								</td>
+								<td>
+									<input id="studentid" name="studentid" th:value="${studentChange.studentid}" class="form-control" type="text">
+								</td>
+								<td>
+									<label>考生报考专业编号：</label>
+								</td>
+								<td>
+									<input id="specialityRecordid" name="specialityRecordid" th:value="${studentChange.specialityRecordid}" class="form-control" type="text">
+								</td>
+							</tr>
+						
+                            <tr>
+								
+								<td>
+									<label>有效期开始日期：</label>
+								</td>
+								<td>
+									<input id="beginDate" name="beginDate" th:value="${studentChange.beginDate}" class="form-control" type="text" readonly="readonly" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })">
+								</td>
+								<td>
+									<label>有效期截止日期：</label>
+								</td>
+								<td>
+									<input id="endDate" name="endDate" th:value="${studentChange.endDate}" class="form-control" type="text" readonly="readonly" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })">
+								</td>
+							</tr>
+                           <tr>
+								<td>
+									<label>变更类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${stu_studnet_change_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+									<!--<input id="type" name="type" th:value="${studentChange.type}" class="form-control" type="text">-->
+								</td>
+								<td>
+									<label>对象编号：</label>
+								</td>
+								<td>
+									<input id="objid" name="objid" th:value="${studentChange.objid}" class="form-control" type="text">
+								</td>
+							</tr>
+							 <tr>
+								<td>
+									
+									<label>状态：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${stu_studnet_change_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+									<!--<input id="status" name="status" th:value="${studentChange.status}" class="form-control" type="text">-->
+								</td>
+								
+							</tr>
+                           
+                            </table>
+							<div style="text-align:center;margin-top:5px">
+								<button type="submit" class="btn btn-primary">提交</button>
+								<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentChange/edit.js" th:src="@{/js/appjs/center/student/studentChange/edit.js}">
+	</script>
+</body>
+</html>

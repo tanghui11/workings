@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<form method="post" th:action="@{/student/studentFileStudent/searchOutExcel}" id="form"　>
+						<!--<div class="columns pull-left nopadding">-->
+							<!--<input id="courseid" name="studentid" type="text" class="form-control" >-->
+						<!--</div>-->
+						<!--<div class="columns pull-left" style="margin-right:5px">-->
+							<!--<button class="btn btn-success" type="button" onclick="reLoad()">查询</button>-->
+						<!--</div>-->
+						<!--startprint1-->
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+						<!--endprint1-->
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+                var s_edit_h = 'hidden';
+                var s_remove_h = 'hidden';
+                var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:edit">
+			<script type="text/javascript">
+                s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:schoolScoreStudent:remove">
+			<script type="text/javascript">
+                var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:resetPwd">
+			<script type="text/javascript">
+                var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/schoolScoreStudent/schoolScoreStudent.js" th:src="@{/js/appjs/school/student/schoolScoreStudent/schoolScoreStudent.js}"></script>
+</body>
+</html>

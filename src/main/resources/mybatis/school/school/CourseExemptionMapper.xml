@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.school.dao.CourseExemptionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.CourseExemptionDO">
+	  select
+		    b.studentid,
+			b.grad_school,
+			b.grad_certificate,
+			d.name as gradSpecialityName,
+			b.education,
+			c.speciality_name,
+			b.audit_status,
+			b.status,
+			b.operator,
+            b.update_date
+		from
+				stu_student_speciality b left join stu_student_certificate c on b.id = c.student_specialityid
+				left join pla_speciality d on b.grad_specialityid = d.id
+		where
+				and b.enabled_flag = 1
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.CourseExemptionDO">
+		select
+		    b.studentid,
+			b.grad_school,
+			b.grad_certificate,
+			d.name as gradSpecialityName,
+			b.education,
+			c.speciality_name as specialityName,
+			b.audit_status,
+			b.status,
+            b.operator,
+            b.update_date
+		 from
+			stu_student_speciality b left join stu_student_certificate c on b.id = c.student_specialityid
+         	left join pla_speciality d on b.grad_specialityid = d.id
+        <where>
+         	and b.enabled_flag = 1
+					<if test="studentid != null and studentid != ''"> and b.studentid = #{studentid} </if>
+				    <if test="grad_school != null and grad_school != ''"> and b.grad_school = #{gradSchool} </if>
+				    <if test="gradCertificate != null and gradCertificate != ''"> and b.grad_certificate = #{gradCertificate} </if>
+				    <if test="gradSpecialityName != null and gradSpecialityName != ''"> and d.name = #{gradSpecialityName} </if>
+					<if test="education != null and education != ''"> and b.education = #{education} </if>
+					<if test="speciality_name != null and speciality_name != ''"> and c.specialilty_name = #{specialityName} </if>
+					<if test="auditStatus != null and auditStatus != ''"> and b.audit_status = #{auditStatus} </if>
+					<if test="status != null and status != ''"> and b.status = #{status} </if>
+					<if test="operator != null and operator != ''"> and b.operator = #{operator} </if>
+					<if test="updateDate != null and updateDate != ''"> and b.update_date = #{updateDate} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by b.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*)
+		from
+		stu_student_speciality b left join stu_student_certificate c on b.id = c.student_specialityid
+		left join pla_speciality d on b.grad_specialityid = d.id
+		<where>
+			and b.enabled_flag = 1
+			<if test="studentid != null and studentid != ''"> and b.studentid = #{studentid} </if>
+			<if test="gradCertificate != null and gradCertificate != ''"> and b.grad_certificate = #{gradCertificate} </if>
+			<if test="gradSpecialityName != null and gradSpecialityName != ''"> and d.name = #{gradSpecialityName} </if>
+			<if test="education != null and education != ''"> and b.education = #{education} </if>
+			<if test="speciality_name != null and speciality_name != ''"> and c.specialilty_name = #{specialityName} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and b.audit_status = #{auditStatus} </if>
+			<if test="status != null and status != ''"> and b.status = #{status} </if>
+			<if test="operator != null and operator != ''"> and b.operator = #{operator} </if>
+			<if test="updateDate != null and updateDate != ''"> and b.update_date = #{updateDate} </if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>选择菜单</h5>
+					</div>
+					<div class="ibox-content">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar clearfix" shiro:hasPermission="system:help:edit">
+							<div class="columns pull-left">
+								<button shiro:hasPermission="system:help:edit" type="button" class="btn btn-primary" onclick="edit()">
+									<i class="fa fa-plus" aria-hidden="true"></i>编辑
+								</button>
+								<button shiro:hasPermission="system:help:remove" type="button" class="btn btn-danger"
+									onclick="remove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+							</div>
+						</div>
+						<input type="hidden" name="menuid" id="menuid" th:value="${menuid}">
+						<div id="helpContent" data-mobile-responsive="true">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/system/help/help.js" th:src="@{/js/appjs/system/help/help.js}"></script>
+</body>
+</html>

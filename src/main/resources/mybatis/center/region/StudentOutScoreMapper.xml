@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.region.dao.StudentOutScoreDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentOutScoreDO">
+	  select
+		a.courseid,
+		b.name,
+		a.type,
+		a.grade,
+		a.update_date
+		from stu_score a left join pla_course b on a.courseid = b.id
+		where a.id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentOutScoreDO">
+		select
+		a.courseid,
+		b.name as courseName,
+		a.type,
+		a.grade,
+		b.update_date as passDate
+		 from stu_score a left join pla_course b on a.courseid = b.id
+        <where>
+         and a.enabled_flag=1
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+		    <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+		    <if test="courseName != null and courseName != ''"> and b.name = #{courseName} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			<if test="passDate != null and passDate != ''"> and b.update_date = #{passDate} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from stu_score a left join pla_course b on a.courseid = b.id
+		 <where>
+             and a.enabled_flag=1
+			 <if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			 <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			 <if test="courseName != null and courseName != ''"> and b.name = #{courseName} </if>
+			 <if test="type != null and type != ''"> and a.type = #{type} </if>
+			 <if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			 <if test="update_date != null and update_date != ''"> and a.update_date = #{passDate} </if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left" style="margin-right:10px;">
+							操作日期
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="riqiQ" type="text" class="form-control" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd '})" style="width:120px;">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							-
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="riqiH" type="text" class="form-control" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd '})" style="width:120px;">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							准考证号/序号
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="zkzh" type="text" class="form-control" style="width:120px;">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left">
+							<button shiro:hasPermission="region:studentOutRegion:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="region:studentOutRegion:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:studentOutRegion:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:studentOutRegion:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:studentOutRegion:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/region/region/studentOutRegion/studentOutRegion.js" th:src="@{/js/appjs/region/region/studentOutRegion/studentOutRegion.js}"></script>
+</body>
+</html>

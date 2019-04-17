@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.student.dao.ScoreSchoolStudentDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ScoreSchoolDO">
+		select
+            id,
+            studentid,
+            speciality_recordid,
+            courseid,
+            grade,
+            status,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from stu_score_school
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ScoreSchoolDO">
+		select
+	        a.studentid,
+	        b.name
+		 from
+			stu_score_school a
+			left join stu_student b on a.studentid = b.id
+			left join stu_student_speciality c on a.studentid = c.studentid
+        <where>
+          	and a.enabled_flag=1
+			and c.collegeid = #{collegeid}
+			and c.teach_siteid = #{teachSiteid}
+		  <if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+		  <if test="name != null and name != ''"> and b.name = #{name} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*)  from stu_score_school a
+		left join stu_student b on a.studentid = b.id
+		left join stu_student_speciality c on a.studentid = c.studentid
+		<where>
+			and a.enabled_flag=1 and c.collegeid = #{collegeid} and c.teach_siteid = #{teachSiteid}
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="name != null and name != ''"> and b.name = #{name} </if>
+		</where>
+	</select>
+
+	<!--校考课程-->
+	<select id="schoolCourseList" resultType="com.hxy.nzxy.stexam.domain.ScoreSchoolDO">
+		select
+			a.id,
+			d.id as courseid,
+			d.name as courseName,
+			c.grade,
+			c.status,
+			c.operator,
+			c.update_date
+			from pla_speciality_record a,
+			pla_speciality_course b,
+			stu_score_school c,
+			pla_course d
+		<where>
+			and a.enabled_flag=1
+			and c.courseid = b.id
+			and a.id = b.speciality_recordid
+			and b.collegeid = #{collegeid}
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="schoolCourseListcount" resultType="int">
+		select count(*)
+		from
+			pla_speciality_record a,
+			pla_speciality_course b,
+			stu_score_school c,
+			pla_course d
+		<where>
+			and a.enabled_flag=1
+			and c.courseid = b.id
+			and a.id = b.speciality_recordid
+			and b.collegeid = #{collegeid}
+		</where>
+	</select>
+
+	<!--考生成绩-->
+	<select id="studentScoreList" resultType="com.hxy.nzxy.stexam.domain.ScoreSchoolDO">
+		select
+		a.id,
+		b.id as courseid,
+		b.name as courseName,
+		c.grade,
+		c.status,
+		c.operator,
+		c.update_date
+		from pla_speciality_record a
+		left join pla_course b on a.courseid = b.id
+		left join stu_score_school c on c.courseid = b.id
+		<where>
+			and a.enabled_flag=1 and c.grade !=  null
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="name != null and name != ''"> and b.name = #{name} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="studentScoreListcount" resultType="int">
+		select count(1)  from pla_speciality_record a
+		left join pla_course b on a.courseid = b.id
+		left join stu_score_school c on c.courseid = b.id
+		<where>
+			and a.enabled_flag=1 and c.grade !=  null
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			<if test="name != null and name != ''"> and b.name = #{name} </if>
+		</where>
+	</select>
+
+
+	<!--添加成绩-->
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ScoreSchoolDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_score_school
+		(
+			studentid, 
+			speciality_recordid, 
+			courseid, 
+			grade, 
+			status, 
+			operator, 
+			update_date, 
+			db_flag
+		)
+		values
+		(
+			#{studentid}, 
+			#{specialityRecordid}, 
+			#{courseid}, 
+			#{grade}, 
+			#{status}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ScoreSchoolDO">
+		update stu_score_school 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="grade != null">grade = #{grade}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}</if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_score_school set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_score_school set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

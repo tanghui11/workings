@@ -1,0 +1,62 @@
+# 项目名称
+application:
+    name: stexam
+server:
+    context-path: /stexam
+    session:
+        persistent: true
+        timeout: 180000   # 30 minutes
+    tomcat:
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 8443
+    uri-encoding: utf-8
+    ssl:
+      key-store: F:/tomcat.keystore
+      key-store-password: 123456
+
+security:
+  basic:
+    enabled: false
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  profiles: 
+    active: dev
+  http:
+    multipart:
+      max-file-size: 500Mb
+      max-request-size: 500Mb
+  devtools:
+    restart:
+      enabled: true    
+mybatis: 
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: mybatis/**/**/*Mapper.xml
+  typeAliasesPackage: com.hxy.nzxy.stexam.domain
+# 缓存配置
+chache:
+  # 数据字典缓存
+  field-dict:
+    enabled: true
+  # 用户信息缓存
+  user:
+    enabled: true
+  # 机构信息缓存
+  org:
+    enabled: true
+# 是否开启单点登录
+login:
+  sso: true
+# id生成前缀
+auto-generate-id:
+  prefix: dev
+edu-system:
+  name: 北京恒信源教育文化集团有限公司
+  sub-name: 自考管理平台
+  sub-logo: /img/stexam.png

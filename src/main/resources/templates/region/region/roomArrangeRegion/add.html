@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td class="W180">
+                                            <label>考区编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="regionid" name="regionid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>考试时间编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examTimeid" name="examTimeid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>考场编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examRoomid" name="examRoomid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>开考课程编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examCourseid" name="examCourseid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>考生类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="type" name="type" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>课程类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examType" name="examType" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>座次开始号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="seatStart" name="seatStart" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>座次结束号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="seatEnd" name="seatEnd" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>保密号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="secretCode" name="secretCode" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>首考号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="firstStudentid" name="firstStudentid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="status" name="status" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																					                                    <tr>
+                                        <td class="W180">
+                                            <label>数据标记：</label>
+                                        </td>
+                                        <td>
+                                            <input id="dbFlag" name="dbFlag" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																														                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/region/roomArrangeRegion/add.js" th:src="@{/js/appjs/region/region/roomArrangeRegion/add.js}" >
+</script>
+</body>
+</html>

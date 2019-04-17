@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${package}.dao.${className}Dao">
+
+	<select id="get" resultType="${package1}.domain.${className}DO">
+		select
+#foreach($column in $columns)
+            $column.columnName#if($velocityCount != $columns.size()),#end
+
+#end
+		from ${tableName}
+		where ${pk.columnName} = #{value}
+	</select>
+
+	<select id="list" resultType="${package1}.domain.${className}DO">
+		select
+#foreach($column in $columns)
+	        $column.columnName#if($velocityCount != $columns.size()),#end
+
+#end
+		 from ${tableName}
+        <where>
+         and enabled_flag=1
+#foreach($column in $columns)
+#if($column.columnName != 'operator' && $column.columnName != 'update_date')
+		  <if test="$column.attrname != null and $column.attrname.trim() != ''"> and $column.columnName = #{$column.attrname} </if>
+#end
+#end
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by ${pk.columnName} desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from ${tableName}
+		 <where>
+             and enabled_flag=1
+#foreach($column in $columns)
+#if($column.columnName != 'operator' && $column.columnName != 'update_date')
+		  <if test="$column.attrname != null and $column.attrname.trim() != ''"> and $column.columnName = #{$column.attrname} </if>
+#end
+#end
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="${package1}.domain.${className}DO"#if($pk.extra == 'auto_increment') useGeneratedKeys="true" keyProperty="$pk.attrname"#end>
+		insert into ${tableName}
+		(
+#foreach($column in $columns)
+#if(($column.columnName != $pk.columnName || $pk.extra != 'auto_increment') )
+			$column.columnName#if($velocityCount != $columns.size()), #end
+
+#end			
+#end
+		)
+		values
+		(
+#foreach($column in $columns)
+#if(($column.columnName != $pk.columnName || $pk.extra != 'auto_increment'))
+#if($column.columnName != 'update_date')
+			#{$column.attrname}#if($velocityCount != $columns.size()), #end
+#else
+			now()#if($velocityCount != $columns.size()), #end
+#end
+
+#end
+#end
+		)
+	</insert>
+	 
+	<update id="update" parameterType="${package1}.domain.${className}DO">
+		update ${tableName} 
+		<set>
+#foreach($column in $columns)
+#if($column.columnName != $pk.columnName )
+#if($column.columnName != 'update_date' )
+			<if test="$column.attrname != null">$column.columnName = #{$column.attrname}#if($velocityCount != $columns.size()), #end</if>
+#else
+			$column.columnName = now()#if($velocityCount != $columns.size()), #end
+#end
+#end
+#end
+
+		</set>
+		where ${pk.columnName} = #{${pk.attrname}}
+	</update>
+	<update id="remove">
+		update ${tableName} set enabled_flag =0  where ${pk.columnName} = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  ${tableName} set enabled_flag =0 where ${pk.columnName} in
+		<foreach item="${pk.attrname}" collection="array" open="(" separator="," close=")">
+			#{${pk.attrname}}
+		</foreach>
+	</update>
+
+</mapper>

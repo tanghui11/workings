@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentCourseMovieDao">
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentCourseMovieDO">
+		select
+			ssc.id,ssc.studentid,ss.name,eec.courseid,ssc.type,ssc.regionid,ssc.child_regionid
+		from stu_student_course ssc, stu_student ss, exa_exam_course eec
+        where ssc.studentid = ss.id
+        and ssc.exam_courseid = eec.id
+	and eec.exam_taskid = #{examTaskid}
+	and ssc.exam_courseid = #{examCourseid}
+	and ssc.regionid = #{regionid}
+	and ssc.child_regionid = #{childRegionid}
+</select>
+
+	<select id="count" resultType="int">
+		select
+		count(*)
+		from stu_student_course ssc, stu_student ss, exa_exam_course eec
+        where ssc.studentid = ss.id
+        and ssc.exam_courseid = eec.id
+	and eec.exam_taskid = #{examTaskid}
+	and ssc.exam_courseid = #{examCourseid}
+	and ssc.regionid = #{regionid}
+	and ssc.child_regionid = #{childRegionid}
+</select>
+
+	<update id="update" >
+		update stu_student_course
+		<set>
+			<!--<if test="newRegionid != null">regionid = #{newRegionid}, </if>-->
+			<!--<if test="newChile_regionid != null">child_regionid = #{newChile_regionid}, </if>-->
+			regionid = #{newRegionid},
+			child_regionid = #{newChileRegionid},
+		</set>
+		where id in
+		<foreach item="item" collection="id" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+</mapper>

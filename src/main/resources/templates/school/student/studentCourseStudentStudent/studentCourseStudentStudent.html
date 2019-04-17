@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+
+						<!--<div class="columns pull-left" style="margin-right:10px">
+							学院名称
+						</div>-->
+						<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+							<select id="collegeid" name="collegeid" class="form-control">
+								<option value="">请选择学院</option>
+								<!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+							</select>
+						</div>
+						<!--<div class="columns pull-left" style="margin-right:10px">
+							教学点
+						</div>-->
+						<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+							<select id="teachSiteid" name="teachSiteid" class="form-control">
+								<option value="">请选择教学点</option>
+								<!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+							</select>
+						</div>
+						<!--<div class="columns pull-left" style="margin-right:10px">
+							报考专业
+						</div>-->
+					<!--	<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+							<input id="schoolSpecialityRegid2" name="schoolSpecialityRegid" type="hidden">
+							<input id="schoolSpecialityRegid" class="form-control" type="text" onclick="yemian()" placeholder="请选择报考专业">
+						</div>-->
+						<!--<div class="columns pull-left" style="margin-right:10px">
+							考试任务
+						</div>-->
+						<div class="columns pull-left" style="margin-right:10px;min-width:240px;">
+							<select id="task" name="task" class="form-control">
+								<option value="">请选择考试任务</option>
+								<!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+							</select>
+						</div>
+                        <div class="columns pull-left">
+                            <button class="btn btn-success" onclick="reLoad()">查询</button>
+                        </div>
+						<!--<div class="columns pull-left">
+							<button shiro:hasPermission="student:studentCourseStudent:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="student:studentCourseStudent:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>-->
+
+
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseStudent:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseStudent:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseStudent:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/studentCourseStudentStudent/studentCourseStudentStudent.js" th:src="@{/js/appjs/school/student/studentCourseStudentStudent/studentCourseStudentStudent.js}"></script>
+</body>
+</html>

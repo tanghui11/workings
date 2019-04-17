@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="col-sm-12">
+		<div class="ibox">
+			<div class="ibox-body">
+				<div class="fixed-table-toolbar">
+					<form method="post" th:action="@{/school/specialityRegSchool/searchOutYXExcel}">
+						<div class="columns pull-left" style="margin-right:10px;min-width:250px;">
+							<input id="specialityid" name="specialityid" type="text" class="form-control" placeholder="请输入专业代码" >
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+						</div>
+
+					</form>
+				</div>
+				<table id="exampleTable" data-mobile-responsive="true">
+				</table>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮可见性 -->
+	<div>
+		<script type="text/javascript">
+            var s_edit_h = 'hidden';
+            var s_remove_h = 'hidden';
+            var s_resetPwd_h = 'hidden';
+		</script>
+	</div>
+	<div shiro:hasPermission="school:specialityRegSchool:edit">
+		<script type="text/javascript">
+            s_edit_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="school:specialityRegSchool:remove">
+		<script type="text/javascript">
+            var s_remove_h = '';
+		</script>
+	</div>
+	<div shiro:hasPermission="school:specialityRegSchool:resetPwd">
+		<script type="text/javascript">
+            var s_resetPwd_h = '';
+		</script>
+	</div>
+</div>
+<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/schoolScoreStudent/gradeEntering.js" th:src="@{/js/appjs/school/student/schoolScoreStudent/gradeEntering.js}"></script>
+</body>
+</html>

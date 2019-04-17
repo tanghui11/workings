@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.ScoreTempDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ScoreTempDO">
+		select
+            seat_arrangeid,
+            grade1,
+            exam_flag1,
+            grade2,
+            exam_flag2,
+            grade,
+            exam_flag,
+            operator1,
+            update_date1,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_score_temp
+		where seat_arrangeid = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ScoreTempDO">
+		select
+	        seat_arrangeid,
+	        grade1,
+	        exam_flag1,
+	        grade2,
+	        exam_flag2,
+	        grade,
+	        exam_flag,
+	        operator1,
+	        update_date1,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from stu_score_temp
+        <where>
+         and enabled_flag=1
+		  <if test="seatArrangeid != null and seatArrangeid != ''"> and seat_arrangeid = #{seatArrangeid} </if>
+		  <if test="grade1 != null and grade1 != ''"> and grade1 = #{grade1} </if>
+		  <if test="examFlag1 != null and examFlag1 != ''"> and exam_flag1 = #{examFlag1} </if>
+		  <if test="grade2 != null and grade2 != ''"> and grade2 = #{grade2} </if>
+		  <if test="examFlag2 != null and examFlag2 != ''"> and exam_flag2 = #{examFlag2} </if>
+		  <if test="grade != null and grade != ''"> and grade = #{grade} </if>
+		  <if test="examFlag != null and examFlag != ''"> and exam_flag = #{examFlag} </if>
+		  <if test="operator1 != null and operator1 != ''"> and operator1 = #{operator1} </if>
+		  <if test="updateDate1 != null and updateDate1 != ''"> and update_date1 = #{updateDate1} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by seat_arrangeid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_score_temp
+		 <where>
+             and enabled_flag=1
+		  <if test="seatArrangeid != null and seatArrangeid != ''"> and seat_arrangeid = #{seatArrangeid} </if>
+		  <if test="grade1 != null and grade1 != ''"> and grade1 = #{grade1} </if>
+		  <if test="examFlag1 != null and examFlag1 != ''"> and exam_flag1 = #{examFlag1} </if>
+		  <if test="grade2 != null and grade2 != ''"> and grade2 = #{grade2} </if>
+		  <if test="examFlag2 != null and examFlag2 != ''"> and exam_flag2 = #{examFlag2} </if>
+		  <if test="grade != null and grade != ''"> and grade = #{grade} </if>
+		  <if test="examFlag != null and examFlag != ''"> and exam_flag = #{examFlag} </if>
+		  <if test="operator1 != null and operator1 != ''"> and operator1 = #{operator1} </if>
+		  <if test="updateDate1 != null and updateDate1 != ''"> and update_date1 = #{updateDate1} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ScoreTempDO">
+		insert into stu_score_temp
+		(
+			seat_arrangeid, 
+			grade1, 
+			exam_flag1, 
+			grade2, 
+			exam_flag2, 
+			grade, 
+			exam_flag, 
+			operator1, 
+			update_date1, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{seatArrangeid}, 
+			#{grade1}, 
+			#{examFlag1}, 
+			#{grade2}, 
+			#{examFlag2}, 
+			#{grade}, 
+			#{examFlag}, 
+			#{operator1}, 
+			#{updateDate1}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ScoreTempDO">
+		update stu_score_temp 
+		<set>
+			<if test="grade1 != null">grade1 = #{grade1}, </if>
+			<if test="examFlag1 != null">exam_flag1 = #{examFlag1}, </if>
+			<if test="grade2 != null">grade2 = #{grade2}, </if>
+			<if test="examFlag2 != null">exam_flag2 = #{examFlag2}, </if>
+			<if test="grade != null">grade = #{grade}, </if>
+			<if test="examFlag != null">exam_flag = #{examFlag}, </if>
+			<if test="operator1 != null">operator1 = #{operator1}, </if>
+			<if test="updateDate1 != null">update_date1 = #{updateDate1}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where seat_arrangeid = #{seatArrangeid}
+	</update>
+	<update id="remove">
+		update stu_score_temp set enabled_flag =0  where seat_arrangeid = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_score_temp set enabled_flag =0 where seat_arrangeid in
+		<foreach item="seatArrangeid" collection="array" open="(" separator="," close=")">
+			#{seatArrangeid}
+		</foreach>
+	</update>
+	<delete id="batchRemoves" parameterType="java.util.List">
+		delete  from stu_score_temp where  seat_arrangeid in
+		<foreach item="bean" collection="list" open="(" separator="," close=")">
+			#{bean.seatArrangeid}
+		</foreach>
+	</delete>
+	<insert id="saveList1" parameterType="java.util.List" >
+		insert into stu_score_temp
+		(
+			seat_arrangeid,
+			grade1,
+			exam_flag1,
+			grade2,
+			exam_flag2,
+			grade,
+			exam_flag,
+			operator1,
+			update_date1,
+			operator,
+			update_date
+		)
+		values
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+			(
+			#{bean.seatArrangeid},
+			#{bean.grade1},
+			#{bean.examFlag1},
+			#{bean.grade2},
+			#{bean.examFlag2},
+			#{bean.grade},
+			#{bean.examFlag},
+			#{bean.operator1},
+			#{bean.updateDate1},
+			#{bean.operator},
+			now()
+			)
+
+		</foreach>
+		on DUPLICATE KEY UPDATE
+			grade1 = VALUES(grade1),
+			exam_flag1 = VALUES(exam_flag1),
+			operator1 = VALUES(operator1),
+			update_date1 = now()
+
+	</insert>
+
+	<insert id="saveList2" parameterType="java.util.List" >
+		insert into stu_score_temp
+		(
+		seat_arrangeid,
+		grade1,
+		exam_flag1,
+		grade2,
+		exam_flag2,
+		grade,
+		exam_flag,
+		operator1,
+		update_date1,
+		operator,
+		update_date
+		)
+		values
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+			(
+			#{bean.seatArrangeid},
+			#{bean.grade1},
+			#{bean.examFlag1},
+			#{bean.grade2},
+			#{bean.examFlag2},
+			#{bean.grade},
+			#{bean.examFlag},
+			#{bean.operator1},
+			#{bean.updateDate1},
+			#{bean.operator},
+			now()
+			)
+
+		</foreach>
+		on DUPLICATE KEY UPDATE
+		grade2 =VALUES(grade2),
+		exam_flag2 = VALUES(exam_flag2),
+		operator = VALUES(operator),
+		update_date = now()
+	</insert>
+
+	<select id="listSame" resultType="com.hxy.nzxy.stexam.domain.ScoreTempDO">
+		select
+		seat_arrangeid,
+		grade1,
+		exam_flag1,
+		grade2,
+		exam_flag2,
+		grade,
+		exam_flag,
+		operator1,
+		update_date1,
+		operator,
+		update_date,
+		enabled_flag
+		from stu_score_temp
+		where
+		grade1=grade2
+		and exam_flag1=exam_flag2
+		and
+		seat_arrangeid in
+			<foreach collection="list" item="bean" index="index" open="(" close=")" separator=",">
+				#{bean.seatArrangeid}
+			</foreach>
+	</select>
+	<select id="listStuScore" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		SELECT
+		d.studentid,c.courseid,c.exam_type as type,a.grade1 as grade,a.exam_flag1 as exam_flag,e.exam_date,d.id as objid
+		FROM
+		stu_score_temp a
+		LEFT JOIN reg_seat_arrange b ON b.id = a.seat_arrangeid and b.enabled_flag=1
+		LEFT JOIN reg_room_arrange c on c.id=b.room_arrangeid  and c.enabled_flag=1
+		LEFT JOIN stu_student_course d on d.id=b.student_courseid and d.enabled_flag=1
+		LEFT JOIN exa_exam_time e on e.id=c.exam_timeid  and e.enabled_flag=1
+		where
+		seat_arrangeid in
+		<foreach collection="list" item="bean" index="index" open="(" close=")" separator=",">
+			#{bean.seatArrangeid}
+		</foreach>
+	</select>
+
+	<insert id="saveToScore" parameterType="java.util.List" >
+	insert into stu_score
+	(
+		studentid,
+		speciality_recordid,
+		courseid,
+		type,
+		objid,
+		kg_grade,
+		zg_grade,
+		old_grade,
+		exam_grade,
+		school_grade,
+		grade,
+		exam_flag,
+		status,
+		use_status,
+		flag,
+		source_courseid,
+		et_dm,
+		old_studentid,
+		exam_date,
+		old_courseid,
+		school_scoreid,
+		operator,
+		update_date,
+		db_flag,
+		key_value
+		)
+	values
+	<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+		(
+		#{bean.studentid},
+		#{bean.specialityRecordid},
+		#{bean.courseid},
+		#{bean.type},
+		#{bean.objid},
+		#{bean.kgGrade},
+		#{bean.zgGrade},
+		#{bean.oldGrade},
+		#{bean.examGrade},
+		#{bean.schoolGrade},
+		#{bean.grade},
+		#{bean.examFlag},
+		'0',
+		'a',
+		'a',
+		#{bean.sourceCourseid},
+		#{bean.etDm},
+		#{bean.oldStudentid},
+		#{bean.examDate},
+		#{bean.oldCourseid},
+		#{bean.schoolScoreid},
+		#{bean.operator},
+		now(),
+		#{bean.dbFlag},
+		#{bean.keyValue}
+		)
+	</foreach>
+	</insert>
+
+	<select id="listStuScore2" resultType="com.hxy.nzxy.stexam.domain.ScoreDO">
+		SELECT
+		d.studentid,c.courseid,c.exam_type as type,a.grade1 as grade,a.exam_flag1 as exam_flag,e.exam_date,d.id as objid
+		FROM
+		stu_score_temp a
+		LEFT JOIN reg_seat_arrange b ON b.id = a.seat_arrangeid and b.enabled_flag=1
+		LEFT JOIN reg_room_arrange c on c.id=b.room_arrangeid  and c.enabled_flag=1
+		LEFT JOIN stu_student_course d on d.id=b.student_courseid and d.enabled_flag=1
+		LEFT JOIN exa_exam_time e on e.id=c.exam_timeid  and e.enabled_flag=1
+		where
+		seat_arrangeid =
+			#{seatArrangeid}
+	</select>
+</mapper>

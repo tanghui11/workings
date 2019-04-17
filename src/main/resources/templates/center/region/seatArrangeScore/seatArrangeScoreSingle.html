@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+	.editable-input input{
+		margin-left:10px;
+		width: 60px !important;
+	}
+	.editable-input select{
+		height:35px;
+	}
+	.editable-buttons{
+		margin-right:10px;
+	}
+	.popover-content{
+		padding:9px 25px;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left nopadding">
+							考试任务
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="searchName" name="examTaskid" type="text" class="form-control"
+								placeholder=""></select>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							报考课程
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<input type="hidden" id="bkkcCourseid">
+							<input id="search" type="text" class="form-control"
+								placeholder="" onclick="baokao()" style="width:300px">
+						</div>
+						<!-- <div class="columns pull-left nopadding" style="margin-left:10px">
+							成绩
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<input id="chengji" type="number" class="form-control"  style="width: 100px" min="0" max="100">
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<input id="flag" type="checkbox" class="form-control" onclick="flag()" value="0" style="width: 15px;margin-top: 0px;">
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							缺考
+						</div> -->
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<!-- <div class="columns pull-left" style="margin-left:10px">
+							<button class="btn  btn-primary" onclick="luru()">录入</button>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn  btn-primary" onclick="xiuGai()">修改</button>
+						</div> -->
+						
+					</div>
+					<form class="form-horizontal m-t" id="signupForm">
+						<input type="hidden" name="message" th:value="${message}" id="message"/>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:seatArrange:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:seatArrange:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:seatArrange:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/region/seatArrange/seatArrangeScoreSingle.js" th:src="@{/js/appjs/center/region/seatArrangeScore/seatArrangeScoreSingle.js}"></script>
+</body>
+</html>

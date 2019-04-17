@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${studentCourseTempRegion.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>市县代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="sxDm" name="sxDm" th:value="${studentCourseTempRegion.sxDm}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>准考证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksZkz" name="ksZkz" th:value="${studentCourseTempRegion.ksZkz}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>姓名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksXm" name="ksXm" th:value="${studentCourseTempRegion.ksXm}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zydm" name="zydm" th:value="${studentCourseTempRegion.zydm}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业名称：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zymc" name="zymc" th:value="${studentCourseTempRegion.zymc}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>课程代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="kcdm" name="kcdm" th:value="${studentCourseTempRegion.kcdm}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>课程名称：</label>
+                                        </td>
+                                        <td>
+                                            <input id="kcmc" name="kcmc" th:value="${studentCourseTempRegion.kcmc}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>考试时间：</label>
+                                        </td>
+                                        <td>
+                                            <input id="kssj" name="kssj" th:value="${studentCourseTempRegion.kssj}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>考试时间序号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="kssjxh" name="kssjxh" th:value="${studentCourseTempRegion.kssjxh}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/student/studentCourseTempRegion/edit.js" th:src="@{/js/appjs/region/student/studentCourseTempRegion/edit.js}">
+</script>
+</body>
+</html>

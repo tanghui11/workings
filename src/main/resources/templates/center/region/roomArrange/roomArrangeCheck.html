@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar" style="overflow:hidden;">
+						<div class="columns pull-left nopadding">
+							考试任务
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="searchName" name="examTaskid" type="text" class="form-control"
+								placeholder=""></select>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							校验模式
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="type" name="" type="text" class="form-control">
+								<option value="a">报考科次</option>
+								<option value="b">待编排科次</option>
+								<option value="c">已编排科次</option>
+								<option value="d">待确认科次</option>
+								<option value="e">已确认科次</option>
+								<option value="f">重复报考</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							提示信息
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<input id="text" type="text" class="form-control" style="width:300px;">
+						</div>
+					</div>
+					<h3 class="bg-info" style="padding:10px;margin:10 0;">已确认科次列表 总计 <span id="num"></span> 科次</h3>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrange:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrange:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrange:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/region/roomArrange/roomArrange.js" th:src="@{/js/appjs/center/region/roomArrange/roomArrangeCheck.js}"></script>
+</body>
+</html>

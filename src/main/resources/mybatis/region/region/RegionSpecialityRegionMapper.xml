@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.RegionSpecialityRegionDao">
+
+    <select id="get" resultType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+		select
+            id,
+            regionid,
+            speciality_recordid,
+            operator,
+            update_date,
+            enabled_flag
+		from reg_region_speciality
+		where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+        select
+        id,
+        regionid,
+        speciality_recordid,
+        operator,
+        update_date,
+        enabled_flag
+        from reg_region_speciality
+        <where>
+            and enabled_flag=1
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="regionid != null and regionid != ''">and regionid = #{regionid}</if>
+            <if test="specialityRecordid != null and specialityRecordid != ''">and speciality_recordid =
+                #{specialityRecordid}
+            </if>
+            <if test="enabledFlag != null and enabledFlag != ''">and enabled_flag = #{enabledFlag}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="regionSpecialitylist" resultType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+        select  b.id as school_speciality_regid ,a.speciality_recordid, b.specialityid from  reg_region_speciality a
+        left JOIN pla_speciality_record b on b.id=a.speciality_recordid
+        <where>
+            and a.enabled_flag=1
+            and b.enabled_flag=1
+            and a.regionid = #{regionid}
+            <if test="specialityRecordid != null and specialityRecordid != ''">and a.speciality_recordid =#{specialityRecordid}</if>
+            <if test="id != null and id != ''">and a.id = #{id}</if>
+            <if test="name != null and name != ''">and a.name like concat('%',#{name},'%')</if>
+            <if test="pinyin != null and pinyin != ''">and a.pinyin = #{pinyin}</if>
+            <if test="type != null and type != ''">and b.type = #{type}</if>
+            <if test="classify != null and classify != ''">and b.classify = #{classify}</if>
+            <if test="flag != null and flag != ''">and b.flag = #{flag}</if>
+            <if test="grantType != null and grantType != ''">and b.grant_type = #{grantType}</if>
+            <if test="score != null and score != ''">and b.score = #{score}</if>
+            <if test="auditStatus != null and auditStatus != ''">and b.audit_status = #{auditStatus}</if>
+            <if test="auditDate != null and auditDate != ''">and b.audit_date = #{auditDate}</if>
+            <if test="zkSpecialityid != null and zkSpecialityid != ''">and b.zk_specialityid = #{zkSpecialityid}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by a.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+   <!-- <select id="planamelist" resultType="com.hxy.nzxy.stexam.domain.SpecialityDO">
+        select
+        id,
+        name,
+        pinyin,
+        type,
+        classify,
+        flag,
+        grant_type,
+        score,
+        audit_status,
+        audit_date,
+        zk_specialityid,
+        operator,
+        update_date,
+        enabled_flag
+        from pla_speciality
+        <where>
+            and enabled_flag=1
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="name != null and name != ''">and name like concat('%',#{name},'%')</if>
+            <if test="pinyin != null and pinyin != ''">and pinyin = #{pinyin}</if>
+            <if test="type != null and type != ''">and type = #{type}</if>
+            <if test="classify != null and classify != ''">and classify = #{classify}</if>
+            <if test="flag != null and flag != ''">and flag = #{flag}</if>
+            <if test="grantType != null and grantType != ''">and grant_type = #{grantType}</if>
+            <if test="score != null and score != ''">and score = #{score}</if>
+            <if test="auditStatus != null and auditStatus != ''">and audit_status = #{auditStatus}</if>
+            <if test="auditDate != null and auditDate != ''">and audit_date = #{auditDate}</if>
+            <if test="zkSpecialityid != null and zkSpecialityid != ''">and zk_specialityid = #{zkSpecialityid}</if>
+            <if test="enabledFlag != null and enabledFlag != ''">and enabled_flag = #{enabledFlag}</if>
+        </where>
+    </select>-->
+
+    <select id="count" resultType="int">
+        select count(*) from  reg_region_speciality a
+        left JOIN pla_speciality_record b on b.id=a.speciality_recordid
+        <where>
+            and a.enabled_flag=1
+            and b.enabled_flag=1
+            and a.regionid = #{regionid}
+            <if test="specialityRecordid != null and specialityRecordid != ''">and a.speciality_recordid =#{specialityRecordid}</if>
+            <if test="id != null and id != ''">and a.id = #{id}</if>
+            <if test="name != null and name != ''">and a.name like concat('%',#{name},'%')</if>
+            <if test="pinyin != null and pinyin != ''">and a.pinyin = #{pinyin}</if>
+            <if test="type != null and type != ''">and b.type = #{type}</if>
+            <if test="classify != null and classify != ''">and b.classify = #{classify}</if>
+            <if test="flag != null and flag != ''">and b.flag = #{flag}</if>
+            <if test="grantType != null and grantType != ''">and b.grant_type = #{grantType}</if>
+            <if test="score != null and score != ''">and b.score = #{score}</if>
+            <if test="auditStatus != null and auditStatus != ''">and b.audit_status = #{auditStatus}</if>
+            <if test="auditDate != null and auditDate != ''">and b.audit_date = #{auditDate}</if>
+            <if test="zkSpecialityid != null and zkSpecialityid != ''">and b.zk_specialityid = #{zkSpecialityid}</if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO" useGeneratedKeys="true"
+            keyProperty="id">
+		insert into reg_region_speciality
+		(
+			regionid, 
+			speciality_recordid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{regionid}, 
+			#{specialityRecordid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+
+    <update id="update" parameterType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+        update reg_region_speciality
+        <set>
+            <if test="regionid != null">regionid = #{regionid},</if>
+            <if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            update_date = now()
+        </set>
+        where id = #{id}
+    </update>
+    <update id="remove">
+		update reg_region_speciality set enabled_flag =0  where id = #{value}
+	</update>
+
+    <update id="batchRemove">
+        update reg_region_speciality set enabled_flag =0 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

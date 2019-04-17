@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${course.id}"  type="hidden">
+							<tr>
+								
+								<td>
+									<label><span style="color:red">*</span>名称：</label>
+								</td>
+								<td>
+									<input id="name" name="name" th:value="${course.name}" class="form-control" type="text" onkeyup="spell()" onchange="spell()">
+								</td>
+								<td>
+									<label>拼音：</label>
+								</td>
+								<td>
+									<input id="pinyin" name="pinyin" th:value="${course.pinyin}" class="form-control" type="text">
+								</td>
+							<tr>
+							<tr>
+								<td>
+									<label>英文名称：</label>
+								</td>
+								<td>
+									<input id="ename" name="ename" th:value="${course.ename}" class="form-control" type="text">
+								</td>
+								<td>
+									<label>学分：</label>
+								</td>
+								<td>
+									<input id="score" name="score" th:value="${course.score}" class="form-control" type="text">
+								</td>
+							<tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${pla_course_type}" th:value="${item.id}" th:text="${item.name}" th:field="${course.type}"></option>
+									</select>
+								</td>
+								<td>
+									<label><span style="color:red">*</span>分类：</label>
+								</td>
+								<td>
+									<select id="classify" name="classify" class="form-control">
+										<option th:each="item:${pla_course_classify}" th:value="${item.id}" th:text="${item.name}" th:field="${course.classify}"></option>
+									</select>
+								</td>
+							<tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>属性：</label>
+								</td>
+								<td>
+									<select id="attribute" name="attribute" class="form-control">
+										<option th:each="item:${pla_course_attribute}" th:value="${item.id}" th:text="${item.name}" th:field="${course.attribute}"></option>
+									</select>
+								</td>
+								<!-- <td>
+									<label>实践课程代码：</label>
+								</td>
+								<td>
+									<input id="practiceCourseid" name="practiceCourseid" th:value="${course.practiceCourseid}" class="form-control" type="text" onclick="practice()">
+								</td> -->
+							<tr>
+						</table>
+						<div  style="text-align:center">
+								<button type="submit" class="btn btn-primary" id="submission">提交</button>
+								<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/course/edit.js" th:src="@{/js/appjs/center/plan/course/edit.js}">
+	</script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>考区列表</h5>
+					</div>
+					<input id="orgid" name="orgid" type="hidden" th:value="${region}">
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="col-sm-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+						<div class="list-group-item label">地州市考办管理> 县区信息维护</div>
+							<form class="form-horizontal m-t" id="signupForm">
+								<div class="columns pull-left" style="margin-left: 5px;">
+										<button shiro:hasPermission="region:regionRegion:add" type="button" class="btn  btn-primary" onclick="importData()">
+											区县信息维护批量导入
+									</button>
+								</div>
+								<table class="table table-bordered table-style">
+
+									<input id="parentid" name="parentid" class="form-control" type="hidden">
+									<!-- <input id="parentid" name="parentid" class="form-control" type="hidden" > -->
+									<input id="id" name="id" type="hidden">
+									<tr>
+										<td class="W180">
+											<label><span style="color:red">*</span>代码：</label>
+										</td>
+										<td>
+											<input id="code" name="code" class="form-control" type="text">
+										</td>
+										<td class="W180">
+											<label><span style="color:red">*</span>类别：</label>
+										</td>
+										<td>
+											<select id="type" name="type" class="form-control">
+												<option th:each="item:${reg_region_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="W180">
+											<label><span style="color:red">*</span>名称：</label>
+										</td>
+										<td>
+											<input id="name" name="name" class="form-control" type="text" onkeyup="spell()" onchange="spell()">
+										</td>
+										<td class="W180">
+											<label><span style="color:red">*</span>拼音：</label>
+										</td>
+										<td>
+											<input id="pinyin" name="pinyin" class="form-control" type="text">
+										</td>
+									</tr>
+									<tr>
+										<td class="W180">
+											<label>联系人：</label>
+										</td>
+										<td>
+											<input id="linkman" name="linkman" class="form-control" type="text">
+										</td>
+										<td class="W180">
+											<label>联系地址：</label>
+										</td>
+										<td>
+											<input id="address" name="address" class="form-control" type="text">
+										</td>
+									</tr>
+									<tr>
+										<td class="W180">
+											<label>固定电话：</label>
+										</td>
+										<td>
+											<input id="phone" name="phone" class="form-control" type="text">
+										</td>
+										<td class="W180">
+											<label>移动电话：</label>
+										</td>
+										<td>
+											<input id="mphone" name="mphone" class="form-control" type="text">
+										</td>
+									</tr>
+									<tr>
+										<td class="W180">
+											<label>传真：</label>
+										</td>
+										<td>
+											<input id="fax" name="fax" class="form-control" type="text">
+										</td>
+										<td class="W180">
+											<label>是否能照相：</label>
+										</td>
+										<td>
+											<select id="photoFlag" name="photoFlag" class="form-control">
+												<option th:each="item:${reg_region_photo_flag}" th:value="${item.id}" th:text="${item.name}" ></option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label>考区转移：</label>
+										</td>
+										<td>
+											<input id="examTransfer" name="examTransfer" class="form-control" type="text">
+										</td>
+										<td>
+											<label>考场规格：</label>
+										</td>
+										<td>
+											<input id="roomSize" name="roomSize" class="form-control" type="text">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label>邮编：</label>
+										</td>
+										<td>
+											<input id="postCode" name="postCode" class="form-control" type="text">
+										</td>
+										<td>
+											<label>考场编排序号：</label>
+										</td>
+										<td>
+											<input id="seq" name="seq" class="form-control" type="text">
+										</td>
+									</tr>
+									<tr>
+
+										<td>
+											<label>考试提示：</label>
+										</td>
+										<td colspan="3">
+											<textarea id="examMsg" name="examMsg" class="form-control" style="resize:none"></textarea>
+											<!-- <input id="examMsg" name="examMsg" class="form-control" type="text"> -->
+										</td>
+										<!-- <td>
+                                            <label>邮箱：</label>
+                                        </td>
+                                        <td>
+                                            <input id="email" name="email" class="form-control" type="text">
+                                        </td> -->
+
+
+									</tr>
+								</table>
+								<div style="text-align:center;margin-top:5px" >
+									<button type="submit" class="btn btn-primary" id="submission">添加</button>
+									<button type="button" id="submits" class="btn btn-success">修改</button>
+									<!--<button type="button" class="btn btn-danger" onclick = "remove()">删除</button>-->
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<button shiro:hasPermission="region:regionRegion:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="region:regionRegion:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div>
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    &lt;!&ndash;shiro控制bootstraptable行内按钮可见性 &ndash;&gt;
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:regionRegion:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:regionRegion:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:regionRegion:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>-->
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/region/region/regionRegion/regionRegion.js" th:src="@{/js/appjs/region/region/regionRegion/regionRegion.js}"></script>
+</body>
+</html>

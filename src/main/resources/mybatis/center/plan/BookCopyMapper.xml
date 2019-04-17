@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.BookCopyDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.BookCopyDO">
+		select
+            id,
+            classify,
+            courseid,
+            name,
+            pinyin,
+            chief_editor,
+            publisher,
+            version,
+            price,
+            type,
+            remark,
+            status,
+            operator,
+            update_date,
+            enabled_flag
+		from pla_book_copy
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.BookCopyDO">
+		select
+	        id,
+	        classify,
+	        courseid,
+	        name,
+	        pinyin,
+	        chief_editor,
+	        publisher,
+	        version,
+	        price,
+	        type,
+	        remark,
+	        status,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from pla_book_copy
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="chiefEditor != null and chiefEditor != ''"> and chief_editor = #{chiefEditor} </if>
+		  <if test="publisher != null and publisher != ''"> and publisher = #{publisher} </if>
+		  <if test="version != null and version != ''"> and version = #{version} </if>
+		  <if test="price != null and price != ''"> and price = #{price} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_book_copy
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="chiefEditor != null and chiefEditor != ''"> and chief_editor = #{chiefEditor} </if>
+		  <if test="publisher != null and publisher != ''"> and publisher = #{publisher} </if>
+		  <if test="version != null and version != ''"> and version = #{version} </if>
+		  <if test="price != null and price != ''"> and price = #{price} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.BookCopyDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pla_book_copy
+		(
+			classify, 
+			courseid, 
+			name, 
+			pinyin, 
+			chief_editor, 
+			publisher, 
+			version, 
+			price, 
+			type, 
+			remark, 
+			status, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{classify}, 
+			#{courseid}, 
+			#{name}, 
+			#{pinyin}, 
+			#{chiefEditor}, 
+			#{publisher}, 
+			#{version}, 
+			#{price}, 
+			#{type}, 
+			#{remark}, 
+			#{status}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.BookCopyDO">
+		update pla_book_copy 
+		<set>
+			<if test="classify != null">classify = #{classify}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="pinyin != null">pinyin = #{pinyin}, </if>
+			<if test="chiefEditor != null">chief_editor = #{chiefEditor}, </if>
+			<if test="publisher != null">publisher = #{publisher}, </if>
+			<if test="version != null">version = #{version}, </if>
+			<if test="price != null">price = #{price}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update pla_book_copy set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  pla_book_copy set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

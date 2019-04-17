@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12" style="padding-right:0">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>助学组织列表</h5>
+					</div>
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+			<div class="ibox">
+				<div class="ibox-body">
+				<input id="schoolid" type="hidden" class="form-control">
+					<div class="fixed-table-toolbar">
+						<form th:action="@{/student/student/studentPhoto}" class="columns form-horizontal pull-left" enctype="multipart/form-data" id="form_table" method="post">
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<div class="columns pull-left" style="margin-right:10px;">
+									<button class="btn btn-success" type="button" onclick="LackLoad()">无照片学生查询</button>
+								</div>
+								<div class="columns file-container pull-left" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle;margin-right:10px;">
+									
+									<button class="btn btn-success fileinput-button" type="button">上传</button>
+									<span id="filename" style="margin-right:10px;">未上传文件</span>
+									<input id="jobData" name="filename" onchange="loadFile(this.files[0])" style="position:absolute;top:0;left:0;font-size:34px; opacity:0" type="file" autocomplete="off">
+								</div>
+
+								<div class="columns pull-left" style="margin-left:10px;width:100px;">
+									<input class="form-control" id="regionCode" name="regionCode" type="text" autocomplete="off">
+								</div>
+								<div class="columns pull-left" style="margin-left:10px">
+									<input class="btn pull-right btn-primary" onclick="closes()" style="margin-left:10px;" type="button" value="开始导入" autocomplete="off">
+								</div>
+								
+							</div>
+
+
+							      <input id="msg" type="hidden" class="form-control" th:value="${msg}">
+						</form>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:student:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:student:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:student:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/student/student.js" th:src="@{/js/appjs/center/student/student/student.js}"></script>
+</body>
+</html>
+<script>
+    function loadFile(file){
+        var name = file.name.split(".")[1]
+        if(name!="zip"){
+            layer.msg('上传失败，只能上传zip格式文件！')
+            return;
+        }
+        $("#filename").html(file.name);
+    }
+    function closes(){
+
+        $("#form_table").submit();
+    }
+
+    $(function(){
+        if($("#msg").val()!=""){
+            layer.alert($("#msg").val())
+        }
+
+
+    })
+</script>

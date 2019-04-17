@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+						<input id="courseid" name="courseid" class="form-control" type="hidden">
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>教材类别：</label>
+								</td>
+								<td>
+									<select id="classify" name="classify" class="form-control">
+										<option th:each="item:${pla_book_classify}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+								<td>
+									<label><span style="color:red">*</span>课程名称：</label>
+								</td>
+								<td>
+									<input id="coursess" name="coursess" class="form-control" type="text" onclick="courseName()">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label><span style="color:red">*</span>名称：</label>
+								</td>
+								<td>
+									<input id="name" name="name" class="form-control" type="text" onkeyup="spell()" onchange="spell()">
+								</td>
+								<td>
+									<label>拼音：</label>
+								</td>
+								<td>
+									<input id="pinyin" name="pinyin" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>主编：</label>
+								</td>
+								<td>
+									<input id="chiefEditor" name="chiefEditor" class="form-control" type="text">
+								</td>
+								<td>
+									<label>出板社：</label>
+								</td>
+								<td>
+									<input id="publisher" name="publisher" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>版次：</label>
+								</td>
+								<td>
+									<input id="version" name="version" class="form-control" type="text">
+								</td>
+								<td>
+									<label>单价：</label>
+								</td>
+								<td>
+									<input id="price" name="price" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label><span style="color:red">*</span>教材类型：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${pla_book_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+								<td>
+									<label><span style="color:red">*</span>状态：</label>
+								</td>
+								<td>
+									<select id="status" name="status" class="form-control">
+										<option th:each="item:${pla_book_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label>备注：</label>
+								</td>
+								<td colspan="3">
+									<input id="remark" name="remark" class="form-control" type="text" style="height:60px">
+								</td>
+							</tr>
+						</table>
+						<div class="" style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary" id="submission">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/book/add.js" th:src="@{/js/appjs/center/plan/book/add.js}">
+	</script>
+</body>
+</html>

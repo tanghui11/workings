@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+					<div class="list-group-item label">助学管理 > 专业管理</div>
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${studentSpeciality.id}"  type="hidden">
+							<input id="studentid" name="studentid" th:value="${studentSpeciality.studentid}" class="form-control" type="hidden" readonly="readonly">
+							 <tr>
+                                <td colspan="5" style="text-align:center;font-weight:700;padding:8px !important;">
+                                    学生报考信息
+                                </td>
+                            </tr>
+							<tr>
+								<td class="W180">
+									<label>准考证号：</label>
+								</td>
+								<td>
+									<input id="studentid" name="studentid" th:value="${studentSpeciality.studentid}" class="form-control" type="text" readonly="readonly">
+								</td>
+							</tr>
+                            <tr>
+                                <td  class="W180">
+                                    <label>学院：</label>
+                                </td>
+                                <td>
+									<input id="collegeid" name="collegeid" class="form-control" type="hidden" readonly="readonly">
+									<input id="collegeName" name="collegeName" class="form-control" type="text" readonly="readonly">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  class="W180">
+                                    <label>教学点：</label>
+                                </td>
+                                <td>
+								<input id="teachSiteid" name="teachSiteid" class="form-control" type="hidden" readonly="readonly">
+								<input id="teachSiteName" name="teachSiteName" class="form-control" type="text" readonly="readonly">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="W180">
+                                    <label>现报专业：</label>
+                                </td>
+                                <td>
+									<input id="schoolSpecialityRegid" name="schoolSpecialityRegid" th:value="${studentSpeciality.schoolSpecialityRegid}" class="form-control" type="hidden">
+                                 <input id="schoolSpecialityRegid2" name="schoolSpecialityRegid" th:value="${studentSpeciality.schoolSpecialityRegid}" type="hidden">
+                                    <input id="specialityRecordid" name="specialityRecordid" th:value="${studentSpeciality.specialityRecordid}" type="hidden">
+                                    <input id="schoolSpecialityRegid" name="xBZY" class="form-control" th:value="${studentSpeciality.schoolSpecialityRegName}" type="text" onclick="yemian()" readonly> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  class="W180">
+                                    <label>毕业院校：</label>
+                                </td>
+                                <td>
+                                    <input id="gradSchool" name="gradSchool" th:value="${studentSpeciality.gradSchool}" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  class="W180">
+                                    <label>毕业证书号：</label>
+                                </td>
+                                <td>
+                                    <input id="gradCertificate" name="gradCertificate" th:value="${studentSpeciality.gradCertificate}" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  class="W180">
+                                    <label>原学专业：</label>
+                                </td>
+                                <td>
+                                    <input id="gradSpecialityid2" name="gradSpecialityid" th:value="${studentSpeciality.gradSpecialityid}" type="hidden">
+                                    <input id="gradSpecialityid" name="yYZY" th:value="${studentSpeciality.gradSpecialityName}" class="form-control" type="text" onclick="yemianYXZY()" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  class="W180">
+                                    <label>原学历：</label>
+                                </td>
+                                <td>
+									<select id="education" name="education" class="form-control">
+										<option th:each="item:${stu_student_speciality_education}" th:value="${item.id}" th:text="${item.name}" th:field="${studentSpeciality.education}"></option>
+									</select>
+                                </td>
+                            </tr>
+						</table>
+						<div style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentSpeciality/edit.js" th:src="@{/js/appjs/center/student/studentSpeciality/edit.js}">
+	</script>
+</body>
+</html>

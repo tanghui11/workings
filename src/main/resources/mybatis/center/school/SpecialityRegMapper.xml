@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.school.dao.SpecialityRegDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.SpecialityRegDO">
+		select
+            id,
+            schoolid,
+            speciality_recordid,
+            code,
+            audit_status,
+            status,
+            operator,
+            update_date,
+            enabled_flag
+		from sch_speciality_reg
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.SpecialityRegDO">
+		select
+	        a.id,
+		    a.schoolid,
+	        a.speciality_recordid,
+	        a.code,
+	        a.audit_status,
+	        a.status,
+	        a.operator,
+	        a.update_date,
+			b.specialityid as subjectCode,
+			concat(c.name,'(',get_field_dict_name('pla_speciality','flag',c.flag),')',b.direction) as subjectName
+		FROM
+		sch_speciality_reg a
+		left join pla_speciality_record b
+		on a.speciality_recordid=b.id
+		left join pla_speciality c
+		on c.id = b.specialityid
+		and b.enabled_flag = 1
+        <where>
+         and a.enabled_flag=1
+		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+		  <if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+		  <if test="code != null and code != ''"> and a.code = #{code} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+		  <if test="status != null and status != ''"> and a.status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listK" resultType="com.hxy.nzxy.stexam.domain.SpecialityRegDO">
+		select
+		a.id,
+		a.schoolid,
+		a.speciality_recordid,
+		a.code,
+		a.audit_status,
+		a.status,
+		a.operator,
+		a.update_date,
+		b.specialityid as subjectCode
+		FROM
+		sch_speciality_reg a   left join pla_speciality_record b
+		on a.speciality_recordid=b.id  and b.enabled_flag = 1
+		<where>
+			and a.enabled_flag=1 and
+			<foreach item="param" collection="list" open="(" separator="," close=")">
+				(a.schoolid = #{param.schoolid} and b.specialityid = #{param.subjectCode} and b.direction = #{param.direction}) or
+				(a.schoolid = #{param.schoolid} and a.code = #{param.code})
+			</foreach>
+
+		</where>
+
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from sch_speciality_reg
+		 <where>
+              enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.SpecialityRegDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sch_speciality_reg
+		(
+			schoolid, 
+			speciality_recordid, 
+			code, 
+			audit_status, 
+			status, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{schoolid}, 
+			#{specialityRecordid}, 
+			#{code}, 
+			#{auditStatus}, 
+			#{status}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.SpecialityRegDO">
+		update sch_speciality_reg 
+		<set>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="code != null">code = #{code}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update sch_speciality_reg set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  sch_speciality_reg set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="updateAudit">
+		update sch_speciality_reg set audit_status = #{auditStatus}  where id = #{id}
+	</update>
+
+	<update id="batchUpdateAudit">
+		update  sch_speciality_reg set audit_status = #{auditStatus} where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

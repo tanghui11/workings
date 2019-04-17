@@ -1,0 +1,17 @@
+package com.hxy.nzxy.stexam.center.region.service;
+
+import com.hxy.nzxy.stexam.center.region.domain.StudentInfoQueryDO;
+import com.hxy.nzxy.stexam.common.utils.Query;
+
+import java.util.List;
+import java.util.Map;
+
+public interface StudentInfoQueryService {
+    List<StudentInfoQueryDO> list(Map<String, Object> map);
+
+    int count(Map<String, Object> map);
+
+    List<StudentInfoQueryDO> listDetail(Query query);
+
+    int countDetail(Query query);
+}

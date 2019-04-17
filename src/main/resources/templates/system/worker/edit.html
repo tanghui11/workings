@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="id" name="id" th:value="${worker.id}"  type="hidden">
+							<input id="orgid" name="orgid" th:value="${worker.orgid}"  type="hidden">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">所属部门：</label>
+								<div class="col-sm-9">
+									<input id="deptid" name="deptid" class="hidden" th:value="${worker.deptid}">
+									<input id="deptName" name="deptName" class="form-control" type="text" style="cursor: pointer;" onclick="openDeptTree()" readonly="readonly" placeholder="选择上级部门" th:value="${worker.deptName}">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">姓名：</label>
+								<div class="col-sm-9">
+									<input id="name" name="name" th:value="${worker.name}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">手机号码：</label>
+								<div class="col-sm-9">
+									<input id="mphone" name="mphone" th:value="${worker.mphone}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">性别：</label>
+								<div class="col-sm-9">
+									<label th:each="item:${sys_worker_gender}">
+										<input type="radio"	id="gender" name="gender" th:value="${item.id}" th:text="${item.name}" th:field="${worker.gender}" />
+									</label>
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">身份证号：</label>
+								<div class="col-sm-9">
+									<input id="certificateNo" name="certificateNo" th:value="${worker.certificateNo}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">出生日期：</label>
+								<div class="col-sm-9">
+									<input id="birthday" name="birthday" th:value="${worker.birthday}" class="form-control" type="text" data-toggle="datetimepicker">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">参加工作时间：</label>
+								<div class="col-sm-9">
+									<input id="workDate" name="workDate" th:value="${worker.workDate}" class="form-control" type="text" data-toggle="datetimepicker">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">第一学历：</label>
+								<div class="col-sm-9">
+									<select id="firstEducation" name="firstEducation" class="form-control">
+										<option th:each="item:${sys_worker_first_education}" th:value="${item.id}" th:text="${item.name}" th:field="${worker.firstEducation}"></option>
+									</select>
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">最高学历：</label>
+								<div class="col-sm-9">
+									<select id="lastEducation" name="lastEducation" class="form-control">
+										<option th:each="item:${sys_worker_first_education}" th:value="${item.id}" th:text="${item.name}"  th:field="${worker.lastEducation}"></option>
+									</select>
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">联系电话：</label>
+								<div class="col-sm-9">
+									<input id="phone" name="phone" th:value="${worker.phone}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">通讯地址：</label>
+								<div class="col-sm-9">
+									<input id="address" name="address" th:value="${worker.address}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">邮编：</label>
+								<div class="col-sm-9">
+									<input id="postCode" name="postCode" th:value="${worker.postCode}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">电子邮件：</label>
+								<div class="col-sm-9">
+									<input id="email" name="email" th:value="${worker.email}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">微信：</label>
+								<div class="col-sm-9">
+									<input id="weixin" name="weixin" th:value="${worker.weixin}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">QQ：</label>
+								<div class="col-sm-9">
+									<input id="qq" name="qq" th:value="${worker.qq}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">状态：</label>
+								<div class="col-sm-9">
+                                    <label th:each="item:${sys_worker_status}">
+                                        <input type="radio"	id="status" name="status" th:value="${item.id}" th:text="${item.name}" th:field="${worker.status}"/>
+                                    </label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-9 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/system/worker/edit.js" th:src="@{/js/appjs/system/worker/edit.js}">
+	</script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.school.dao.SchoolSchoolDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+		select
+            id,
+            code,
+            regionid,
+            name,
+            pinyin,
+            b_code,
+            b_send_unit,
+            b_send_date,
+            z_code,
+            z_send_unit,
+            z_send_date,
+            type,
+            legal_person,
+            legal_person_duty,
+            j_teacher_num,
+            z_teacher_num,
+            manager_num,
+            all_num,
+            charger,
+            address,
+            post_code,
+            phone,
+            mphone,
+            fax,
+            email,
+            status,
+            operator,
+            update_date,
+            enabled_flag
+		from sch_school
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+		select
+	        id,
+	        code,
+	        regionid,
+	        name,
+	        pinyin,
+	        b_code,
+	        b_send_unit,
+	        b_send_date,
+	        z_code,
+	        z_send_unit,
+	        z_send_date,
+	        type,
+	        legal_person,
+	        legal_person_duty,
+	        j_teacher_num,
+	        z_teacher_num,
+	        manager_num,
+	        all_num,
+	        charger,
+	        address,
+	        post_code,
+	        phone,
+	        mphone,
+	        fax,
+	        email,
+	        status,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from sch_school
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="bCode != null and bCode != ''"> and b_code = #{bCode} </if>
+		  <if test="bSendUnit != null and bSendUnit != ''"> and b_send_unit = #{bSendUnit} </if>
+		  <if test="bSendDate != null and bSendDate != ''"> and b_send_date = #{bSendDate} </if>
+		  <if test="zCode != null and zCode != ''"> and z_code = #{zCode} </if>
+		  <if test="zSendUnit != null and zSendUnit != ''"> and z_send_unit = #{zSendUnit} </if>
+		  <if test="zSendDate != null and zSendDate != ''"> and z_send_date = #{zSendDate} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="legalPerson != null and legalPerson != ''"> and legal_person = #{legalPerson} </if>
+		  <if test="legalPersonDuty != null and legalPersonDuty != ''"> and legal_person_duty = #{legalPersonDuty} </if>
+		  <if test="jTeacherNum != null and jTeacherNum != ''"> and j_teacher_num = #{jTeacherNum} </if>
+		  <if test="zTeacherNum != null and zTeacherNum != ''"> and z_teacher_num = #{zTeacherNum} </if>
+		  <if test="managerNum != null and managerNum != ''"> and manager_num = #{managerNum} </if>
+		  <if test="allNum != null and allNum != ''"> and all_num = #{allNum} </if>
+		  <if test="charger != null and charger != ''"> and charger = #{charger} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="mphone != null and mphone != ''"> and mphone = #{mphone} </if>
+		  <if test="fax != null and fax != ''"> and fax = #{fax} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sch_school
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="code != null and code != ''"> and code = #{code} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="bCode != null and bCode != ''"> and b_code = #{bCode} </if>
+		  <if test="bSendUnit != null and bSendUnit != ''"> and b_send_unit = #{bSendUnit} </if>
+		  <if test="bSendDate != null and bSendDate != ''"> and b_send_date = #{bSendDate} </if>
+		  <if test="zCode != null and zCode != ''"> and z_code = #{zCode} </if>
+		  <if test="zSendUnit != null and zSendUnit != ''"> and z_send_unit = #{zSendUnit} </if>
+		  <if test="zSendDate != null and zSendDate != ''"> and z_send_date = #{zSendDate} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="legalPerson != null and legalPerson != ''"> and legal_person = #{legalPerson} </if>
+		  <if test="legalPersonDuty != null and legalPersonDuty != ''"> and legal_person_duty = #{legalPersonDuty} </if>
+		  <if test="jTeacherNum != null and jTeacherNum != ''"> and j_teacher_num = #{jTeacherNum} </if>
+		  <if test="zTeacherNum != null and zTeacherNum != ''"> and z_teacher_num = #{zTeacherNum} </if>
+		  <if test="managerNum != null and managerNum != ''"> and manager_num = #{managerNum} </if>
+		  <if test="allNum != null and allNum != ''"> and all_num = #{allNum} </if>
+		  <if test="charger != null and charger != ''"> and charger = #{charger} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="mphone != null and mphone != ''"> and mphone = #{mphone} </if>
+		  <if test="fax != null and fax != ''"> and fax = #{fax} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.SchoolDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sch_school
+		(
+			code, 
+			regionid, 
+			name, 
+			pinyin, 
+			b_code, 
+			b_send_unit, 
+			b_send_date, 
+			z_code, 
+			z_send_unit, 
+			z_send_date, 
+			type, 
+			legal_person, 
+			legal_person_duty, 
+			j_teacher_num, 
+			z_teacher_num, 
+			manager_num, 
+			all_num, 
+			charger, 
+			address, 
+			post_code, 
+			phone, 
+			mphone, 
+			fax, 
+			email, 
+			status, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{code}, 
+			#{regionid}, 
+			#{name}, 
+			#{pinyin}, 
+			#{bCode}, 
+			#{bSendUnit}, 
+			#{bSendDate}, 
+			#{zCode}, 
+			#{zSendUnit}, 
+			#{zSendDate}, 
+			#{type}, 
+			#{legalPerson}, 
+			#{legalPersonDuty}, 
+			#{jTeacherNum}, 
+			#{zTeacherNum}, 
+			#{managerNum}, 
+			#{allNum}, 
+			#{charger}, 
+			#{address}, 
+			#{postCode}, 
+			#{phone}, 
+			#{mphone}, 
+			#{fax}, 
+			#{email}, 
+			#{status}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.SchoolDO">
+		update sch_school 
+		<set>
+			<if test="code != null">code = #{code}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="pinyin != null">pinyin = #{pinyin}, </if>
+			<if test="bCode != null">b_code = #{bCode}, </if>
+			<if test="bSendUnit != null">b_send_unit = #{bSendUnit}, </if>
+			<if test="bSendDate != null">b_send_date = #{bSendDate}, </if>
+			<if test="zCode != null">z_code = #{zCode}, </if>
+			<if test="zSendUnit != null">z_send_unit = #{zSendUnit}, </if>
+			<if test="zSendDate != null">z_send_date = #{zSendDate}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="legalPerson != null">legal_person = #{legalPerson}, </if>
+			<if test="legalPersonDuty != null">legal_person_duty = #{legalPersonDuty}, </if>
+			<if test="jTeacherNum != null">j_teacher_num = #{jTeacherNum}, </if>
+			<if test="zTeacherNum != null">z_teacher_num = #{zTeacherNum}, </if>
+			<if test="managerNum != null">manager_num = #{managerNum}, </if>
+			<if test="allNum != null">all_num = #{allNum}, </if>
+			<if test="charger != null">charger = #{charger}, </if>
+			<if test="address != null">address = #{address}, </if>
+			<if test="postCode != null">post_code = #{postCode}, </if>
+			<if test="phone != null">phone = #{phone}, </if>
+			<if test="mphone != null">mphone = #{mphone}, </if>
+			<if test="fax != null">fax = #{fax}, </if>
+			<if test="email != null">email = #{email}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update sch_school set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  sch_school set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="getDept" resultType="com.hxy.nzxy.stexam.domain.SchoolDO">
+		select
+           *
+		from sch_school
+		where id = #{value}
+	</select>
+</mapper>

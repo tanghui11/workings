@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${studentSpecialityRegion.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>准考证编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="studentid" name="studentid" th:value="${studentSpecialityRegion.studentid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>地州市考办编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="regionid" name="regionid" th:value="${studentSpecialityRegion.regionid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>县区考办编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="childRegionid" name="childRegionid" th:value="${studentSpecialityRegion.childRegionid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>助学组织编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="schoolid" name="schoolid" th:value="${studentSpecialityRegion.schoolid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>学院编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="collegeid" name="collegeid" th:value="${studentSpecialityRegion.collegeid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>教学点编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="teachSiteid" name="teachSiteid" th:value="${studentSpecialityRegion.teachSiteid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业院校：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gradSchool" name="gradSchool" th:value="${studentSpecialityRegion.gradSchool}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业证书号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gradCertificate" name="gradCertificate" th:value="${studentSpecialityRegion.gradCertificate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>原学专业编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gradSpecialityid" name="gradSpecialityid" th:value="${studentSpecialityRegion.gradSpecialityid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>原学历：</label>
+                                        </td>
+                                        <td>
+                                            <input id="education" name="education" th:value="${studentSpecialityRegion.education}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业招生备案编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="schoolSpecialityRegid" name="schoolSpecialityRegid" th:value="${studentSpecialityRegion.schoolSpecialityRegid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>专业开设编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="specialityRecordid" name="specialityRecordid" th:value="${studentSpecialityRegion.specialityRecordid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="status" name="status" th:value="${studentSpecialityRegion.status}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业申请状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="graduate" name="graduate" th:value="${studentSpecialityRegion.graduate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>打印毕业证：</label>
+                                        </td>
+                                        <td>
+                                            <input id="printCertificate" name="printCertificate" th:value="${studentSpecialityRegion.printCertificate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>申请人：</label>
+                                        </td>
+                                        <td>
+                                            <input id="applyOperator" name="applyOperator" th:value="${studentSpecialityRegion.applyOperator}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>申请日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="applyDate" name="applyDate" th:value="${studentSpecialityRegion.applyDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>审核状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditStatus" name="auditStatus" th:value="${studentSpecialityRegion.auditStatus}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>审核人：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditOperator" name="auditOperator" th:value="${studentSpecialityRegion.auditOperator}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>审核日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="auditDate" name="auditDate" th:value="${studentSpecialityRegion.auditDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业审核状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gradAuditStatus" name="gradAuditStatus" th:value="${studentSpecialityRegion.gradAuditStatus}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业审核人：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gradAuditOperator" name="gradAuditOperator" th:value="${studentSpecialityRegion.gradAuditOperator}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>毕业审核日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gradAuditDate" name="gradAuditDate" th:value="${studentSpecialityRegion.gradAuditDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>旧准考证：</label>
+                                        </td>
+                                        <td>
+                                            <input id="oldStudentid" name="oldStudentid" th:value="${studentSpecialityRegion.oldStudentid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																					                                    <tr>
+                                        <td  class="W180">
+                                            <label>数据标记：</label>
+                                        </td>
+                                        <td>
+                                            <input id="dbFlag" name="dbFlag" th:value="${studentSpecialityRegion.dbFlag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>创建时间：</label>
+                                        </td>
+                                        <td>
+                                            <input id="createDate" name="createDate" th:value="${studentSpecialityRegion.createDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																														
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/student/studentSpecialityRegion/edit.js" th:src="@{/js/appjs/region/student/studentSpecialityRegion/edit.js}">
+</script>
+</body>
+</html>

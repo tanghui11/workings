@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.WarehousingScoreEditDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.WarehousingScoreEditDO">
+		select
+			a.id,
+	        a.courseid,
+	        b.name,
+	        a.exam_flag,
+	        a.status,
+	        a.grade,
+	        a.operator,
+	        a.update_date
+		 from stu_score a left join pla_course b on a.courseid = b.id
+		where a.id = #{id}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.WarehousingScoreEditDO">
+		select
+			a.id,
+            a.courseid,
+            b.name as courseName,
+            a.exam_flag,
+            a.status,
+            a.grade,
+            a.operator,
+            a.update_date
+		 from stu_score a left join pla_course b on a.courseid = b.id
+        <where>
+         and a.enabled_flag=1 and a.type in ('a','b')
+			<if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+		  <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+		  <if test="courseName != null and courseName != ''"> and b.name = #{courseName} </if>
+		  <if test="examFlag != null and examFlag != ''"> and a.exam_flag = #{examFlag} </if>
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+		  <if test="oldGrade != null and oldGrade != ''"> and a.grade = #{oldGrade} </if>
+		  <if test="operator != null and operator != ''"> and a.operator = #{operator} </if>
+			<if test="updateDate != null and updateDate != ''"> and a.update_date = #{updateDate} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_score a left join pla_course b on a.courseid = b.id
+		 <where>
+			 and a.enabled_flag=1 and a.type in ('a','b')
+			 <if test="studentid != null and studentid != ''"> and a.studentid = #{studentid} </if>
+			 <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			 <if test="courseName != null and courseName != ''"> and b.name = #{courseName} </if>
+			 <if test="examFlag != null and examFlag != ''"> and a.exam_flag = #{examFlag} </if>
+			 <if test="status != null and status != ''"> and a.status = #{status} </if>
+			 <if test="grade != null and grade != ''"> and a.grade = #{grade} </if>
+			 <if test="operator != null and operator != ''"> and a.exam_courseid = #{operator} </if>
+			 <if test="updateDate != null and updateDate != ''"> and a.update_date = #{updateDate} </if>
+		</where>
+	</select>
+
+
+	<insert id="saveRecord" parameterType="com.hxy.nzxy.stexam.domain.WarehousingScoreEditDO">
+		insert into stu_score_log(
+			scoreid,
+			new_grade,
+			old_grade,
+			remark,
+			operator,
+			update_date
+			)
+			value (
+			#{id},
+			#{newGrade},
+			#{grade},
+			#{remark},
+			#{operator},
+			now()
+			)
+	</insert>
+
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.WarehousingScoreEditDO">
+		update stu_score
+		set
+		  grade = #{newGrade}
+		where enabled_flag = 1 and  id = #{id}
+	</update>
+
+	<update id="recordRemove">
+		update stu_score_log set enabled_flag =0  where id = #{id}
+	</update>
+
+	<select id="warehousingScoreEditRecordList" resultType="com.hxy.nzxy.stexam.domain.WarehousingScoreEditRecordDO">
+		select
+		id,
+		new_grade as newGrade,
+		old_grade as grade,
+		remark,
+		operator,
+		update_date
+		from stu_score_log
+		<where>
+			and enabled_flag=1 and scoreid = #{scoreid}
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="newGrade != null and newGrade != ''"> and new_grade = #{newGrade} </if>
+			<if test="grade != null and grade != ''"> and old_grade = #{grade} </if>
+			<if test="remark != null and remark != ''"> and remark = #{remark} </if>
+			<if test="operator != null and operator != ''"> and operator = #{operator} </if>
+			<if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="warehousingScoreEditRecordCount" resultType="int">
+		select count(*) from stu_score_log
+		<where>
+			and enabled_flag=1 and scoreid = #{scoreid}
+
+		</where>
+	</select>
+
+</mapper>

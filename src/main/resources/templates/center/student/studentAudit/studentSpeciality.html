@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<input id="orgid" name="orgid" type="hidden" th:value="0">
+					<input id="schoolid" name="schoolid" type="hidden" >
+					<input id="collegeid" name="collegeid" type="hidden" >
+					<input id="teachSiteid" name="teachSiteid" type="hidden" >
+					<input id="regionid" name="regionid" type="hidden">
+					<input id="childRegionid" name="childRegionid" type="hidden">
+					<div class="ibox-title">
+						<h5>考区列表</h5>
+					</div>
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+			<form method="post"  id="form">
+			<div class="ibox">
+				<div class="ibox-body">
+					<!-- <input type="hidden" id="studentid">
+					<input type="hidden" id="collegeName">
+					<input type="hidden" id="teachName">
+					<input type="hidden" id="collegeid">
+					<input type="hidden" id="teachSiteid">	 -->
+					<!--<input id="schoolid" name="schoolid" type="hidden" >-->
+					<!--<input id="collegeid" name="collegeid" type="hidden" >-->
+					<!--<input id="teachSiteid" name="teachSiteid" type="hidden" >-->
+					<!--<input id="regionid" name="regionid" type="hidden">-->
+					<!--<input id="childRegionid" name="childRegionid" type="hidden">-->
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left" style="margin-right:10px">
+							考生类别
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							<select id="type" name="type" class="form-control" onchange="bianhua()">
+										<option th:each="item:${pla_speciality_record_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							毕业年份
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;width:100px">
+							<input id="years" type="text" class="form-control" onfocus="WdatePicker({ dateFmt: 'yyyy' })">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;width:100px">
+							<select id="time" name="time" class="form-control">
+								<option value="a">上半年</option>
+								<option value="b">下半年</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							准考证号
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="studentid" type="text" class="form-control"
+								placeholder="" > 
+						</div>
+						<div style="clear:both"></div>
+						<div class="columns pull-left" style="margin-right:10px">
+							毕业审核状态
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							<select id="gradAuditStatus" name="gradAuditStatus" class="form-control">
+										<option th:each="item:${stu_student_speciality_grad_audit_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							专业名称
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+						<input id="specialityid" type="hidden"/>
+							<input id="subjectName" type="text" class="form-control"
+								placeholder="" style="width:200px" onclick="courseName()"> 
+						</div>
+						<div class="columns pull-left">
+							<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+							<button class="btn  btn-primary" onclick="shenghe()" type="button">审核</button>
+							<button class="btn  btn-info" onclick="qxsh()" type="button">取消审核</button>
+							<button class="btn btn-warning" onclick="tuihui()" type="button">退回</button>
+							<button class="btn btn-info" onclick="info()" type="button">打印审批表</button>
+						</div>
+						<!-- <div class="columns pull-left" style="margin-left:10px">
+							<button shiro:hasPermission="student:studentSpeciality:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加专业
+							</button>
+							<button shiro:hasPermission="student:studentSpeciality:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+
+
+						</div> -->
+						<div style="clear:both"></div>
+						<div class="list-group-item label one"></div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+			</form>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 --> 
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentSpeciality:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentSpeciality:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentSpeciality:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentAudit/studentSpeciality.js" th:src="@{/js/appjs/center/student/studentAudit/studentSpeciality.js}"></script>
+</body>
+</html>

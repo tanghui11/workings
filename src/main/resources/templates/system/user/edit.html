@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox-content">
+					<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${userDO.id}" type="hidden">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">登录帐号：</label>
+                            <div class="col-sm-10">
+                                <input id="name" name="name" class="form-control" type="text" th:value="${userDO.name}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">职员姓名：</label>
+                            <div class="col-sm-10">
+                                <input id="workerName" name="workerName" class="form-control" type="text" th:value="${userDO.workerName}" readonly>
+                            </div>
+                        </div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">状态:</label>
+							<div class="col-sm-10">
+                                <label th:each="item:${sys_user_status}" class="checkbox-inline">
+                                    <input name="status" type="radio" th:value="${item.id}" th:text="${item.name}" th:field="${userDO.status}">
+                                </label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">角色</label>
+							<div class="col-sm-10">
+                                <input type="hidden" name="roleIds" id="roleIds" th:value="${roleIds}">
+								<label th:each="role:${roles}" class="checkbox-inline">
+                                    <input name="role" type="checkbox" th:value="${role.id}" th:text="${role.name}" th:checked="${role.roleSign}">
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-10 col-sm-offset-2">
+								<button type="submit" class="btn btn-primary">提交</button>
+                                <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/system/user/edit.js" th:src="@{/js/appjs/system/user/edit.js}">
+	</script>
+</body>
+</html>

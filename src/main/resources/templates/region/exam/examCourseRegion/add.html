@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td class="W180">
+                                            <label>课程编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="courseid" name="courseid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>教材编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="bookid" name="bookid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>开考时间编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examTimeid" name="examTimeid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>任务编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examTaskid" name="examTaskid" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>满分：</label>
+                                        </td>
+                                        <td>
+                                            <input id="fullScore" name="fullScore" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>及格分数：</label>
+                                        </td>
+                                        <td>
+                                            <input id="passScore" name="passScore" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>客观题总分：</label>
+                                        </td>
+                                        <td>
+                                            <input id="objectivesScore" name="objectivesScore" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>主观题总分：</label>
+                                        </td>
+                                        <td>
+                                            <input id="subjectiveScore" name="subjectiveScore" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>超员人数：</label>
+                                        </td>
+                                        <td>
+                                            <input id="exceedNumber" name="exceedNumber" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="type" name="type" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>命题类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="classify" name="classify" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>题卡类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="cardType" name="cardType" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="remark" name="remark" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="seq" name="seq" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/exam/examCourseRegion/add.js" th:src="@{/js/appjs/region/exam/examCourseRegion/add.js}" >
+</script>
+</body>
+</html>

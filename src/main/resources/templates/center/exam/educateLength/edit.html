@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${educateLength.id}"  type="hidden">
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>专业层次：</label>
+								</td>
+								<td>
+									<select id="classify" name="classify" class="form-control">
+										<option th:each="item:${sch_school_speciality_reg_classify}" th:value="${item.id}" th:text="${item.name}"th:field="${educateLength.classify}"></option>
+									</select>
+								</td>
+								<td>
+									<label><span style="color:red">*</span>助学方式：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${sch_school_speciality_reg_type}" th:value="${item.id}" th:text="${item.name}" th:field="${educateLength.type}"></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>学制：</label>
+								</td>
+								<td>
+									<select id="length" name="length" class="form-control">
+										<option th:each="item:${sch_school_speciality_reg_educate_length}" th:value="${item.id}" th:text="${item.name}" th:field="${educateLength.length}"></option>
+									</select>
+								</td>
+								<td>
+									<label><span style="color:red">*</span>学制长度：</label>
+								</td>
+								<td>
+									<input id="studyLength" name="studyLength" th:value="${educateLength.studyLength}" class="form-control" type="text">
+								</td>
+							</tr>
+                            <tr>
+								<td>
+									<label><span style="color:red">*</span>毕业学制长度：</label>
+								</td>
+								<td>
+									<input id="graduateLength" name="graduateLength" th:value="${educateLength.graduateLength}" class="form-control" type="text">
+								</td>
+							</tr>
+						</table>
+							<div class="" style="text-align:center;margin-top:6px">
+								<button type="submit" class="btn btn-primary" id='submission'>提交</button>
+								<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/educateLength/edit.js" th:src="@{/js/appjs/center/exam/educateLength/edit.js}">
+	</script>
+</body>
+</html>

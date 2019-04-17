@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${studentPre.id}"  type="hidden">
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">类别：</label>
+								<div class="col-sm-8">
+									<input id="type" name="type" th:value="${studentPre.type}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">姓名：</label>
+								<div class="col-sm-8">
+									<input id="name" name="name" th:value="${studentPre.name}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">英文名：</label>
+								<div class="col-sm-8">
+									<input id="ename" name="ename" th:value="${studentPre.ename}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">拼音：</label>
+								<div class="col-sm-8">
+									<input id="pinyin" name="pinyin" th:value="${studentPre.pinyin}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">性别：</label>
+								<div class="col-sm-8">
+									<input id="gender" name="gender" th:value="${studentPre.gender}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">户籍：</label>
+								<div class="col-sm-8">
+									<input id="homeType" name="homeType" th:value="${studentPre.homeType}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">政治面貌：</label>
+								<div class="col-sm-8">
+									<input id="politics" name="politics" th:value="${studentPre.politics}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">民族：</label>
+								<div class="col-sm-8">
+									<input id="nation" name="nation" th:value="${studentPre.nation}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">职业：</label>
+								<div class="col-sm-8">
+									<input id="profession" name="profession" th:value="${studentPre.profession}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">出生日期：</label>
+								<div class="col-sm-8">
+									<input id="birthday" name="birthday" th:value="${studentPre.birthday}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">照片路径：</label>
+								<div class="col-sm-8">
+									<input id="pic" name="pic" th:value="${studentPre.pic}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">籍贯：</label>
+								<div class="col-sm-8">
+									<input id="nativePlace" name="nativePlace" th:value="${studentPre.nativePlace}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">证件类别：</label>
+								<div class="col-sm-8">
+									<input id="certificateType" name="certificateType" th:value="${studentPre.certificateType}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">身份证号：</label>
+								<div class="col-sm-8">
+									<input id="certificateNo" name="certificateNo" th:value="${studentPre.certificateNo}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">固定电话：</label>
+								<div class="col-sm-8">
+									<input id="phone" name="phone" th:value="${studentPre.phone}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">移动电话：</label>
+								<div class="col-sm-8">
+									<input id="mphone" name="mphone" th:value="${studentPre.mphone}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">通讯地址：</label>
+								<div class="col-sm-8">
+									<input id="address" name="address" th:value="${studentPre.address}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">邮编：</label>
+								<div class="col-sm-8">
+									<input id="postCode" name="postCode" th:value="${studentPre.postCode}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">电子邮箱：</label>
+								<div class="col-sm-8">
+									<input id="email" name="email" th:value="${studentPre.email}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">地州市考办编号：</label>
+								<div class="col-sm-8">
+									<input id="regionid" name="regionid" th:value="${studentPre.regionid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">县区考办编号：</label>
+								<div class="col-sm-8">
+									<input id="childRegionid" name="childRegionid" th:value="${studentPre.childRegionid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">助学组织编号：</label>
+								<div class="col-sm-8">
+									<input id="schoolid" name="schoolid" th:value="${studentPre.schoolid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">集体代码：</label>
+								<div class="col-sm-8">
+									<input id="groupid" name="groupid" th:value="${studentPre.groupid}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">确认操作员：</label>
+								<div class="col-sm-8">
+									<input id="confirmOperator" name="confirmOperator" th:value="${studentPre.confirmOperator}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">确认操作日期：</label>
+								<div class="col-sm-8">
+									<input id="confirmDate" name="confirmDate" th:value="${studentPre.confirmDate}" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentPre/edit.js" th:src="@{/js/appjs/center/student/studentPre/edit.js}">
+	</script>
+</body>
+</html>

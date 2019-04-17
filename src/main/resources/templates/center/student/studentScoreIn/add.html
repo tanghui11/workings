@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<table class="table table-bordered table-style">
+								<tr>
+									<input id="id" name="studentInid" class="form-control" type="hidden">
+									<!-- <td style="width:102px;">
+										<label>转入考绩编号：</label>
+									</td>
+									<td>
+										<input id="id" name="studentInid" class="form-control" type="text">
+									</td> -->
+									<td style="width:102px;">
+										<label>课程名称：</label>
+									</td>
+									<td>
+										<input id="courseid" name="courseid" class="form-control" type="hidden">
+										<input id="coursess" name="coursess" class="form-control" type="text" onclick="courseNames()">
+									</td>
+									<td style="width:80px;">
+										<label>成绩：</label>
+									</td>
+									<td>
+										<input id="grade" name="grade" class="form-control" type="text">
+									</td>
+								</tr>
+								<tr>
+									
+									<td>
+										<label>备注：</label>
+									</td>
+									<td   colspan="3">
+										<textarea id="remark" name="remark" class="form-control" style="resize:none;height: 100px;">
+										</textarea>
+									</td>
+								</tr>
+							</table>
+                           <!--  <div class="form-group">
+								<label class="col-sm-3 control-label">转入考绩编号：</label>
+								<div class="col-sm-8">
+									<input id="id" name="studentInid" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">课程代码：</label>
+								<div class="col-sm-8">
+									<input id="courseid" name="courseid" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">成绩：</label>
+								<div class="col-sm-8">
+									<input id="grade" name="grade" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">备注：</label>
+								<div class="col-sm-8">
+									<input id="remark" name="remark" class="form-control" type="text">
+								</div>
+							</div> -->
+							<div class="form-group">
+								<div style="text-align: center;">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentScoreIn/add.js" th:src="@{/js/appjs/center/student/studentScoreIn/add.js}">
+	</script>
+</body>
+</html>

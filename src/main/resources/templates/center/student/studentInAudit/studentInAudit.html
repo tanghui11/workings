@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left" style="margin-right:10px;">
+							审核状态
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<select class="form-control" id="selectAuditStatus" name="auditStatus" placeholder="" type="text" onchange="selectAuditStatus()">
+								<option value="">--请选择--</option>
+								<option value="a">待审核</option>
+								<option value="b">已审核</option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="请输入姓名或证件号">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+						<button shiro:hasPermission="student:studentIn:cancelStatus" type="button" class="btn  btn-danger"
+								onclick="auditStatus()">
+							审核
+						</button></div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<button shiro:hasPermission="student:studentIn:cancelStatus" type="button" class="btn  btn-danger"
+								onclick="cancelAuditStatus()">
+								取消审核
+							</button></div>
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentIn:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentIn:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentScoreIn:studentScoreIn">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentInAudit/studentInAudit.js" th:src="@{/js/appjs/center/student/studentInAudit/studentInAudit.js}"></script>
+</body>
+</html>

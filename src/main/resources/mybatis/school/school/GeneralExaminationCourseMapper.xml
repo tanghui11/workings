@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.school.dao.GeneralExaminationCourseDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.GeneralExaminationCourseDO">
+			select
+		    a.id,
+			a.courseid,
+			b.name as courseName
+	  from   stu_score a left join pla_course b on a.courseid = b.id
+			where
+		 a.enabled_flag = 1 and a.type = 'a' and a.studentid = {studentid}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.GeneralExaminationCourseDO">
+		select
+			a.id,
+			a.courseid,
+			b.name as courseName
+	    from   stu_score a left join pla_course b on a.courseid = b.id
+        <where>
+			  and a.enabled_flag = 1
+			  and a.type = 'a'
+			  and a.studentid = #{studentid}
+
+			  <if test="id != null and id != ''"> and a.id = #{id} </if>
+			  <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			  <if test="courseName != null and courseName != ''"> and a.name = #{courseName} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*)
+		from
+			stu_score a left join pla_course b on a.courseid = b.id
+		<where>
+			and a.enabled_flag = 1 and a.type = 'a' and a.studentid = #{studentid}
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			<if test="courseName != null and courseName != ''"> and a.name = #{courseName} </if>
+		</where>
+	</select>
+
+</mapper>

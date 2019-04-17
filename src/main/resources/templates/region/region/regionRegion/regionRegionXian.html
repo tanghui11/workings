@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+						<div class="list-group-item label">县区考办管理> 基本信息维护</div>
+					<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="parentid" name="parentid" th:value="${regionRegion.parentid}" class="form-control" type="hidden">
+							<!-- <input id="parentid" name="parentid" class="form-control" type="hidden" > -->
+							<input id="id" name="id" th:value="${regionRegion.id}" type="hidden">
+							<tr>
+								<td class="W180">
+									<label>代码：</label>
+								</td>
+								<td>
+									<input id="code" name="code" th:value="${regionRegion.code}" class="form-control" type="text">
+								</td>
+								<td class="W180">
+									<label>类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${reg_region_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="W180">
+									<label>名称：</label>
+								</td>
+								<td>
+									<input id="name" name="name" th:value="${regionRegion.name}" class="form-control" type="text" onkeyup="spell()" onchange="spell()">
+								</td>
+								<td class="W180">
+									<label>拼音：</label>
+								</td>
+								<td>
+									<input id="pinyin" name="pinyin" th:value="${regionRegion.pinyin}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td class="W180">
+									<label>联系人：</label>
+								</td>
+								<td>
+									<input id="linkman" name="linkman" th:value="${regionRegion.linkman}" class="form-control" type="text">
+								</td>
+								<td class="W180">
+									<label>联系地址：</label>
+								</td>
+								<td>
+									<input id="address" name="address" th:value="${regionRegion.address}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td class="W180">
+									<label>固定电话：</label>
+								</td>
+								<td>
+									<input id="phone" name="phone" th:value="${regionRegion.phone}" class="form-control" type="text">
+								</td>
+								<td class="W180">
+									<label>移动电话：</label>
+								</td>
+								<td>
+									<input id="mphone" name="mphone" th:value="${regionRegion.mphone}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td class="W180">
+									<label>传真：</label>
+								</td>
+								<td>
+									<input id="fax" name="fax" th:value="${regionRegion.fax}" class="form-control" type="text">
+								</td>
+								<td class="W180">
+									<label>是否能照相：</label>
+								</td>
+								<td>
+									<select id="photoFlag" name="photoFlag" class="form-control">
+										<option th:each="item:${reg_region_photo_flag}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>考区转移：</label>
+								</td>
+								<td>
+									<input id="examTransfer" name="examTransfer" th:value="${regionRegion.examTransfer}" class="form-control" type="text">
+								</td>
+								<td>
+									<label>考场规格：</label>
+								</td>
+								<td>
+									<input id="roomSize" name="roomSize" th:value="${regionRegion.roomSize}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>邮编：</label>
+								</td>
+								<td>
+									<input id="postCode" name="postCode" th:value="${regionRegion.postCode}" class="form-control" type="text">
+								</td>
+								<td>
+									<label>考场编排序号：</label>
+								</td>
+								<td>
+									<input id="seq" name="seq" th:value="${regionRegion.seq}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+
+								<td>
+									<label>考试提示：</label>
+								</td>
+								<td colspan="3">
+									<textarea id="examMsg" name="examMsg" th:value="${regionRegion.code}" class="form-control" style="resize:none"></textarea>
+									<!-- <input id="examMsg" name="examMsg" class="form-control" type="text"> -->
+								</td>
+								<!-- <td>
+                                    <label>邮箱：</label>
+                                </td>
+                                <td>
+                                    <input id="email" name="email" class="form-control" type="text">
+                                </td> -->
+
+
+							</tr>
+						</table>
+						<div style="text-align:center;margin-top:5px" >
+							<div style="text-align:center;">
+								<button type="submit" class="btn btn-primary">修改</button>
+								<!--<button type="button" class="btn btn-danger">删除</button>-->
+							</div>
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/region/region/regionRegion/edit.js" th:src="@{/js/appjs/region/region/regionRegion/edit.js}"></script>
+</body>
+</html>

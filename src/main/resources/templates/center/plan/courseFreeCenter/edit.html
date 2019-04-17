@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${courseFreeCenter.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+									<tr>
+                                        <td style="width:70px">
+                                            <label><span style="color:red">*</span>名称：</label>
+                                        </td>
+                                        <td colspan="3">
+                                            <input id="name" name="name" th:value="${courseFreeCenter.name}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+									 <tr>
+                                        <td>
+                                            <label>备注：</label>
+                                        </td>
+                                        <td colspan="3">
+                                            <textarea id="remark" name="remark" th:text="${courseFreeCenter.remark}" class="form-control" type="text"></textarea>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        <td>
+                                            <label><span style="color:red">*</span>状态：</label>
+                                        </td>
+                                        <td>
+											<select id="status" name="status" class="form-control">
+												<option th:each="item:${pla_course_free_status}" th:value="${item.id}" th:text="${item.name}" th:field="${courseFreeCenter.status}"></option>
+											</select>
+                                        </td>
+										<td style="width:70px">
+                                            <label><span style="color:red">*</span>类别：</label>
+                                        </td>
+                                        <td>
+											<select id="type" name="type" class="form-control">
+												<option th:each="item:${pla_course_free_type}" th:value="${item.id}" th:text="${item.name}" th:field="${courseFreeCenter.type}"></option>
+											</select>
+                                        </td>
+                                    </tr>
+									<tr>
+                                        
+                                    </tr>
+															
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary" id="submission">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/center/plan/courseFreeCenter/edit.js" th:src="@{/js/appjs/center/plan/courseFreeCenter/edit.js}">
+</script>
+</body>
+</html>

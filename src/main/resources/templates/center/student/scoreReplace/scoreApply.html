@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<!--<div class="columns pull-left nopadding" style="margin-right:10px">-->
+							<!--考生类别-->
+						<!--</div>-->
+						<!--<div class="columns pull-left" style="margin-right:10px">-->
+							<!--<select id="type" name="type" class="form-control">-->
+								<!--<option th:each="item:${pla_speciality_record_type}" th:value="${item.id}" th:text="${item.name}" ></option>-->
+							<!--</select>-->
+						<!--</div>-->
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							状态
+						</div>
+						<div class="columns pull-left" style="margin-right:10px">
+							<select id="type" name="type" class="form-control">
+								<option th:each="item:${pla_course_free_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-right:10px">
+							免考规则
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;width:300px">
+							<input id="name" name="name" class="form-control"/>
+						</div>
+						<!--<div class="columns pull-left nopadding" style="margin-right:10px">-->
+							<!--准考证号-->
+						<!--</div>-->
+						<!--<div class="columns pull-left nopadding" style="margin-right:10px">-->
+							<!--<input id="studentid" name="studentid" type="text" class="form-control" placeholder="">-->
+						<!--</div>-->
+						<!--<div class="columns pull-left">-->
+							<!--<button shiro:hasPermission="student:scoreReplace:add" type="button" class="btn  btn-primary" onclick="add()">-->
+								<!--<i class="fa fa-plus" aria-hidden="true"></i>添加-->
+							<!--</button>-->
+							<!--<button shiro:hasPermission="student:scoreReplace:batchRemove" type="button" class="btn  btn-danger"-->
+								<!--onclick="batchRemove()">-->
+								<!--<i class="fa fa-trash" aria-hidden="true"></i>删除-->
+							<!--</button>-->
+						<!--</div>-->
+						<div class="columns pull-left">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:scoreReplace:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:scoreReplace:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:scoreReplace:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/scoreReplace/scoreApply.js" th:src="@{/js/appjs/center/student/scoreReplace/scoreApply.js}"></script>
+</body>
+</html>

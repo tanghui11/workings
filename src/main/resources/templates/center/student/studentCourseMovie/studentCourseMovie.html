@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+					<div class="columns pull-left" style="margin-right:10px"  style="margin-right:10px">
+                       考试任务
+                    </div>
+                    <div class="columns pull-left" style="margin-right:10px">
+                        <select id="examTaskid" type="text" class="form-control"
+                        ></select>
+                    </div>
+					<div class="columns pull-left" style="margin-right:10px"  style="margin-right:10px">
+                       考试课程
+                    </div>
+                    <div class="columns pull-left" style="margin-right:10px">
+                        <input id="examCourseName" type="text" class="form-control" onclick="baokao()" style="width:200px"/>
+                        <input id="examCourseid" type="hidden" class="form-control"/>
+                    </div>
+					<div class="columns pull-left">
+						<button class="btn btn-success" onclick="reLoad()">查询</button>
+						<button class="btn btn-primary" onclick="shift()">转移</button>
+					</div>
+					<div style="clear:both"></div>
+					<div class="columns pull-left" style="margin-right:10px">
+                       报考考试地点
+                    </div>
+                    <div class="columns pull-left">
+                        <select id="regionid" type="text" class="form-control" onchange="region()"/>
+						</select>
+                    </div>
+					<div class="columns pull-left" style="margin-left:5px;margin-right:5px">
+                        -
+                    </div>
+					<div class="columns pull-left" style="margin-right:10px">
+						<select id="childRegionid" type="text" class="form-control" />
+							<option value="">--请选择--</option>
+						</select>
+                    </div>
+					<div class="columns pull-left" style="margin-right:10px">
+                       转移考试地点
+                    </div>
+                    <div class="columns pull-left">
+                        <select id="newRegionId" type="text" class="form-control" onchange="regions()"/>
+						</select>
+                    </div>
+					<div class="columns pull-left" style="margin-left:5px;margin-right:5px">
+                        -
+                    </div>
+					<div class="columns pull-left" style="margin-right:10px">
+						<select id="newChildRegionId" type="text" class="form-control" />
+							<option value="">--请选择--</option>
+						</select>
+                    </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--shiro控制bootstraptable行内按钮可见性 -->
+    <div>
+        <script type="text/javascript">
+            var s_edit_h = 'hidden';
+            var s_remove_h = 'hidden';
+            var s_resetPwd_h = 'hidden';
+        </script>
+    </div>
+    <div shiro:hasPermission="student:studentCourseMovie:edit">
+        <script type="text/javascript">
+            s_edit_h = '';
+        </script>
+    </div>
+    <div shiro:hasPermission="student:studentCourseMovie:remove">
+        <script type="text/javascript">
+            var s_remove_h = '';
+        </script>
+    </div>
+    <div shiro:hasPermission="student:studentCourseMovie:resetPwd">
+        <script type="text/javascript">
+            var s_resetPwd_h = '';
+        </script>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/center/student/studentCourseMovie/studentCourseMovie.js" th:src="@{/js/appjs/center/student/studentCourseMovie/studentCourseMovie.js}"></script>
+</body>
+</html>

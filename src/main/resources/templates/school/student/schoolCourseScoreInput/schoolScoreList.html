@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<form method="post" th:action="@{/student/studentFileStudent/searchOutExcel}" id="form"　>
+						<h3 class="bg-info" id="nameId" style="padding:5px;margin:0 auto 10px 0;">考生基本信息</h3>
+						<!--startprint1-->
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+						<!--endprint1-->
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+                var s_edit_h = 'hidden';
+                var s_remove_h = 'hidden';
+                var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:edit">
+			<script type="text/javascript">
+                s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:schoolScoreStudent:remove">
+			<script type="text/javascript">
+                var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:resetPwd">
+			<script type="text/javascript">
+                var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/schoolCourseScoreInput/schoolScoreList.js" th:src="@{/js/appjs/school/student/schoolCourseScoreInput/schoolScoreList.js}"></script>
+</body>
+</html>

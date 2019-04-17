@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12" style="padding-right:0">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>助学组织列表</h5>
+					</div>
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+			<input id="orgid" name="orgid" type="hidden" th:value="0">
+			<input id="schoolid" name="schoolid" type="hidden">
+			<input id="collegeid" name="collegeid" type="hidden">
+			<input id="teachSiteid" name="teachSiteid" type="hidden">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<div class="columns pull-left nopadding"  style="margin-right:5px">
+								<input id="studentid" type="text" class="form-control"
+									placeholder="准考证号查询">
+							</div>
+							<div class="columns pull-left nopadding"  style="margin-right:5px">
+								<input id="name" type="text" class="form-control"
+									placeholder="姓名查询">
+							</div>
+							<div class="columns pull-left nopadding">
+								<input id="certificateNo" type="text" class="form-control"
+									placeholder="身份证查询">
+							</div>
+							<div style="clear:both"></div>
+							<div class="columns pull-left nopadding">
+								<input id="regYear" type="text" class="form-control"
+									placeholder="年份查询" onfocus="WdatePicker({dateFmt: 'yyyy'})">
+							</div>
+							
+							<div class="columns pull-left nopadding" style="margin-left:5px">
+									<select id="status" name="status" class="form-control">
+										<option th:each="item:${stu_student_reg_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select> 
+									<!-- <select id="status" name="status" class="form-control">
+										<option value='a'>待审核</option>
+										<option value='b'>已审核</option>
+									</select> -->
+							</div>
+							<div class="columns pull-left" style="margin-left:10px">
+								<button class="btn btn-success" onclick="reLoad()">查询</button>
+							</div>
+							<div class="columns pull-left">
+								<button shiro:hasPermission="student:studentReg:add" type="button" class="btn  btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i>添加
+								</button>
+								<button shiro:hasPermission="student:studentReg:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+							</div>
+							<div class="columns pull-left" style="margin-left:10px">
+								<button class="btn  btn-primary" onclick="shenghe()" type="button">审核</button>
+								<button class="btn btn-warning" onclick="cancalAudit()" type="button">取消审核</button>
+							</div>
+							
+						</div>
+						
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentReg:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentReg:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentReg:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentReg/studentReg.js" th:src="@{/js/appjs/center/student/studentReg/studentReg.js}"></script>
+</body>
+</html>

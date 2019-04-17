@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+
+				<input id="specialityRecordid" name="specialityRecordid" th:value="${specialityRecordid}" type="hidden">
+						<h3 class="bg-danger" style="padding:10px;margin:0;">开考课程</h3>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+
+			</div>
+		<div style="text-align:center;">
+			<button class="btn btn-success" onclick="add()">批量报考</button>
+		</div>
+		<div style="position:fixed;bottom:15px;right:15px;display:none" id="history">
+			<button type="button" class="btn  btn-primary" onclick="history()">查看报考记录</button>
+		</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/studentCourseStudent/studentRegStudent.js" th:src="@{/js/appjs/school/student/studentCourseStudent/studentRegStudent.js}"></script>
+</body>
+</html>

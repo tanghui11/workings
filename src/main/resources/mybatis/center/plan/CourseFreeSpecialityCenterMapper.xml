@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.CourseFreeSpecialityCenterDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.CourseFreeSpecialityDO">
+		select
+            id,
+            course_freeid,
+            speciality_recordid,
+            operator,
+            update_date
+		from pla_course_free_speciality
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.CourseFreeSpecialityDO">
+		select
+	        id,
+	        course_freeid,
+	        speciality_recordid,
+	        operator,
+	        update_date
+		 from pla_course_free_speciality
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="courseFreeid != null and courseFreeid != ''"> and course_freeid = #{courseFreeid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_course_free_speciality
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="courseFreeid != null and courseFreeid != ''"> and course_freeid = #{courseFreeid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.CourseFreeSpecialityDO">
+		insert into pla_course_free_speciality
+		(
+			id, 
+			course_freeid, 
+			speciality_recordid, 
+			operator
+			update_date, 
+		)
+		values
+		(
+			#{id}, 
+			#{courseFreeid}, 
+			#{specialityRecordid}, 
+			#{operator}
+			now(), 
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.CourseFreeSpecialityDO">
+		update pla_course_free_speciality 
+		<set>
+			<if test="courseFreeid != null">course_freeid = #{courseFreeid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="operator != null">operator = #{operator}</if>
+			update_date = now(), 
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update pla_course_free_speciality set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  pla_course_free_speciality set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

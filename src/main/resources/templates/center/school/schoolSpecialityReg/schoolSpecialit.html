@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div>
+	<div id="Mask"></div>
+</div>
+<form method="post" th:action="@{/school/specialityReg/searchOutExcelZY}">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12" style="padding-right:0">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>助学组织列表</h5>
+					</div>
+					
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+			<div class="ibox">
+				<div class="ibox-body">
+				<input type="hidden" id="orgid">
+					<input type="hidden" id="schoolid" name="schoolid">
+					<input type="hidden" id="schoolName" name="schoolName">
+					<input type="hidden" id="schoolName" name="schoolName">
+					<div class="fixed-table-toolbar">
+						<!-- <div class="columns pull-left nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
+						</div>
+						<div class="columns pull-left nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="">
+						</div>
+						<div class="columns pull-left" style="width:280px">
+							<span>助学组织：</span>
+							<select id="zhuxue" name="zhuxue" style="height:34px;width:200px">
+							</select>
+						</div> -->
+
+						<div class="columns pull-left">
+							<span>招生年份：</span>
+						</div>
+						<div class="columns pull-left  nopadding" style="margin-right:10px">
+							<input id="regYear" name="regYear" type="text" onfocus="WdatePicker({dateFmt: 'yyyy'})" class="form-control"
+								   placeholder="招生年份">
+						</div>
+						<div class="columns pull-left">
+							<span>招生季节：</span>
+						</div>
+						<div class="columns pull-left">
+							<select id="regSeason" name="regSeason" style="height:34px;width:90px" class="form-control">
+								<option th:each="item:${sch_school_speciality_reg_reg_season}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+						</div>
+
+
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:specialityReg:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:specialityReg:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:specialityReg:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/school/schoolSpecialityReg/schoolSpecialit.js" th:src="@{/js/appjs/center/school/schoolSpecialityReg/schoolSpecialit.js}"></script>
+</form>
+</body>
+</html>

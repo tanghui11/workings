@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="seat_arrangeid" name="seat_arrangeid" th:value="${scoreTempRegion.seat_arrangeid}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="grade1" name="grade1" th:value="${scoreTempRegion.grade1}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examFlag1" name="examFlag1" th:value="${scoreTempRegion.examFlag1}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="grade2" name="grade2" th:value="${scoreTempRegion.grade2}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examFlag2" name="examFlag2" th:value="${scoreTempRegion.examFlag2}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="grade" name="grade" th:value="${scoreTempRegion.grade}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="examFlag" name="examFlag" th:value="${scoreTempRegion.examFlag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="operator1" name="operator1" th:value="${scoreTempRegion.operator1}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="updateDate1" name="updateDate1" th:value="${scoreTempRegion.updateDate1}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/student/scoreTempRegion/edit.js" th:src="@{/js/appjs/region/student/scoreTempRegion/edit.js}">
+</script>
+</body>
+</html>

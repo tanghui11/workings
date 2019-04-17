@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td class="W180">
+                                            <label>准考证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksZkz" name="ksZkz" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>姓名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksXm" name="ksXm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>英文名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksExm" name="ksExm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>性别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksXb" name="ksXb" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>户籍代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="hjDm" name="hjDm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>面貌代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="mmDm" name="mmDm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>民族代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="mzDm" name="mzDm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>学历代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="xlDm" name="xlDm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>职业代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zhiyDm" name="zhiyDm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>专业代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zyDm" name="zyDm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>第一专业：</label>
+                                        </td>
+                                        <td>
+                                            <input id="firstZy" name="firstZy" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>集体代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="jtdmDm" name="jtdmDm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>身份证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksSfz" name="ksSfz" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>出生日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksBirthda" name="ksBirthda" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>联系电话：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksPhone" name="ksPhone" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>邮编：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksZip" name="ksZip" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>联系地址：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksAddress" name="ksAddress" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>报名市县：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksBmxs" name="ksBmxs" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>报名时间：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksBmsj" name="ksBmsj" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksZdyxx" name="ksZdyxx" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>停考时间：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksTksj" name="ksTksj" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>延期毕业：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksYqby" name="ksYqby" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>考生区县：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksQx" name="ksQx" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>市县代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="sxDm" name="sxDm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>修改标志：</label>
+                                        </td>
+                                        <td>
+                                            <input id="modified" name="modified" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>旧准考证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ksOldzkz" name="ksOldzkz" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>专业名称：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zyMc" name="zyMc" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>密码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="mm" name="mm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>手机1：</label>
+                                        </td>
+                                        <td>
+                                            <input id="sj1" name="sj1" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>手机2：</label>
+                                        </td>
+                                        <td>
+                                            <input id="sj2" name="sj2" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>电话：</label>
+                                        </td>
+                                        <td>
+                                            <input id="zzdh" name="zzdh" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>预报名号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ybmh" name="ybmh" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>报名点代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="bmddm" name="bmddm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>工作单位：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gzdw" name="gzdw" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>电子邮件：</label>
+                                        </td>
+                                        <td>
+                                            <input id="email" name="email" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>：</label>
+                                        </td>
+                                        <td>
+                                            <input id="msdm" name="msdm" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>：</label>
+                                        </td>
+                                        <td>
+                                            <input id="hkszd" name="hkszd" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gzdwszd" name="gzdwszd" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td class="W180">
+                                            <label>：</label>
+                                        </td>
+                                        <td>
+                                            <input id="flag" name="flag" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/student/studentTempRegion/add.js" th:src="@{/js/appjs/region/student/studentTempRegion/add.js}" >
+</script>
+</body>
+</html>

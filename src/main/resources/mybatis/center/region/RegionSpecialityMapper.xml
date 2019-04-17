@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.region.dao.RegionSpecialityDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+		select
+            id,
+            regionid,
+            speciality_recordid,
+            operator,
+            update_date,
+            enabled_flag
+		from reg_region_speciality
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+		select
+	        a.id,
+	        a.regionid,
+	        a.speciality_recordid,
+		    c.id as subjectCode,
+		    c.name as subjectName,
+	        a.operator,
+	        a.update_date,
+			b.direction
+		 from reg_region_speciality a left join pla_speciality_record b on a.speciality_recordid=b.id left  join pla_speciality c on b.specialityid=c.id
+        <where>
+         and a.enabled_flag=1
+		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and a.regionid = #{regionid} </if>
+		  <if test="subjectCode != null and subjectCode != ''"> and c.id  = #{subjectCode} </if>
+		  <if test="subjectName != null and subjectName != ''"> and c.name  like concat('%',#{subjectName},'%') </if>
+
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+
+	<select id="seachSubjectIdlist" resultType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+		select
+		a.id as specialityRecordid,
+		c.id as subjectCode,
+		c.name as subjectName
+		from pla_speciality_record a  left  join pla_speciality c on a.specialityid=c.id
+		<where>
+			and a.enabled_flag=1
+			and  a.type='a'
+			and  a.status='a'
+			<if test="subjectCode != null and subjectCode != ''"> and a.specialityid = #{subjectCode} </if>
+            and a.id not in( select  speciality_recordid from reg_region_speciality  where enabled_flag=1 and regionid=#{regionid})
+		</where>
+
+				order by a.id desc
+
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_region_speciality
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="subjectCode != null and subjectCode != ''"> and c.id  = #{subjectCode} </if>
+		  <if test="subjectName != null and subjectName != ''"> and c.name  like concat('%',#{subjectName},'%') </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+
+	<select id="countSubject" resultType="int">
+		select
+		count(*)
+		from pla_speciality_record a
+		<where>
+			and a.enabled_flag=1
+			and  a.type='a'
+			<if test="subjectCode != null and subjectCode != ''"> and a.specialityid = #{subjectCode} </if>
+			and a.id not in( select  speciality_recordid from reg_region_speciality  where enabled_flag=1 and regionid=#{regionid})
+		</where>
+
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_region_speciality
+		(
+			regionid, 
+			speciality_recordid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{regionid}, 
+			#{specialityRecordid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+		update reg_region_speciality 
+		<set>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_region_speciality set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_region_speciality set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<insert id="batchSave">
+		insert into reg_region_speciality(regionid, speciality_recordid,operator,update_date) values
+		<foreach item="item" index="index" collection="list"
+				 separator=",">
+			(#{item.regionid},#{item.specialityRecordid},#{item.operator},now())
+		</foreach>
+	</insert>
+
+
+	<!--验证-->
+	<select id="listCZ" resultType="com.hxy.nzxy.stexam.domain.RegionSpecialityDO">
+		select
+		regionid,
+		speciality_recordid
+		from reg_region_speciality
+		<where>
+			enabled_flag = 1
+			<foreach item = "bean" collection = "list" open = "and" separator = "or" close = "">
+				(speciality_recordid = #{bean.specialityRecordid} and regionid = #{bean.regionid} )
+			</foreach>
+			and speciality_recordid in
+			<foreach item = "bean" collection = "list" open = "(" separator = "," close = ")">
+				#{bean.specialityRecordid}
+			</foreach>
+		</where>
+
+	</select>
+<!--批量导入-->
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into reg_region_speciality
+		(
+		regionid,
+		speciality_recordid,
+		operator,
+		update_date
+		)
+		values
+		<foreach collection="list" item="bean" index="index" open="" close="" separator=",">
+			(
+			#{bean.regionid},
+			#{bean.specialityRecordid},
+			#{bean.operator},
+			now()
+			)
+		</foreach>
+
+	</insert>
+</mapper>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+					<form class="form-horizontal m-t" id="signupForm">
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="studentid" type="text" class="form-control"
+								placeholder="请输入准考证号查询">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="grade" name="grade" type="text" class="form-control"
+								placeholder="请输入成绩修改">
+						</div>
+						<div class="columns pull-left"  style="margin-right:10px;">
+							<input id="remark" name="remark" type="text" class="form-control"
+								placeholder="请输入备注">
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<button class="btn btn-success" type="button" onclick="reLoad()">查询</button>
+							<button class="btn btn-info"  type="button" onclick="save()">修改</button>
+						</div>
+						<!-- <div class="columns pull-left">
+							<button shiro:hasPermission="student:studentScoreIn:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="student:studentScoreIn:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div> -->
+					</form>
+						
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentScoreIn:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentScoreIn:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentScoreIn:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/WarehousingScoreEdit/WarehousingScoreEdit.js" th:src="@{/js/appjs/center/student/WarehousingScoreEdit/WarehousingScoreEdit.js}"></script>
+</body>
+</html>

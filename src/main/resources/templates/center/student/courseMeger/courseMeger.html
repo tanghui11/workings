@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="col-sm-5" style="border:1px solid #ddd;min-height:600px">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<!-- <div class="columns pull-left">
+								<button shiro:hasPermission="student:studentSpecialityPre:add" type="button" class="btn  btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i>添加
+								</button>
+								<button shiro:hasPermission="student:studentSpecialityPre:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+							</div> -->
+							<div class="columns pull-left">
+								<div style="overflow:hidden">
+									<div class="columns pull-left" style="width:70px">
+										准考证号：
+									</div>
+									<div class="columns pull-left" style="margin-right:10px">
+										<input id="searchName" type="text" class="form-control"
+											placeholder="请输入准考证">
+									</div>
+									<div class="columns pull-left">
+										<button class="btn btn-success" onclick="reLoad()">查询</button>
+									</div>
+								</div>
+								<div style="overflow:hidden">
+									<div class="columns pull-left" style="width:70px">
+										性别：
+									</div>
+									<div class="columns pull-left" style="margin-right:10px">
+										<input id="sex" type="text" class="form-control"
+											placeholder="性别" readonly="readonly">
+									</div>
+
+								</div>
+								<div style="overflow:hidden">
+									<div class="columns pull-left" style="width:70px">
+										身份证号：
+									</div>
+									<div class="columns pull-left" style="margin-right:10px">
+										<input id="sfz" type="text" class="form-control"
+											placeholder="身份证号" readonly="readonly">
+									</div>
+								</div>
+							</div>
+							<div class="columns pull-right">
+								<img src="" id="pic" style="width:100px;height:130px">
+							</div>
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-1">
+				<div style="margin-top:150px;text-align:center">
+				<p><button class="btn btn-info" onclick="meger()">>></button></p>
+				<p><button class="btn btn-info" onclick="remeger()"><<</button></p>
+				</div>
+			</div>
+			<div class="col-sm-6" style="border:1px solid #ddd;min-height:600px">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<!-- <div class="columns pull-left">
+								<button shiro:hasPermission="student:studentSpecialityPre:add" type="button" class="btn  btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i>添加
+								</button>
+								<button shiro:hasPermission="student:studentSpecialityPre:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+							</div> -->
+							<div class="columns pull-left">
+								<div style="overflow:hidden">
+									<div class="columns pull-left" style="width:70px">
+										准考证号：
+									</div>
+									<div class="columns pull-left" style="margin-right:10px">
+										<input id="searchName1" type="text" class="form-control"
+											placeholder="请输入准考证">
+									</div>
+									<div class="columns pull-left">
+										<button class="btn btn-success" onclick="reLoad1()">查询</button>
+									</div>
+								</div>
+								<div style="overflow:hidden">
+									<div class="columns pull-left" style="width:70px">
+										性别：
+									</div>
+									<div class="columns pull-left" style="margin-right:10px">
+										<input id="sex1" type="text" class="form-control"
+											placeholder="性别" readonly="readonly">
+									</div>
+
+								</div>
+								<div style="overflow:hidden">
+									<div class="columns pull-left" style="width:70px">
+										身份证号：
+									</div>
+									<div class="columns pull-left" style="margin-right:10px">
+										<input id="sfz1" type="text" class="form-control"
+											placeholder="身份证号" readonly="readonly">
+									</div>
+								</div>
+							</div>
+							<div class="columns pull-right">
+								<img src="" id="pic1" style="width:100px;height:130px">
+							</div>
+						</div>
+						<table id="exampleTable1" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentSpecialityPre:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentSpecialityPre:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentSpecialityPre:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/courseMeger/courseMeger.js" th:src="@{/js/appjs/center/student/courseMeger/courseMeger.js}"></script>
+</body>
+</html>

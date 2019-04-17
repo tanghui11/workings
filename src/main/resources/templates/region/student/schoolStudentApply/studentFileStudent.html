@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<form method="post" th:action="@{/student/studentFileStudent/searchOutExcel}" id="form"　>
+					<div class="fixed-table-toolbar" style="overflow:hidden;">
+					<input id="specialityRecordid" name="specialityRecordid" type="hidden">
+						<div class="columns pull-left" style="margin-right:10px">
+							准考证号
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;">
+							<input id="studentid" name="studentid" class="form-control"/>
+						</div>
+						<!-- <div class="columns pull-left" style="margin-right:5px">
+							学院
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;min-width:240px;">
+							<select id="collegeid" name="collegeid" class="form-control">
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:5px">
+							教 学  点
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;min-width:240px;">
+							<select id="teachSiteid" name="teachSiteid" class="form-control">
+							</select>
+						</div> -->
+						<div class="columns pull-left" style="margin-right:5px">
+							<button class="btn btn-success" type="button" onclick="reLoad()">查询</button>
+							 <button class="btn btn-info" type="button" onclick="shape()">申请</button>
+							<button class="btn btn-success" type="button" onclick="qxsh()">取消申请</button>
+							<button class="btn btn-success" type="button" onclick="dysq()">打印申请表</button>
+						</div>
+						<!-- <div style="clear:both;"></div>
+						<div class="columns pull-left" style="margin-right:5px">
+							报考专业
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;min-width:300px;">
+							<input id="specialityRecordid" name="specialityRecordid" type="hidden">
+							<input id="specialityName" name="specialityName" class="form-control" type="text" onclick="yemian()" placeholder="请选择报考专业">
+						</div>
+						<div class="columns pull-left" style="margin-right:5px">
+							准考证号
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;min-width:240px;">
+							<input id="studentid" name="studentid" class="form-control"/>
+						</div>
+						<input id="pic" name="pic" type="hidden"> -->
+					</div>
+					<!--startprint1-->
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+					<!--endprint1-->
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<table id="exampleTable1" data-mobile-responsive="true"></table>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/region/student/schoolStudentApply/studentFileStudent.js" th:src="@{/js/appjs/region/student/schoolStudentApply/studentFileStudent.js}"></script>
+</body>
+</html>

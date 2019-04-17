@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.region.dao.ExamSiteSubmitHisDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ExamSiteSubmitHisDO">
+		select
+            id,
+            exam_taskid,
+            exam_siteid,
+            num,
+            status,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from reg_exam_site_submit_his
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ExamSiteSubmitHisDO">
+		select
+	        id,
+	        exam_taskid,
+	        exam_siteid,
+	        num,
+	        status,
+	        operator,
+	        update_date,
+	        db_flag,
+	        enabled_flag
+		 from reg_exam_site_submit_his
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="examTaskid != null and examTaskid != ''"> and exam_taskid = #{examTaskid} </if>
+		  <if test="examSiteid != null and examSiteid != ''"> and exam_siteid = #{examSiteid} </if>
+		  <if test="num != null and num != ''"> and num = #{num} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from reg_exam_site_submit_his
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="examTaskid != null and examTaskid != ''"> and exam_taskid = #{examTaskid} </if>
+		  <if test="examSiteid != null and examSiteid != ''"> and exam_siteid = #{examSiteid} </if>
+		  <if test="num != null and num != ''"> and num = #{num} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ExamSiteSubmitHisDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_exam_site_submit_his
+		(
+			exam_taskid, 
+			exam_siteid, 
+			num, 
+			status, 
+			operator, 
+			update_date, 
+			db_flag
+		)
+		values
+		(
+			#{examTaskid}, 
+			#{examSiteid}, 
+			#{num}, 
+			#{status}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ExamSiteSubmitHisDO">
+		update reg_exam_site_submit_his 
+		<set>
+			<if test="examTaskid != null">exam_taskid = #{examTaskid}, </if>
+			<if test="examSiteid != null">exam_siteid = #{examSiteid}, </if>
+			<if test="num != null">num = #{num}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}</if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_exam_site_submit_his set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_exam_site_submit_his set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

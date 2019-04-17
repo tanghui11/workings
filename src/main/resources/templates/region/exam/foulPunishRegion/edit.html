@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${foulPunishRegion.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>违规类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="type" name="type" th:value="${foulPunishRegion.type}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>处理方式：</label>
+                                        </td>
+                                        <td>
+                                            <input id="flag" name="flag" th:value="${foulPunishRegion.flag}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="code" name="code" th:value="${foulPunishRegion.code}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>名称：</label>
+                                        </td>
+                                        <td>
+                                            <input id="name" name="name" th:value="${foulPunishRegion.name}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>处罚公式：</label>
+                                        </td>
+                                        <td>
+                                            <input id="formula" name="formula" th:value="${foulPunishRegion.formula}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>备注：</label>
+                                        </td>
+                                        <td>
+                                            <input id="remark" name="remark" th:value="${foulPunishRegion.remark}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/exam/foulPunishRegion/edit.js" th:src="@{/js/appjs/region/exam/foulPunishRegion/edit.js}">
+</script>
+</body>
+</html>

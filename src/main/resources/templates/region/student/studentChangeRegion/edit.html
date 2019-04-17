@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${studentChangeRegion.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>准考证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="studentid" name="studentid" th:value="${studentChangeRegion.studentid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>考生报考专业编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="specialityRecordid" name="specialityRecordid" th:value="${studentChangeRegion.specialityRecordid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>变更类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="type" name="type" th:value="${studentChangeRegion.type}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>有效期开始日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="beginDate" name="beginDate" th:value="${studentChangeRegion.beginDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>有效期截止日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="endDate" name="endDate" th:value="${studentChangeRegion.endDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>对象编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="objid" name="objid" th:value="${studentChangeRegion.objid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>状态：</label>
+                                        </td>
+                                        <td>
+                                            <input id="status" name="status" th:value="${studentChangeRegion.status}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																													
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/student/studentChangeRegion/edit.js" th:src="@{/js/appjs/region/student/studentChangeRegion/edit.js}">
+</script>
+</body>
+</html>

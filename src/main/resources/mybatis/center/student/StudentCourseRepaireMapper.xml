@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentCourseRepaireDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select
+            id,
+            studentid,
+            regionid,
+            child_regionid,
+            exam_courseid,
+            type,
+            status,
+            arrange_status,
+            operator,
+            update_date,
+            db_flag
+		from stu_student_course
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select
+		a.id,
+		a.studentid,
+		a.regionid,
+		a.child_regionid,
+		a.exam_courseid,
+		a.type,
+		a.status,
+		a.arrange_status,
+		a.operator,
+		a.update_date,
+		b.name,
+		c.courseid,
+		d.exam_date,
+		d.segment
+		from stu_student_course a left join stu_student b on b.id =a.studentid and b.enabled_flag=1
+		LEFT JOIN exa_exam_course c on c.id =a.exam_courseid and c.enabled_flag=1  and c.auditStatus='b'
+		LEFT JOIN exa_exam_time d on d.id = c.exam_timeid and d.enabled_flag=1
+		<where>
+			and a.enabled_flag=1
+            <if test="childRegionid != null and childRegionid != ''">
+			and a.child_regionid=#{childRegionid}
+
+		</if>
+			<if test="regionid != null and regionid != ''">
+				and a.regionid=#{regionid}
+			</if>
+			<if test="studentid != null and studentid != ''">
+				and a.studentid=#{studentid}
+			</if>
+			<if test="examTaskid != null and examTaskid != ''">
+				and c.exam_taskid=#{examTaskid}
+			</if>
+			<if test="examCourseid != null and examCourseid != ''">
+                and c.id=#{examCourseid}
+            </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_course
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="examCourseid != null and examCourseid != ''"> and exam_courseid = #{examCourseid} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="arrangeStatus != null and arrangeStatus != ''"> and arrange_status = #{arrangeStatus} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_course
+		(
+			studentid, 
+			regionid, 
+			child_regionid, 
+			exam_courseid, 
+			type, 
+			status, 
+			arrange_status, 
+			operator, 
+			update_date,
+			db_flag
+		)
+		values
+		(
+			#{studentid}, 
+			#{regionid}, 
+			#{childRegionid}, 
+			#{examCourseid}, 
+			#{type}, 
+			#{status}, 
+			#{arrangeStatus}, 
+			#{operator}, 
+			now(),
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		update stu_student_course 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="examCourseid != null">exam_courseid = #{examCourseid}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="arrangeStatus != null">arrange_status = #{arrangeStatus}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_course set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_course set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="listBkCourse" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		SELECT
+		a.id,a.courseid,a.exam_timeid,a.exam_taskid, b.exam_date,b.segment
+		FROM
+		exa_exam_course a
+		left join exa_exam_time b on b.id =a.exam_timeid and b.enabled_flag=1
+		<where>
+		AND a.enabled_flag = 1  and a.auditStatus='b'
+			<if test="examTaskid != null and examTaskid != ''">and a. exam_taskid = #{examTaskid} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="countBkCourse" resultType="int">
+		select count(*)
+		FROM
+		exa_exam_course a
+		<where>
+			AND a.enabled_flag = 1  and a.auditStatus='b'
+			<if test="examTaskid != null and examTaskid != ''">and a. exam_taskid = #{examTaskid} </if>
+		</where>
+	</select>
+	<select id="listBkStudent" resultType="com.hxy.nzxy.stexam.domain.StudentCourseDO">
+		select a.id,a.studentid,b.name,a.regionid,a.child_regionid,a.speciality_recordid,a.specialityid,b.old_studentid,b.pic,b.gender,b.certificate_no from
+		stu_student_speciality a ,
+		stu_student b
+		<where>
+			b.id=a.studentid
+			and b.enabled_flag=1
+			AND a.enabled_flag = 1
+			<if test="childRegionid != null and childRegionid != ''">and a.child_regionid=#{childRegionid} </if>
+			<if test="studentid != null and studentid != ''">and a.studentid=#{studentid} </if>
+			<if test="auditStatus != null and auditStatus != ''">and a.audit_status=#{auditStatus} </if>
+			<if test="status != null and status != ''">and a.status=#{status} </if>
+			<if test="classify != null and classify != ''">and b.classify=#{classify} </if>
+			<if test="regionid != null and regionid != ''">and( b.regionid=#{regionid} or b.child_regionid=#{regionid})</if>
+			<if test="schoolid != null and schoolid != ''">and( b.schoolid=#{schoolid} or b.collegeid=#{schoolid})</if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="countBkStudent" resultType="int">
+		select count(1)
+		 from
+		stu_student_speciality a ,
+		stu_student b
+
+		<where>
+			b.id=a.studentid and b.enabled_flag=1
+			AND a.enabled_flag = 1
+			<if test="childRegionid != null and childRegionid != ''">and a.child_regionid=#{childRegionid} </if>
+			<if test="studentid != null and studentid != ''">and a.studentid=#{studentid} </if>
+		</where>
+	</select>
+</mapper>

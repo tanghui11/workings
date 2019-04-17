@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<script language="javascript">
+function preview(oper){
+	if (oper < 10){
+		bdhtml=window.document.body.innerHTML;//获取当前页的html代码
+		sprnstr="<!--startprint"+oper+"-->";//设置打印开始区域
+		eprnstr="<!--endprint"+oper+"-->";//设置打印结束区域
+		prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+18); //从开始代码向后取html
+		prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html
+		window.document.body.innerHTML=prnhtml;
+		window.print();
+		window.document.body.innerHTML=bdhtml;
+	} else {
+		window.print();
+	}
+}
+</script>
+<body class="gray-bg">
+
+
+<div>
+	<div id="Mask"></div>
+	<div id="Progress" data-dimension="250" data-text="0%" data-info="导出进度" data-width="30" data-fontsize="38" data-percent="0" data-fgcolor="#61a9dc" data-bgcolor="#eee"></div>
+</div>
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<form method="post" th:action="@{/student/studentFileStudent/searchOutExcel}" id="form"　>
+					<div class="fixed-table-toolbar" style="overflow:hidden;">
+						<div class="columns pull-left" style="margin-right:5px">
+							学院名称
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;min-width:240px;">
+							<select id="collegeid" name="collegeid" class="form-control">
+								<!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:5px">
+							教 学 点
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;min-width:240px;">
+							<select id="teachSiteid" name="teachSiteid" class="form-control">
+								<!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:5px">
+							考生状态
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;width:105px;">
+							<select id="status" name="status" class="form-control">
+								<option value="">请选择</option>
+								<option th:each="item:${stu_student_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:5px">
+							审核状态
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;width:90px;">
+							<select id="auditStatus" name="auditStatus" class="form-control">
+								<option value="">请选择</option>
+								<option th:each="item:${stu_student_audit_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						
+					</div>
+					<div class="fixed-table-toolbar" style="overflow:hidden;">
+						<div class="columns pull-left" style="margin-right:5px">
+							报考专业
+						</div>
+						<div class="columns pull-left" style="margin-right:5px;min-width:240px;">
+							<input id="specialityZYid" name="specialityZYid" type="hidden">
+							<input id="schoolSpecialityRegid2" name="schoolSpecialityRegid" type="hidden">
+							<input id="schoolSpecialityRegid" class="form-control" type="text" onclick="yemian()" placeholder="请选择报考专业">
+						</div>
+						
+						
+						<div class="columns pull-left" style="margin-right:5px">
+							确认状态
+						</div>
+						<div class="columns pull-left" style="margin-right:10px;width:90px;">
+							<select id="confirmStatus" name="confirmStatus" class="form-control">
+								<option value="">请选择</option>
+								<option th:each="item:${stu_student_confirm_status}" th:value="${item.id}" th:text="${item.name}" ></option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-right:5px">
+							<button class="btn btn-success" type="button" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-left">
+							
+							<!-- <button type="button" class="btn  btn-primary" onclick="dayin()">
+								<i class="fa fa-book" aria-hidden="true"></i>打印
+							</button> -->
+							<button type="button" class="btn  btn-danger" onclick="tuiXue()">
+								<i class="fa fa-backward" aria-hidden="true"></i>退学
+							</button>
+							<button type="button" class="btn  btn-danger" onclick="tingKao()">
+								<i class="fa fa-pause" aria-hidden="true"></i>专业停考
+							</button>
+							<button shiro:hasPermission="student:studentStudent:batchRemove" type="button" class="btn  btn-danger" onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除报考
+							</button>
+							<button  type="button" class="btn  btn-primary" onclick="onZipAll()">
+								导出学生信息
+							</button>
+						</div>
+						<input id="pic" name="pic" type="hidden">
+						<div class="columns pull-left" style="margin-right:5px" style="margin-left:10px">
+							<button class="btn btn-success" onclick="LockLoad()" type="button">无照片学生信息查询</button>
+						</div>
+					</div>
+					<!--startprint1-->
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+					<!--endprint1-->
+					</form>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentStudent:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/studentFileStudent/studentFileStudent.js" th:src="@{/js/appjs/school/student/studentFileStudent/studentFileStudent.js}"></script>
+</body>
+</html>

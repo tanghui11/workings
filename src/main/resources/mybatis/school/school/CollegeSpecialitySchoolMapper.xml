@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.school.dao.CollegeSpecialitySchoolDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.CollegeSpecialityDO">
+		select
+            id,
+            collegeid,
+            speciality_regid,
+            operator,
+            update_date,
+            enabled_flag
+		from sch_college_speciality
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.CollegeSpecialityDO">
+		select
+	        id,
+	        collegeid,
+	        speciality_regid,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from sch_college_speciality
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="specialityRegid != null and specialityRegid != ''"> and speciality_regid = #{specialityRegid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sch_college_speciality
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="specialityRegid != null and specialityRegid != ''"> and speciality_regid = #{specialityRegid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.CollegeSpecialityDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sch_college_speciality
+		(
+			collegeid, 
+			speciality_regid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{collegeid}, 
+			#{specialityRegid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.CollegeSpecialityDO">
+		update sch_college_speciality 
+		<set>
+			<if test="collegeid != null">collegeid = #{collegeid}, </if>
+			<if test="specialityRegid != null">speciality_regid = #{specialityRegid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update sch_college_speciality set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  sch_college_speciality set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="ylist" resultType="com.hxy.nzxy.stexam.domain.CollegeSpecialityDO">
+	SELECT
+	a.id AS id,
+	a.operator AS operator,
+	a.update_date AS update_date,
+	b.`status` AS `status`,
+	d.id AS specialityid,
+	d.`name` AS specialityname,
+	d.flag AS flag,
+	c.direction
+	FROM
+	sch_college_speciality a
+	LEFT JOIN sch_speciality_reg b ON b.id = a.speciality_regid
+	LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+	LEFT JOIN pla_speciality d ON d.id = c.specialityid
+
+	<where>
+		AND a.enabled_flag = 1
+		AND b.enabled_flag = 1
+		AND c.enabled_flag = 1
+		AND d.enabled_flag = 1
+		<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+
+	</where>
+
+
+	<if test="offset != null and limit != null">
+		limit #{offset}, #{limit}
+	</if>
+</select>
+
+
+	<select id="dlist" resultType="com.hxy.nzxy.stexam.domain.CollegeSpecialityDO">
+
+		SELECT
+		a.id, a.id as specialityRegid,c.id as specialityid,c.name as specialityname,a.status,c.flag as flag,
+		b.direction
+		FROM   sch_speciality_reg a
+		left JOIN
+		pla_speciality_record b ON
+		a.speciality_recordid = b.id
+		LEFT JOIN pla_speciality c  on c.id=b.specialityid
+
+		WHERE 1=1
+		<if test="schoolid != null and schoolid != ''"> and a.schoolid =#{schoolid} </if>
+		and a.`audit_status`='b'
+		<if test="schoolid != null and schoolid != ''"> and b.schoolid =#{schoolid} </if>
+		AND a.enabled_flag = 1
+		AND b.enabled_flag = 1
+		AND c.enabled_flag = 1
+		AND c.id NOT IN (
+		SELECT
+		specialityid
+		FROM
+		(
+		SELECT
+		a.id AS id,
+		a.operator AS operator,
+		a.update_date AS update_date,
+		b.`status` AS `status`,
+		d.id AS specialityid,
+		d.`name` AS specialityname,
+		d.flag AS flag
+		FROM
+		sch_college_speciality a
+		LEFT JOIN sch_speciality_reg b ON b.id = a.speciality_regid
+		LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+		LEFT JOIN pla_speciality d ON d.id = c.specialityid
+		WHERE
+		1 = 1
+		AND a.collegeid IN (
+		SELECT
+		id
+		FROM
+		sch_college
+		WHERE 1=1
+		<if test="schoolid != null and schoolid != ''"> and schoolid =#{schoolid} </if>
+
+		)
+		AND a.enabled_flag = 1
+		AND b.enabled_flag = 1
+		AND c.enabled_flag = 1
+		AND d.enabled_flag = 1
+		) AS c
+		)
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="ycount" resultType="int">
+		select count(1)
+
+		FROM
+		sch_college_speciality a
+		LEFT JOIN sch_speciality_reg b ON b.id = a.speciality_regid
+		LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+		LEFT JOIN pla_speciality d ON d.id = c.specialityid
+
+		<where>
+			AND a.enabled_flag = 1
+			AND b.enabled_flag = 1
+			AND c.enabled_flag = 1
+			AND d.enabled_flag = 1
+			<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+
+		</where>
+	</select>
+	<select id="dcount" resultType="int">
+		SELECT
+		count(1)
+		FROM   sch_speciality_reg a
+		left JOIN
+		pla_speciality_record b ON
+		a.speciality_recordid = b.id
+		LEFT JOIN pla_speciality c  on c.id=b.specialityid
+
+		WHERE 1=1
+		<if test="schoolid != null and schoolid != ''"> and a.schoolid =#{schoolid} </if>
+		and a.`audit_status`='b'
+		<if test="schoolid != null and schoolid != ''"> and b.schoolid =#{schoolid} </if>
+		AND a.enabled_flag = 1
+		AND b.enabled_flag = 1
+		AND c.enabled_flag = 1
+		AND c.id NOT IN (
+		SELECT
+		specialityid
+		FROM
+		(
+		SELECT
+		a.id AS id,
+		a.operator AS operator,
+		a.update_date AS update_date,
+		b.`status` AS `status`,
+		d.id AS specialityid,
+		d.`name` AS speciality_name,
+		d.flag AS flag
+		FROM
+		sch_college_speciality a
+		LEFT JOIN sch_speciality_reg b ON b.id = a.speciality_regid
+		LEFT JOIN pla_speciality_record c ON c.id = b.speciality_recordid
+		LEFT JOIN pla_speciality d ON d.id = c.specialityid
+		WHERE
+		1 = 1
+		AND a.collegeid IN (
+		SELECT
+		id
+		FROM
+		sch_college
+		WHERE 1=1
+		<if test="schoolid != null and schoolid != ''"> and schoolid =#{schoolid} </if>
+
+		)
+		AND a.enabled_flag = 1
+		AND b.enabled_flag = 1
+		AND c.enabled_flag = 1
+		AND d.enabled_flag = 1
+		) AS c
+		)
+</select>
+
+</mapper>

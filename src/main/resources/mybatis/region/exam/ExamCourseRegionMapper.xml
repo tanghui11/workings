@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.exam.dao.ExamCourseRegionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+		select
+            id,
+            courseid,
+            bookid,
+            exam_timeid,
+            exam_taskid,
+            full_score,
+            pass_score,
+            objectives_score,
+            subjective_score,
+            exceed_number,
+            type,
+            classify,
+            card_type,
+            remark,
+            seq,
+            operator,
+            update_date,
+            enabled_flag
+		from exa_exam_course
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+		select
+	        id,
+	        courseid,
+	        bookid,
+	        exam_timeid,
+	        exam_taskid,
+	        full_score,
+	        pass_score,
+	        objectives_score,
+	        subjective_score,
+	        exceed_number,
+	        type,
+	        classify,
+	        card_type,
+	        remark,
+	        seq,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from exa_exam_course
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="bookid != null and bookid != ''"> and bookid = #{bookid} </if>
+		  <if test="examTimeid != null and examTimeid != ''"> and exam_timeid = #{examTimeid} </if>
+		  <if test="examTaskid != null and examTaskid != ''"> and exam_taskid = #{examTaskid} </if>
+		  <if test="fullScore != null and fullScore != ''"> and full_score = #{fullScore} </if>
+		  <if test="passScore != null and passScore != ''"> and pass_score = #{passScore} </if>
+		  <if test="objectivesScore != null and objectivesScore != ''"> and objectives_score = #{objectivesScore} </if>
+		  <if test="subjectiveScore != null and subjectiveScore != ''"> and subjective_score = #{subjectiveScore} </if>
+		  <if test="exceedNumber != null and exceedNumber != ''"> and exceed_number = #{exceedNumber} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		  <if test="cardType != null and cardType != ''"> and card_type = #{cardType} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from exa_exam_course
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="bookid != null and bookid != ''"> and bookid = #{bookid} </if>
+		  <if test="examTimeid != null and examTimeid != ''"> and exam_timeid = #{examTimeid} </if>
+		  <if test="examTaskid != null and examTaskid != ''"> and exam_taskid = #{examTaskid} </if>
+		  <if test="fullScore != null and fullScore != ''"> and full_score = #{fullScore} </if>
+		  <if test="passScore != null and passScore != ''"> and pass_score = #{passScore} </if>
+		  <if test="objectivesScore != null and objectivesScore != ''"> and objectives_score = #{objectivesScore} </if>
+		  <if test="subjectiveScore != null and subjectiveScore != ''"> and subjective_score = #{subjectiveScore} </if>
+		  <if test="exceedNumber != null and exceedNumber != ''"> and exceed_number = #{exceedNumber} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		  <if test="cardType != null and cardType != ''"> and card_type = #{cardType} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  <if test="seq != null and seq != ''"> and seq = #{seq} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ExamCourseDO" useGeneratedKeys="true" keyProperty="id">
+		insert into exa_exam_course
+		(
+			courseid, 
+			bookid, 
+			exam_timeid, 
+			exam_taskid, 
+			full_score, 
+			pass_score, 
+			objectives_score, 
+			subjective_score, 
+			exceed_number, 
+			type, 
+			classify, 
+			card_type, 
+			remark, 
+			seq, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{courseid}, 
+			#{bookid}, 
+			#{examTimeid}, 
+			#{examTaskid}, 
+			#{fullScore}, 
+			#{passScore}, 
+			#{objectivesScore}, 
+			#{subjectiveScore}, 
+			#{exceedNumber}, 
+			#{type}, 
+			#{classify}, 
+			#{cardType}, 
+			#{remark}, 
+			#{seq}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ExamCourseDO">
+		update exa_exam_course 
+		<set>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="bookid != null">bookid = #{bookid}, </if>
+			<if test="examTimeid != null">exam_timeid = #{examTimeid}, </if>
+			<if test="examTaskid != null">exam_taskid = #{examTaskid}, </if>
+			<if test="fullScore != null">full_score = #{fullScore}, </if>
+			<if test="passScore != null">pass_score = #{passScore}, </if>
+			<if test="objectivesScore != null">objectives_score = #{objectivesScore}, </if>
+			<if test="subjectiveScore != null">subjective_score = #{subjectiveScore}, </if>
+			<if test="exceedNumber != null">exceed_number = #{exceedNumber}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="classify != null">classify = #{classify}, </if>
+			<if test="cardType != null">card_type = #{cardType}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="seq != null">seq = #{seq}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update exa_exam_course set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  exa_exam_course set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxy.nzxy.stexam.common.dao.CommonDao">
+
+    <!-- 查询数据字典 -->
+    <select id="listFieldDictByTableFieldName" resultType="com.hxy.nzxy.stexam.system.domain.FieldDictDO">
+		select field_value as id,
+				field_mean as name,
+				remark
+		 from sys_field_dict
+		where appid = #{appid}
+		  and table_name = #{table_name}
+ 		  and field_name = #{field_name}
+ 		  and display_status = 'a'
+ 		  and status = 'a'
+ 		order by seq
+	</select>
+<!--	<select id="listFieldDictByTableFieldMean" resultType="com.hxy.nzxy.stexam.system.domain.FieldDictDO">
+		select field_value as id,
+				field_name as name,
+				remark
+		 from sys_field_dict
+		where appid = #{appid}
+		  and table_name = #{table_name}
+ 		  and field_mean = #{field_mean}
+ 		  and display_status = 'a'
+ 		  and status = 'a'
+ 		order by seq
+	</select>-->
+    <!-- 查询数据字典(缓存使用) -->
+    <select id="listAllFieldDictCache" resultType="com.hxy.nzxy.stexam.system.domain.FieldDictDO">
+			SELECT
+			appid,
+			table_name,
+			field_name,
+			field_value,
+			field_mean,
+			display_status,
+			STATUS,
+			seq
+			FROM
+			sys_field_dict
+			UNION
+			SELECT
+			appid,
+			'system_option' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			VALUE
+			field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			sys_system_option
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'reg_groups_nzxy' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			reg_groups
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'pla_course_nzxy' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			pla_course
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'pla_speciality_nzxy' table_name,
+			'id' field_name,
+			convert( id,char) field_value,
+			concat( NAME,'（',get_field_dict_name('pla_speciality','flag',flag),')') field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			pla_speciality
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'pla_book_nzxy' table_name,
+			'id' field_name,
+			convert( id,char) field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			pla_book
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'reg_region_nzxy' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			reg_region
+			WHERE
+			enabled_flag = 1
+
+			UNION
+			SELECT
+			#{appid} appid,
+			'sch_school_nzxy' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			sch_school
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'sch_teach_site_nzxy' table_name,
+			'id' field_name,
+			convert( id,char) field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			sch_teach_site
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'reg_exam_site_nzxy' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			reg_exam_site
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'sch_college_nzxy' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			sch_college
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'reg_region_nzxy_a' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			reg_region
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'reg_region_nzxy_b' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			parent_name field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			reg_region
+			WHERE
+			type = 'b'
+			AND parent_name IS NOT NULL
+			AND enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'pla_old_course_nzxy' table_name,
+			'id' field_name,
+			convert( id,char)  field_value,
+			NAME field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			pla_old_course
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'reg_region_nzxy' table_name,
+			'code' field_name,
+			CODE field_value,
+			convert(id,char) AS field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			reg_region
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'sch_school_nzxy' table_name,
+			'code' field_name,
+			CODE field_value,
+			convert(id,char) AS field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			sch_school
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'sch_college_nzxy' table_name,
+			'code_name' field_name,
+			concat(convert(schoolid,char), NAME) field_value,
+			convert(id,char) AS field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			sch_college
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'sch_teach_site_nzxy' table_name,
+			'code_name' field_name,
+			concat(convert(collegeid,char) , NAME) field_value,
+			convert(id,char) AS field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			sch_teach_site
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'pla_speciality_record_nzxy' table_name,
+			'specialityid_direction' field_name,
+			concat(specialityid, direction) field_value,
+			convert(id,char) AS field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			pla_speciality_record
+			WHERE
+			enabled_flag = 1
+
+			UNION
+			SELECT
+			#{appid} appid,
+			'exam_task_nzxy' table_name,
+			'exam_year_exam_month' field_name,
+			concat(convert(exam_year,char), exam_month) field_value,
+			convert(id,char) AS field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			exam_task
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			'exa_exam_course_nzxy' table_name,
+			'exam_taskid_courseid' field_name,
+			concat(convert( exam_taskid,char), convert( courseid,char)) field_value,
+			convert( id,char)  AS field_mean,
+			'a' display_status,
+			'a' STATUS,
+			'0' seq
+			FROM
+			exa_exam_course
+			WHERE
+			enabled_flag = 1
+			UNION
+			SELECT
+			#{appid} appid,
+			 'sch_school_site_nzxy' table_name,
+			 'code' field_name,
+			 CODE field_value,
+			  convert( id,char) AS field_mean,
+			 'a' display_status,
+			 'a' STATUS,
+			 '0' seq
+			FROM
+			 sch_school_site
+			WHERE
+			 enabled_flag = 1
+	UNION
+		SELECT
+			#{appid} appid,
+			 'sch_school_site_nzxy' table_name,
+			 'schoolSiteid' field_name,
+			 convert( id,char) field_value,
+			  convert( regionid,char) AS field_mean,
+			 'a' display_status,
+			 'a' STATUS,
+			 '0' seq
+			FROM
+			 sch_school_site
+			WHERE
+			 enabled_flag = 1
+	UNION
+		SELECT
+			#{appid} appid,
+			'pla_speciality_record_nzxy' table_name,
+			'id' field_name,
+			convert(id,char) field_value,
+			convert(specialityid,char) as field_mean,
+			 'a' display_status,
+			 'a' STATUS,
+			 '0' seq
+			from pla_speciality_record
+			WHERE
+			 enabled_flag = 1
+	UNION
+		SELECT
+			#{appid} appid,
+			'sys_native_nzxy' table_name,
+			'id' field_name,
+			convert(id,char) field_value,
+			convert(name,char) as field_mean,
+			 'a' display_status,
+			 'a' STATUS,
+			 '0' seq
+			from sys_native
+	union
+	select
+	#{appid} appid,
+	'pla_speciality_record_nzxy' table_name,
+	'specialityid_specialityName' field_name,
+	convert(a.id,char) field_value,
+	convert(CONCAT(a.specialityid,b.name,'(',get_field_dict_name('pla_speciality','classify',b.classify),')',a.direction) ,char) as field_mean,
+	 'a' display_status,
+	 'a' STATUS,
+	 '0' seq
+  from pla_speciality_record a,pla_speciality b where a.specialityid=b.id and a.enabled_flag=1 and b.enabled_flag=1
+			ORDER BY
+			 table_name,
+			 field_name,
+			 seq
+
+	</select>
+
+    <!-- 查询数据字典(缓存使用) -->
+    <select id="listAllUserCache" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+		select u.id,
+			w.name workerName,
+			u.name
+		from sys_user u left join
+			 sys_worker w
+		on u.workerid = w.id
+
+	</select>
+    <!--查询所有应用信息-->
+    <select id="listAllApp" resultType="com.hxy.nzxy.stexam.system.domain.AppDO">
+		select id,
+			name,
+			type,
+			url,
+			icon
+		from sys_app
+		order by id
+	</select>
+	<!--通过关键字查询用户信息-->
+    <select id="listUserByKey" resultType="com.hxy.nzxy.stexam.system.domain.UserDO">
+		select e.id,
+			   concat(a.name,'->',b.name,'->',d.name,'(',e.name,')') name
+		from sys_org a,
+			 sys_dept b,
+			 sys_dept_worker c,
+			 sys_worker d,
+			 sys_user e
+		where a.id = b.orgid
+		  and b.id = c.deptid
+		  and c.workerid = d.id
+		  and e.id = e.workerid
+		  and (d.name like concat(#{key},'%')
+		    or d.pinyin like concat(#{key},'%')
+		    or e.name like concat(#{key},'%'))
+		order by a.code,b.name,d.name
+		limit 0,#{limit}
+	</select>
+
+	<!--查询所有机构信息-->
+	<select id="listAllOrg" resultType="com.hxy.nzxy.stexam.system.domain.OrgDO">
+		select id,
+		       name,
+			   code
+		  from sys_org
+		 order by code
+	</select>
+
+	<!--按照名称查询数据导出表定义-->
+	<select id="getExportTableByName" resultType="com.hxy.nzxy.stexam.system.domain.ExportTableDO">
+		select
+	        id,
+	        type,
+	        name,
+	        query_sql,
+	        remark
+		 from sys_export_table
+		where name = #{value}
+		limit 0,1
+	</select>
+
+	<!--按照数据导出表编号查询导出字段-->
+    <select id="listExportFieldByExportTableid" resultType="com.hxy.nzxy.stexam.system.domain.ExportFieldDO">
+        select id,
+              seq,
+              name,
+              type,
+              length,
+              decimal_length,
+              default_value,
+              trans_type,
+              table_name,
+              field_name
+         from sys_export_field
+		where export_tableid = #{value}
+		order by seq asc
+    </select>
+
+	<!--按照key,table,keyName 查询需要的名字-->
+	<select id="getValueBykeyTable" resultType="com.hxy.nzxy.stexam.domain.ValueDo">
+        select ${value} as value
+         from ${table}
+		where ${keyName} = #{key}
+
+    </select>
+	<!--按照表中数据是否存在根据所传数据-->
+	<select id="searchIfExist" resultType="int">
+        select count(*)
+         from ${tableName}
+		where 1=1
+		<if test="filedName1 != null and filedName1 != '' and filedValue1 != null and filedValue1 != ''">
+			and ${filedName1} = #{filedValue1} </if>
+		<if test="filedName2 != null and filedName2 != '' and filedValue2 != null and filedValue2 != ''">
+			and ${filedName2} = #{filedValue2} </if>
+		<if test="filedName3 != null and filedName3 != '' and filedValue3 != null and filedValue3 != ''">
+			and ${filedName3} = #{filedValue3} </if>
+		<if test="method == 'update'"> and  ${updateKey} != #{updateKeyValue} </if>
+ 	 and enabled_flag=1
+		<if test=" id != null and id != ''"> and  id = #{id}</if>
+    </select>
+	<update id="batchAuditStatus">
+		update ${tableName}
+		 <set>
+		<if test="filedName != null and filedName != ''"> ${filedName} = #{filedValue}, </if>
+		</set>
+		where  ${Key} in
+		<foreach item="id" collection="KeyValue" open="(" separator=","
+				 close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<!--按照表中数据是否存在根据所传数据-->
+	<select id="selectIDCardStudentid" resultType="int">
+		select count(1)
+		from stu_student
+		where 1=1
+			and certificate_no = #{idcard}
+			and  SUBSTRING(id, 5,3)= SUBSTRING(#{studentid}, 5,3)
+			and enabled_flag=1
+			and id !=#{studentid}
+	</select>
+
+</mapper>

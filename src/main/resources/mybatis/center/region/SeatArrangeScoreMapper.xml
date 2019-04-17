@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.region.dao.SeatArrangeScoreDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.SeatArrangeDO">
+		select
+            id,
+            room_arrangeid,
+            student_courseid,
+            exam_courseid,
+            seq,
+            operator,
+            update_date,
+            db_flag,
+            enabled_flag
+		from reg_seat_arrange
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.SeatArrangeDO">
+		select a.id,a.seq,c.grade1,c.exam_flag1,c.grade2,c.exam_flag2,c.operator1,c.operator   from reg_seat_arrange a LEFT JOIN
+		reg_room_arrange  b
+		on  b.id= a.room_arrangeid and b.enabled_flag=1
+		LEFT JOIN stu_score_temp c  on c.seat_arrangeid= a.id and c.enabled_flag=1
+
+		where  a.enabled_flag=1
+		and substring(first_studentid,11,2)=#{firstStudentid}
+		and  b.secret_code=#{secretCode}
+		<choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.seq asc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select
+		count(*)  from reg_seat_arrange a LEFT JOIN
+		reg_room_arrange  b
+		on  b.id= a.room_arrangeid and b.enabled_flag=1
+		where  a.enabled_flag=1
+		and substring(first_studentid,11,2)=#{firstStudentid} and  b.secret_code=#{secretCode}
+
+
+
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.SeatArrangeDO" useGeneratedKeys="true" keyProperty="id">
+		insert into reg_seat_arrange
+		(
+			room_arrangeid, 
+			student_courseid, 
+			exam_courseid, 
+			seq, 
+			operator, 
+			update_date, 
+			db_flag
+		)
+		values
+		(
+			#{roomArrangeid}, 
+			#{studentCourseid}, 
+			#{examCourseid}, 
+			#{seq}, 
+			#{operator}, 
+			now(), 
+			#{dbFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.SeatArrangeDO">
+		update reg_seat_arrange 
+		<set>
+			<if test="roomArrangeid != null">room_arrangeid = #{roomArrangeid}, </if>
+			<if test="studentCourseid != null">student_courseid = #{studentCourseid}, </if>
+			<if test="examCourseid != null">exam_courseid = #{examCourseid}, </if>
+			<if test="seq != null">seq = #{seq}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now(), 			<if test="dbFlag != null">db_flag = #{dbFlag}</if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update reg_seat_arrange set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  reg_seat_arrange set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+<select id="listSingle" resultType="java.util.HashMap">
+
+SELECT
+	a.id,
+	a.准考证号,
+	a.姓名,
+	a.课程代码,
+	课程名称,
+	考点代码,
+	考点名称,
+	考场号,
+	座位号,
+	考试时间,
+	时段,
+	get_field_dict_name('stu_score','exam_flag',b.exam_flag) 是否缺考,
+	b.grade 成绩
+FROM
+	(
+		SELECT
+			d.id,
+			d.studentid 准考证号,
+			j.name 姓名,
+			c.courseid 课程代码,
+			c.courseid 课程名称,
+			i. CODE 考点代码,
+			i. NAME 考点名称,
+			g.room_no 考场号,
+			e.seq 座位号,
+			b.exam_date 考试时间,
+			b.segment 时段
+		FROM
+			exam_task a,
+			exa_exam_time b,
+			exa_exam_course c,
+			stu_student_course d,
+			reg_seat_arrange e,
+			reg_room_arrange f,
+			reg_exam_room g,
+			reg_exam_site_submit h,
+			reg_exam_site i,
+			stu_student j
+		WHERE
+			a.id = b.exam_taskid
+		AND b.id = c.exam_timeid
+		AND c.id = d.exam_courseid
+		AND d.id = e.student_courseid
+		AND e.room_arrangeid = f.id
+		AND f.exam_roomid = g.id
+		AND g.exam_site_submitid = h.id
+		AND h.exam_siteid = i.id
+		and d.studentid=j.id
+	 	and a.id = #{examTaskid}
+		and c.courseid = #{courseid}
+		AND c.auditStatus = 'b'
+		AND a.enabled_flag = 1
+		AND b.enabled_flag = 1
+		AND c.enabled_flag = 1
+		AND d.enabled_flag = 1
+		AND e.enabled_flag = 1
+		AND f.enabled_flag = 1
+		AND g.enabled_flag = 1
+		AND h.enabled_flag = 1
+		AND i.enabled_flag = 1
+		AND j.enabled_flag = 1
+	) a
+LEFT JOIN stu_score b ON a.id = b.objid
+AND b.type = 'a'
+ORDER BY
+	a.准考证号
+</select>
+</mapper>

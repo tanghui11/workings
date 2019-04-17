@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentSpecialityPreDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityPreDO">
+		select
+            id,
+            studentid,
+            regionid,
+            child_regionid,
+            schoolid,
+            teach_siteid,
+            grad_school,
+            grad_certificate,
+            grad_specialityid,
+            education,
+            school_speciality_regid,
+            speciality_recordid,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_student_speciality_pre
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityPreDO">
+		select
+	        id,
+	        studentid,
+	        regionid,
+	        child_regionid,
+	        schoolid,
+	        teach_siteid,
+	        grad_school,
+	        grad_certificate,
+	        grad_specialityid,
+	        education,
+	        school_speciality_regid,
+	        speciality_recordid,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from stu_student_speciality_pre
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and teach_siteid = #{teachSiteid} </if>
+		  <if test="gradSchool != null and gradSchool != ''"> and grad_school = #{gradSchool} </if>
+		  <if test="gradCertificate != null and gradCertificate != ''"> and grad_certificate = #{gradCertificate} </if>
+		  <if test="gradSpecialityid != null and gradSpecialityid != ''"> and grad_specialityid = #{gradSpecialityid} </if>
+		  <if test="education != null and education != ''"> and education = #{education} </if>
+		  <if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''"> and school_speciality_regid = #{schoolSpecialityRegid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_speciality_pre
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and teach_siteid = #{teachSiteid} </if>
+		  <if test="gradSchool != null and gradSchool != ''"> and grad_school = #{gradSchool} </if>
+		  <if test="gradCertificate != null and gradCertificate != ''"> and grad_certificate = #{gradCertificate} </if>
+		  <if test="gradSpecialityid != null and gradSpecialityid != ''"> and grad_specialityid = #{gradSpecialityid} </if>
+		  <if test="education != null and education != ''"> and education = #{education} </if>
+		  <if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''"> and school_speciality_regid = #{schoolSpecialityRegid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentSpecialityPreDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_speciality_pre
+		(
+			studentid, 
+			regionid, 
+			child_regionid, 
+			schoolid, 
+			teach_siteid, 
+			grad_school, 
+			grad_certificate, 
+			grad_specialityid, 
+			education, 
+			school_speciality_regid, 
+			speciality_recordid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{studentid}, 
+			#{regionid}, 
+			#{childRegionid}, 
+			#{schoolid}, 
+			#{teachSiteid}, 
+			#{gradSchool}, 
+			#{gradCertificate}, 
+			#{gradSpecialityid}, 
+			#{education}, 
+			#{schoolSpecialityRegid}, 
+			#{specialityRecordid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentSpecialityPreDO">
+		update stu_student_speciality_pre 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="teachSiteid != null">teach_siteid = #{teachSiteid}, </if>
+			<if test="gradSchool != null">grad_school = #{gradSchool}, </if>
+			<if test="gradCertificate != null">grad_certificate = #{gradCertificate}, </if>
+			<if test="gradSpecialityid != null">grad_specialityid = #{gradSpecialityid}, </if>
+			<if test="education != null">education = #{education}, </if>
+			<if test="schoolSpecialityRegid != null">school_speciality_regid = #{schoolSpecialityRegid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_speciality_pre set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_speciality_pre set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

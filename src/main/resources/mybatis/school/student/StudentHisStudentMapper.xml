@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.school.student.dao.StudentHisStudentDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentHisDO">
+		select
+            id,
+            type,
+            name,
+            ename,
+            pinyin,
+            gender,
+            home_type,
+            politics,
+            nation,
+            profession,
+            birthday,
+            native_place,
+            certificate_type,
+            certificate_no,
+            phone,
+            mphone,
+            address,
+            post_code,
+            email,
+            regionid,
+            child_regionid,
+            schoolid,
+            collegeid,
+            teach_siteid,
+            groupid,
+            old_studentid,
+            classify,
+            status,
+            audit_status,
+            confirm_status,
+            back_operator,
+            back_date,
+            confirm_operator,
+            confirm_date,
+            operator,
+            update_date,
+            db_flag
+		from stu_student_his
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentHisDO">
+		select
+	        id,
+	        type,
+	        name,
+	        ename,
+	        pinyin,
+	        gender,
+	        home_type,
+	        politics,
+	        nation,
+	        profession,
+	        birthday,
+	        native_place,
+	        certificate_type,
+	        certificate_no,
+	        phone,
+	        mphone,
+	        address,
+	        post_code,
+	        email,
+	        regionid,
+	        child_regionid,
+	        schoolid,
+	        collegeid,
+	        teach_siteid,
+	        groupid,
+	        old_studentid,
+	        classify,
+	        status,
+	        audit_status,
+	        confirm_status,
+	        back_operator,
+	        back_date,
+	        confirm_operator,
+	        confirm_date,
+	        operator,
+	        update_date,
+	        db_flag
+		 from stu_student_his
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="ename != null and ename != ''"> and ename = #{ename} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  <if test="homeType != null and homeType != ''"> and home_type = #{homeType} </if>
+		  <if test="politics != null and politics != ''"> and politics = #{politics} </if>
+		  <if test="nation != null and nation != ''"> and nation = #{nation} </if>
+		  <if test="profession != null and profession != ''"> and profession = #{profession} </if>
+		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
+		  <if test="nativePlace != null and nativePlace != ''"> and native_place = #{nativePlace} </if>
+		  <if test="certificateType != null and certificateType != ''"> and certificate_type = #{certificateType} </if>
+		  <if test="certificateNo != null and certificateNo != ''"> and certificate_no = #{certificateNo} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="mphone != null and mphone != ''"> and mphone = #{mphone} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and teach_siteid = #{teachSiteid} </if>
+		  <if test="groupid != null and groupid != ''"> and groupid = #{groupid} </if>
+		  <if test="oldStudentid != null and oldStudentid != ''"> and old_studentid = #{oldStudentid} </if>
+		  <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="confirmStatus != null and confirmStatus != ''"> and confirm_status = #{confirmStatus} </if>
+		  <if test="backOperator != null and backOperator != ''"> and back_operator = #{backOperator} </if>
+		  <if test="backDate != null and backDate != ''"> and back_date = #{backDate} </if>
+		  <if test="confirmOperator != null and confirmOperator != ''"> and confirm_operator = #{confirmOperator} </if>
+		  <if test="confirmDate != null and confirmDate != ''"> and confirm_date = #{confirmDate} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_his
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="ename != null and ename != ''"> and ename = #{ename} </if>
+		  <if test="pinyin != null and pinyin != ''"> and pinyin = #{pinyin} </if>
+		  <if test="gender != null and gender != ''"> and gender = #{gender} </if>
+		  <if test="homeType != null and homeType != ''"> and home_type = #{homeType} </if>
+		  <if test="politics != null and politics != ''"> and politics = #{politics} </if>
+		  <if test="nation != null and nation != ''"> and nation = #{nation} </if>
+		  <if test="profession != null and profession != ''"> and profession = #{profession} </if>
+		  <if test="birthday != null and birthday != ''"> and birthday = #{birthday} </if>
+		  <if test="nativePlace != null and nativePlace != ''"> and native_place = #{nativePlace} </if>
+		  <if test="certificateType != null and certificateType != ''"> and certificate_type = #{certificateType} </if>
+		  <if test="certificateNo != null and certificateNo != ''"> and certificate_no = #{certificateNo} </if>
+		  <if test="phone != null and phone != ''"> and phone = #{phone} </if>
+		  <if test="mphone != null and mphone != ''"> and mphone = #{mphone} </if>
+		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  <if test="postCode != null and postCode != ''"> and post_code = #{postCode} </if>
+		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and teach_siteid = #{teachSiteid} </if>
+		  <if test="groupid != null and groupid != ''"> and groupid = #{groupid} </if>
+		  <if test="oldStudentid != null and oldStudentid != ''"> and old_studentid = #{oldStudentid} </if>
+		  <if test="classify != null and classify != ''"> and classify = #{classify} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="confirmStatus != null and confirmStatus != ''"> and confirm_status = #{confirmStatus} </if>
+		  <if test="backOperator != null and backOperator != ''"> and back_operator = #{backOperator} </if>
+		  <if test="backDate != null and backDate != ''"> and back_date = #{backDate} </if>
+		  <if test="confirmOperator != null and confirmOperator != ''"> and confirm_operator = #{confirmOperator} </if>
+		  <if test="confirmDate != null and confirmDate != ''"> and confirm_date = #{confirmDate} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentHisDO">
+		insert into stu_student_his
+		(
+			id, 
+			type, 
+			name, 
+			ename, 
+			pinyin, 
+			gender, 
+			home_type, 
+			politics, 
+			nation, 
+			profession, 
+			birthday, 
+			native_place, 
+			certificate_type, 
+			certificate_no, 
+			phone, 
+			mphone, 
+			address, 
+			post_code, 
+			email, 
+			regionid, 
+			child_regionid, 
+			schoolid, 
+			collegeid, 
+			teach_siteid, 
+			groupid, 
+			old_studentid, 
+			classify, 
+			status, 
+			audit_status, 
+			confirm_status, 
+			back_operator, 
+			back_date, 
+			confirm_operator, 
+			confirm_date, 
+			operator, 
+			update_date
+			db_flag, 
+		)
+		values
+		(
+			#{id}, 
+			#{type}, 
+			#{name}, 
+			#{ename}, 
+			#{pinyin}, 
+			#{gender}, 
+			#{homeType}, 
+			#{politics}, 
+			#{nation}, 
+			#{profession}, 
+			#{birthday}, 
+			#{nativePlace}, 
+			#{certificateType}, 
+			#{certificateNo}, 
+			#{phone}, 
+			#{mphone}, 
+			#{address}, 
+			#{postCode}, 
+			#{email}, 
+			#{regionid}, 
+			#{childRegionid}, 
+			#{schoolid}, 
+			#{collegeid}, 
+			#{teachSiteid}, 
+			#{groupid}, 
+			#{oldStudentid}, 
+			#{classify}, 
+			#{status}, 
+			#{auditStatus}, 
+			#{confirmStatus}, 
+			#{backOperator}, 
+			#{backDate}, 
+			#{confirmOperator}, 
+			#{confirmDate}, 
+			#{operator}, 
+			now()
+			#{dbFlag}, 
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentHisDO">
+		update stu_student_his 
+		<set>
+			<if test="type != null">type = #{type}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="ename != null">ename = #{ename}, </if>
+			<if test="pinyin != null">pinyin = #{pinyin}, </if>
+			<if test="gender != null">gender = #{gender}, </if>
+			<if test="homeType != null">home_type = #{homeType}, </if>
+			<if test="politics != null">politics = #{politics}, </if>
+			<if test="nation != null">nation = #{nation}, </if>
+			<if test="profession != null">profession = #{profession}, </if>
+			<if test="birthday != null">birthday = #{birthday}, </if>
+			<if test="nativePlace != null">native_place = #{nativePlace}, </if>
+			<if test="certificateType != null">certificate_type = #{certificateType}, </if>
+			<if test="certificateNo != null">certificate_no = #{certificateNo}, </if>
+			<if test="phone != null">phone = #{phone}, </if>
+			<if test="mphone != null">mphone = #{mphone}, </if>
+			<if test="address != null">address = #{address}, </if>
+			<if test="postCode != null">post_code = #{postCode}, </if>
+			<if test="email != null">email = #{email}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="collegeid != null">collegeid = #{collegeid}, </if>
+			<if test="teachSiteid != null">teach_siteid = #{teachSiteid}, </if>
+			<if test="groupid != null">groupid = #{groupid}, </if>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+			<if test="classify != null">classify = #{classify}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="confirmStatus != null">confirm_status = #{confirmStatus}, </if>
+			<if test="backOperator != null">back_operator = #{backOperator}, </if>
+			<if test="backDate != null">back_date = #{backDate}, </if>
+			<if test="confirmOperator != null">confirm_operator = #{confirmOperator}, </if>
+			<if test="confirmDate != null">confirm_date = #{confirmDate}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_his set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_his set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

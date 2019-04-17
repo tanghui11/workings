@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>考区列表</h5>
+					</div>
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"class="ztree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="ibox">
+					<input id="orgid" name="orgid" type="hidden" th:value="${roomArrange}">
+					<input id="regionid" name="regionid" type="hidden">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<div class="columns pull-left" style="margin-right:10px;">
+								考试任务
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								<select class="form-control" id="searchKsrw" placeholder="" type="text">
+								</select>
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								考试时间
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								<select class="form-control" id="kktime" name="examTimeid">
+								</select>
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								考点
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								<select class="form-control" id="searchKd" placeholder="" type="text">
+								</select>
+							</div>
+							<div class="columns pull-left" style="margin-left:10px;">
+								<button class="btn btn-success" onclick="reLoad()">查询</button>
+							</div>
+							<div class="columns pull-left" style="margin-left:10px;">
+								<button shiro:hasPermission="region:roomArrange:add" type="button" class="btn  btn-primary" onclick="bianpai('b')">
+									编排确认
+								</button>
+								<button shiro:hasPermission="region:roomArrange:batchRemove" type="button" class="btn  btn-danger"
+									onclick="bianpai('a')">
+									编排取消
+								</button>
+							</div>
+							
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrange:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrange:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:roomArrange:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/region/roomArrange/roomArrange.js" th:src="@{/js/appjs/center/region/roomArrange/roomArrange.js}"></script>
+</body>
+</html>

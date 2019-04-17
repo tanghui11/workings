@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.ScoreCheckoutDao">
+
+<!--校验类别第一遍未登分记录查询-->
+	<select id="firstScorelist" resultType="com.hxy.nzxy.stexam.center.student.domain.FirstScoreCheckoutDO">
+        select
+                e.code as examSiteid,
+                e.name as examSiteName,
+                c.room_no as examRoomid,
+                g.courseid,
+                h.name  as courseName
+        from
+                reg_seat_arrange a,
+                reg_room_arrange b,
+                reg_exam_room c,
+                reg_exam_site_submit d,
+                reg_exam_site e,
+                stu_score_temp f,
+                exa_exam_course g,
+                pla_course h
+        <where>
+            and b.auditStatus='b'
+            and a.enabled_flag=1
+            and b.enabled_flag=1
+            and c.enabled_flag=1
+            and d.enabled_flag=1
+            and e.enabled_flag=1
+            and f.enabled_flag=1
+            and g.enabled_flag=1
+            and h.enabled_flag=1
+            and a.room_arrangeid = b.id
+            and b.exam_courseid = g.id
+            and b.exam_roomid = c.id
+            and c.exam_site_submitid = d.id
+            and d.exam_siteid = e.id
+            and d.exam_taskid = #{examTaskid}
+            and a.id not in (select seat_arrangeid
+            from stu_score_temp)
+        </where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+                group by e.code,e.name,c.room_no,g.courseid
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	<select id="firstCount" resultType="int">
+		select count(*)
+        from
+            reg_seat_arrange a,
+            reg_room_arrange b,
+            reg_exam_room c,
+            reg_exam_site_submit d,
+            reg_exam_site e,
+            stu_score_temp f,
+            exa_exam_course g,
+            pla_course h
+        <where>
+            and b.auditStatus='b'
+            and a.enabled_flag=1
+            and b.enabled_flag=1
+            and c.enabled_flag=1
+            and d.enabled_flag=1
+            and e.enabled_flag=1
+            and f.enabled_flag=1
+            and g.enabled_flag=1
+            and h.enabled_flag=1
+            and a.room_arrangeid = b.id
+            and b.exam_courseid = g.id
+            and b.exam_roomid = c.id
+            and c.exam_site_submitid = d.id
+            and d.exam_siteid = e.id
+            and d.exam_taskid = #{examTaskid}
+            and a.id not in (select seat_arrangeid
+            from stu_score_temp)
+        </where>
+	</select>
+
+    <!--校验类别第二遍未登分记录查询-->
+    <select id="secondScorelist" resultType="com.hxy.nzxy.stexam.center.student.domain.FirstScoreCheckoutDO">
+        select
+            e.code as examSiteid,
+            e.name as examSiteName,
+            c.room_no as examRoomid,
+            g.courseid,
+            h.name  as courseName
+        from
+            reg_seat_arrange a,
+            reg_room_arrange b,
+            reg_exam_room c,
+            reg_exam_site_submit d,
+            reg_exam_site e,
+            stu_score_temp f,
+            exa_exam_course g,
+            pla_course h
+        <where>
+            and b.auditStatus='b'
+            and a.enabled_flag=1
+            and b.enabled_flag=1
+            and c.enabled_flag=1
+            and d.enabled_flag=1
+            and e.enabled_flag=1
+            and f.enabled_flag=1
+            and g.enabled_flag=1
+            and h.enabled_flag=1
+            and a.room_arrangeid = b.id
+            and b.exam_courseid = g.id
+            and b.exam_roomid = c.id
+            and c.exam_site_submitid = d.id
+            and d.exam_siteid = e.id
+            and a.id = f.seat_arrangeid
+            and f.operator is null
+            and d.exam_taskid = #{examTaskid}
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                group by e.code,e.name,c.room_no,g.courseid
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="secondCount" resultType="int">
+        select count(*)
+        from
+        reg_seat_arrange a,
+        reg_room_arrange b,
+        reg_exam_room c,
+        reg_exam_site_submit d,
+        reg_exam_site e,
+        stu_score_temp f,
+        exa_exam_course g,
+        pla_course h
+        <where>
+            and b.auditStatus='b'
+            and a.enabled_flag=1
+            and b.enabled_flag=1
+            and c.enabled_flag=1
+            and d.enabled_flag=1
+            and e.enabled_flag=1
+            and f.enabled_flag=1
+            and g.enabled_flag=1
+            and h.enabled_flag=1
+            and a.room_arrangeid = b.id
+            and b.exam_courseid = g.id
+            and b.exam_roomid = c.id
+            and c.exam_site_submitid = d.id
+            and d.exam_siteid = e.id
+            and a.id = f.seat_arrangeid
+            and f.operator is null
+            and d.exam_taskid = #{examTaskid}
+        </where>
+    </select>
+
+<!--三科不缺考一科缺考的考生-->
+    <select id="thirdScorelist" resultType="com.hxy.nzxy.stexam.center.student.domain.ThirdScoreCheckoutDO">
+        select
+            h.code as examSiteid,
+            h.name as examSiteName,
+            d.courseid as courseid,
+            i.name as courseName,
+            f.room_no as examRoomid,
+            b.seq as seatSeq,
+            c.studentid ,
+            j.name as studentName
+        from
+
+            stu_score_temp a,
+            reg_seat_arrange b,
+            stu_student_course c,
+            exa_exam_course d,
+            reg_room_arrange e,
+            reg_exam_room f,
+            reg_exam_site_submit g,
+            reg_exam_site h,
+            pla_course i,
+            stu_student j
+          where
+        and d.auditStatus='b'
+        and a.enabled_flag=1
+        and b.enabled_flag=1
+        and c.enabled_flag=1
+        and d.enabled_flag=1
+        and e.enabled_flag=1
+        and f.enabled_flag=1
+        and g.enabled_flag=1
+        and h.enabled_flag=1
+        and i.enabled_flag=1
+        and j.enabled_flag=1
+                a.seat_arrangeid = b.id
+                and b.student_courseid = c.id
+                and c.exam_courseid = d.id
+                and a.exam_flag = '1'
+                and b.room_arrangeid = e.id
+                and e.exam_roomid = f.id
+                and f.exam_site_submitid = g.id
+                and g.exam_siteid = h.id
+                and d.courseid = i.id
+                and c.studentid = j.id
+                and g.exam_taskid = #{examTaskid}
+                and c.studentid in (	select c.studentid
+                    from
+                        stu_score_temp a,
+                        reg_seat_arrange b,
+                        stu_student_course c,
+                        exa_exam_course d,
+                        exa_exam_time e
+                    where
+                        a.seat_arrangeid = b.id
+                        and d.auditStatus='b'
+                        and a.enabled_flag=1
+                        and b.enabled_flag=1
+                        and c.enabled_flag=1
+                        and d.enabled_flag=1
+                        and e.enabled_flag=1
+                        and b.student_courseid = c.id
+                        and c.exam_courseid = d.id
+                        and d.exam_timeid = e.id
+                        and e.exam_taskid = #{examTaskid}
+                        and a.exam_flag = '0'
+                        and c.studentid in (select c.studentid
+                            from
+                                stu_score_temp a,
+                                reg_seat_arrange b,
+                                stu_student_course c,
+                                exa_exam_course d,
+                                exa_exam_time e
+                            where
+                                a.seat_arrangeid = b.id
+                                and d.auditStatus='b'
+                                and a.enabled_flag=1
+                                and b.enabled_flag=1
+                                and c.enabled_flag=1
+                                and d.enabled_flag=1
+                                and e.enabled_flag=1
+                                and b.student_courseid = c.id
+                                and c.exam_courseid = d.id
+                                and d.exam_timeid = e.id
+                                and e.exam_taskid = #{examTaskid}
+                                and a.exam_flag = '1')
+                                group by c.studentid
+                                having COUNT(*) = 3)
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+
+                order by h.code,f.room_no,b.seq
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="thirdCount" resultType="int">
+        select count(*)
+         from
+            stu_score_temp a,
+            reg_seat_arrange b,
+            stu_student_course c,
+            exa_exam_course d,
+            reg_room_arrange e,
+            reg_exam_room f,
+            reg_exam_site_submit g,
+            reg_exam_site h,
+            pla_course i,
+            stu_student j
+          where
+                a.seat_arrangeid = b.id
+                 and d.auditStatus='b'
+                and a.enabled_flag=1
+                and b.enabled_flag=1
+                and c.enabled_flag=1
+                and d.enabled_flag=1
+                and e.enabled_flag=1
+                and f.enabled_flag=1
+                and g.enabled_flag=1
+                and h.enabled_flag=1
+                and i.enabled_flag=1
+                and ji.enabled_flag=1
+                and b.student_courseid = c.id
+                and c.exam_courseid = d.id
+                and a.exam_flag = '1'
+                and b.room_arrangeid = e.id
+                and e.exam_roomid = f.id
+                and f.exam_site_submitid = g.id
+                and g.exam_siteid = h.id
+                and d.courseid = i.id
+                and c.studentid = j.id
+                and g.exam_taskid = #{examTaskid}
+                and c.studentid in (select c.studentid
+                    from
+                        stu_score_temp a,
+                        reg_seat_arrange b,
+                        stu_student_course c,
+                        exa_exam_course d,
+                        exa_exam_time e
+                    where
+                        a.seat_arrangeid = b.id
+                          and d.auditStatus='b'
+                           and a.enabled_flag=1
+                           and b.enabled_flag=1
+                            and c.enabled_flag=1
+                          and d.enabled_flag=1
+                          and e.enabled_flag=1
+                        and b.student_courseid = c.id
+                        and c.exam_courseid = d.id
+                        and d.exam_timeid = e.id
+                        and e.exam_taskid = #{examTaskid}
+                        and a.exam_flag = '0'
+                        and c.studentid in (select c.studentid
+                            from
+                                stu_score_temp a,
+                                reg_seat_arrange b,
+                                stu_tudent_course c,
+                                exa_exam_course d,
+                                exa_exam_time e
+                            where
+                                a.seat_arrangeid = b.id
+                                and d.auditStatus='b'
+                                and a.enabled_flag=1
+                                and b.enabled_flag=1
+                                and c.enabled_flag=1
+                                and d.enabled_flag=1
+                                and e.enabled_flag=1
+                                and b.student_courseid = c.id
+                                and c.exam_courseid = d.id
+                                and d.exam_timeid = e.id
+                                and e.exam_taskid = #{examTaskid}
+                                and a.exam_flag = '1')
+                                group by c.studentid
+                                having COUNT(*) = 3)
+    </select>
+
+    <!--两科不缺考一科缺考的 考生-->
+    <select id="fourthScorelist" resultType="com.hxy.nzxy.stexam.center.student.domain.ThirdScoreCheckoutDO">
+        select
+        h.code as examSiteid,
+        h.name as examSiteName,
+        d.courseid as courseid,
+        i.name as courseName,
+        f.room_no as examRoomid,
+        b.seq as seatSeq,
+        c.studentid ,
+        j.name as studentName
+        from
+        stu_score_temp a,
+        reg_seat_arrange b,
+        stu_student_course c,
+        exa_exam_course d,
+        reg_room_arrange e,
+        reg_exam_room f,
+        reg_exam_site_submit g,
+        reg_exam_site h,
+        pla_course i,
+        stu_student j
+        where
+        a.seat_arrangeid = b.id
+        and d.auditStatus='b'
+        and a.enabled_flag=1
+        and b.enabled_flag=1
+        and c.enabled_flag=1
+        and d.enabled_flag=1
+        and e.enabled_flag=1
+        and f.enabled_flag=1
+        and g.enabled_flag=1
+        and h.enabled_flag=1
+        and i.enabled_flag=1
+        and j.enabled_flag=1
+        and b.student_courseid = c.id
+        and c.exam_courseid = d.id
+        and a.exam_flag = '1'
+        and b.room_arrangeid = e.id
+        and e.exam_roomid = f.id
+        and f.exam_site_submitid = g.id
+        and g.exam_siteid = h.id
+        and d.courseid = i.id
+        and c.studentid = j.id
+        and g.exam_taskid = #{examTaskid}
+        and c.studentid in (	select c.studentid
+        from
+        stu_score_temp a,
+        reg_seat_arrange b,
+        stu_student_course c,
+        exa_exam_course d,
+        exa_exam_time e
+        where
+        a.seat_arrangeid = b.id
+        and d.auditStatus='b'
+        and a.enabled_flag=1
+        and b.enabled_flag=1
+        and c.enabled_flag=1
+        and d.enabled_flag=1
+        and e.enabled_flag=1
+        and b.student_courseid = c.id
+        and c.exam_courseid = d.id
+        and d.exam_timeid = e.id
+        and e.exam_taskid = #{examTaskid}
+        and a.exam_flag = '0'
+        and c.studentid in (select c.studentid
+        from
+        stu_score_temp a,
+        reg_seat_arrange b,
+        student_course c,
+        exa_exam_course d,
+        exa_exam_time e
+        where
+        a.seat_arrangeid = b.id
+        and d.auditStatus='b'
+        and a.enabled_flag=1
+        and b.enabled_flag=1
+        and c.enabled_flag=1
+        and d.enabled_flag=1
+        and e.enabled_flag=1
+        and b.student_courseid = c.id
+        and c.exam_courseid = d.id
+        and d.exam_timeid = e.id
+        and e.exam_taskid = #{examTaskid}
+        and a.exam_flag = '1')
+        group by c.studentid
+        having COUNT(*) = 2)
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+
+                order by h.code,f.room_no,b.seq
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="fourthCount" resultType="int">
+        select count(*)
+         from
+            stu_score_temp a,
+            reg_seat_arrange b,
+            stu_student_course c,
+            exa_exam_course d,
+            reg_room_arrange e,
+            reg_exam_room f,
+            reg_exam_site_submit g,
+            reg_exam_site h,
+            pla_course i,
+            stu_student j
+          where
+                a.seat_arrangeid = b.id
+                and d.auditStatus='b'
+                and a.enabled_flag=1
+                and b.enabled_flag=1
+                and c.enabled_flag=1
+                and d.enabled_flag=1
+                and e.enabled_flag=1
+                and e.enabled_flag=1
+                and f.enabled_flag=1
+                and g.enabled_flag=1
+                and h.enabled_flag=1
+                and i.enabled_flag=1
+                and j.enabled_flag=1
+                and b.student_courseid = c.id
+                and c.exam_courseid = d.id
+                and a.exam_flag = '1'
+                and b.room_arrangeid = e.id
+                and e.exam_roomid = f.id
+                and f.exam_site_submitid = g.id
+                and g.exam_siteid = h.id
+                and d.courseid = i.id
+                and c.studentid = j.id
+                and g.exam_taskid = #{examTaskid}
+                and c.studentid in (	select c.studentid
+                    from
+                        stu_score_temp a,
+                        reg_seat_arrange b,
+                        stu_student_course c,
+                        exa_exam_course d,
+                        exa_exam_time e
+                    where
+                        a.seat_arrangeid = b.id
+                          and d.auditStatus='b'
+                        and a.enabled_flag=1
+                        and b.enabled_flag=1
+                        and c.enabled_flag=1
+                        and d.enabled_flag=1
+                        and b.student_courseid = c.id
+                        and c.exam_courseid = d.id
+                        and d.exam_timeid = e.id
+                        and e.exam_taskid = #{examTaskid}
+                        and a.exam_flag = '0'
+                        and c.studentid in (select c.studentid
+                            from
+                                stu_score_temp a,
+                                reg_seat_arrange b,
+                                stu_student_course c,
+                                exa_exam_course d,
+                                exa_exam_time e
+                            where
+                                a.seat_arrangeid = b.id
+                                   and d.auditStatus='b'
+                                    and a.enabled_flag=1
+                                    and b.enabled_flag=1
+                                    and c.enabled_flag=1
+                                    and d.enabled_flag=1
+                                and b.student_courseid = c.id
+                                and c.exam_courseid = d.id
+                                and d.exam_timeid = e.id
+                                and e.exam_taskid = #{examTaskid}
+                                and a.exam_flag = '1')
+                                group by c.studentid
+                                having COUNT(*) = 3)
+    </select>
+</mapper>

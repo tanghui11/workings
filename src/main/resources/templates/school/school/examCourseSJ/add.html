@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style" style="max-width:800px;margin:0 auto">
+							<input id ="courseid" name="courseid" type="hidden">
+							<input id ="examTimeid" name="examTimeid" type="hidden">
+							<input id ="bookid" name="bookid" type="hidden">
+							<input id ="examTaskid" name="examTaskid" type="hidden">
+							<!--<tr>-->
+								<!--<td style="width:115px">-->
+									<!--<label>助学组织：</label>-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--<input id="schoolName" name="schoolName" class="form-control" type="text" onclick="texture()">-->
+									<!--<input id="schoolid" name="schoolid"   class="form-control" type="hidden">-->
+								<!--</td>-->
+
+								<!--<td>-->
+									<!--<label>考试类型：</label>-->
+								<!--</td>-->
+								<!--<input id="searchcourse" hidden>-->
+								<!--<td>-->
+									<!--<select id="courseType" name="courseType" class="form-control" onmouseout="dds()">-->
+										<!--<option value="">-请选择-</option>-->
+										<!--<option value="b">衔接</option>-->
+										<!--<option value="c">实践</option>-->
+									<!--</select>-->
+								<!--</td>-->
+							<!--</tr>-->
+							<tr>
+								<td style="width:110px">
+									<label><span style="color:red">*</span>考试任务：</label>
+								</td>
+								<td style="width:250px">
+									<select id="ksrw" class="form-control" name="ksrw" onchange="ktime(this.value)" ></select>
+								</td>
+								<td style="width:110px">
+									<label><span style="color:red">*</span>开考时间：</label>
+								</td>
+								<td>
+									<select id="kktime" name="kktime" class="form-control" onchange = "times(this.value)">
+										<option value='-1'>-请选择-</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>开考课程：</label>
+								</td>
+								<td>
+									<input id="kkkc" name="kkkc" class="form-control" type="text" onclick="courseName()" autocomplete="off">
+								</td>
+								<td>
+									<label><span style="color:red">*</span>教材名称：</label>
+								</td>
+								<td>
+									<select id="book" name="book" class="form-control" type="text" onchange="bookids(this.value)">
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${exa_exam_course_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+								<td>
+									<label><span style="color:red">*</span>命题类别：</label>
+								</td>
+								<td>
+									<select id="classify" name="classify" class="form-control">
+										<option th:each="item:${exa_exam_course_classify}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td style="display: none">
+									<label><span style="color:red">*</span>题卡类别：</label>
+								</td>
+								<td style="width:270px" style="display: none">
+									<select id="cardType" name="cardType" class="form-control">
+										<option th:each="item:${exa_exam_course_card_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+								<td >
+									<label>是否关闭：</label>
+								</td>
+								<td style="width:270px" colspan="3">
+									<input id="checkBox" name="checkBox" style="width:20px;height:20px" type="checkbox">
+								</td>
+							</tr>
+
+							<!-- <div class="form-group">
+								<label class="col-sm-3 control-label">考试任务：</label>
+								<div class="col-sm-8">
+									<select id="ksrw" class="form-control" name="ksrw" onchange="ktime(this.value)"></select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">开考时间：</label>
+								<div class="col-sm-8">
+									<select id="kktime" name="kktime" class="form-control">
+										<option>-请选择-</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">开考课程：</label>
+								<div class="col-sm-8">
+									<input id="kkkc" name="kkkc" class="form-control" type="text" onclick="courseName()">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">类别：</label>
+								<div class="col-sm-8">
+									<select id="classify" name="classify" class="form-control">
+										<option th:each="item:${exa_exam_course_classify}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</div>
+							</div>
+							<!-- <div class="form-group">
+								<label class="col-sm-3 control-label">题卡类别：</label>
+								<div class="col-sm-8">
+									<select id="cardType" name="cardType" class="form-control">
+										<option th:each="item:${exa_exam_course_cardType}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</div>
+							</div> -->
+                           <!--  <div class="form-group">
+								<label class="col-sm-3 control-label">课程编号：</label>
+								<div class="col-sm-8">
+									<input id="courseid" name="courseid" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">教材编号：</label>
+								<div class="col-sm-8">
+									<input id="bookid" name="bookid" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">开考时间编号：</label>
+								<div class="col-sm-8">
+									<input id="examTimeid" name="examTimeid" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">满分：</label>
+								<div class="col-sm-8">
+									<input id="fullScore" name="fullScore" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">及格分数：</label>
+								<div class="col-sm-8">
+									<input id="passScore" name="passScore" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">客观题总分：</label>
+								<div class="col-sm-8">
+									<input id="objectivesScore" name="objectivesScore" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">主观题总分：</label>
+								<div class="col-sm-8">
+									<input id="subjectiveScore" name="subjectiveScore" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">超员人数：</label>
+								<div class="col-sm-8">
+									<input id="exceedNumber" name="exceedNumber" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">类别：</label>
+								<div class="col-sm-8">
+									<input id="type" name="type" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">命题类别：</label>
+								<div class="col-sm-8">
+									<input id="classify" name="classify" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">题卡类别：</label>
+								<div class="col-sm-8">
+									<input id="cardType" name="cardType" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">操作员：</label>
+								<div class="col-sm-8">
+									<input id="remark" name="remark" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">操作员：</label>
+								<div class="col-sm-8">
+									<input id="seq" name="seq" class="form-control" type="text">
+								</div>
+							</div> -->
+							
+						</table>
+						<div class="" style="text-align:center;margin-top:5px">
+								<button type="submit" class="btn btn-primary" id="submission">提交</button>
+								<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/school/examCourseSJ/add.js" th:src="@{/js/appjs/school/school/examCourseSJ/add.js}">
+	</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentSpecialityHisDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityHisDO">
+		select
+            id,
+            studentid,
+            regionid,
+            child_regionid,
+            schoolid,
+            collegeid,
+            teach_siteid,
+            grad_school,
+            grad_certificate,
+            grad_specialityid,
+            education,
+            school_speciality_regid,
+            speciality_recordid,
+            status,
+            graduate,
+            print_certificate,
+            apply_operator,
+            apply_date,
+            audit_status,
+            audit_operator,
+            audit_date,
+            grad_audit_status,
+            grad_audit_operator,
+            grad_audit_date,
+            old_studentid,
+            operator,
+            update_date,
+            db_flag
+		from stu_student_speciality_his
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentSpecialityHisDO">
+		select
+	        id,
+	        studentid,
+	        regionid,
+	        child_regionid,
+	        schoolid,
+	        collegeid,
+	        teach_siteid,
+	        grad_school,
+	        grad_certificate,
+	        grad_specialityid,
+	        education,
+	        school_speciality_regid,
+	        speciality_recordid,
+	        status,
+	        graduate,
+	        print_certificate,
+	        apply_operator,
+	        apply_date,
+	        audit_status,
+	        audit_operator,
+	        audit_date,
+	        grad_audit_status,
+	        grad_audit_operator,
+	        grad_audit_date,
+	        old_studentid,
+	        operator,
+	        update_date,
+	        db_flag
+		 from stu_student_speciality_his
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and teach_siteid = #{teachSiteid} </if>
+		  <if test="gradSchool != null and gradSchool != ''"> and grad_school = #{gradSchool} </if>
+		  <if test="gradCertificate != null and gradCertificate != ''"> and grad_certificate = #{gradCertificate} </if>
+		  <if test="gradSpecialityid != null and gradSpecialityid != ''"> and grad_specialityid = #{gradSpecialityid} </if>
+		  <if test="education != null and education != ''"> and education = #{education} </if>
+		  <if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''"> and school_speciality_regid = #{schoolSpecialityRegid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="graduate != null and graduate != ''"> and graduate = #{graduate} </if>
+		  <if test="printCertificate != null and printCertificate != ''"> and print_certificate = #{printCertificate} </if>
+		  <if test="applyOperator != null and applyOperator != ''"> and apply_operator = #{applyOperator} </if>
+		  <if test="applyDate != null and applyDate != ''"> and apply_date = #{applyDate} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+		  <if test="gradAuditStatus != null and gradAuditStatus != ''"> and grad_audit_status = #{gradAuditStatus} </if>
+		  <if test="gradAuditOperator != null and gradAuditOperator != ''"> and grad_audit_operator = #{gradAuditOperator} </if>
+		  <if test="gradAuditDate != null and gradAuditDate != ''"> and grad_audit_date = #{gradAuditDate} </if>
+		  <if test="oldStudentid != null and oldStudentid != ''"> and old_studentid = #{oldStudentid} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_speciality_his
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="studentid != null and studentid != ''"> and studentid = #{studentid} </if>
+		  <if test="regionid != null and regionid != ''"> and regionid = #{regionid} </if>
+		  <if test="childRegionid != null and childRegionid != ''"> and child_regionid = #{childRegionid} </if>
+		  <if test="schoolid != null and schoolid != ''"> and schoolid = #{schoolid} </if>
+		  <if test="collegeid != null and collegeid != ''"> and collegeid = #{collegeid} </if>
+		  <if test="teachSiteid != null and teachSiteid != ''"> and teach_siteid = #{teachSiteid} </if>
+		  <if test="gradSchool != null and gradSchool != ''"> and grad_school = #{gradSchool} </if>
+		  <if test="gradCertificate != null and gradCertificate != ''"> and grad_certificate = #{gradCertificate} </if>
+		  <if test="gradSpecialityid != null and gradSpecialityid != ''"> and grad_specialityid = #{gradSpecialityid} </if>
+		  <if test="education != null and education != ''"> and education = #{education} </if>
+		  <if test="schoolSpecialityRegid != null and schoolSpecialityRegid != ''"> and school_speciality_regid = #{schoolSpecialityRegid} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  <if test="graduate != null and graduate != ''"> and graduate = #{graduate} </if>
+		  <if test="printCertificate != null and printCertificate != ''"> and print_certificate = #{printCertificate} </if>
+		  <if test="applyOperator != null and applyOperator != ''"> and apply_operator = #{applyOperator} </if>
+		  <if test="applyDate != null and applyDate != ''"> and apply_date = #{applyDate} </if>
+		  <if test="auditStatus != null and auditStatus != ''"> and audit_status = #{auditStatus} </if>
+		  <if test="auditOperator != null and auditOperator != ''"> and audit_operator = #{auditOperator} </if>
+		  <if test="auditDate != null and auditDate != ''"> and audit_date = #{auditDate} </if>
+		  <if test="gradAuditStatus != null and gradAuditStatus != ''"> and grad_audit_status = #{gradAuditStatus} </if>
+		  <if test="gradAuditOperator != null and gradAuditOperator != ''"> and grad_audit_operator = #{gradAuditOperator} </if>
+		  <if test="gradAuditDate != null and gradAuditDate != ''"> and grad_audit_date = #{gradAuditDate} </if>
+		  <if test="oldStudentid != null and oldStudentid != ''"> and old_studentid = #{oldStudentid} </if>
+		  <if test="dbFlag != null and dbFlag != ''"> and db_flag = #{dbFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentSpecialityHisDO">
+		insert into stu_student_speciality_his
+		(
+			id, 
+			studentid, 
+			regionid, 
+			child_regionid, 
+			schoolid, 
+			collegeid, 
+			teach_siteid, 
+			grad_school, 
+			grad_certificate, 
+			grad_specialityid, 
+			education, 
+			school_speciality_regid, 
+			speciality_recordid, 
+			status, 
+			graduate, 
+			print_certificate, 
+			apply_operator, 
+			apply_date, 
+			audit_status, 
+			audit_operator, 
+			audit_date, 
+			grad_audit_status, 
+			grad_audit_operator, 
+			grad_audit_date, 
+			old_studentid, 
+			operator, 
+			update_date
+			db_flag, 
+		)
+		values
+		(
+			#{id}, 
+			#{studentid}, 
+			#{regionid}, 
+			#{childRegionid}, 
+			#{schoolid}, 
+			#{collegeid}, 
+			#{teachSiteid}, 
+			#{gradSchool}, 
+			#{gradCertificate}, 
+			#{gradSpecialityid}, 
+			#{education}, 
+			#{schoolSpecialityRegid}, 
+			#{specialityRecordid}, 
+			#{status}, 
+			#{graduate}, 
+			#{printCertificate}, 
+			#{applyOperator}, 
+			#{applyDate}, 
+			#{auditStatus}, 
+			#{auditOperator}, 
+			#{auditDate}, 
+			#{gradAuditStatus}, 
+			#{gradAuditOperator}, 
+			#{gradAuditDate}, 
+			#{oldStudentid}, 
+			#{operator}, 
+			now()
+			#{dbFlag}, 
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentSpecialityHisDO">
+		update stu_student_speciality_his 
+		<set>
+			<if test="studentid != null">studentid = #{studentid}, </if>
+			<if test="regionid != null">regionid = #{regionid}, </if>
+			<if test="childRegionid != null">child_regionid = #{childRegionid}, </if>
+			<if test="schoolid != null">schoolid = #{schoolid}, </if>
+			<if test="collegeid != null">collegeid = #{collegeid}, </if>
+			<if test="teachSiteid != null">teach_siteid = #{teachSiteid}, </if>
+			<if test="gradSchool != null">grad_school = #{gradSchool}, </if>
+			<if test="gradCertificate != null">grad_certificate = #{gradCertificate}, </if>
+			<if test="gradSpecialityid != null">grad_specialityid = #{gradSpecialityid}, </if>
+			<if test="education != null">education = #{education}, </if>
+			<if test="schoolSpecialityRegid != null">school_speciality_regid = #{schoolSpecialityRegid}, </if>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="graduate != null">graduate = #{graduate}, </if>
+			<if test="printCertificate != null">print_certificate = #{printCertificate}, </if>
+			<if test="applyOperator != null">apply_operator = #{applyOperator}, </if>
+			<if test="applyDate != null">apply_date = #{applyDate}, </if>
+			<if test="auditStatus != null">audit_status = #{auditStatus}, </if>
+			<if test="auditOperator != null">audit_operator = #{auditOperator}, </if>
+			<if test="auditDate != null">audit_date = #{auditDate}, </if>
+			<if test="gradAuditStatus != null">grad_audit_status = #{gradAuditStatus}, </if>
+			<if test="gradAuditOperator != null">grad_audit_operator = #{gradAuditOperator}, </if>
+			<if test="gradAuditDate != null">grad_audit_date = #{gradAuditDate}, </if>
+			<if test="oldStudentid != null">old_studentid = #{oldStudentid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()			<if test="dbFlag != null">db_flag = #{dbFlag}, </if>
+
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_speciality_his set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_speciality_his set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${schoolSpecialityRegSchool.id}"  type="hidden">
+								<!-- <tr>
+									<td>
+										<label>助学组织编号：</label>
+									</td>
+									<td>
+										<input id="schoolid" name="schoolid" th:value="${schoolSpecialityRegSchool.schoolid}" class="form-control" type="text">
+									</td>
+									<td>
+										<label>专业开设编号：</label>
+									</td>
+									<td>	
+										<input id="specialityRecordid" name="specialityRecordid" th:value="${schoolSpecialityRegSchool.specialityRecordid}" class="form-control" type="text">
+									</td>
+								</tr>
+                           		<tr>
+                           			<td>
+                           			
+										<label>地州市考办代码：</label>
+									</td>
+									<td>
+										<input id="regionid" name="regionid" th:value="${schoolSpecialityRegSchool.regionid}" class="form-control" type="text">
+									</td>
+									<td>
+		                            
+										<label>专业层次：</label>
+									</td>
+									<td>
+										<input id="classify" name="classify" th:value="${schoolSpecialityRegSchool.classify}" class="form-control" type="text">
+									</td>
+                           		</tr> -->
+                           		<tr>
+                           			<td style="width:110px;">
+										<label><i class="xinghao">*</i> 学院名称：</label>
+									</td>
+									<td>
+										<input type="hidden" id="xueyuan" th:value="${schoolSpecialityRegSchool.collegeid}">
+										<select id="collegeId" name="collegeid" class="form-control">
+											<!-- <option th:each="item:${sch_school_speciality_reg_collegeid}" th:value="${item.id}" th:text="${item.name}" th:field="${schoolSpecialityRegSchool.collegeid}"></option> -->
+										</select>
+									</td>
+									<td style="width:110px;">
+										<label><i class="xinghao">*</i> 教学点名称：</label>
+									</td>
+									<td>
+										<select id="teachSiteName" name="teachid" class="form-control">
+											<!-- <option th:each="item:${pla_course_type}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+										</select>
+										<!-- <input id="" name="" th:value="${schoolSpecialityRegSchool.schoolid}" class="form-control" type="text"> -->
+									</td>
+								</tr>
+                           		<tr>
+                           			<td>
+                           			
+										<label><i class="xinghao">*</i> 专业名称：</label>
+									</td>
+									<td>
+										<select id="specialityName" name="specialityRecordid" class="form-control">
+											
+										</select>
+										<!-- <input id="" name="" th:value="${schoolSpecialityRegSchool.regionid}" class="form-control" type="text"> -->
+									</td>
+									<td>
+		                            
+										<label><i class="xinghao">*</i> 专业层次：</label>
+									</td>
+									<td>
+										<!-- <input id="classify" name="classify" th:value="${schoolSpecialityRegSchool.classify}" class="form-control" type="text"> -->
+										<select id="classify" name="classify" class="form-control" onchange="educational()">
+											<option th:each="item:${sch_school_speciality_reg_classify}" th:value="${item.id}" th:text="${item.name}" th:field="${schoolSpecialityRegSchool.classify}"></option>
+										</select>
+									</td>
+                           		</tr>
+                           		<tr>
+                           			<td>
+										<label><i class="xinghao">*</i> 授课方式：</label>
+									</td>
+									<td>
+										<!-- <input id="type" name="type" th:value="${schoolSpecialityRegSchool.type}" class="form-control" type="text"> -->
+										<select id="type" name="type" class="form-control" onchange="educational()">
+											<option th:each="item:${sch_school_speciality_reg_type}" th:value="${item.id}" th:text="${item.name}" th:field="${schoolSpecialityRegSchool.type}"></option>
+										</select>
+									</td>
+									<td>
+										<label><i class="xinghao">*</i> 助学手段：</label>
+									</td>
+									<td>
+										<!-- <input id="method" name="method" th:value="${schoolSpecialityRegSchool.method}" class="form-control" type="text"> -->
+										<select id="method" name="method" class="form-control">
+											<option th:each="item:${sch_school_speciality_reg_method}" th:value="${item.id}" th:text="${item.name}" th:field="${schoolSpecialityRegSchool.method}"></option>
+										</select>
+									</td>
+                           		</tr>
+                            	<tr>
+                            		<td>
+										<label><i class="xinghao">*</i> 学制：</label>
+									</td>
+									<td>
+										<input id="educateLength2" name="educateLength" type="hidden">
+										<input id="educateLength" th:value="${schoolSpecialityRegSchool.educateLength}" class="form-control" type="text" readonly>
+									</td>
+		                            <td>
+										<label><i class="xinghao">*</i> 招生年份：</label>
+									</td>
+									<td>
+										<input id="regYear" name="regYear" th:value="${schoolSpecialityRegSchool.regYear}" class="form-control"  readonly onclick="WdatePicker({dateFmt: 'yyyy '})">
+										
+									</td>
+                            	</tr>
+                            	<tr>
+                            		<td>
+										<label><i class="xinghao">*</i> 招生季节：</label>
+									</td>
+									<td>
+										<!-- <input id="regSeason" name="regSeason" th:value="${schoolSpecialityRegSchool.regSeason}" class="form-control" type="text"> -->
+										<select id="regSeason" name="regSeason" class="form-control">
+											<option th:each="item:${sch_school_speciality_reg_reg_season}" th:value="${item.id}" th:text="${item.name}" th:field="${schoolSpecialityRegSchool.regSeason}"></option>
+										</select>
+									</td>
+		                            <td>
+										<label>招生人数：</label>
+									</td>
+									<td>
+										<input id="num" name="num" th:value="${schoolSpecialityRegSchool.num}" class="form-control" type="text">
+									</td>
+                            	</tr>
+                           		<tr>
+                           			<td>
+										<label>申请来源：</label>
+									</td>
+									<td>
+										<input id="sourceRegid2" name="sourceRegid" type="hidden" th:value="${schoolSpecialityRegSchool.sourceRegid}">
+										<input id="sourceRegid" th:value="${schoolSpecialityRegSchoolSourceReg.operator}"  class="form-control" type="text" onclick="yemian()">
+									</td>
+		                            <td>
+										<label>主考学校：</label>
+									</td>
+									<td>
+										<!-- <input id="gradSchoolid" name="gradSchoolid" th:value="${schoolSpecialityRegSchool.gradSchoolid}" class="form-control" type="text"> -->
+										<input type="hidden" id="gradSZ" th:value="${schoolSpecialityRegSchool.gradSchoolid}">
+										<select id="gradSchoolid" name="gradSchoolid" class="form-control">
+											
+										</select>
+									</td>
+                           		</tr>
+                            
+	                            <!-- <div class="form-group">
+									<label class="col-sm-3 control-label">审核状态：</label>
+									<div class="col-sm-8">
+										<input id="auditStatus" name="auditStatus" th:value="${schoolSpecialityRegSchool.auditStatus}" class="form-control" type="text">
+									</div>
+								</div>
+	                            <div class="form-group">
+									<label class="col-sm-3 control-label">状态：</label>
+									<div class="col-sm-8">
+										<input id="status" name="status" th:value="${schoolSpecialityRegSchool.status}" class="form-control" type="text">
+									</div>
+								</div> -->
+							</table>
+							<div class="" style="text-align:center;">
+								<button type="submit" class="btn btn-primary" id="submission">提交</button>
+								<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/school/schoolSpecialityRegSchool/edit.js" th:src="@{/js/appjs/school/school/schoolSpecialityRegSchool/edit.js}">
+	</script>
+</body>
+</html>

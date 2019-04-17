@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.AppDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.system.domain.AppDO">
+		select id,
+			name,
+			type,
+			url,
+			icon,
+			operator,
+			update_date
+		from sys_app
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.system.domain.AppDO">
+		select id,
+			name,
+			type,
+			url,
+			icon,
+			operator,
+			update_date
+		from sys_app
+        <where>  
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="url != null and url != ''"> and url = #{url} </if>
+		  <if test="icon != null and icon != ''"> and icon = #{icon} </if>
+		  <if test="operator != null and operator != ''"> and operator = #{operator} </if>
+		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_app
+		 <where>  
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="url != null and url != ''"> and url = #{url} </if>
+		  <if test="icon != null and icon != ''"> and icon = #{icon} </if>
+		  <if test="operator != null and operator != ''"> and operator = #{operator} </if>
+		  <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.AppDO">
+		insert into sys_app
+		(
+			id, 
+			name, 
+			type, 
+			url, 
+			icon, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{id}, 
+			#{name}, 
+			#{type}, 
+			#{url}, 
+			#{icon}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.AppDO">
+		update sys_app 
+		<set>
+			<if test="name != null">name = #{name}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="url != null">url = #{url}, </if>
+			<if test="icon != null">icon = #{icon}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			<if test="updateDate != null">update_date = now()</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_app where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_app where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

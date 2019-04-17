@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.sys.dao.ReportSqlDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.ReportSqlDO">
+		select
+            id,
+            report_id,
+            type,
+            sql,
+            operator,
+            update_date
+		from sys_report_sql
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.ReportSqlDO">
+		select
+	        id,
+	        report_id,
+	        type,
+	        sql,
+	        operator,
+	        update_date
+		 from sys_report_sql
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="reportId != null and reportId != ''"> and report_id = #{reportId} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="sql != null and sql != ''"> and sql = #{sql} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_report_sql
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="reportId != null and reportId != ''"> and report_id = #{reportId} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="sql != null and sql != ''"> and sql = #{sql} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ReportSqlDO">
+		insert into sys_report_sql
+		(
+			id, 
+			report_id, 
+			type, 
+			sql, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{id}, 
+			#{reportId}, 
+			#{type}, 
+			#{sql}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.ReportSqlDO">
+		update sys_report_sql 
+		<set>
+			<if test="reportId != null">report_id = #{reportId}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="sql != null">sql = #{sql}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update sys_report_sql set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  sys_report_sql set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>

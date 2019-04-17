@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style" style="max-width:800px;margin:0 auto">
+							<input id="id" name="id" th:value="${examItem.id}"  type="hidden">
+							<input type="hidden"  id="examTaskid" name="examTaskid" >
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>考试年份：</label>
+								</td>
+								<td>
+									<input id="examTaskYear" name="examTaskYear" class="form-control" type="text" readonly>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>考试项目：</label>
+								</td>
+								<td>
+									<select id="examMonth" name="examMonth" class="form-control" onchange ="month(this.value)">
+										<option>-请选择考试项目-</option>
+										<option th:each="item:${exa_exam_item_exam_month}" 
+											th:value="${item.id}" th:text="${item.name}" th:field="${examItem.examMonth}"></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>年度码：</label>
+								</td>
+								<td>
+									<input id="examCodeFixed" name="examCodeFixed" th:value="${examItem.examCodeFixed}" class="form-control" type="text" readonly>
+								</td>
+							</tr>
+						</table>
+						<div style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary" id="submission">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/examItem/edit.js" th:src="@{/js/appjs/center/exam/examItem/edit.js}">
+	</script>
+</body>
+</html>

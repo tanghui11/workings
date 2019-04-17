@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" type="text/css" href="/js/sample/css/base.css" th:href="@{/js/sample/css/base.css}"/>
+<link rel="stylesheet" type="text/css" href="/js/sample/css/whole.css" th:href="@{/js/sample/css/whole.css}" media="screen" />
+<link type="text/css" rel="stylesheet" href="/js/sample/jBox/Skins/Default/jbox.css" th:href="@{/js/sample/jBox/Skins/Default/jbox.css}"/>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+
+                    <input id="examTaskid" name="examTaskid" type="hidden" th:value="${examTaskid}">
+
+                    <form class="form-horizontal m-t" id="signupForm">
+						<input id="groupids"  type="hidden" th:value="${groupid}">
+                        <input id="regionids" name="" type="hidden" th:value="${regionid}">
+						<input id="rRid" name="" type="hidden" th:value="${childRegionid}">
+						
+                        <table class="table table-bordered table-style" style="min-width:700px;margin:0 auto 20px auto">
+                            <tr>
+                                <td colspan="5" style="text-align:center;font-weight:700;padding:8px !important;">
+                                    档案信息
+                                </td>
+                            </tr>
+                            <tr>
+								<td>
+                                    <label><span style="color:red">*</span>考生类别：</label>
+                                </td>
+                                <td>
+                                    <select id="type" name="type" class="form-control" onchange="typeZhuxue('q')">
+                                        <option th:each="item:${pla_speciality_record_type}" th:value="${item.id}" th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label><span style="color:red">*</span>准考证号：</label>
+                                </td>
+                                <td>
+                                    <input id="id" name="id" class="form-control" type="text" onkeyup="value=value.replace(/[^\d]/g,'') ">
+                                </td>
+                                
+                                <td style="width:150px;" rowspan="8">
+                                    <img width="120px" height="140px" th:src="@{/js/sample/images/userImage.png}"
+                                         style="margin-left:9px" id="id_img_pers" name="uploadfile">
+                                    <button type="button" class="btn btn-primary" id="button_readID"
+                                            onclick="new Device().startFun()" style="margin-left:7px;margin-top:5px;">
+                                        读取身份证信息
+                                    </button>
+                                    <img width="120px" height="140px" th:src="@{/js/sample/images/userImage.png}"
+                                         style="margin-left:9px" id="scPhone">
+                                    <input type="hidden" name="idcardPic" id="idcardPic"/>
+                                    <input type="hidden" name="pic" id="pic"/>
+                                    <input type="hidden" name="id" id="id"/>
+									<input id="studentid" name="studentid" type="hidden">
+                                    <button type="button" class="btn btn-info" onclick="upload()"
+                                            style="margin-left:10px;margin-top:5px;">上传
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="Photo()"
+                                            style="margin-left:5px;margin-top:5px;">拍照
+                                    </button>
+                                </td>
+                            </tr>
+							<tr>
+								<td style="width:90px;">
+                                    <label><span style="color:red">*</span>姓名：</label>
+                                </td>
+                                <td>
+                                    <input id="name" name="name" class="form-control" type="text"
+                                           onkeyup="CC2PY('name','pinyin')" onchange="CC2PY('name','pinyin')">
+                                </td>
+                                <td style="width:90px;">
+                                    <label><span style="color:red">*</span>拼音：</label>
+                                </td>
+                                <td>
+                                    <input id="pinyin" name="pinyin" class="form-control" type="text">
+                                </td>
+							</tr>
+                            <tr>
+                                <td>
+                                    <label><span style="color:red">*</span>性别：</label>
+                                </td>
+                                <td>
+                                    <select id="gender" name="gender" class="form-control">
+                                        <option th:each="item:${stu_student_gender}" th:value="${item.id}"
+                                                th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label><span style="color:red">*</span>户籍：</label>
+                                </td>
+                                <td>
+                                    <select id="homeType" name="homeType" class="form-control">
+                                        <option th:each="item:${stu_student_home_type}" th:value="${item.id}"
+                                                th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label><span style="color:red">*</span>政治面貌：</label>
+                                </td>
+                                <td>
+                                    <select id="politics" name="politics" class="form-control">
+                                        <option th:each="item:${stu_student_politics}" th:value="${item.id}"
+                                                th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label><span style="color:red">*</span>民族：</label>
+                                </td>
+                                <td>
+                                    <select id="nation" name="nation" class="form-control">
+                                        <option th:each="item:${stu_student_nation}" th:value="${item.id}"
+                                                th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>籍贯：</label>
+                                </td>
+                                <td>
+                                    <input id="nativePlace" name="nativePlace" class="form-control" type="text">
+                                </td>
+                                <td>
+                                    <label><span style="color:red">*</span>出生日期：</label>
+                                </td>
+                                <td>
+                                    <input id="birthday" name="birthday" class="form-control" type="text" readonly
+                                           onclick="WdatePicker({dateFmt: 'yyyy-MM-dd '})">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label><span style="color:red">*</span>职业：</label>
+                                </td>
+                                <td colspan="3">
+                                    <select id="profession" name="profession" class="form-control">
+                                        <option th:each="item:${stu_student_profession}" th:value="${item.id}"
+                                                th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label><span style="color:red">*</span>证件类别：</label>
+                                </td>
+                                <td>
+                                    <select id="certificateType" name="certificateType" class="form-control">
+                                        <option th:each="item:${stu_student_certificate_type}" th:value="${item.id}"
+                                                th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label><span style="color:red">*</span>身份证号：</label>
+                                </td>
+                                <td>
+                                    <input id="certificateNo" name="certificateNo" class="form-control" type="text">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label>通讯地址：</label>
+                                </td>
+                                <td colspan="3">
+                                    <input id="address" name="address" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>邮编：</label>
+                                </td>
+                                <td>
+                                    <input id="postCode" name="postCode" class="form-control" type="text">
+                                </td>
+                                <td>
+                                    <label>电子邮箱：</label>
+                                </td>
+                                <td colspan="2">
+                                    <input id="email" name="email" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>固定电话：</label>
+                                </td>
+                                <td>
+                                    <input id="phone" name="phone" class="form-control" type="text">
+                                </td>
+                                <td>
+                                    <label>移动电话：</label>
+                                </td>
+                                <td colspan="2">
+                                    <input id="mphone" name="mphone" class="form-control" type="text">
+                                </td>
+                            </tr>
+							<!-- <tr>
+								<td>
+									<label>是否关闭:</label>
+								</td>
+								<td colspan="4">
+									<input type="checkbox" id="checkBox" style="width:18px;height:18px;">
+								</td>
+							</tr> -->
+                        </table>
+                        <table class="table table-bordered table-style" style="min-width:700px;margin:0 auto 20px auto">
+                            <tr>
+                                <td colspan="5" style="text-align:center;font-weight:700;padding:8px !important;">
+                                    报考信息
+                                </td>
+                            </tr>
+                            <tr>
+								<td>
+									<label><span style="color:red">*</span>地州市考办：</label>
+								</td>
+								<td>
+									<select id="schoolids" name="regionid" class="form-control" onchange = "region('q')">
+									</select>
+								</td>
+								<td>
+									<label><span style="color:red">*</span>县区考办：</label>
+								</td>
+								<td>
+									<select id="regionid" name="childRegionid" class="form-control">
+										<option>-请选择-</option>
+									</select>
+								</td>
+                                <!-- <td>
+                                    <label><span style="color:red">*</span>报考县区</label>
+                                </td>
+                                <td>
+                                    <select id="childRegionid"  class="form-control" disabled>
+                                        <!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+                                   <!--  </select>
+                                </td> --> 
+                                
+                            </tr>
+							<tr>
+								<td>
+                                    <label><span style="color:red">*</span>集体代码</label>
+                                </td>
+                                <td colspan="3">
+                                    <select id="groupid" name="groupid" class="form-control">
+										<option value="1">--请选择--</option>
+                                        <!-- <option th:each="item:${specialityList}" th:value="${item.id}" th:text="${item.name}" ></option> -->
+                                    </select>
+                                </td>
+							</tr>
+                            <tr>
+                                <td>
+                                    <label><span style="color:red">*</span>毕业院校：</label>
+                                </td>
+                                <td>
+                                    <input id="gradSchool" name="gradSchool" class="form-control" type="text">
+                                </td>
+                                <td>
+                                    <label><span style="color:red">*</span>毕业证书号：</label>
+                                </td>
+                                <td>
+                                    <input id="gradCertificate" name="gradCertificate" class="form-control" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label><span style="color:red">*</span>原学专业：</label>
+                                </td>
+                                <td>
+                                    <input id="gradSpecialityid2" name="gradSpecialityid" type="hidden">
+                                    <input id="gradSpecialityid" name="yYZY" class="form-control" type="text"
+                                           onclick="yemianYXZY()" readonly>
+                                </td>
+                                <td>
+                                    <label><span style="color:red">*</span>原学历：</label>
+                                </td>
+                                <td>
+                                    <select id="education" name="education" class="form-control">
+                                        <option th:each="item:${stu_student_speciality_education}" th:value="${item.id}"
+                                                th:text="${item.name}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+							<tr>
+                                <td>
+                                    <label><span style="color:red">*</span>助学组织：</label>
+                                </td>
+                                <td colspan="3">
+									<input id="schoolid" name="schoolid"  type="hidden">
+                                    <input id="schoolid2" name="zx" class="form-control" type="text" onclick="zhuxue()" readonly placeholder="不可选择！">
+                                </td>
+                            </tr>
+							<tr>
+                                <td>
+                                    <label><span style="color:red">*</span>学院名称：</label>
+                                </td>
+                                <td>
+									<select class="form-control" id="collegeid" name="collegeid" disabled>
+										<option value="">请选择学院名称</option>
+									</select>
+                                </td>
+								<td>
+                                    <label><span style="color:red">*</span>教学点：</label>
+                                </td>
+                                <td>
+									<select class="form-control" id="teachSiteid" name="teachSiteid" disabled onclick="teachPoint('q')">
+										<option value="">请选择教学点</option>
+									</select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label><span style="color:red">*</span>现报专业：</label>
+                                </td>
+                                <td colspan="3">
+									<input id="specialityid" name="specialityid" type="hidden">
+                                    <input id="specialityRecordid2" name="schoolSpecialityRegid" type="hidden">
+                                    <input id="specialityRecordid" name="specialityRecordid" type="hidden">
+                                    <input id="schoolSpecialityRegid" name="xBZY" class="form-control" type="text"
+                                           onclick="yemian()" readonly>
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary" id="submission">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/center/student/studentFileOption/add.js" th:src="@{/js/appjs/center/student/studentFileOption/add.js}">
+</script>
+<script type="text/javascript" src="/js/sampleCenter/jBox/jquery.jBox-2.3.min.js" th:src="@{/js/sampleCenter/jBox/jquery.jBox-2.3.min.js}"></script>
+<script type="text/javascript" src="/js/sampleCenter/js/baseISSObject.js" th:src="@{/js/sampleCenter/js/baseISSObject.js}"></script>
+<script type="text/javascript" src="/js/sampleCenter/js/baseISSOnline.js" th:src="@{/js/sampleCenter/js/baseISSOnline.js}"></script>
+<script type="text/javascript" src="/js/sampleCenter/js/common.js" th:src="@{/js/sampleCenter/js/common.js}"></script>
+</body>
+</html>

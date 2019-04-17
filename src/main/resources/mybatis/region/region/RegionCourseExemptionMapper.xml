@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.region.region.dao.RegionCourseExemptionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.RegionCourseExemptionDO">
+	  select
+		    b.studentid,
+		     e.grade,
+			b.grad_school,
+			b.grad_certificate,
+			d.name as gradSpecialityName,
+			b.education,
+			c.speciality_name,
+			b.audit_status,
+			b.status,
+			b.operator,
+            b.update_date
+		from
+				stu_student_speciality b left join stu_student_certificate c on b.id = c.student_specialityid
+				left join pla_speciality d on b.grad_specialityid = d.id
+				left join stu_score e on b.studentid = e.studentid
+		where
+				and b.enabled_flag = 1 and b.studentid = #{studentid} and e.grade = #{grade}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentDO">
+		select
+		b.id,
+		b.speciality_recordid,
+		b.studentid,
+		b.grad_specialityid,
+		a.certificate_no,
+		a.name,
+		a.gender,
+		a.mphone,
+		a.nation,
+		a.native_place,
+		a.schoolid,
+		a.collegeid,
+		a.teach_siteid,
+		a.status,
+		a.address,
+		a.audit_status,
+		a.confirm_status,
+		a.create_date,
+		a.home_type,
+		a.certificate_type,
+		a.politics,
+		a.profession,
+		b.speciality_recordid,
+		b.school_speciality_regid,
+		b.grad_school,
+		b.grad_certificate,
+		b.education,
+		b.specialityid ,
+		a.birthday
+		from  stu_student_speciality b
+		left join stu_student a on b.studentid=a.id and a.enabled_flag=1
+		<where>
+			and b.enabled_flag=1
+			and b.studentid = #{studentid}
+			<if test="regionid != null and regionid != ''">and b.regionid = #{regionid}</if>
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and b.child_regionid = #{childRegionid} </if>
+			<if test="specialityid != null and specialityid != ''">and b.id = #{specialityid} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''">and b.speciality_recordid = #{specialityRecordid} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="name != null and name != ''"> and a.name = #{name} </if>
+			<if test="ename != null and ename != ''"> and a.ename = #{ename} </if>
+			<if test="pinyin != null and pinyin != ''"> and a.pinyin = #{pinyin} </if>
+			<if test="gender != null and gender != ''"> and a.gender = #{gender} </if>
+			<if test="homeType != null and homeType != ''"> and a.home_type = #{homeType} </if>
+			<if test="politics != null and politics != ''"> and a.politics = #{politics} </if>
+			<if test="nation != null and nation != ''"> and a.nation = #{nation} </if>
+			<if test="profession != null and profession != ''"> and a.profession = #{profession} </if>
+			<if test="birthday != null and birthday != ''"> and a.birthday = #{birthday} </if>
+			<if test="nativePlace != null and nativePlace != ''"> and a.native_place = #{nativePlace} </if>
+			<if test="certificateType != null and certificateType != ''"> and a.certificate_type = #{certificateType} </if>
+			<if test="certificateNo != null and certificateNo != ''"> and a.a.certificate_no = #{certificateNo} </if>
+			<if test="phone != null and phone != ''"> and a.phone = #{phone} </if>
+			<if test="mphone != null and mphone != ''"> and a.mphone = #{mphone} </if>
+			<if test="address != null and address != ''"> and a.address = #{address} </if>
+			<if test="postCode != null and postCode != ''"> and a.post_code = #{postCode} </if>
+			<if test="email != null and email != ''"> and a.email = #{email} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and a.child_regionid = #{childRegionid} </if>
+			<if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+			<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+			<if test="teachSiteid != null and teachSiteid != ''"> and a.teach_siteid = #{teachSiteid} </if>
+			<if test="groupid != null and groupid != ''"> and a.groupid = #{groupid} </if>
+			<if test="oldStudentid != null and oldStudentid != ''"> and a.old_studentid = #{oldStudentid} </if>
+			<if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+			<if test="status != null and status != ''"> and a.status = #{status} </if>
+			<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+			<if test="confirmStatus != null and confirmStatus != ''"> and a.confirm_status = #{confirmStatus} </if>
+			<if test="backOperator != null and backOperator != ''"> and a.back_operator = #{backOperator} </if>
+			<if test="backDate != null and backDate != ''"> and a.back_date = #{backDate} </if>
+			<if test="confirmOperator != null and confirmOperator != ''"> and a.confirm_operator = #{confirmOperator} </if>
+			<if test="confirmDate != null and confirmDate != ''"> and a.confirm_date = #{confirmDate} </if>
+			<if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+
+	</select>
+
+	<select id="count" resultType="int">
+		select
+		count(b.id)
+		from  stu_student_speciality b
+		left join stu_student a on b.studentid=a.id
+		<where>
+		and b.enabled_flag=1
+		and b.studentid = #{studentid}
+		<if test="regionid != null and regionid != ''">and b.regionid = #{regionid}</if>
+		<if test="id != null and id != ''"> and a.id = #{id} </if>
+		<if test="specialityid != null and specialityid != ''">and b.id = #{specialityid} </if>
+		<if test="type != null and type != ''"> and a.type = #{type} </if>
+		<if test="name != null and name != ''"> and a.name = #{name} </if>
+		<if test="ename != null and ename != ''"> and a.ename = #{ename} </if>
+		<if test="pinyin != null and pinyin != ''"> and a.pinyin = #{pinyin} </if>
+		<if test="gender != null and gender != ''"> and a.gender = #{gender} </if>
+		<if test="homeType != null and homeType != ''"> and a.home_type = #{homeType} </if>
+		<if test="politics != null and politics != ''"> and a.politics = #{politics} </if>
+		<if test="nation != null and nation != ''"> and a.nation = #{nation} </if>
+		<if test="profession != null and profession != ''"> and a.profession = #{profession} </if>
+		<if test="birthday != null and birthday != ''"> and a.birthday = #{birthday} </if>
+		<if test="nativePlace != null and nativePlace != ''"> and a.native_place = #{nativePlace} </if>
+		<if test="certificateType != null and certificateType != ''"> and a.certificate_type = #{certificateType} </if>
+		<if test="certificateNo != null and certificateNo != ''"> and a.a.certificate_no = #{certificateNo} </if>
+		<if test="phone != null and phone != ''"> and a.phone = #{phone} </if>
+		<if test="mphone != null and mphone != ''"> and a.mphone = #{mphone} </if>
+		<if test="address != null and address != ''"> and a.address = #{address} </if>
+		<if test="postCode != null and postCode != ''"> and a.post_code = #{postCode} </if>
+		<if test="email != null and email != ''"> and a.email = #{email} </if>
+		<if test="childRegionid != null and childRegionid != ''"> and a.child_regionid = #{childRegionid} </if>
+		<if test="schoolid != null and schoolid != ''"> and a.schoolid = #{schoolid} </if>
+		<if test="collegeid != null and collegeid != ''"> and a.collegeid = #{collegeid} </if>
+		<if test="teachSiteid != null and teachSiteid != ''"> and a.teach_siteid = #{teachSiteid} </if>
+		<if test="groupid != null and groupid != ''"> and a.groupid = #{groupid} </if>
+		<if test="oldStudentid != null and oldStudentid != ''"> and a.old_studentid = #{oldStudentid} </if>
+		<if test="classify != null and classify != ''"> and a.classify = #{classify} </if>
+		<if test="status != null and status != ''"> and a.status = #{status} </if>
+		<if test="auditStatus != null and auditStatus != ''"> and a.audit_status = #{auditStatus} </if>
+		<if test="confirmStatus != null and confirmStatus != ''"> and a.confirm_status = #{confirmStatus} </if>
+		<if test="backOperator != null and backOperator != ''"> and a.back_operator = #{backOperator} </if>
+		<if test="backDate != null and backDate != ''"> and a.back_date = #{backDate} </if>
+		<if test="confirmOperator != null and confirmOperator != ''"> and a.confirm_operator = #{confirmOperator} </if>
+		<if test="confirmDate != null and confirmDate != ''"> and a.confirm_date = #{confirmDate} </if>
+		<if test="dbFlag != null and dbFlag != ''"> and a.db_flag = #{dbFlag} </if>
+		</where>
+	</select>
+
+</mapper>

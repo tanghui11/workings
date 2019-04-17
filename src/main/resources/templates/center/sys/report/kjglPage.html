@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+	.fixed-table-toolbar{
+		overflow:hidden;
+	}
+	#legend{
+		display:none;
+	}
+	.control-group select,.control-group input[type=text]{
+		border: 1px solid #ccc;
+		padding: 6px 12px;
+		min-width: 195px;
+	}
+	.control-group{
+		margin-top: 10px;
+		display: inline-block;
+		margin-left: 10px;
+	}
+	.controls{
+		display: inline-block;
+		margin-left: 10px;
+	}
+	
+	.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio]{
+		position: relative; 
+		margin-left: 0px;
+	}
+	.form-horizontal{
+		float: left;
+	}
+	fieldset{
+		float:left;
+	}
+	.hidden{
+		display:none !important;
+	}
+</style>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+					<form id="form" action="#" method="">
+                       <div class="columns pull-left  nopadding">
+						选择报表
+						</div>
+						<div id="bk" class="columns pull-left  nopadding" style="margin-left: 10px;padding-right: 20px;">
+							<select id="code" name="code" class="form-control">
+								
+							</select>
+							<!-- <select class="columns pull-left  nopadding" onchange="" onload="" onclick="" name="" id="">111
+								<option th:each="item:${pla_speciality_record_type}" th:value="${item.id}" th:text="${item.name}"></option></select> -->
+						</div>
+
+						<div id="forms">
+						
+						</div>
+					</form>
+					</div>
+					<iframe id="mainIframe" name="mainIframe"  frameborder="no" scrolling="auto" style="width:100%;" onload="changeFrameHeight(this)"></iframe>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="sys:report:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="sys:report:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="sys:report:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/sys/report/report.js" th:src="@{/js/appjs/center/sys/report/kjglPage.js}"></script>
+</body>
+</html>

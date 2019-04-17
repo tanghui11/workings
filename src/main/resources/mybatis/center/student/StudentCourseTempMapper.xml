@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentCourseTempDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentCourseTempDO">
+		select
+            id,
+            sx_dm,
+            ks_zkz,
+            ks_xm,
+            zydm,
+            zymc,
+            kcdm,
+            kcmc,
+            kssj,
+            kssjxh,
+            operator,
+            update_date,
+            enabled_flag
+		from stu_student_course_temp
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentCourseTempDO">
+		select
+	        id,
+	        sx_dm,
+	        ks_zkz,
+	        ks_xm,
+	        zydm,
+	        zymc,
+	        kcdm,
+	        kcmc,
+	        kssj,
+	        kssjxh,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from stu_student_course_temp
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="sxDm != null and sxDm != ''"> and sx_dm = #{sxDm} </if>
+		  <if test="ksZkz != null and ksZkz != ''"> and ks_zkz = #{ksZkz} </if>
+		  <if test="ksXm != null and ksXm != ''"> and ks_xm = #{ksXm} </if>
+		  <if test="zydm != null and zydm != ''"> and zydm = #{zydm} </if>
+		  <if test="zymc != null and zymc != ''"> and zymc = #{zymc} </if>
+		  <if test="kcdm != null and kcdm != ''"> and kcdm = #{kcdm} </if>
+		  <if test="kcmc != null and kcmc != ''"> and kcmc = #{kcmc} </if>
+		  <if test="kssj != null and kssj != ''"> and kssj = #{kssj} </if>
+		  <if test="kssjxh != null and kssjxh != ''"> and kssjxh = #{kssjxh} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from stu_student_course_temp
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="sxDm != null and sxDm != ''"> and sx_dm = #{sxDm} </if>
+		  <if test="ksZkz != null and ksZkz != ''"> and ks_zkz = #{ksZkz} </if>
+		  <if test="ksXm != null and ksXm != ''"> and ks_xm = #{ksXm} </if>
+		  <if test="zydm != null and zydm != ''"> and zydm = #{zydm} </if>
+		  <if test="zymc != null and zymc != ''"> and zymc = #{zymc} </if>
+		  <if test="kcdm != null and kcdm != ''"> and kcdm = #{kcdm} </if>
+		  <if test="kcmc != null and kcmc != ''"> and kcmc = #{kcmc} </if>
+		  <if test="kssj != null and kssj != ''"> and kssj = #{kssj} </if>
+		  <if test="kssjxh != null and kssjxh != ''"> and kssjxh = #{kssjxh} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseTempDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_course_temp
+		(
+			sx_dm, 
+			ks_zkz, 
+			ks_xm, 
+			zydm, 
+			zymc, 
+			kcdm, 
+			kcmc, 
+			kssj, 
+			kssjxh, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{sxDm}, 
+			#{ksZkz}, 
+			#{ksXm}, 
+			#{zydm}, 
+			#{zymc}, 
+			#{kcdm}, 
+			#{kcmc}, 
+			#{kssj}, 
+			#{kssjxh}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.StudentCourseTempDO">
+		update stu_student_course_temp 
+		<set>
+			<if test="sxDm != null">sx_dm = #{sxDm}, </if>
+			<if test="ksZkz != null">ks_zkz = #{ksZkz}, </if>
+			<if test="ksXm != null">ks_xm = #{ksXm}, </if>
+			<if test="zydm != null">zydm = #{zydm}, </if>
+			<if test="zymc != null">zymc = #{zymc}, </if>
+			<if test="kcdm != null">kcdm = #{kcdm}, </if>
+			<if test="kcmc != null">kcmc = #{kcmc}, </if>
+			<if test="kssj != null">kssj = #{kssj}, </if>
+			<if test="kssjxh != null">kssjxh = #{kssjxh}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update stu_student_course_temp set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  stu_student_course_temp set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="listsc" resultType="com.hxy.nzxy.stexam.domain.StudentCourseTempDO">
+		select
+		id,
+		sx_dm,
+		ks_zkz,
+		ks_xm,
+		zydm,
+		zymc,
+		kcdm,
+		kcmc,
+		kssj,
+		kssjxh,
+		operator,
+		update_date,
+		enabled_flag
+		from stu_student_course_temp
+		<where>
+			and enabled_flag=1 and ks_zkz in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+				#{item.ksZkz}
+			</foreach>
+			and ks_xm in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+				#{item.ksXm}
+			</foreach>
+			and kssjxh in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+				#{item.kssjxh}
+			</foreach>
+		</where>
+	</select>
+	<select id="getExamCourseid" resultType="com.hxy.nzxy.stexam.domain.StudentCourseTempDO">
+		select a.id from exa_exam_course a,exa_exam_time b where
+		 a.enabled_flag=1 and b.enabled_flag=2 and
+		 a.exam_timeid=b.id and b.exam_date=#{kssj} and a.courseid= #{kcdm}
+    	</select>
+
+</mapper>

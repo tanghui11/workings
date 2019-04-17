@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar daohang">
+						<div class="columns pull-left nopadding">
+							考试任务
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="searchName" class="form-control" onchange="kktime(this.value)"></select>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							课程名称
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<input id="coursess" name="coursess" class="form-control" onclick="courseName()">
+							<input id="courseid" type="hidden"/>
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							命题类别
+						</div>
+						<div class="columns pull-left nopadding" style="margin-left:10px">
+							<select id="classify" name="classify" class="form-control">
+								<option value="">--全部--</option>
+							   <option th:each="item:${exa_exam_course_classify}" th:value="${item.id}" th:text="${item.name}"></option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+							<button class="btn  btn-primary" onclick="allDefault()">全部默认</button>
+							<button class="btn btn-success" onclick="confirms()">考试任务确认</button>
+							<button class="btn btn-danger" onclick="cancels()">考试任务取消确认</button>
+							<button class="btn btn-info" onclick="sequence()">生成序号</button>
+							<button class="btn btn-warning" onclick="prints()">打印</button>
+						</div>
+						<!-- <div class="columns pull-left" style="margin-left:10px">
+							<button shiro:hasPermission="exam:examCourse:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="exam:examCourse:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div> -->
+					</div>
+					<!--startprint1-->
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+					<!--endprint1-->
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="exam:examCourse:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/examProposition/examProposition.js" th:src="@{/js/appjs/center/exam/examProposition/examProposition.js}"></script>
+</body>
+</html>

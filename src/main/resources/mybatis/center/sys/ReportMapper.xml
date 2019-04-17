@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.sys.dao.ReportDao">
+
+    <select id="get" resultType="com.hxy.nzxy.stexam.domain.ReportDO">
+		select
+            id,
+            appid,
+            code,
+            name,
+            param,
+            param_flag,
+            modelid,
+            path,
+            operator,
+            update_date
+		from sys_report
+		where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.hxy.nzxy.stexam.domain.ReportDO">
+        select
+        id,
+        appid,
+        code,
+        name,
+        param,
+        param_flag,
+        modelid,
+        path,
+        operator,
+        update_date
+        from sys_report
+        <where>
+            and enabled_flag=1
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="appid != null and appid != ''"> and appid = #{appid} </if>
+            <if test="code != null and code != ''"> and code = #{code} </if>
+            <if test="name != null and name != ''"> and name = #{name} </if>
+            <if test="param != null and param != ''"> and param = #{param} </if>
+            <if test="paramFlag != null and paramFlag != ''"> and param_flag = #{paramFlag} </if>
+            <if test="modelid != null and modelid != ''"> and modelid = #{modelid} </if>
+            <if test="path != null and path != ''"> and path = #{path} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_report
+        <where>
+            and enabled_flag=1
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="appid != null and appid != ''"> and appid = #{appid} </if>
+            <if test="code != null and code != ''"> and code = #{code} </if>
+            <if test="name != null and name != ''"> and name = #{name} </if>
+            <if test="param != null and param != ''"> and param = #{param} </if>
+            <if test="paramFlag != null and paramFlag != ''"> and param_flag = #{paramFlag} </if>
+            <if test="modelid != null and modelid != ''"> and modelid = #{modelid} </if>
+            <if test="path != null and path != ''"> and path = #{path} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.hxy.nzxy.stexam.domain.ReportDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_report
+		(
+			appid, 
+			code, 
+			name, 
+			param, 
+			param_flag, 
+			modelid, 
+			path, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{appid}, 
+			#{code}, 
+			#{name}, 
+			#{param}, 
+			#{paramFlag}, 
+			#{modelid}, 
+			#{path}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+
+    <update id="update" parameterType="com.hxy.nzxy.stexam.domain.ReportDO">
+        update sys_report
+        <set>
+            <if test="appid != null">appid = #{appid}, </if>
+            <if test="code != null">code = #{code}, </if>
+            <if test="name != null">name = #{name}, </if>
+            <if test="param != null">param = #{param}, </if>
+            <if test="paramFlag != null">param_flag = #{paramFlag}, </if>
+            <if test="modelid != null">modelid = #{modelid}, </if>
+            <if test="path != null">path = #{path}, </if>
+            <if test="operator != null">operator = #{operator}, </if>
+            update_date = now()
+        </set>
+        where id = #{id}
+    </update>
+    <update id="remove">
+		update sys_report set enabled_flag =0  where id = #{value}
+	</update>
+
+    <update id="batchRemove">
+        update  sys_report set enabled_flag =0 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <insert id="keepInDB" parameterType="Map" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_report
+		(
+			appid,
+			code,
+			name,
+			param,
+			param_flag,
+			modelid,
+			path,
+			operator,
+			update_date
+		)
+		values
+		(
+			#{appid},
+			#{code},
+			#{name},
+			#{param},
+			#{paramFlag},
+			#{modelid},
+			#{path},
+			#{operator},
+			now()
+		)
+	</insert>
+
+    <select id="getReportInfo" resultType="com.hxy.nzxy.stexam.domain.ReportDO">
+        select
+        id,
+        appid,
+        code,
+        name,
+        param,
+        param_flag,
+        modelid,
+        path
+        from sys_report
+        <where>
+            and enabled_flag=1
+
+            <if test="code != null and code != ''"> and code = #{code} </if>
+
+        </where>
+    </select>
+
+    <select id="getReportSql" resultType="com.hxy.nzxy.stexam.domain.ReportSqlDO">
+        select
+        id,
+        report_id,
+        type,
+        `sql`,
+        operator,
+        update_date
+        from sys_report_sql
+        <where>
+            and enabled_flag=1 and  report_id = #{id}
+        </where>
+        order by id asc
+    </select>
+
+    <select id="runSql" resultType="java.util.HashMap">
+		${value}
+	</select>
+
+    <select id="isInDB" resultType="java.lang.Integer">
+        select
+        count(*)
+        from sys_report
+        <where>
+            and enabled_flag=1 and  code = #{code}
+        </where>
+    </select>
+
+    <select id="menuSelected" resultType="com.hxy.nzxy.stexam.domain.ReportDO">
+        select
+        id,
+        appid,
+        code,
+        name,
+        param,
+        param_flag,
+        modelid,
+        path
+        from sys_report
+        <where>
+            and enabled_flag=1
+            <if test="menuType != null and menuType != ''"> and code like concat('%',#{menuType},'%') </if>
+        </where>
+    </select>
+
+
+    <select id="listKcszyxf" resultType="com.hxy.nzxy.stexam.domain.SpecialityRecordDO">
+        select b.id ,
+        a.id specialityid,
+        a.name subjectName,
+        c.name as schoolName,
+        d.field_mean status
+        from pla_speciality a,
+        pla_speciality_record b,
+        sch_school c,
+        sys_field_dict d
+        where a.id= b.specialityid
+        and c.id=b.schoolid
+        and b.type=#{type}
+        and d.table_name='pla_speciality_record' and d.field_name='status'
+        and d.field_value= b.status
+        order by a.id
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="countKcszyxf" resultType="int">
+			select count(*)
+		from pla_speciality a,
+		pla_speciality_record b,
+		sch_school c,
+		sys_field_dict d
+		where a.id= b.specialityid
+		and c.id=b.schoolid
+		and b.type=#{type}
+		and d.table_name='pla_speciality_record' and d.field_name='status'
+		and d.field_value= b.status
+	</select>
+</mapper>

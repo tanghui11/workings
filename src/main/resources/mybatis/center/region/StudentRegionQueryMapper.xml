@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.region.dao.StudentRegionQueryDao">
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.center.region.domain.StudentRegionQueryDO">
+		select
+			a.studentid,
+			c.name,
+			d.id as courseid,
+			d.name as courseName,
+			b.exam_taskid,
+			a.regionid,
+			a.child_regionid,
+			a.type,
+			a.operator,
+			e.`name` as childName,
+			e.parent_name as parentName,
+			a.update_date
+		from
+			stu_student_course a,
+			exa_exam_course b,
+			stu_student c,
+			pla_course d,
+			reg_region e
+        <where>
+         	and a.enabled_flag=1
+			and b.enabled_flag=1 and b.auditStatus='b'
+			and c.enabled_flag=1
+			and d.enabled_flag=1
+			and e.enabled_flag=1
+			and e.id=a.child_regionid
+			and b.courseid = d.id
+			and a.studentid = c.id
+			and a.exam_courseid = b.id
+
+		  	<if test="parentid != null and parentid != ''"> and e.parentid  = #{parentid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and e.id  = #{childRegionid} </if>
+		    <if test="regionid != null and regionid != ''"> and e.id = #{regionid} </if>
+		 	<if test="name != null and name != ''"> and c.name = #{name} </if>
+			<if test="courseid != null and courseid != ''"> and d.id = #{courseid} </if>
+			<if test="courseName != null and courseName != ''"> and d.name = #{courseName} </if>
+			<if test="examTaskid != null and examTaskid != ''"> and b.exam_taskid = #{examTaskid}</if>
+			<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and a.child_regionid = #{childRegionid} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="operator != null and operator != ''"> and a.operator = #{operator} </if>
+			<if test="updateDate != null and updateDate != ''"> and a.update_date = #{updateDate} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*)
+		from
+			stu_student_course a,
+			exa_exam_course b,
+			stu_student c,
+			pla_course d,
+			reg_region e
+		<where>
+			and a.enabled_flag=1
+			and b.enabled_flag=1
+			and c.enabled_flag=1
+			and d.enabled_flag=1
+			and e.enabled_flag=1
+			and e.id=a.child_regionid and b.auditStatus='b'
+			and b.courseid = d.id
+			and a.studentid = c.id
+			and a.exam_courseid = b.id
+			<if test="parentid != null and parentid != ''"> and e.parentid  = #{parentid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and e.id  = #{childRegionid} </if>
+			<if test="regionid != null and regionid != ''"> and e.id = #{regionid} </if>
+			<if test="name != null and name != ''"> and c.name = #{name} </if>
+			<if test="courseid != null and courseid != ''"> and d.id = #{courseid} </if>
+			<if test="courseName != null and courseName != ''"> and d.name = #{courseName} </if>
+			<if test="exam_taskid != null and exam_taskid != ''"> and b.exam_taskid = #{exam_taskid}  </if>
+			<if test="regionid != null and regionid != ''"> and a.regionid = #{regionid} </if>
+			<if test="childRegionid != null and childRegionid != ''"> and a.child_regionid = #{childRegionid} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="operator != null and operator != ''"> and a.operator = #{operator} </if>
+			<if test="updateDate != null and updateDate != ''"> and a.update_date = #{updateDate} </if>
+		</where>
+	</select>
+	 
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.oa.dao.NotifyOrgDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.oa.domain.NotifyOrgDO">
+		select
+		id,notifyid,orgid,operator,update_date
+		from oa_notify_org where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.oa.domain.NotifyOrgDO">
+		select
+		id,notifyid,orgid,operator,update_date
+		from oa_notify_org
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="orgid != null and orgid != ''"> and orgid = #{orgid} </if>
+			<if test="notifyid != null and notifyid != ''"> and notifyid = #{notifyid} </if>
+			<if test="operator != null and operator != ''"> and operator = #{operator} </if>
+			<if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from oa_notify_org
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="orgid != null and orgid != ''"> and orgid = #{orgid} </if>
+			<if test="notifyid != null and notifyid != ''"> and notifyid = #{notifyid} </if>
+			<if test="operator != null and operator != ''"> and operator = #{operator} </if>
+			<if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.oa.domain.NotifyOrgDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into oa_notify_org
+		(
+		id,
+		notifyid,
+		orgid,
+		operator,
+		update_date
+		)
+		values
+		(
+		#{id},
+		#{notifyid},
+		#{orgid},
+		#{operator},
+		#{updateDate}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hxy.nzxy.stexam.oa.domain.NotifyOrgDO">
+		update oa_notify_org
+		<set>
+			<if test="orgid != null and orgid != ''"> orgid = #{orgid}, </if>
+			<if test="notifyid != null and notifyid != ''">  notifyid = #{notifyid}, </if>
+			<if test="operator != null and operator != ''">  operator = #{operator}, </if>
+			<if test="updateDate != null and updateDate != ''">  update_date = #{updateDate} </if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from oa_notify_org
+		where
+		    notifyid = #{notifyid}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from oa_notify_org where notifyid in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

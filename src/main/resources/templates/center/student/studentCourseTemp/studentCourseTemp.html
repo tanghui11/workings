@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<form method="post" th:action="@{/student/studentCourseTemp/saveCourse}" id="form_table">
+				<div class="ibox-body">
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;margin-bottom:20px">
+						<input id="studentid" name ="studentid" type="text" class="form-control"
+							   placeholder="准考证号查询">
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;line-height: 34px;">
+						考试任务
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;">
+						<select id="ksrw" name = "ksrw" type="text" class="form-control"  onchange="ktime(this.value)"></select>
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;line-height: 34px;">
+						考试时间
+					</div>
+					<div class="columns pull-left  nopadding" style="margin-left: 5px;">
+						<select id="kktime" type="text" class="form-control" name = "kktime">
+							<option value="">-请选择-</option>
+						</select>
+					</div>
+					<div class="columns pull-left" style="margin-left: 5px;">
+						<button class="btn btn-success" onclick="reLoad()" type="button">查询</button>
+					</div>
+					<div class="columns pull-left" style="margin-right:5px">
+						<button style="margin-left: 5px" class="btn btn-info" onclick="lsb()" type="button">导入临时表</button>
+						<button type="button" onclick="save()" class="btn btn btn-primary">基本信息入库</button>
+					</div>
+					<!--<div class="fixed-table-toolbar">-->
+						<!--<div class="columns pull-left">-->
+
+							<!--<button shiro:hasPermission="student:studentCourseTemp:add" type="button" class="btn  btn-primary" onclick="add()">-->
+								<!--<i class="fa fa-plus" aria-hidden="true"></i>添加-->
+							<!--</button>-->
+							<!--<button shiro:hasPermission="student:studentCourseTemp:batchRemove" type="button" class="btn  btn-danger"-->
+								<!--onclick="batchRemove()">-->
+								<!--<i class="fa fa-trash" aria-hidden="true"></i>删除-->
+							<!--</button>-->
+						<!--</div>-->
+
+					<!--</div>-->
+
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+
+				</div>
+				</form>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseTemp:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseTemp:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentCourseTemp:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/student/studentCourseTemp/studentCourseTemp.js" th:src="@{/js/appjs/center/student/studentCourseTemp/studentCourseTemp.js}"></script>
+</body>
+</html>

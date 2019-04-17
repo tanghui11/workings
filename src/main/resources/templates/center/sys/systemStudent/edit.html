@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+                        <div class="list-group-item label"> > </div>
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="id" name="id" th:value="${systemStudent.id}"  type="hidden">
+							<table class="table table-bordered table-style">
+							<tr>
+								<td  class="W180">
+									<label>账号名称：</label>
+								</td>
+								<td>
+									<input id="userName" name="userName" th:value="${systemStudent.userName}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>序列号值：</label>
+								</td>
+								<td>
+									<input id="value" name="value" th:value="${systemStudent.value}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>备注：</label>
+								</td>
+								<td>
+									<input id="remark" name="remark" th:value="${systemStudent.remark}" class="form-control" type="text">
+								</td>
+							</tr>
+
+                            </table>
+                            <div style="text-align:center;">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                                <button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+                            </div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/sys/systemStudent/edit.js" th:src="@{/js/appjs/center/sys/systemStudent/edit.js}">
+	</script>
+</body>
+</html>

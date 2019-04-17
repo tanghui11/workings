@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${rptSql.id}"  type="hidden">
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">类别：</label>
+								<div class="col-sm-9">
+									<input id="type" name="type" th:value="${rptSql.type}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-2 control-label">sql：</label>
+								<div class="col-sm-9">
+                                <textarea id="sqlText" name="sqlText" class="form-control"th:text="${rptSql.sqlText}"style="height:350px;"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-9 col-sm-offset-2">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/system/rptSql/edit.js" th:src="@{/js/appjs/system/rptSql/edit.js}">
+	</script>
+</body>
+</html>

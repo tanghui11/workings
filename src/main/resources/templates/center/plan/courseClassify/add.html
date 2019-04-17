@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style" style="max-width:800px;margin:0 auto">
+							<tr>
+								<td>
+									<label><span style="color:red">*</span>类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${pla_course_classify_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+								</td>
+							</tr><tr>
+								<td>
+									<label><span style="color:red">*</span>课程名称：</label>
+								</td>
+								<td>
+									<input id="courseid" name="courseid" class="form-control" type="hidden">
+									<input id="coursess" name="courseid" class="form-control" type="text" onclick="add2()">
+								</td>
+							</tr>
+						</table>
+							<div style="text-align:center;margin-top:5px">
+								<button type="submit" class="btn btn-primary" id="submission">提交</button>
+								<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/courseClassify/add.js" th:src="@{/js/appjs/center/plan/courseClassify/add.js}">
+	</script>
+<!-- </body>
+</html>
+<div id="box" style="display:none;">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left nopadding" style="margin-right:10px;">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="请输入名称">
+						</div>
+						<div class="columns pull-left">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:course:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:course:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="plan:course:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<script type="text/javascript" src="/js/appjs/center/plan/course/courses.js" th:src="@{/js/appjs/center/plan/course/courses.js}"></script>
+	</div> -->

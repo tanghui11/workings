@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="col-sm-3">
+				<div class="ibox ibox-body">
+					<div class="ibox-title">
+						<h5>考区列表</h5>
+					</div>
+					<input id="orgid" name="orgid" type="hidden" th:value="1">
+					<div class="ibox-content" style="overflow:auto;max-height:1000px;">
+						<div id="jstree"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div class="col-sm-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-content">
+							<form class="form-horizontal m-t" id="signupForm">
+								<input id="id" name="id" type="hidden">
+								 <div class="form-group">
+									<label class="col-sm-2 control-label">代码：</label>
+									<div class="col-sm-10">
+										<input id="code" name="code" class="form-control" type="text">
+									</div>
+								</div>
+								 <div class="form-group" style="display:none">
+									<label class="col-sm-2 control-label" style="display:none">父编号：</label>
+									<div class="col-sm-10">
+										<input id="parentid" name="parentid" class="form-control" type="text" style="display:none">
+									</div>									
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">类别：</label>
+									<div class="col-sm-10">
+										<select id="type" name="type" class="form-control">
+											<option th:each="item:${reg_region_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">名称：</label>
+									<div class="col-sm-10">
+										<input id="name" name="name" class="form-control" type="text" onkeyup="spell()" onchange="spell()">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">拼音：</label>
+									<div class="col-sm-10">
+										<input id="pinyin" name="pinyin" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">联系人：</label>
+									<div class="col-sm-10">
+										<input id="linkman" name="linkman" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">联系地址：</label>
+									<div class="col-sm-10">
+										<input id="address" name="address" class="form-control" type="text">
+									</div>
+								</div>
+								<!-- <div class="form-group">
+									<label class="col-sm-2 control-label">邮编：</label>
+									<div class="col-sm-10">
+										<input id="postCode" name="postCode" class="form-control" type="text">
+									</div>
+								</div> -->
+								<!-- <div class="form-group">
+									<label class="col-sm-2 control-label">固定电话：</label>
+									<div class="col-sm-10">
+										<input id="phone" name="phone" class="form-control" type="text">
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label class="col-sm-2 control-label">移动电话：</label>
+									<div class="col-sm-10">
+										<input id="mphone" name="mphone" class="form-control" type="text">
+									</div>
+								</div>
+								<!-- <div class="form-group">
+									<label class="col-sm-2 control-label">传真：</label>
+									<div class="col-sm-4">
+										<input id="fax" name="fax" class="form-control" type="text">
+									</div>
+									<label class="col-sm-2 control-label">是否能照相：</label>
+									<div class="col-sm-4">
+										<select id="photoFlag" name="photoFlag" class="form-control">
+											<option th:each="item:${reg_region_photo_flag}" th:value="${item.id}" th:text="${item.name}" ></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">考区转移：</label>
+									<div class="col-sm-4">
+										<input id="examTransfer" name="examTransfer" class="form-control" type="text">
+									</div>
+									<label class="col-sm-2 control-label">考场规格：</label>
+									<div class="col-sm-4">
+										<input id="roomSize" name="roomSize" class="form-control" type="text">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">考试提示：</label>
+									<div class="col-sm-4">
+										<input id="examMsg" name="examMsg" class="form-control" type="text">
+									</div>
+									<label class="col-sm-2 control-label">考场编排序号：</label>
+									<div class="col-sm-4">
+										<input id="seq" name="seq" class="form-control" type="text">
+									</div>
+								</div> -->
+								<div class="form-group">
+									<div class="col-sm-12" style="text-align:center;" >
+									<button type="button" class="btn btn-primary" onclick="queding()">确定</button>
+										<!-- <button type="submit" class="btn btn-primary" >添加</button>
+										<button type="button" class="btn btn-success" onclick="xiugai()">修改</button>
+										<button type="button" class="btn btn-danger" onclick = "remove()">删除</button> -->
+										<!--<button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>-->
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-sm-9">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<div class="columns pull-left nopadding" style="margin-top:0px;">
+								<div class="columns pull-left nopadding" style="margin-right:10px;">
+									<input id="searchName" type="text" class="form-control"
+										placeholder="请输入名称">
+								</div>
+								<div class="columns pull-left nopadding" style="margin-right:10px;">
+									<input id="searchCode" type="text" class="form-control"
+										placeholder="请输入代码">
+								</div>
+								<div class="columns pull-left nopadding" style="margin-right:10px;">
+									<input id="searchParentid" type="text" class="form-control"
+										placeholder="请输入父编号">
+								</div>
+							</div>
+							<div class="columns pull-left" style="margin-right:10px;">
+								<button class="btn btn-success" onclick="reLoad()">查询</button>
+							</div>
+							<div class="columns pull-left">
+								<button shiro:hasPermission="region:region:add" type="button" class="btn  btn-primary" onclick="add()">
+									<i class="fa fa-plus" aria-hidden="true"></i>添加
+								</button>
+								<button shiro:hasPermission="region:region:batchRemove" type="button" class="btn  btn-danger"
+									onclick="batchRemove()">
+									<i class="fa fa-trash" aria-hidden="true"></i>删除
+								</button>
+							</div>
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true">
+						</table>
+					</div>
+				</div>
+			</div> -->
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<!-- <div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:region:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:region:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="region:region:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div> -->
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/system/user/region.js" th:src="@{/js/appjs/system/user/region.js}"></script>
+	<script>
+		function queding(){
+			parent.layer.closeAll('iframe');
+			parent.$("#workerName").val($("#name").val());
+			parent.$("#regionName").val($("#name").val());
+			parent.$("#workerid").val($("#id").val());
+			parent.$("#regionid").val($("#id").val());
+		}
+	</script>
+</body>
+</html>

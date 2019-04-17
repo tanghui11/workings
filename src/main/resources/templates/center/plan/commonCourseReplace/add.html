@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="courseid" name="courseid" class="form-control" type="hidden">
+							<input id="appendCourseid1" name="appendCourseid1" class="form-control" type="hidden">
+							<input id="appendCourseid2" name="appendCourseid2" class="form-control" type="hidden">
+							<input id="appendCourseid3" name="appendCourseid3" class="form-control" type="hidden">
+							<input id="appendCourseid4" name="appendCourseid4" class="form-control" type="hidden">
+							<tr>
+								<td>
+									<label>课程名称：</label>
+								</td>
+								<td>
+									<input id="coursess" name="coursess" class="form-control" type="text" onclick="courseNames()">
+								</td>
+								<td>
+									<label>专业类别：</label>
+								</td>
+								<td>
+									<select id="specialityClass" name="specialityClass" class="form-control">
+										<option th:each="item:${pla_speciality_record_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+									<!-- <input id="specialityClass" name="specialityClass" class="form-control" type="text"> -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>顶替类别：</label>
+								</td>
+								<td>
+									<select id="flag" name="flag" class="form-control">
+										<option th:each="item:${pla_course_replace_flag}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+									<!-- <input id="flag" name="flag" class="form-control" type="text"> -->
+								</td>
+								<td>
+									<label>课程层次：</label>
+								</td>
+								<td>
+									 <select id="courseClass" name="courseClass" class="form-control">
+										<option th:each="item:${pla_course_replace_course_class}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+									<!-- <input id="courseClass" name="courseClass" class="form-control" type="text"> -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>类别：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${pla_course_replace_type}" th:value="${item.id}" th:text="${item.name}" ></option>
+									</select>
+									<!-- <input id="type" name="type" class="form-control" type="text"> -->
+								</td>
+								<td>
+									<label>共几门课程：</label>
+								</td>
+								<td>
+									<input id="courseNum" name="courseNum" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>至少选几门：</label>
+								</td>
+								<td>
+									<input id="leastNum" name="leastNum" class="form-control" type="text">
+								</td>
+								<td>
+									<label>最少学分：</label>
+								</td>
+								<td>
+									<input id="leastScore" name="leastScore" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>附加课程1：</label>
+								</td>
+								<td>
+									<input id="appendCourse1" name="appendCourse1" class="form-control" type="text" onclick="courseNames('1')">
+								</td>
+								<td>
+									<label>附加课程2：</label>
+								</td>
+								<td>
+									<input id="appendCourse2" name="appendCourse2" class="form-control" type="text" onclick="courseNames('2')">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>附加课程3：</label>
+								</td>
+								<td>
+									<input id="appendCourse3" name="appendCourse3" class="form-control" type="text" onclick="courseNames('3')">
+								</td>
+								<td>
+									<label>附加课程4：</label>
+								</td>
+								<td>
+									<input id="appendCourse4" name="appendCourse4" class="form-control" type="text" onclick="courseNames('4')">
+								</td>
+							</tr>
+                           <!--  <div class="form-group">
+								<label class="col-sm-3 control-label">课程编号：</label>
+								<div class="col-sm-8">
+									<input id="courseid" name="courseid" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">专业类别：</label>
+								<div class="col-sm-8">
+									<input id="specialityClass" name="specialityClass" class="form-control" type="text">
+								</div>
+							</div>
+                          <div class="form-group">
+								<label class="col-sm-3 control-label">顶替类别：</label>
+								<div class="col-sm-8">
+									<input id="flag" name="flag" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">课程层次：</label>
+								<div class="col-sm-8">
+									<input id="courseClass" name="courseClass" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">类别：</label>
+								<div class="col-sm-8">
+									<input id="type" name="type" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">共几门课程：</label>
+								<div class="col-sm-8">
+									<input id="courseNum" name="courseNum" class="form-control" type="text">
+								</div>
+							</div> 
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">至少选几门：</label>
+								<div class="col-sm-8">
+									<input id="leastNum" name="leastNum" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">最少学分：</label>
+								<div class="col-sm-8">
+									<input id="leastScore" name="leastScore" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">附加课程1：</label>
+								<div class="col-sm-8">
+									<input id="appendCourseid1" name="appendCourseid1" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">附加课程2：</label>
+								<div class="col-sm-8">
+									<input id="appendCourseid2" name="appendCourseid2" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">附加课程3：</label>
+								<div class="col-sm-8">
+									<input id="appendCourseid3" name="appendCourseid3" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">附加课程4：</label>
+								<div class="col-sm-8">
+									<input id="appendCourseid4" name="appendCourseid4" class="form-control" type="text">
+								</div>
+							</div>
+							 -->
+						</table>
+						<div style="text-align:center;margin-top:5px">
+							<button type="submit" class="btn btn-primary" id="submission">提交</button>
+							<button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/plan/commonCourseReplace/add.js" th:src="@{/js/appjs/center/plan/commonCourseReplace/add.js}">
+	</script>
+</body>
+</html>

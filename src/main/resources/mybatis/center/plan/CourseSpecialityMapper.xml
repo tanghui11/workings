@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.CourseSpecialityDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.CourseSpecialityDO">
+		select
+            id,
+            course_appendid,
+            courseid,
+            operator,
+            update_date,
+            enabled_flag
+		from pla_course_append_item
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.CourseSpecialityDO">
+		select
+	        a.id,
+			a.course_appendid,
+			a.courseid,
+			a.operator,
+			a.update_date,
+			a.enabled_flag,
+			b.name,
+			b.pinyin,
+			b.ename,
+			b.score,
+			b.type,
+			b.classify,
+			b.attribute,
+			b.update_date as courseUpdate,
+			b.operator as courseOperator
+		 from pla_course_append_item a, pla_course b
+        <where>
+         and a.enabled_flag=1 and a.courseid = b.id
+		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+		  <if test="courseAppendid != null and courseAppendid != ''"> and a.course_appendid = #{courseAppendid} </if>
+		  <if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*)  from pla_course_append_item a, pla_course b
+		<where>
+			and a.enabled_flag=1 and a.courseid = b.id
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="courseAppendid != null and courseAppendid != ''"> and a.course_appendid = #{courseAppendid} </if>
+			<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.CourseSpecialityDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pla_course_append_item
+		(
+			course_appendid, 
+			courseid,
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{courseAppendid}, 
+			#{courseid},
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.CourseSpecialityDO">
+		update pla_course_append_item
+		<set>
+			<if test="courseAppendid != null">course_appendid = #{courseAppendid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="remove">
+		delete from pla_course_append_item  where id = #{value}
+	</delete>
+	
+	<update id="batchRemove">
+        update  pla_course_append_item set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="selectIn" resultType="int">
+		select count(*)  from pla_course_append_item
+		<where>
+			and enabled_flag=1
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="courseAppendid != null and courseAppendid != ''"> and course_appendid = #{courseAppendid} </if>
+			<if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+
+</mapper>

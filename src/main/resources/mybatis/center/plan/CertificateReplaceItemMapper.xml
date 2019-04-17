@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.CertificateReplaceItemDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.CertificateReplaceItemDO">
+		select
+            id,
+            certificate_replaceid,
+            courseid,
+            operator,
+            update_date,
+            enabled_flag
+		from pla_certificate_replace_item
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.CertificateReplaceItemDO">
+		select
+	        id,
+	        certificate_replaceid,
+	        courseid,
+	        operator,
+	        update_date,
+	        enabled_flag
+		 from pla_certificate_replace_item
+        <where>
+         and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="certificateReplaceid != null and certificateReplaceid != ''"> and certificate_replaceid = #{certificateReplaceid} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_certificate_replace_item
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="certificateReplaceid != null and certificateReplaceid != ''"> and certificate_replaceid = #{certificateReplaceid} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.CertificateReplaceItemDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pla_certificate_replace_item
+		(
+			certificate_replaceid, 
+			courseid, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{certificateReplaceid}, 
+			#{courseid}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.CertificateReplaceItemDO">
+		update pla_certificate_replace_item 
+		<set>
+			<if test="certificateReplaceid != null">certificate_replaceid = #{certificateReplaceid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update pla_certificate_replace_item set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  pla_certificate_replace_item set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="itemList" resultType="com.hxy.nzxy.stexam.domain.CommonCourseReplaceItemNewDO">
+		select
+		a.course_replaceid,
+		a.courseid,
+		a.remark,
+		b.score,
+		b.type,
+		b.classify,
+		b.attribute,
+		a.operator,
+		a.update_date
+		from pla_common_course_replace_item a
+		left join pla_course b
+		on b.id = a.courseid
+		<where>
+			and a.enabled_flag=1
+		</where>
+	</select>
+
+	<insert id="zsiSave" parameterType="com.hxy.nzxy.stexam.domain.CertificateReplaceItemDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pla_certificate_replace_item
+		(
+			certificate_replaceid,
+			courseid,
+			operator,
+			update_date
+		)
+		values
+		(
+			#{certificateReplaceid},
+			#{courseid},
+			#{operator},
+			now()
+		)
+	</insert>
+
+	<select id="listZSI" resultType="com.hxy.nzxy.stexam.domain.CertificateReplaceItemDO">
+		select
+		id,
+		certificate_replaceid,
+		courseid
+		from
+		pla_certificate_replace_item
+		<where>
+			and enabled_flag=1
+			and certificate_replaceid in
+			<foreach item="bean" collection="list" open="(" separator="," close=")">
+				#{bean.certificateReplaceid}
+			</foreach>
+			and courseid in
+			<foreach item="bean" collection="list" open="(" separator="," close=")">
+				#{bean.courseid}
+			</foreach>
+
+		</where>
+	</select>
+</mapper>

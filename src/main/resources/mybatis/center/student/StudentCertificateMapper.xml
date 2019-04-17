@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.student.dao.StudentCertificateDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.StudentCertificateDO">
+        select
+            a.id,
+            a.studentid,
+            c.name as studentName,
+            b.id as specialityRecordid,
+            b.specialityid,
+            d.name as specialityName,
+            b.direction as graduateDirection,
+            f.name as gradSchool,
+            a.update_date,
+            a.grad_audit_status as auditStatus,
+            a.grad_audit_operator as auditOperator,
+            a.grad_audit_date as auditDate
+        from
+            stu_student_speciality a,
+            pla_speciality_record b,
+            stu_student c,
+            pla_speciality d,
+            sch_school_speciality_reg e,
+            sch_school f
+        <where>
+            a.studentid = #{value}
+            and a.speciality_recordid = b.id
+            and a.studentid = c.id
+            and b.specialityid = d.id
+            and a.graduate = 'b'
+            and a.grad_audit_status = 'b'
+            and a.school_speciality_regid = e.id
+            and e.schoolid = f.id
+        </where>
+	</select>
+    <!--考生报考专业信息-->
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.StudentCertificateDO">
+        select
+            a.id,
+            a.studentid,
+            c.name as studentName,
+            b.id as specialityRecordid,
+            b.specialityid,
+            d.name as specialityName,
+            b.direction as graduateDirection,
+            f.name as gradSchool,
+            a.update_date,
+            a.grad_audit_status as auditStatus,
+            a.grad_audit_operator as auditOperator,
+            a.grad_audit_date as auditDate
+        from
+            stu_student_speciality a,
+            pla_speciality_record b,
+            stu_student c,
+            pla_speciality d,
+            sch_school_speciality_reg e,
+            sch_school f
+        <where>
+            and c.type = #{studentType}
+            and a.speciality_recordid = b.id
+            and a.studentid = c.id
+            and b.specialityid = d.id
+            and a.graduate = 'b'
+            and a.grad_audit_status = 'b'
+            and a.school_speciality_regid = e.id
+            and e.schoolid = f.id
+            <if test="time1 != null and time1 != '' and time2 != null and time2 != ''">
+                AND a.update_date &gt;= #{time1} AND a.update_date &lt;= #{time2}
+            </if>
+            <if test="studentid != null and studentid != ''"> and c.id = #{studentid} </if>
+            <if test="specialityid != null and specialityid != ''"> and b.specialityid = #{specialityid} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by d.id,a.studentid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+ 	<select id="count" resultType="int">
+		select count(*)
+        from
+        stu_student_speciality a,
+        pla_speciality_record b,
+        stu_student c,
+        pla_speciality d,
+        sch_school_speciality_reg e,
+        sch_school f
+        <where>
+            c.type = #{studentType}
+            and a.speciality_recordid = b.id
+            and a.studentid = c.id
+            and b.specialityid = d.id
+            and a.graduate = 'b'
+            and a.grad_audit_status = 'b'
+            and a.school_speciality_regid = e.id
+            and e.schoolid = f.id
+            <if test="time1 != null and time2 != null">
+                AND a.update_date &gt;= #{time1} AND a.update_date &lt;= #{time2}
+            </if>
+            <if test="studentid != null and studentid != ''"> and c.id = #{studentid} </if>
+        </where>
+	</select>
+
+	 <!--毕业证书信息-->
+    <select id="listDiploma" resultType="com.hxy.nzxy.stexam.domain.StudentCertificateDO">
+        select
+            a.id,
+            a.code,
+            a.studentid,
+            a.specialityid,
+            c.name as specialityName,
+            a.graduate_direction,
+            a.paper_score,
+            a.school_name,
+            a.graduate_date,
+            a.school_name,
+            a.speciality_levels,
+            a.audit_date,
+            a.audit_operator,
+            a.operator,
+            a.update_date
+        from
+            stu_student_certificate a,
+            stu_student_speciality b,
+            pla_speciality c
+        <where>
+            and a.enabled_flag=1
+            and a.studentid = b.studentid
+            and a.student_specialityid = b.id
+            and b.studentid = #{studentid}
+            and a.specialityid = c.id
+            <if test="time1 != null and time2 != null">
+                AND a.update_date &gt;= #{time1} AND a.update_date &lt;= #{time2}
+            </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by a.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="countDiploma" resultType="int">
+        select count(*)
+        from
+        student_certificate a,
+        student_speciality b
+        <where>
+            and a.enabled_flag=1
+            and a.studentid = b.studentid
+            and a.student_specialityid = b.id
+            and b.studentid = #{studentid}
+            <if test="time1 != null and time2 != null">
+                AND a.update_date &gt;= #{time1} AND a.update_date &lt;= #{time2}
+            </if>
+        </where>
+    </select>
+<!--添加-->
+    <!--查询毕业证是否存在-->
+    <select id="isCode" resultType="com.hxy.nzxy.stexam.domain.StudentCertificateDO">
+        select
+          code as isCode
+        from
+          student_certificate
+        where
+          enabled_flag=1
+          and studentid = #{studentid}
+    </select>
+
+    <!--归档-->
+    <insert id="saveHis" parameterType="com.hxy.nzxy.stexam.domain.StudentCertificateDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_certificate_his
+		(
+          id,
+          code,
+          studentid,
+          student_specialityid,
+          specialityid,
+          speciality_name,
+          paper_score,
+          graduate_date,
+          school_name,
+          graduate_direction,
+          speciality_levels,
+          audit_date,
+          audit_operator,
+          operator,
+          update_date
+		)
+		values
+		(
+		  select
+		   id,
+          code,
+          studentid,
+          student_specialityid,
+          specialityid,
+          speciality_name,
+          paper_score,
+          graduate_date,
+          school_name,
+          graduate_direction,
+          speciality_levels,
+          audit_date,
+          audit_operator,
+          operator,
+          now()
+        from
+          stu_student_certificate
+		)
+	</insert>
+    <!--删除-->
+    <delete id="removeCertificate">
+		delete  from stu_student_certificate  where studentid = #{value}
+	</delete>
+    <insert id="saveCertificate" parameterType="com.hxy.nzxy.stexam.center.student.domain.FileInfoQueryDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_his
+		(
+	      id ,
+          type,
+          name,
+          ename,
+          pinyin,
+          gender ,
+          home_type,
+          politics  ,
+          nation,
+          profession,
+          birthday,
+          native_place,
+          certificate_type,
+          certificate_no,
+          phone,
+          mphone,
+          address,
+          post_code,
+          email,
+          idcard_pic,
+          pic,
+          regionid,
+          child_regionid,
+          schoolid,
+          collegeid,
+          teach_siteid,
+          groupid,
+          key_value,
+          password,
+          work_address,
+          question,
+          answer,
+          old_studentid,
+          classify,
+          status,
+          audit_status,
+          confirm_status,
+          back_operator,
+          back_date,
+          confirm_operator,
+          confirm_date,
+          operator,
+          update_date,
+          create_date,
+          db_flag,
+          kjh
+		)
+		values
+		(
+		select
+		  id,
+          type,
+          name,
+          ename,
+          pinyin,
+          gender,
+          home_type,
+          politics,
+          nation,
+          profession,
+          birthday,
+          native_place,
+          certificate_type,
+          certificate_no,
+          phone,
+          mphone,
+          address,
+          post_code,
+          email,
+          idcard_pic,
+          pic,
+          regionid,
+          child_regionid,
+          schoolid,
+          collegeid,
+          teach_siteid,
+          groupid,
+          key_value,
+          password,
+          work_address,
+          question,
+          answer,
+          old_studentid,
+          classify        ,
+          status         ,
+          audit_status   ,
+          confirm_status  ,
+          back_operator   ,
+          back_date        ,
+          confirm_operator,
+          confirm_date ,
+          operator,
+          now(),
+          create_date ,
+          db_flag
+          kjh
+          from
+			stu_student
+		)
+
+	</insert>
+    <delete id="removeStudent">
+		delete  from stu_student  where id = #{value}
+	</delete>
+
+<!--添加-->
+    <insert id="save" parameterType="com.hxy.nzxy.stexam.domain.StudentCertificateDO" useGeneratedKeys="true" keyProperty="id">
+		insert into stu_student_certificate
+		(
+          id,
+          code,
+          studentid,
+          student_specialityid,
+          specialityid,
+          speciality_name,
+          paper_score,
+          graduate_date,
+          school_name,
+          graduate_direction,
+          speciality_levels,
+          audit_date,
+          audit_operator,
+          operator,
+          update_date,
+          enabled_flag
+		)
+		values
+		(
+		  #{id},
+          #{code},
+          #{studentid},
+          #{student_specialityid},
+          #{specialityid},
+          #{speciality_name},
+          #{paper_score},
+          #{graduate_date},
+          #{school_name},
+          #{graduate_direction},
+          #{speciality_levels},
+          #{audit_date},
+          #{audit_operator},
+          #{operator},
+          #{update_date},
+          #{enabled_flag}
+		)
+	</insert>
+<!--修改-->
+	<update id="initCode" parameterType="com.hxy.nzxy.stexam.domain.StudentCertificateDO">
+		update stu_student_certificate 
+		<set>
+            code = #{code},
+			<if test="graduateDirection != null">graduate_direction = #{graduateDirection}, </if>
+			<if test="graduateDate != null and graduateDate != ''">and a.graduate_date = #{graduateDate},</if>
+			operator = #{operator},
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+<!--删除-->
+	<update id="remove">
+		update stu_student_certificate set enabled_flag =0  where id = #{value}
+	</update>
+	<!--批量删除-->
+	<update id="batchRemove">
+        update  stu_student_certificate set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+</mapper>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left nopadding">
+							<input id="searchName" type="text" class="form-control"
+								placeholder="输入专业代码查询">
+						</div>
+						<div class="columns pull-left" style="width:140px">
+							<span>审核状态：</span>
+							<select id="auditStatus" name="auditStatus" style="height:34px;width:70px">
+								<option th:each="item:${sch_school_speciality_reg_audit_status}" th:value="${item.id}" th:text="${item.name}"></option>
+							</select>
+						</div>
+						<div class="columns pull-left" style="margin-left:10px">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<!-- <div class="columns pull-left" style="margin-left:10px">
+							<button shiro:hasPermission="school:schoolSpecialityReg:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+							<button shiro:hasPermission="school:schoolSpecialityReg:batchRemove" type="button" class="btn  btn-danger"
+								onclick="batchRemove()">
+								<i class="fa fa-trash" aria-hidden="true"></i>删除
+							</button>
+						</div> -->	
+						<div class="columns pull-left" style="margin-left:5px">
+							<button class="btn btn-primary" onclick="shenghe()"><i class="fa fa-check" aria-hidden="true"></i>审核</button>
+							<button class="btn btn-warning" onclick="cancalAudit()"><i class="fa fa-close" aria-hidden="true"></i>取消审核</button>
+						</div>					
+					</div>
+					<table id="exampleTable" data-mobile-responsive="true">
+					</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:schoolSpecialityReg:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:schoolSpecialityReg:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="school:schoolSpecialityReg:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/school/schoolSpecialityReg/schoolSpecialityReg.js" th:src="@{/js/appjs/center/school/schoolSpecialityReg/schoolSpecialityReg.js}"></script>
+</body>
+</html>

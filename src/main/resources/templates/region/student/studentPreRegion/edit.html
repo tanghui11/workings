@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="list-group-item label"> > </div>
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${studentPreRegion.id}"  type="hidden">
+                        <table class="table table-bordered table-style">
+																														                                    <tr>
+                                        <td  class="W180">
+                                            <label>类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="type" name="type" th:value="${studentPreRegion.type}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>姓名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="name" name="name" th:value="${studentPreRegion.name}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>英文名：</label>
+                                        </td>
+                                        <td>
+                                            <input id="ename" name="ename" th:value="${studentPreRegion.ename}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>拼音：</label>
+                                        </td>
+                                        <td>
+                                            <input id="pinyin" name="pinyin" th:value="${studentPreRegion.pinyin}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>性别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="gender" name="gender" th:value="${studentPreRegion.gender}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>户籍：</label>
+                                        </td>
+                                        <td>
+                                            <input id="homeType" name="homeType" th:value="${studentPreRegion.homeType}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>政治面貌：</label>
+                                        </td>
+                                        <td>
+                                            <input id="politics" name="politics" th:value="${studentPreRegion.politics}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>民族：</label>
+                                        </td>
+                                        <td>
+                                            <input id="nation" name="nation" th:value="${studentPreRegion.nation}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>职业：</label>
+                                        </td>
+                                        <td>
+                                            <input id="profession" name="profession" th:value="${studentPreRegion.profession}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>出生日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="birthday" name="birthday" th:value="${studentPreRegion.birthday}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>照片路径：</label>
+                                        </td>
+                                        <td>
+                                            <input id="pic" name="pic" th:value="${studentPreRegion.pic}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>籍贯：</label>
+                                        </td>
+                                        <td>
+                                            <input id="nativePlace" name="nativePlace" th:value="${studentPreRegion.nativePlace}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>证件类别：</label>
+                                        </td>
+                                        <td>
+                                            <input id="certificateType" name="certificateType" th:value="${studentPreRegion.certificateType}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>身份证号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="certificateNo" name="certificateNo" th:value="${studentPreRegion.certificateNo}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>固定电话：</label>
+                                        </td>
+                                        <td>
+                                            <input id="phone" name="phone" th:value="${studentPreRegion.phone}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>移动电话：</label>
+                                        </td>
+                                        <td>
+                                            <input id="mphone" name="mphone" th:value="${studentPreRegion.mphone}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>通讯地址：</label>
+                                        </td>
+                                        <td>
+                                            <input id="address" name="address" th:value="${studentPreRegion.address}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>邮编：</label>
+                                        </td>
+                                        <td>
+                                            <input id="postCode" name="postCode" th:value="${studentPreRegion.postCode}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>电子邮箱：</label>
+                                        </td>
+                                        <td>
+                                            <input id="email" name="email" th:value="${studentPreRegion.email}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>地州市考办编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="regionid" name="regionid" th:value="${studentPreRegion.regionid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>县区考办编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="childRegionid" name="childRegionid" th:value="${studentPreRegion.childRegionid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>助学组织编号：</label>
+                                        </td>
+                                        <td>
+                                            <input id="schoolid" name="schoolid" th:value="${studentPreRegion.schoolid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>集体代码：</label>
+                                        </td>
+                                        <td>
+                                            <input id="groupid" name="groupid" th:value="${studentPreRegion.groupid}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>确认操作员：</label>
+                                        </td>
+                                        <td>
+                                            <input id="confirmOperator" name="confirmOperator" th:value="${studentPreRegion.confirmOperator}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																							                                    <tr>
+                                        <td  class="W180">
+                                            <label>确认操作日期：</label>
+                                        </td>
+                                        <td>
+                                            <input id="confirmDate" name="confirmDate" th:value="${studentPreRegion.confirmDate}" class="form-control" type="text">
+                                        </td>
+                                    </tr>
+																																																												
+                        </table>
+                        <div style="text-align:center;">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="button" class="btn btn-danger" onclick="layerModalFormClose()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/region/student/studentPreRegion/edit.js" th:src="@{/js/appjs/region/student/studentPreRegion/edit.js}">
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar" style="overflow: hidden;">
+						<form method="post" th:action="@{/student/studentRegStudent/searchOutSFExcel}">
+						<input id="studentSpecialityid" name="studentSpecialityid" th:value="${studentSpecialityid}" type="hidden">
+						<div class="columns pull-left" style="margin-right: 10px">
+						注册年份
+						</div>
+						<div class="columns pull-left" style="margin-right: 10px">
+							<input id="year" name="year" class="form-control" type="text" onfocus="WdatePicker({dateFmt: 'yyyy'})">
+						</div>
+						<div class="columns pull-left" style="margin-right: 10px">
+							<button  type="button" class="btn  btn-primary" onclick="save()">
+								<i class="fa fa-plus" aria-hidden="true"></i>注册
+							</button>
+							<button  type="button" class="btn  btn-danger"
+								onclick="qxzhuce()">
+								<i class="fa fa-trash" aria-hidden="true"></i>取消注册
+							</button>
+							<button  type="button" class="btn  btn-info" onclick="shenghe()">
+								审核
+							</button>
+							<button  type="button" class="btn  btn btn-warning" onclick="qxsh()">
+								取消审核
+							</button>
+						</div>
+							<div class="columns pull-left" style="margin-left: 5px;">
+								<button shiro:hasPermission="student:studentFile:add" type="submit" class="btn  btn-primary" >
+								考生补注册导出
+								</button>
+							</div>
+						</form>
+					</div>
+				    	<h3 class="bg-info" style="padding:10px;margin:0;">学生注册信息</h3>
+						<table id="exampleTable2" data-mobile-responsive="true">
+						</table>
+				</div>
+			</div>
+		</div>
+	    <!--shiro控制bootstraptable行内按钮可见性 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="student:studentRegStudent:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/school/student/studentRegStudent/studentRegStudent.js" th:src="@{/js/appjs/center/student/studentFileStudent/studentReg.js}"></script>
+</body>
+</html>

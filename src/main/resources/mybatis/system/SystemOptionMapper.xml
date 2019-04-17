@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.system.dao.SystemOptionDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.system.domain.SystemOptionDO">
+		select
+            appid,
+            id,
+            name,
+            value,
+            remark,
+            operator,
+            update_date
+		from sys_system_option
+		where appid = #{appid}
+		  and id = #{id}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.system.domain.SystemOptionDO">
+		select
+	        appid,
+	        id,
+		     name ,
+	        value,
+	        remark,
+	        operator,
+	        update_date
+		 from sys_system_option
+        <where>  
+		  <if test="appid != null and appid != ''"> and appid = #{appid} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="value != null and value != ''"> and value = #{value} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_system_option
+		 <where>  
+		  <if test="appid != null and appid != ''"> and appid = #{appid} </if>
+		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  <if test="value != null and value != ''"> and value = #{value} </if>
+		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.system.domain.SystemOptionDO">
+		insert into sys_system_option
+		(
+			appid, 
+			name,
+			value, 
+			remark, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{appid}, 
+			#{name},
+			#{value}, 
+			#{remark}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.system.domain.SystemOptionDO">
+		update sys_system_option 
+		<set>
+
+			<if test="value != null">value = #{value}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			<if test="updateDate != null">update_date = now()</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_system_option where  id = #{id}
+	</delete>
+
+</mapper>

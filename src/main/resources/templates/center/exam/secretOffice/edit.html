@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<table class="table table-bordered table-style">
+							<input id="id" name="id" th:value="${secretOffice.id}"  type="hidden">
+							<tr>
+								<td  class="W180">
+									<label>名称：</label>
+								</td>
+								<td>
+									<input id="name" name="name" th:value="${secretOffice.name}" class="form-control" type="text">
+								</td>
+								 <td  class="W180">
+									<label>拼音：</label>
+								</td>
+								<td>
+									<input id="pinyin" name="pinyin" th:value="${secretOffice.pinyin}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>类型：</label>
+								</td>
+								<td>
+									<select id="type" name="type" class="form-control">
+										<option th:each="item:${exa_secret_office_type}" th:value="${item.id}" th:text="${item.name}" th:field="${secretOffice.type}"></option>
+									</select>
+								</td>
+								 <td  class="W180">
+									<label>保密室固定电话区号：</label>
+								</td>
+								<td>
+									<input id="phonePre" name="phonePre" th:value="${secretOffice.phonePre}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>负责人固定电话区号：</label>
+								</td>
+								<td>
+									<input id="chargemanPhonePre" name="chargemanPhonePre" th:value="${secretOffice.chargemanPhonePre}" class="form-control" type="text">
+								</td>
+								 <td  class="W180">
+									<label>负责人固定电话号码：</label>
+								</td>
+								<td>
+									<input id="chargemanPhone" name="chargemanPhone" th:value="${secretOffice.chargemanPhone}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>负责人手机：</label>
+								</td>
+								<td>
+									<input id="chargemanTel" name="chargemanTel" th:value="${secretOffice.chargemanTel}" class="form-control" type="text">
+								</td>
+								 <td  class="W180">
+									<label>是否配备武警/公安人员值班：</label>
+								</td>
+								<td>
+									<select id="hasForce" name="hasForce" class="form-control">
+										<option th:each="item:${exa_secret_office_has_force}" th:value="${item.id}" th:text="${item.name}" th:field="${secretOffice.hasForce}"></option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>武警/公安人员数量：</label>
+								</td>
+								<td>
+									<input id="forceNum" name="forceNum" th:value="${secretOffice.forceNum}" class="form-control" type="text">
+								</td>
+								 <td  class="W180">
+									<label>考区主任姓名：</label>
+								</td>
+								<td>
+									<input id="leader" name="leader" th:value="${secretOffice.leader}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>考区主任电话：</label>
+								</td>
+								<td>
+									<input id="leaderPhone" name="leaderPhone" th:value="${secretOffice.leaderPhone}" class="form-control" type="text">
+								</td>
+								 <td  class="W180">
+									<label>考区主任手机：</label>
+								</td>
+								<td>
+									<input id="leaderMphone" name="leaderMphone" th:value="${secretOffice.leaderMphone}" class="form-control" type="text">
+								</td>
+							</tr>
+							<tr>
+								<td  class="W180">
+									<label>值班人员名单：</label>
+								</td>
+								<td colspan="3">
+									<textarea id="dutyMan" name="dutyMan" th:text="${secretOffice.dutyMan}" class="form-control" type="text"></textarea>
+								</td>	
+							</tr>
+                            <!-- 
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">值班人员名单：</label>
+								<div class="col-sm-8">
+									<input id="dutyMan" name="dutyMan" th:value="${secretOffice.dutyMan}" class="form-control" type="text">
+								</div>
+							</div>
+                            
+                           
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">审核状态：</label>
+								<div class="col-sm-8">
+									<input id="auditStatus" name="auditStatus" th:value="${secretOffice.auditStatus}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">审核操作员：</label>
+								<div class="col-sm-8">
+									<input id="auditOperator" name="auditOperator" th:value="${secretOffice.auditOperator}" class="form-control" type="text">
+								</div>
+							</div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">审核日期：</label>
+								<div class="col-sm-8">
+									<input id="auditDate" name="auditDate" th:value="${secretOffice.auditDate}" class="form-control" type="text">
+								</div>
+							</div> -->
+							<!-- <div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" class="btn btn-danger" onclick="parent.layerModalFormClose()">取消</button>
+								</div>
+							</div> -->
+						</table>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/center/exam/secretOffice/edit.js" th:src="@{/js/appjs/center/exam/secretOffice/edit.js}">
+	</script>
+</body>
+</html>

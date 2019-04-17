@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hxy.nzxy.stexam.center.plan.dao.CourseReplaceDao">
+
+	<select id="get" resultType="com.hxy.nzxy.stexam.domain.CourseReplaceDO">
+		select
+            id,
+            speciality_recordid,
+            courseid,
+            flag,
+            course_class,
+            type,
+            course_num,
+            least_num,
+            least_score,
+            append_courseid1,
+            append_courseid2,
+            append_courseid3,
+            append_courseid4,
+            operator,
+            update_date,
+            enabled_flag
+		from pla_course_replace
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hxy.nzxy.stexam.domain.CourseReplaceDO">
+		select a.id, a.speciality_recordid, a.courseid, a.flag, a.course_class, a.type, a.course_num, a.least_num, a.least_score, a.append_courseid1, a.append_courseid2, a.append_courseid3, a.append_courseid4, a.operator, a.update_date, a.enabled_flag, b.name as specialityName, d.name as courseName
+		from
+		pla_course_replace a,
+		pla_speciality b,
+		pla_speciality_record c,
+		pla_course d
+		<where>
+			AND a.enabled_flag=1
+			and a.speciality_recordid = c.id
+			and b.id = c.specialityid
+			and a.courseid = d.id
+			<if test="id != null and id != ''"> and a.id = #{id} </if>
+			<if test="specialityRecordid != null and specialityRecordid != ''"> and a.speciality_recordid = #{specialityRecordid} </if>
+			<if test="courseid != null and courseid != ''"> and a.courseid = #{courseid} </if>
+			<if test="flag != null and flag != ''"> and a.flag = #{flag} </if>
+			<if test="courseClass != null and courseClass != ''"> and a.course_class = #{courseClass} </if>
+			<if test="type != null and type != ''"> and a.type = #{type} </if>
+			<if test="courseNum != null and courseNum != ''"> and a.course_num = #{courseNum} </if>
+			<if test="leastNum != null and leastNum != ''"> and a.least_num = #{leastNum} </if>
+			<if test="leastScore != null and leastScore != ''"> and a.least_score = #{leastScore} </if>
+			<if test="appendCourseid1 != null and appendCourseid1 != ''"> and a.append_courseid1 = #{appendCourseid1} </if>
+			<if test="appendCourseid2 != null and appendCourseid2 != ''"> and a.append_courseid2 = #{appendCourseid2} </if>
+			<if test="appendCourseid3 != null and appendCourseid3 != ''"> and a.append_courseid3 = #{appendCourseid3} </if>
+			<if test="appendCourseid4 != null and appendCourseid4 != ''"> and a.append_courseid4 = #{appendCourseid4} </if>
+			<if test="enabledFlag != null and enabledFlag != ''"> and a.enabled_flag = #{enabledFlag} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by a.id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from pla_course_replace
+		 <where>
+             and enabled_flag=1
+		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  <if test="specialityRecordid != null and specialityRecordid != ''"> and speciality_recordid = #{specialityRecordid} </if>
+		  <if test="courseid != null and courseid != ''"> and courseid = #{courseid} </if>
+		  <if test="flag != null and flag != ''"> and flag = #{flag} </if>
+		  <if test="courseClass != null and courseClass != ''"> and course_class = #{courseClass} </if>
+		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  <if test="courseNum != null and courseNum != ''"> and course_num = #{courseNum} </if>
+		  <if test="leastNum != null and leastNum != ''"> and least_num = #{leastNum} </if>
+		  <if test="leastScore != null and leastScore != ''"> and least_score = #{leastScore} </if>
+		  <if test="appendCourseid1 != null and appendCourseid1 != ''"> and append_courseid1 = #{appendCourseid1} </if>
+		  <if test="appendCourseid2 != null and appendCourseid2 != ''"> and append_courseid2 = #{appendCourseid2} </if>
+		  <if test="appendCourseid3 != null and appendCourseid3 != ''"> and append_courseid3 = #{appendCourseid3} </if>
+		  <if test="appendCourseid4 != null and appendCourseid4 != ''"> and append_courseid4 = #{appendCourseid4} </if>
+		  <if test="enabledFlag != null and enabledFlag != ''"> and enabled_flag = #{enabledFlag} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hxy.nzxy.stexam.domain.CourseReplaceDO" useGeneratedKeys="true" keyProperty="id">
+		insert into pla_course_replace
+		(
+			speciality_recordid, 
+			courseid, 
+			flag, 
+			course_class, 
+			type, 
+			course_num, 
+			least_num, 
+			least_score, 
+			append_courseid1, 
+			append_courseid2, 
+			append_courseid3, 
+			append_courseid4, 
+			operator, 
+			update_date
+		)
+		values
+		(
+			#{specialityRecordid}, 
+			#{courseid}, 
+			#{flag}, 
+			#{courseClass}, 
+			#{type}, 
+			#{courseNum}, 
+			#{leastNum}, 
+			#{leastScore}, 
+			#{appendCourseid1}, 
+			#{appendCourseid2}, 
+			#{appendCourseid3}, 
+			#{appendCourseid4}, 
+			#{operator}, 
+			now()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hxy.nzxy.stexam.domain.CourseReplaceDO">
+		update pla_course_replace 
+		<set>
+			<if test="specialityRecordid != null">speciality_recordid = #{specialityRecordid}, </if>
+			<if test="courseid != null">courseid = #{courseid}, </if>
+			<if test="flag != null">flag = #{flag}, </if>
+			<if test="courseClass != null">course_class = #{courseClass}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="courseNum != null">course_num = #{courseNum}, </if>
+			<if test="leastNum != null">least_num = #{leastNum}, </if>
+			<if test="leastScore != null">least_score = #{leastScore}, </if>
+			<if test="appendCourseid1 != null">append_courseid1 = #{appendCourseid1}, </if>
+			<if test="appendCourseid2 != null">append_courseid2 = #{appendCourseid2}, </if>
+			<if test="appendCourseid3 != null">append_courseid3 = #{appendCourseid3}, </if>
+			<if test="appendCourseid4 != null">append_courseid4 = #{appendCourseid4}, </if>
+			<if test="operator != null">operator = #{operator}, </if>
+			update_date = now()
+		</set>
+		where id = #{id}
+	</update>
+	<update id="remove">
+		update pla_course_replace set enabled_flag =0  where id = #{value}
+	</update>
+	
+	<update id="batchRemove">
+        update  pla_course_replace set enabled_flag =0 where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+</mapper>
