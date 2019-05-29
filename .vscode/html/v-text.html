@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-text/v-html</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-text="message"></div>
+        <div v-html="dodo"></div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var app = new Vue({
+        el:"#app",
+        data:{
+            message:'hello vue',
+            dodo:'<h2>我是唐辉</h2>'
+        }
+    })
+</script>

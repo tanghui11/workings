@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义指令vue.directive</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-text="num" v-th="color"></div>
+        <button @click="add">add</button>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+
+Vue.directive("th",function(el,binding,vnode){
+    console.log(el)
+    console.log(binding)
+    console.log(vnode)
+    el.style="color:"+binding.value
+})
+    var app = new Vue({
+        el:"#app",
+        data:{
+            num:10,
+            color:"red"
+        },
+        methods:{
+           add:function(){
+               this.num++;
+           }
+        }
+    })
+</script>
