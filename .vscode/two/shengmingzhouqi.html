@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue的生命周期（钩子函数）</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{content}}
+        <p>
+            <button @click="add">add</button>
+        </p>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var app = new Vue({
+        el:"#app",
+        data:{
+            content:1
+        },
+        methods:{
+            add:function(){
+                this.content++;
+            } 
+        }
+    })
+</script>

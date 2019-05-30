@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue.set全局操作</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+            {{content}}
+          <ul>
+              <li v-for="item in arr">{{item}}</li>
+          </ul> 
+    </div>
+    <p>
+            <button onclick="add()">add</button>
+        </p>
+</body>
+</html>
+<script type="text/javascript">
+function add(){
+    //Vue.set存在的意义，改变数组下标的时候，vue是监测不到的，通过vue.set监测
+    //Vue.set(outData,'content',app.content++);
+   // app.content++;
+   /* outData.content++;
+   app.arr[1]='ddd'; */
+  // Vue.set(outData.arr,1,"dd");
+   Vue.set(app.arr,1,"dd");
+}
+var outData = {
+            content:1,
+            /* goods:'car' */
+            arr:['aaa','bbb','ccc']
+        }
+   var app = new Vue({
+        el:"#app",
+        data:outData
+    })
+</script>

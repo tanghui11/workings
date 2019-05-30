@@ -12,16 +12,47 @@
         <div v-text="num" v-th="color"></div>
         <button @click="add">add</button>
     </div>
+    <p>
+        <button onclick="unbind()">解绑</button>
+    </p>
+
 </body>
 </html>
 <script type="text/javascript">
-
-Vue.directive("th",function(el,binding,vnode){
+     function unbind(){
+        app.$destroy();//解绑
+    }
+/* Vue.directive("th",function(el,binding,vnode){
     console.log(el)
     console.log(binding)
     console.log(vnode)
     el.style="color:"+binding.value
+}) */
+Vue.directive("th",{
+    bind:function (el,binding){//被绑定
+        el.style="color:"+binding.value
+        console.log('1-bind');
+    },
+    inserted:function (){//绑定到节点
+        console.log('2-inserted');
+    },
+    update:function (){//组件跟新
+        console.log('3-update');
+    },
+    componentUpdated:function(){//组件更新完成
+        console.log('4-componentUpdated');
+    },
+    unbind:function(){//解绑
+        console.log('5-unbind');
+    }
 })
+//钩子函数
+/*  1.bind
+    2.inserted
+    3.update
+    4.componeentUpdated
+    5.unbind
+ */
     var app = new Vue({
         el:"#app",
         data:{
