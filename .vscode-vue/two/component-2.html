@@ -4,25 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>template三种写法</title>
+    <title>component组件-2</title>
    <script src="../js/vue.js"></script>
 </head>
 <body>
-    <div id="app">{{message}}</div>
-    <template id="dd2">
-            <h2 style="color:red">我是标签模板1234</h2>
-    </template>
+    <div id="app">
+        <panda :here="message"></panda>
+    </div>
 </body>
 </html>
 <script type="text/javascript">
     var app = new Vue({
         el:"#app",
         data:{
-            message:'hello 1234'
+            message:'enShi'
         },
-        // template:`
-        //    <h2 style="color:red">我是选项1234567模板</h2>
-        // `
-
+        components:{
+            "panda":{
+                template:`<div style="color:red">Panda from {{here}}</div>`,
+                props:['here']
+            }
+        }
     })
 </script>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>component组件-1</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <jst></jst>
+        <panda></panda>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+Vue.component("jst",{
+    template:`<div>我是全局的th组件</div>`
+})
+    var app = new Vue({
+        el:"#app",
+        components:{
+            "panda":{
+                template:`<div style="color:red">我是局部的panda组件</div>`
+            }
+        }
+    })
+</script>
