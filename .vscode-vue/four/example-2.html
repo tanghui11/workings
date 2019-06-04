@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+   <script src="../js/vue.js"></script>
+   <script src="../js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+    <!--
+        1.$on在构造器外部添加添加事件
+        2.$once执行一次的方法
+        3.$off关闭事件
+
+
+     -->
+    <h2></h2>
+    <div id="app">
+        {{num}}
+        <p><button @click="add">Add</button></p>
+    </div>
+    <p><button onclick="reduce()">reduce</button></p>
+    <p><button onclick="reduceOnce()">reduceOnce</button></p>
+    <p><button onclick="off()">off</button></p>
+</body>
+</html>
+<script type="text/javascript">
+    var app = new Vue({
+        el:"#app",
+        data:{
+            num:1
+        },
+        methods:{
+            add:function(){
+                this.num++;
+            }
+           
+        }
+    })
+    function reduce(){
+        app.$emit("reduce");
+    }
+    function reduceOnce(){
+        app.$emit("reduceOnce");
+    }
+    function off(){
+        app.$off("reduce");
+    }
+    app.$on("reduce",function(){
+        console.log("执行了reduce方法");
+        this.num--;
+    })
+    app.$once("reduceOnce",function(){
+        console.log("只执行了一次方法");
+        this.num--;
+    })
+</script>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>watch选项</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 1创制add(3)
+        2$event
+        3组件构造器点击
+        4外部调用构造器的函数
+    -->
+    <div id="app">
+        <div>今日温度：{{wendu}}℃</div>
+        <div>穿衣建议：{{cyjy}}</div>
+        <div>
+            <button @click="shenggao">升高温度</button>
+            <button @click="jiangdi">降低温度</button>
+        </div>
+    </div>
+
+</body>
+</html>
+<script type="text/javascript">
+
+    var app = new Vue({
+        el:"#app",
+        data:{
+            wendu:14,
+            cyjy:"夹克长裙"
+        },
+        methods:{
+            shenggao:function(){
+                    this.wendu+=5;
+            },
+            jiangdi:function(){
+                this.wendu-=5;
+            }
+        },
+        /* watch:{
+            wendu:function(newVal,oldval){
+                if(newVal>=26){
+                    this.cyjy = "T恤短袖";
+                }else if(newVal<26&&newVal>=0){
+                        this.cyjy = "夹克长裙";
+                }else{
+                    this.cyjy = "羽绒服";
+                }
+            }
+        } */
+        
+    })
+    app.$watch("wendu",function(newVal,oldVal){
+        if(newVal>=26){
+                    this.cyjy = "T恤短袖";
+                }else if(newVal<26&&newVal>=0){
+                        this.cyjy = "夹克长裙";
+                }else{
+                    this.cyjy = "羽绒服";
+                }
+    })
+</script>

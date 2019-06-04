@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>$mounted</title>
+   <script src="../js/vue.js"></script>
+   <script src="../js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+    <!--
+         1.$mount()  
+         2.$destroy()  卸载方法
+         3.$forceUpdate()更新方法
+         4.nextTick() 数据修改方法
+    
+    -->
+    <h2>$mount</h2>
+    <div id="app">
+        
+    </div>
+    <button onclick="des()">销毁</button>
+    <button onclick="reLoad()">刷新</button>
+    <button onclick="tick()">更改数据</button>
+</body>
+</html>
+<script type="text/javascript">
+    function des(){
+        vm.$destroy();
+    }
+    function reLoad (){
+        vm.$forceUpdate();
+    }
+    function tick(){
+        vm.message="update message info";
+        vm.$nextTick(function(){//更新之后
+            console.log("message被更新完毕之后我被调用了");
+        })
+    }
+   var ths = Vue.extend({
+       template:`
+       <p>{{message}}</p>
+       `,
+       data:function(){
+           return {
+               message :'hello,我是唐辉'
+           }
+       },
+       mounted:function(){
+           console.log("mount 被创建");
+       },
+       destroyed:function(){
+           console.log("destroy被销毁之后");
+       },
+       updated:function(){
+           console.log("updated 更新之后")
+       }
+   })
+   var vm = new ths().$mount("#app")
+</script>

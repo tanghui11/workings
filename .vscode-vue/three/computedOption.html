@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>computed</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+            {{newPrice}}
+            <ul>
+                <li v-for="item in reversNews">{{item.title}}--{{item.data}}</li>
+            </ul>
+    </div>
+    <header></header>
+</body>
+</html>
+<script type="text/javascript">
+var newsList =[
+    {
+        title:"你还要我怎样，能怎样？",
+        data:"2018-12-12"
+    },
+    {
+        title:"今天的天气格外的号？",
+        data:"2018-12-14"
+    },
+    {
+        title:"马上端午要放假了哟？",
+        data:"2018-12-14"
+    },
+    {
+        title:"今天是个好日子，好亚麻好日子",
+        data:"2018-12-35"
+    },
+]
+   var app = new Vue({
+       el:"#app",
+       data:{
+           price:100,
+           newsList:newsList
+       },
+       computed:{
+           newPrice:function(){
+               return this.price='￥'+this.price+"元"
+           },
+           reversNews:function (){
+                return this.newsList.reverse();
+           }
+       }
+   })
+</script>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>内置组件 -solt讲解</title>
+   <script src="../js/vue.js"></script>
+   <script src="../js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+    <h2>内置组件 -solt讲解</h2>
+    <div id="app">
+      <ths>
+           <span solt="bolgUrl">{{thsData.bolgUrl}}</span>
+           <span solt="nerName">{{thsData.nerName}}</span>
+           <span solt="skill">{{thsData.skill}}</span>
+       </ths> 
+       <template id="tep">
+            <div>
+                <p>博客地址：<solt name="bolgUrl"></solt></p>
+                <p>网名：<solt name="nerName"></solt></p>
+                <p>技术类型：<solt name="skill"></solt></p>
+            </div>
+       </template> 
+    </div>
+
+</body>
+</html>
+<script type="text/javascript">
+var tep = {
+    template:"#tep"
+}
+    var app = new Vue({
+        el:"#app",
+        data:{
+           thsData:{
+               bolgUrl:"http://www.baidu.com",
+               nerName:'tanghui',
+               skill : "web前端"
+           }
+        },
+        components:{
+            "ths":tep
+        }
+
+    })
+
+</script>

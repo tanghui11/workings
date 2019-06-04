@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>mixins混入</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>{{num}}</div>
+
+        <div>
+            <button @click="shenggao">add</button>
+        </div>
+    </div>
+
+</body>
+</html>
+<script type="text/javascript">
+var addConsole = {
+    updated:function(){
+        console.log("数据发生变化了，变成了"+this.num);
+    }
+}
+Vue.mixin({
+    updated:function(){
+        console.log("我是全局的混入");
+    }
+})
+    var app = new Vue({
+        el:"#app",
+        data:{
+            num:1
+        },
+        methods:{
+            shenggao:function(){
+                    this.num++;
+            }
+
+        },
+        updated:function (){
+                console.log("我是原生的update")
+        },
+        mixins:[addConsole]
+      
+        
+    })
+
+</script>

@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>template三种写法</title>
+    <title>第四季，实列和内部组件 1.example</title>
    <script src="../js/vue.js"></script>
+   <script src="../js/jquery-1.8.3.min.js"></script>
 </head>
 <body>
+    <h2>实例方法</h2>
     <div id="app">{{message}}</div>
-    <template id="dd2">
-            <h2 style="color:red">我是template标签模板</h2>
-    </template>
 </body>
 </html>
-<script type="x-template" id="dd3">
-    <h2 style="color:red">我是script标签模板</h2>
-</script>
 <script type="text/javascript">
     var app = new Vue({
         el:"#app",
         data:{
             message:'hello 1234'
         },
-        template:'#dd3'
-        // template:`
-        //    <h2 style="color:red">我是选项模板</h2>
-        // `
-
+        mounted:function(){
+            $("#app").html("我是jquery~~");
+        },
+        methods:{
+            add:function(){
+                console.log("调用了构造器内部的Add方法！！");
+            }
+        }
     })
+    app.add();
 </script>

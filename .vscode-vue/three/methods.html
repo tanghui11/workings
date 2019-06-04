@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>nethods选项</title>
+   <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 1创制add(3)
+        2$event
+        3组件构造器点击
+        4外部调用构造器的函数
+    -->
+    <div id="app">
+        {{message}}
+        <button @click="add(2,$event)">add</button>
+        <button @click="add()">add2</button>
+        <p><btn @click.native="add(2)"></btn></p>
+    </div>
+    <p><button onclick="app.add(5)">外部add</button></p>
+</body>
+</html>
+<script type="text/javascript">
+var btn = {
+    template:`<button>组件add</button>`
+}
+    var app = new Vue({
+        el:"#app",
+        data:{
+            message:1
+        },
+        components:{
+            "btn":btn
+        },
+        methods:{
+            add:function(num,event){
+                if(num!=""){
+                    this.message+=num;
+                }else{
+                    this.message++;
+                }
+                console.log(event)
+            }
+        }
+    })
+</script>
