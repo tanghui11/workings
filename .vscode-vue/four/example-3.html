@@ -11,37 +11,37 @@
 <body>
     <h2>内置组件 -solt讲解</h2>
     <div id="app">
-      <ths>
-           <span solt="bolgUrl">{{thsData.bolgUrl}}</span>
-           <span solt="nerName">{{thsData.nerName}}</span>
-           <span solt="skill">{{thsData.skill}}</span>
-       </ths> 
-       <template id="tep">
-            <div>
-                <p>博客地址：<solt name="bolgUrl"></solt></p>
-                <p>网名：<solt name="nerName"></solt></p>
-                <p>技术类型：<solt name="skill"></solt></p>
-            </div>
-       </template> 
+      <jspang>
+           <span solt="bolgUrl">{{jspangData.bolgUrl}}</span>
+           <span solt="nerName">{{jspangData.nerName}}</span>
+           <span solt="skill">{{jspangData.skill}}</span>
+       </jspang> 
     </div>
-
+    <template id="tep">
+        <div>
+            <p>博客地址：<solt name="bolgUrl"></solt></p>
+            <p>网名：<solt name="nerName"></so
+                lt></p>
+            <p>技术类型：<solt name="skill"></solt></p>
+        </div>
+   </template> 
 </body>
 </html>
 <script type="text/javascript">
-var tep = {
+var jspang = {
     template:"#tep"
 }
     var app = new Vue({
         el:"#app",
         data:{
-           thsData:{
+            jspangData:{
                bolgUrl:"http://www.baidu.com",
                nerName:'tanghui',
                skill : "web前端"
            }
         },
         components:{
-            "ths":tep
+            "jspang":jspang
         }
 
     })
