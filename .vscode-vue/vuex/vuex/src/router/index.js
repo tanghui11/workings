@@ -20,3 +20,9 @@ export default new Router({
     }
   ]
 })
+//请求数据方法
+/* axios.get(url).then(function(respone){
+  console.log(respone)
+}).catch(function(error){
+    console.log(error)
+}) */

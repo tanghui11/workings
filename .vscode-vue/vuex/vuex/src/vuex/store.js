@@ -15,8 +15,31 @@ const mutations={
         state.count--;
     }
 }
-export default new Vuex.Store({
+
+const getters = {
+    count:state=>state.count+=10
+    // count:function(state){
+    //     return state.count+=10;
+    // }
+}
+const actions = {
+    addAction(context){
+        context.commit('add',10),
+        setTimeout(() => {
+            context.commit('reduce')
+        }, 3000);
+        console.log("我比reduce先执行")
+    },
+    reduceAction({commit}){
+        commit('reduce');
+    }
+}
+const moduleA = {
     state,
-    mutations
-    
+    mutations,
+    getters ,
+    actions
+}
+export default new Vuex.Store({
+    modules:{a:moduleA}
 })
