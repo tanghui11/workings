@@ -7,10 +7,13 @@ import Hi from '@/components/Hi'
 import Hi1 from '@/components/Hi1'
 import Hi2 from '@/components/Hi2'
 import params from '@/components/params'
+import shiyan from '@/components/shiyan'
+import Error from '@/components/Error'
 
 Vue.use(Router)
 
 export default new Router({
+  //mode:"histoy",
   routes: [
     {
       path: '/',
@@ -19,7 +22,8 @@ export default new Router({
         default:HelloWorld,
         left:one,
         right:two,
-      }
+      },
+      alias:"/homes"//别名的使用
     },
     {
       path: '/th',
@@ -49,14 +53,41 @@ export default new Router({
           path:"hi2",
           name:"helloWrld/hi2",
           component:Hi2
-        },
-        {
-          path:"/params/:newsId/:newstitle",
-          name:"params",
-          component:params
-        }
+        },   
       ]
     },
+    {
+      path:"/params/:newsId/:newstitle",
+      name:"params",
+      component:params
+     /*  beforeEnter:(to,from,next)=>{
+        console.log(to)
+        console.log(from)
+        console.log(next)
+      //  next();
+        next({
+          path:"/"
+        })
+      } */
+    },  
+    {
+      path:"/goHome",
+      redirect:"/"//重定向
+    },
+    {
+      path:"/goParams/:newsId/:newstitle",
+      redirect:"/params/:newsId/:newstitle"///重定向
+    },
+    {
+      path:"/shiyan",
+      name:"shiyan",
+      component:shiyan,
+      alias:"/jsth"//别名的使用
+    },
+    {
+      path:"*",
+      component:Error
+    }
   ]
 })
 // name传参数
