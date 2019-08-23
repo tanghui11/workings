@@ -9,9 +9,13 @@ export default new Router({
   mode:"history",
   routes: [
     {
+      path: '',
+      redirect: '/Count'
+    },
+    {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
+      component: HelloWorld,
     },
     {
       path:"/count",

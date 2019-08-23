@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+  
     <div>
-      <button @click="goBack">后退</button>
+      <button @click="goBack">后退13123</button>
       <button @click="goGo">前进</button>
       <button @click="goHome">返回首页</button>
     </div>
@@ -17,7 +18,7 @@
       <router-link to="/shiyan">实验</router-link>
       <router-link to="/jsth">jsth</router-link>
       <router-link to="/homes">homes</router-link>
-
+        
     </div>
     <!-- name传值 -->
     <!-- <p>{{$route.name}}</p> -->
@@ -27,11 +28,11 @@
     </transition>
    <router-view name="left" style="width:50%;float:left;background:#ddd;height:300px"/>
    <router-view name="right" style="width:50%;float:left;background:red;height:300px"/>
-   
   </div>
 </template>
 
 <script>
+import son from "./components/son";
 export default {
   name: 'App',
   data () {
