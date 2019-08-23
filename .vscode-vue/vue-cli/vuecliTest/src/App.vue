@@ -3,7 +3,7 @@
     <img src="./assets/logo.png">
   
     <div>
-      <button @click="goBack">后退13123</button>
+      <button @click="goBack">后退</button>
       <button @click="goGo">前进</button>
       <button @click="goHome">返回首页</button>
     </div>
