@@ -166,19 +166,19 @@ console.log(f)*/
 
 //数组遍历
 //forEach
-let arr = ["th","tanghui","弹回"];
+let arr = ["th","tanghui","唐辉"];
 // arr.forEach(function(val,index){
 //     console.log(val+" "+index)
 // })
 arr.forEach((val,index) => {
-    console.log(val+" "+index)
+    console.log(val+" "+index);  
 });
 //filter
 arr.filter((val,index)=>{
-    console.log(val+" "+index)
+    console.log(val+" "+index);
 })
 //some
 arr.some((val,index)=>{
-    console.log(val+" "+index)
+    console.log(val+" "+index);
 })
 //map
